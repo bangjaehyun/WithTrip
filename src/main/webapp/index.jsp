@@ -7,6 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	메인페이지!!
+	<div class="wrap">
+		<jsp:include page="/WEB-INF/views/common/header.jsp" />
+		<main class="content">
+		
+		</main>
+		
+		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+	</div>
 </body>
 </html>
