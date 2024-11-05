@@ -4,16 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>WithTrip</title>
 </head>
 <body>
 	<div class="wrap">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
+		
 		<main class="content">
 		
 		</main>
 		
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</div>
+	
 </body>
 </html>
+
