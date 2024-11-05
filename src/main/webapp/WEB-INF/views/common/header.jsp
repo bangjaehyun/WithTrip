@@ -4,57 +4,89 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="/resources/css/default.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" type="text/css;" />
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="/resources/js/sweetalert.min.js"></script>
 
 
 <header class="header">   
    <div class="fixedMenu">
-            <div class="logo"><a href="#"><img src="/resources/images/withTrip_logo3.png" width="100%" height="107px"></a></div>
+            <div class="logo"><a href="/"><img src="/resources/images/withTrip_logo_08.png" width="100%" height="74px"></a></div>
             <nav class="nav">
                 <ul class="recommend">
                     <li><a href="#">추천 여행</a>
-                    	<ul class="sub-menu">
+                       <ul class="sub-menu">
                             <li><a href="#">도시</a></li>
                             <li><a href="#">테마</a></li>
                             <li><a href="#">계절</a></li>
                         </ul>
                     </li>
                     <li><a href="#">이달의 여행</a>
-                    	 <ul class="sub-menu">
+                        <ul class="sub-menu">
                             <li><a href="#">테마</a></li>
                             <li><a href="#">계절</a></li>
                         </ul>
                     </li>
-	                <li><a href="#">고객센터</a>
-	                	<ul class="sub-menu">
-                            <li><a href="#">사이트 이용안내</a></li>
-                            <li><a href="#">공지사항</a></li>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Q&A</a></li>
-                        </ul>
-	                </li>
+                   
+                   <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">고객센터</a>
+                      <ul class="sub-menu">
+                            <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항</a></li>                          
+                            <li><a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3">FAQ</a></li>
+                            <li><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4">Q&A</a></li>
+                            <li><a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5">사이트 이용안내</a></li>                      
+                      </ul>
+                   </li>
+                   
+                                      
+                   <%--
+                   <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">고객센터</a>
+                      <ul class="sub-menu">
+                            <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항</a></li>                          
+                            <li><a href="/post/FAQ?reqPage=1&postTypeCd=2&postTypeNm=2">FAQ</a></li>
+                            <li><a href="/post/QA?reqPage=1&postTypeCd=3&postTypeNm=3">Q&A</a></li>
+                            <li><a href="/post/introduce?reqPage=1&postTypeCd=4&postTypeNm=4">사이트 이용안내</a></li>
+                      </ul>
+                   </li>
+                   --%>
+                    
+                   <%--
+                    <li><a href="/post/list?reqPage=1">고객센터</a>
+                      	<ul class="sub-menu">
+	          				<c:forEach var="postType" items="${postTypeList}">
+								<li>
+									<a href='/post/list?reqPage=1&postTypeCd=${postType.postTypeCd}&postTypeNm=${postType.postTypeNm}'>${postType.postTypeNm}</a>								
+								</li>
+							</c:forEach>
+                  		</ul>
+                  	</li>
+                  	--%>
+                  	
+                  	
+                  	<%--
+                  	<li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">고객센터</a>
+                      <ul class="sub-menu">
+	          				<c:forEach var="postType" items="${postTypeList}">
+								<li>
+									<a href='/post/list?reqPage=1&postTypeCd=${postType.postTypeCd}&postTypeNm=${postType.postTypeNm}'>${postType.postTypeNm}</a>								
+								</li>
+							</c:forEach>
+                      </ul>
+                   </li>
+                  	--%>
                 </ul>
             </nav>
             <ul class="user-menu">
-					 <c:choose>
-					 <c:when test="${empty sessionScope.loginMember}">
-					         <li><a href="#">로그인</a></li>
-					         <li><a href="#">회원가입</a></li>
-					 </c:when>
-					 <c:otherwise>
-					         <li><a href="#">마이페이지</a></li>
-					         <li><a href="#">로그아웃</a></li>
-					     </ul>
-					 </c:otherwise>
-					 </c:choose>
-					
-                    <ul class="sub-menu" >
-                        <li><a href="#">사이트 이용 안내</a></li>
-                        <li><a href="#">공지사항</a></li>
-                        <li><a href="#">Q & A</a></li>
-                    </ul>
-                   
+                <c:choose>
+                <c:when test="${empty sessionScope.loginMember}">
+                        <li><a href="#">로그인</a></li> <span> | </span>
+                        <li><a href="#">회원가입</a></li>
+                </c:when>
+                <c:otherwise>
+                        <li><a href="#">마이페이지</a></li> <span> | </span>
+                        <li><a href="#">로그아웃</a></li>
+
+                </c:otherwise>
+                </c:choose>
             </ul>
         </div>
     </header>
@@ -69,4 +101,4 @@
       });
    }
    </script>
-</header>
+
