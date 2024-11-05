@@ -409,8 +409,8 @@ section.section {
 }
 .footer > div {
   max-width: 1400px;
-  padding: 10px 10px;
-  margin: 0 auto;
+  padding: 0px 30px;
+  margin: 10px auto;
 }
 .footer > div > p {
   margin: 10px 0px;
@@ -421,7 +421,10 @@ section.section {
 	display : flex;
 	justify-content: space-between;
 }
-
+.siteInfo {
+	font-size : 13px;
+	font-family: ns-l;
+}
 
 
 /*페이지 네비게이션*/

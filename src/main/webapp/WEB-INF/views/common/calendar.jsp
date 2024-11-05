@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="/resources/summernote/summernote-lite.js"></script>
-	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
-	<link rel="stylesheet" href="/resources/summernote/summernote-lite.css" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="/resources/summernote/summernote-lite.js"></script>
+<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="/resources/summernote/summernote-lite.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" type="text/css;" />
 <style>
 	 /*#2 */
@@ -137,14 +137,14 @@ body {
   background: #008aff;
 }
 
-.days li.medle::before {
+.days li.middle::before {
   background: #008aff;
 }
-.days li.medle {
+.days li.middle {
   color: #fff;
 }
 
-.calendar .days li.medle::before{
+.calendar .days li.middle::before{
 	width: 58px;
 }
 
@@ -183,7 +183,7 @@ body {
         <div class="nav">
           <button onclick="moveDay('left')" class="material-icons"> chevron_left </button>
           <p class="current-date"></p>
-          <button onclick="moveDay('right')" class="material-icons"> chevron_right </span>
+          <button onclick="moveDay('right')" class="material-icons"> chevron_right </button> 
         </div>
       </header>
       <div class="calendar">
@@ -340,9 +340,9 @@ body {
 			}
 			
 			if(chk == true){
-				chkObj.addClass("medle");
+				chkObj.addClass("middle");
 			}else{
-				chkObj.removeClass("medle");	
+				chkObj.removeClass("middle");	
 			}
 			
 			chkObj = chkObj.next();
@@ -354,12 +354,12 @@ body {
 	 //부모 요소에 날짜 입력
     function calendarInsert(){
 		days = currYear + "년 " + months[currMonth] + startObj.html() + "일 ~ " + currYear + "년 " + months[currMonth] + endObj.html() + "일";
-    	$(window.opener.document.getElementById("noticeDay")).val(days);
+    	$(window.opener.document.getElementById("postDay")).val(days);
     	//자식 요소에서 부모 요소에 summernote값 넣기
-//     	window.opener.$('#noticeContent').summernote('insertText', days);
+//     	window.opener.$('#postContent').summernote('insertText', days);
     	
     	//새로운 textarea객체를 하나더 추가하는거 같다.
-//     	$(window.opener.document.getElementById("noticeContent")).summernote("insertText", days);
+//     	$(window.opener.document.getElementById("postContent")).summernote("insertText", days);
     	self.close();
     }
     

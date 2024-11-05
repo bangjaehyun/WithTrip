@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link rel="stylesheet" href="/resources/css/default.css" />
+<link rel="stylesheet" href="/resources/css/park.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" type="text/css;" />
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -37,42 +37,6 @@
                       </ul>
                    </li>
                    
-                                      
-                   <%--
-                   <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">고객센터</a>
-                      <ul class="sub-menu">
-                            <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항</a></li>                          
-                            <li><a href="/post/FAQ?reqPage=1&postTypeCd=2&postTypeNm=2">FAQ</a></li>
-                            <li><a href="/post/QA?reqPage=1&postTypeCd=3&postTypeNm=3">Q&A</a></li>
-                            <li><a href="/post/introduce?reqPage=1&postTypeCd=4&postTypeNm=4">사이트 이용안내</a></li>
-                      </ul>
-                   </li>
-                   --%>
-                    
-                   <%--
-                    <li><a href="/post/list?reqPage=1">고객센터</a>
-                      	<ul class="sub-menu">
-	          				<c:forEach var="postType" items="${postTypeList}">
-								<li>
-									<a href='/post/list?reqPage=1&postTypeCd=${postType.postTypeCd}&postTypeNm=${postType.postTypeNm}'>${postType.postTypeNm}</a>								
-								</li>
-							</c:forEach>
-                  		</ul>
-                  	</li>
-                  	--%>
-                  	
-                  	
-                  	<%--
-                  	<li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">고객센터</a>
-                      <ul class="sub-menu">
-	          				<c:forEach var="postType" items="${postTypeList}">
-								<li>
-									<a href='/post/list?reqPage=1&postTypeCd=${postType.postTypeCd}&postTypeNm=${postType.postTypeNm}'>${postType.postTypeNm}</a>								
-								</li>
-							</c:forEach>
-                      </ul>
-                   </li>
-                  	--%>
                 </ul>
             </nav>
             <ul class="user-menu">

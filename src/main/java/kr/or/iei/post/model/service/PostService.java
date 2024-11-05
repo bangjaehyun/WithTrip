@@ -17,7 +17,7 @@ public class PostService {
 	}
 
 	//공지사항 리스트 조회
-	public PostPageData selectNoticeList(String postTypeCd, int reqPage, String postTypeNm) {
+	public PostPageData selectPostList(String postTypeCd, int reqPage, String postTypeNm) {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		//한 페이지에서 보여줄 게시글의 갯수

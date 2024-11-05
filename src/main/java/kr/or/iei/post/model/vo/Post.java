@@ -16,6 +16,6 @@ public class Post {
 	private String userNo;				//작성자 == 회원번호
 	private String postDate;			//작성일
 	
-	private String postTypeNm;			//게시글 종류 명칭
+	private String postTypeNm;			//게시글 종류 이름 : 공지사항, 여행정보, FAQ, Q&A, 사이트 이용안내
 	private String postTypeId;
 }
