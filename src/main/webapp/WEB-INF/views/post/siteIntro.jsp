@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,16 +8,13 @@
 <style>
 	.post-list-wrap {
 		width : 1200px;
-		height : 600px;
 		margin : 0 auto;
 	}
 	.list-content {
 		height : 500px;
 		width: 1000px;
-	}
-	.list-header {
-		padding : 20px 0px;
-		text-align : right;
+		justify-items : center;
+		align-items : center; 
 	}
 	.side-menu-title {
 		width : 180px;
@@ -31,21 +25,14 @@
 		border-bottom: 3px solid var(--main2);
 	}
 </style>
-
 </head>
 <body>
-	<div class="wrap">
+<div class="wrap">
 		<jsp:include page = "/WEB-INF/views/common/header.jsp" />
 		<main class="content">
 			<section class="section post-list-wrap">
 			<div class="page-title">${postTypeNm}</div>
-			<%-- <c:if test="${not empty loginMember}"> --%>
-				<div class="list-header">
-					<%-- <a class="btn-point" id="write-btn" href='/post/writeFrm?postTypeid=${postTypeid}&postTypeNm=${postTypeNm}'>${postTypeNm } 작성</a>--%>
-					<a class="btn-point" id="write-btn" href='/post/editorWriteFrm?postTypeId=${postTypeId}&postTypeNm=${postTypeNm}'>${postTypeNm} 작성</a>					
-				</div>			
-			<%-- </c:if> --%>
-	
+			
 				<div class="list-whole">
 					<div class="list-side">
 						<ul class="side-menu-title">
@@ -59,25 +46,10 @@
 						</ul>
 					</div>
 					<div class="list-content">
-						<table class="tbl hover">
-							<tr>
-								<th style="width:10%;">번호</th>
-								<th style="width:45%;">제목</th>
-								<th style="width:15%;">작성자</th>
-								<th style="width:20%;">작성일</th>
-							</tr>
-							<c:forEach var="post" items="${postList}">
-							<tr>
-								<td>${post.postNo }</td>
-								<td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
-								<td>${post.userNo}</td>
-								<td>${post.postDate}</td>
-							</tr>
-							</c:forEach>
-						</table>
-						<div id="pageNavi">
-							${pageNavi }
-						</div>	
+						<div class="siteIntro-header">
+							<img src="/resources/images/withTrip_logo_h_02.png" width="80%" height="300px">
+							<h2>여행을 내곁에</h2>
+						</div>
 					</div>						
 				</div>
 			</section>

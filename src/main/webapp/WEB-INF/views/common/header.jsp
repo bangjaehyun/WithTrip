@@ -11,7 +11,7 @@
 
 <header class="header">   
    <div class="fixedMenu">
-            <div class="logo"><a href="/"><img src="/resources/images/withTrip_logo_08.png" width="100%" height="74px"></a></div>
+            <div class="logo"><a href="/"><img src="/resources/images/withTrip_logo_h_01.png" width="100%" height="60px"></a></div>
             <nav class="nav">
                 <ul class="recommend">
                     <li><a href="#">추천 여행</a>
@@ -27,7 +27,7 @@
                             <li><a href="#">계절</a></li>
                         </ul>
                     </li>
-                   
+                   <li><a href="/spot/mainMap">MAP</a></li>
                    <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">고객센터</a>
                       <ul class="sub-menu">
                             <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항</a></li>                          
