@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import kr.or.iei.post.model.service.PostService;
 import kr.or.iei.post.model.vo.Post;
 import kr.or.iei.post.model.vo.PostPageData;
+import kr.or.iei.post.model.vo.PostType;
 
 /**
  * Servlet implementation class PostListServlet
@@ -35,38 +36,24 @@ public class PostListServlet extends HttpServlet {
 		//1. 인코딩 - 필터
 		
 		//2. 값 추출 - ?
-		String postTypeCd = request.getParameter("postTypeCd");
-		String postTypeNm = request.getParameter("postTypeNm");	
-		
-		//System.out.println("postTypeCd : " + postTypeCd);
-		//System.out.println("postTypeNm : " + postTypeNm);
-
-		
-		/*
-		 String postTypeCd = request.getParameter("postTypeCd");	//게시글 종류 코드
-		System.out.println(postTypeCd);
+		String postTypeCd = request.getParameter("postTypeCd"); //게시글 종류 코드
 		String postTypeNm = request.getParameter("postTypeNm");	//게시글 종류 이름
-		System.out.println(postTypeNm);
-		 */
+		
+		int typeName = Integer.parseInt(postTypeNm)-1; 
+
 		int reqPage = request.getParameter("reqPage") == null ? 1 : Integer.parseInt(request.getParameter("reqPage"));	//사용자 요청 페이지 번호
 		
 		//3. 로직 - 공지사항 리스트 불러오기
 		PostService service = new PostService();
-		
-		//PostPageData pd = service.selectPostList(postTypeCd, reqPage, postTypeNm);
-		//pd = ArrayList<Post> post
-		PostPageData pd = service.selectNoticeList(postTypeCd, reqPage, postTypeNm);
-//		System.out.println(pd.getPageNavi());
-//		System.out.println(pd.getList());
+
+		PostPageData pd = service.selectPostList(postTypeCd, reqPage, postTypeNm);
+
 		//4. 결과처리
 		request.setAttribute("postList", pd.getList());
 		request.setAttribute("pageNavi", pd.getPageNavi());
-		request.setAttribute("postTypeNm", postTypeNm);
+		request.setAttribute("postTypeNm", PostType.type[typeName]);
 		request.setAttribute("postTypeid", postTypeCd);
-		
-		
-		//System.out.println("pd : " + pd);
-		
+
 		request.getRequestDispatcher("/WEB-INF/views/post/postList.jsp").forward(request, response);
 	}
 

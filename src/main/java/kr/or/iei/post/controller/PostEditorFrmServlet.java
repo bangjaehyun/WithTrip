@@ -26,9 +26,9 @@ public class PostEditorFrmServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("noticeCd", request.getParameter("noticeCd"));
-		request.setAttribute("noticeCdNm", request.getParameter("noticeCdNm"));
-		request.getRequestDispatcher("/WEB-INF/views/post/postEditorFrm.jsp").forward(request, response);
+		request.setAttribute("postCd", request.getParameter("postCd"));
+		request.setAttribute("postCdNm", request.getParameter("postCdNm"));
+		request.getRequestDispatcher("/WEB-INF/views/post/postFrm.jsp").forward(request, response);
 	}
 
 	/**

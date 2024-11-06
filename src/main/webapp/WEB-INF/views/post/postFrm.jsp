@@ -5,16 +5,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>WithTrip</title>
+<link rel="stylesheet" href="/resources/summernote/summernote-lite.css" />
+
 <style>
-.notice-main {
+.post-main {
 	width: 100%;
 	max-width: 1400px;
 	margin: 110px auto 30px auto;
 	flex: 1;
 }
 
-.notice-main div {
+.post-main div {
 	margin-top: 10px;
 }
 
@@ -24,11 +26,11 @@
 	font-weight: bold;
 }
 
-.noticeTitle-wrap {
+.postTitle-wrap {
 	width: 100%;
 }
 
-.noticeTitle-wrap>input {
+.postTitle-wrap>input {
 	border: 0px;
 	border-bottom: 1px solid lightgray;
 	border-radius: 3px;
@@ -129,18 +131,18 @@
 <body>
 	<div class="wrap">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
-		<main class="notice-main">
-			<section class="section notice-list-wrap">
-				<form action="/notice/writer" class="tbl notice-view" method="post" autocomplete="off" enctype="multipart/form-data">
+		<main class="post-main">
+			<section class="section post-list-wrap">
+				<form action="/post/writer" class="tbl post-view" method="post" autocomplete="off" enctype="multipart/form-data">
 					<div>
 						<p class="Content-title lg">게시글 작성</p>
 					</div>
 					<div class="div-day">
-						<input type="text" id="noticeDay" onfocus="this.blur()" readonly>
+						<input type="text" id="postDay" onfocus="this.blur()" readonly>
 						<button type="button" onclick="openCalendar()">캘린더 열기</button>
 					</div>
-					<div class="noticeTitle-wrap">
-						<input type="text" name="noticeTitle" id="noticeTitle" placeholder="제목">
+					<div class="postTitle-wrap">
+						<input type="text" name="postTitle" id="postTitle" placeholder="제목">
 					</div>
 					<div class="filebox">
 					<div class="subFileBox">
@@ -151,13 +153,13 @@
 						</label>
 					</div>
 					</div>
-					<div class='notice-content'>
-						<textarea id="noticeContent" name="noticeContent"></textarea>
+					<div class='post-content'>
+						<textarea id="postContent" name="postContent"></textarea>
 					</div>
 				</form>
 				<div class="btn-wrap">
-					<button class="btn-cancel" onclick="noticeCancel()">취소</button>
-					<button class="btn-success" onclick="noticeInsert()">등록</button>
+					<button class="btn-cancel" onclick="postCancel()">취소</button>
+					<button class="btn-success" onclick="postInsert()">등록</button>
 				</div>
 			</section>
 		</main>
@@ -166,7 +168,6 @@
 
 	<script src="/resources/summernote/summernote-lite.js"></script>
 	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
-	<link rel="stylesheet" href="/resources/summernote/summernote-lite.css" />
 	<script>
 	function openCalendar(){
 		let popupWidth = 580;
@@ -177,8 +178,8 @@
 		
 		window.open("/openCalendar", "calendar", "width="+popupWidth+", height=" + popupHeight + ", top=" + top + ", left=" + left);
 	}
-	function noticeCancel(){
-// 		$("#noticeContent").summernote('insertText', '<p>Hello, world</p>')
+	function postCancel(){
+// 		$("#postContent").summernote('insertText', '<p>Hello, world</p>')
 		let tag = $('<p>');
 		tag.html("Gd");
 		$('.note-editable').append(tag);
@@ -207,7 +208,7 @@
 		});
 	}
 	
-	function noticeInsert(){
+	function postInsert(){
 		swal({
 			title : "알림",
 			text : "게시글을 등록 하시겠습니까?",
@@ -277,7 +278,7 @@
 			};
 		
 
-		$('#noticeContent').summernote(
+		$('#postContent').summernote(
 				{
 					codeviewFilter : false, // 코드 보기 필터 비활성화
 					codeviewIframeFilter : false, // 코드 보기 iframe 필터 비활성화

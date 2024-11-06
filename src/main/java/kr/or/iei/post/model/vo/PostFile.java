@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class NoticeFile {
-	private String fileNo;
-	private String noticeNo;
+public class PostFile {
+	private String fileNo; 		//분류번호
+	private String postNo;		//어떤 게시글에 있는 파일인지
 	private String fileName;
 	private String filePath;
 }
