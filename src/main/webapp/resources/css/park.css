@@ -29,7 +29,7 @@
 
 @font-face {
   font-family: ns-l;
-  src: url(/resources/resources/font/NotoSansKR-Light.ttf);
+  src: url(/resources/font/NotoSansKR-Light.ttf);
 }
 @font-face {
   font-family: ns-r;
@@ -53,10 +53,6 @@
   text-decoration: none;
   color : var(--main1);
 }
-/* 
-a {
-  text-decoration: none;
-} */
 
 .wrap {
   min-height: 100vh;
@@ -73,17 +69,17 @@ a {
   width: 100%;
   position: fixed;
   top: 0;
-  /*display: flex;*/
   z-index : 1;
+  height : 70px;
 }
 .header > .fixedMenu {
-  padding: 8px;
-  max-width: 1400px;
+  padding: 5px;
+  max-width: 80%;
   margin: 0 auto;
   display: flex;
   justify-items : center;
   align-items: center;
-  height: 74px;
+  height: 60px;
 }
 
 .header a {
@@ -94,25 +90,19 @@ a {
 .logo {
   margin-right: 10px;
   display: table;
-  height : 74px;
+  margin-right: 60px;
+  height : 60px;
 }
 .logo > a {
   font-family: ns-black;
-  font-size: 28px;
+  font-size: 26px;
 }
-
-/*
-.nav {
-   padding: 10px;
-}
-*/
 
 .nav {
   flex: 1;
-  /*font-size: 15px;*/
   font-family: ns-r;
   display: flex;
-  height : 74px;
+  height : 60px;
 }
 .nav > ul {
   display: flex;		
@@ -132,25 +122,22 @@ a {
 
 
 .fixedMenu> * {
-  text-align: center;
-  justify-content : start;
-  /*font-weight: bold;*/
-  padding : 10px;
-  display: flex;
+  padding : 5px;
+  display : flex;
 }
 
 .recommend {
-	width : 680px;
+	width : 600px;
 }
 .recommend > li {
 	font-family: ns-b;
-	font-size : 20px;
+	font-size : 18px;
     /*width: 150px;*/
     background-color:var(--main2);
     color : var(--gray8);
     list-style-type: none;
-    text-indent: 10px;
-    line-height: 90px;
+    text-align: center; /* 여기가 text-ident: 10px로 설정되어 있었음 */
+    line-height: 70px;
     float: left;
     display: flex;
     position: fixed;
@@ -158,14 +145,13 @@ a {
     /* align-content: center; */
 }
 .recommend > li> a {
-    /* text-decoration: none; */
    /*text-align: center;*/
    align-items: center;
    /*font-weight: bold;*/
    display: block;
 
    /* line-height: 50px; */
-    width: 220px;
+    width: 170px;
     height: 100%;
     color : var(--gray8);
 }
@@ -191,21 +177,24 @@ a {
     padding: 0;
     overflow: hidden;
     height: 0;
-    width : 200px;
+    width : 240px;
     font-family: ns-r;
+    text-align: center;
    /* transition-duration : 0.8s;*/
 }
 .sub-menu>li{
-    /*width: 120px;*/
-    height: 50px;
+    width: 100%;
+    height: 45px;
 	background-color : #004CA1;
 	color : var(--main1);
     list-style-type: none;
     text-align: left;
+    padding-left: 0;
+    margin-left: 0;
 }
 
 .sub-menu > li  a {
-    padding: 15px;
+    /*padding: 15px;*/
     margin : 15px;
     text-decoration: none;
     text-align: center;
@@ -231,11 +220,7 @@ a {
   position: absolute;
   width: 100%;
   height : 100%;
-  /*background-color: #fff;*/
-  /*border: 1px solid var(--main2);*/
   border-top : 3px solid var(--line6);
-  /* border-radius: 5px; */
-  left: 10px; 
   z-index: 1;
 }
 
@@ -256,13 +241,15 @@ a {
 	padding : 10px;
 }
 
+
 /*user-menu*/
 .user-menu {
 	display: flex;
 	align-items : center;
-	height : 74px;
+	height : 60px;
 	font-family: ns-r;
-	font-size : 20px;
+	font-size : 18px;
+	position: relative;
 }
 .user-menu > li {
 	margin-left: 20px;
@@ -278,15 +265,15 @@ a {
 
 .content {
   width: 100%;
-  max-width: 1400px;
-  padding-top: 70px;
+  max-width: 1500px;
+  padding-top: 40px;
   padding-bottom : 30px;
   margin: 30px auto;
   flex: 1;
 }
 .page-title {
   font-weight : bold;
-  padding: 30px;
+  padding: 50px 30px 30px 30px;
   text-align: center;
   text-indent : 30px;
   font-family: ns-b;
@@ -408,7 +395,7 @@ section.section {
   background-color: var(--gray7);
 }
 .footer > div {
-  max-width: 1400px;
+  max-width: 80%;
   padding: 0px 30px;
   margin: 10px auto;
 }
@@ -472,7 +459,8 @@ section.section {
 }
 
 #pageNavi {
-	margin : 10px auto;
+	margin : 20px auto;
+	padding-right : 148px;
 	text-align : center;
 	align-items: center;
 }		

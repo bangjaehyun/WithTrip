@@ -52,9 +52,13 @@ public class PostListServlet extends HttpServlet {
 		request.setAttribute("postList", pd.getList());
 		request.setAttribute("pageNavi", pd.getPageNavi());
 		request.setAttribute("postTypeNm", PostType.type[typeName]);
-		request.setAttribute("postTypeid", postTypeCd);
+		request.setAttribute("postTypeId", postTypeCd);
 
-		request.getRequestDispatcher("/WEB-INF/views/post/postList.jsp").forward(request, response);
+		if (postTypeCd.equals("5")) {
+			request.getRequestDispatcher("/WEB-INF/views/post/siteIntro.jsp").forward(request, response);
+		} else {			
+			request.getRequestDispatcher("/WEB-INF/views/post/postList.jsp").forward(request, response);
+		}
 	}
 
 	/**
