@@ -27,7 +27,7 @@
                             <li><a href="#">계절</a></li>
                         </ul>
                     </li>
-                   <li><a href="/spot/mainMap">MAP</a></li>
+                   <li><a href="#">MAP</a></li>
                    <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">고객센터</a>
                       <ul class="sub-menu">
                             <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항</a></li>                          
