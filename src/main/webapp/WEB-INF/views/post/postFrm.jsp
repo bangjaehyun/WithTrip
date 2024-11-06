@@ -133,7 +133,7 @@
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<main class="post-main">
 			<section class="section post-list-wrap">
-				<form action="/post/writer" class="tbl post-view" method="post" autocomplete="off" enctype="multipart/form-data">
+				<form action="/post/writer" class="post-view" method="post" autocomplete="off" enctype="multipart/form-data">
 					<div>
 						<p class="Content-title lg">게시글 작성</p>
 					</div>

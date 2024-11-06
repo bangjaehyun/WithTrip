@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,151 +10,161 @@
 <script src="/resources/summernote/summernote-lite.js"></script>
 <script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 <link rel="stylesheet" href="/resources/summernote/summernote-lite.css" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" type="text/css;" />
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	type="text/css;" />
 <style>
-	 /*#2 */
+/*#2 */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
 }
- 
- /*#3 */
+
+/*#3 */
 .material-icons {
-  /* button 요소에 기본적으로 설정되는 스타일 속성 초기화 */
-  border: none;
-  outline: none;
-  background-color: transparent;
-  padding: 0;
-  cursor: pointer;
+	/* button 요소에 기본적으로 설정되는 스타일 속성 초기화 */
+	border: none;
+	outline: none;
+	background-color: transparent;
+	padding: 0;
+	cursor: pointer;
 }
- 
- /*#4 */
+
+/*#4 */
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: #008aff;
-  flex-direction: column;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	background: #008aff;
+	flex-direction: column;
 }
-	/*#5 */
+/*#5 */
 .wrapper {
-  width: 450px;
-  background: #fff;
-  border-radius: 10px;
-  padding: 25px;
+	width: 450px;
+	background: #fff;
+	border-radius: 10px;
+	padding: 25px;
 }
- 
+
 /*#6*/
 .wrapper .nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 30px;
 }
 
 .wrapper .nav .current-date {
-  font-size: 24px;
-  font-weight: 600;
+	font-size: 24px;
+	font-weight: 600;
 }
+
 .wrapper .nav button {
-  width: 38px;
-  height: 38px;
-  font-size: 30px;
-  color: #878787;
+	width: 38px;
+	height: 38px;
+	font-size: 30px;
+	color: #878787;
 }
 /*#7*/
 .calendar ul {
-  display: flex;
-  list-style: none;
-  flex-wrap: wrap;
-  text-align: center;
+	display: flex;
+	list-style: none;
+	flex-wrap: wrap;
+	text-align: center;
 }
+
 .calendar .weeks li {
-  font-weight: 500;
+	font-weight: 500;
 }
+
 .calendar .days {
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
+
 .calendar ul li {
-  /*#8*/
-  width: calc(100% / 7);
-  /*#9*/
-  position: relative;
+	/*#8*/
+	width: calc(100%/ 7);
+	/*#9*/
+	position: relative;
 }
+
 .calendar .days li {
-  /*#10*/
-  z-index: 1;
-  margin-top: 30px;
-  cursor: pointer;
+	/*#10*/
+	z-index: 1;
+	margin-top: 30px;
+	cursor: pointer;
 }
- 
+
 /*#11*/
 .days li.inactive {
-  color: #aaa;
+	color: #aaa;
 }
-
 
 .days li.startDay {
-  color: #fff;
+	color: #fff;
 }
+
 .days li.endDay {
-  color: #fff;
+	color: #fff;
 }
 
 .calendar .days li::before {
-  position: absolute;
-  content: '';
-  height: 40px;
-  width: 40px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
+	position: absolute;
+	content: '';
+	height: 40px;
+	width: 40px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: -1;
 }
 
-.calendar .days li.startDay::before{
+.calendar .days li.startDay::before {
 	width: 58px;
 	border-top-left-radius: 45%;
 	border-bottom-left-radius: 45%;
 }
 
-.calendar .days li.endDay::before{
+.calendar .days li.endDay::before {
 	width: 58px;
 	border-top-right-radius: 45%;
 	border-bottom-right-radius: 45%;
 }
 
 .days li:hover::before {
-  background: #f2f2f2;
+	background: #f2f2f2;
 }
+
 .days li.startDay::before {
-  background: #008aff;
+	background: #008aff;
 }
+
 .days li.endDay::before {
-  background: #008aff;
+	background: #008aff;
 }
 
 .days li.middle::before {
-  background: #008aff;
-}
-.days li.middle {
-  color: #fff;
+	background: #008aff;
 }
 
-.calendar .days li.middle::before{
+.days li.middle {
+	color: #fff;
+}
+
+.calendar .days li.middle::before {
 	width: 58px;
 }
 
-.btn-div{
-	width : 450px;
+.btn-div {
+	width: 450px;
 	margin-top: 20px;
 	text-align: right;
 }
 
-.btn-div button{
+.btn-div button {
 	width: 100px;
 	height: 45px;
 	border: 1px solid gray;
@@ -162,51 +172,49 @@ body {
 	font-weight: bold;
 }
 
-.btnFail{
+.btnFail {
 	background: white;
 }
 
-.btn-div button:hover{
-  transform: scale(1.1,1.1);
-  box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
+.btn-div button:hover {
+	transform: scale(1.1, 1.1);
+	box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
 }
 
-.btnSuccess{
+.btnSuccess {
 	background: rgb(189, 236, 255);
 }
-
 </style>
 </head>
 <body>
-<div class="wrapper">
-    <header>
-        <div class="nav">
-          <button onclick="moveDay('left')" class="material-icons"> chevron_left </button>
-          <p class="current-date"></p>
-          <button onclick="moveDay('right')" class="material-icons"> chevron_right </button> 
-        </div>
-      </header>
-      <div class="calendar">
-        <ul class="weeks">
-          <li>일</li>
-          <li>월</li>
-          <li>화</li>
-          <li>수</li>
-          <li>목</li>
-          <li>금</li>
-          <li>토</li>
-        </ul>
-        <ul class="days">
-         
-        </ul>
-      </div>
-      
-    </div>
-    <div class="btn-div">
-    	<button class="btnFail" onclick="calendarClose()">취소</button>
-      	<button class="btnSuccess" onclick="calendarInsert()">확인</button>
-      </div>
-    <script>
+	<div class="wrapper">
+		<header>
+			<div class="nav">
+				<button onclick="moveDay('left')" class="material-icons">
+					chevron_left</button>
+				<p onclick="moveYear()" class="current-date"></p>
+				<button onclick="moveDay('right')" class="material-icons">
+					chevron_right</button>
+			</div>
+		</header>
+		<div class="calendar">
+			<ul class="weeks">
+				<li>일</li>
+				<li>월</li>
+				<li>화</li>
+				<li>수</li>
+				<li>목</li>
+				<li>금</li>
+				<li>토</li>
+			</ul>
+		</div>
+
+	</div>
+	<div class="btn-div">
+		<button class="btnFail" onclick="calendarClose()">취소</button>
+		<button class="btnSuccess" onclick="calendarInsert()">확인</button>
+	</div>
+	<script>
    
     
     //캘린더 종료
@@ -236,45 +244,71 @@ body {
 		  '11월',
 		  '12월',
 		];
-    //일을 추가할 div
-    const daysTag = document.querySelector('.days');
     
     //캘린더 날짜 불러오는 함수
-    function renderCalendar (){
+    function renderCalendar (icon){
 		  currentDate.innerHTML = currYear + "년 " + months[currMonth];
-
+		  
+		  if($("."+currYear + (currMonth+1)).length == '0'){
 		  	let lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate();
 			let firstDayofMonth = new Date(currYear, currMonth, 1).getDay();
 			let lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(); 
 			let lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate();
 			
-			let liTag = '';
+			let ulTag = '';
 			
-			 
+			 ulTag += "<ul class='days'>"
 			 for (let i = firstDayofMonth; i > 0; i--) {
-			    liTag += '<li class="inactive">'+ (lastDateofLastMonth - i + 1) +'</li>';
+				 ulTag += '<li class="inactive" id='+ (currYear-1) + pad(currMonth+1) + pad(lastDateofLastMonth - i + 1) +'>'+ (lastDateofLastMonth - i + 1) +'</li>';
 			}
 			 
 			 for (let i = 1; i <= lastDateofMonth; i++) {
-			 		liTag += '<li onclick="choose(this)">'+i+'</li>';
+				 ulTag += '<li onclick="choose(this)" id="'+ currYear + pad(currMonth+1) +  pad(i) +'">'+i+'</li>';
 				}
 			 
 			 if(lastDayofMonth != 0){
 				 for (let i = lastDayofMonth; i <= 12; i++) {
-			    		liTag += '<li class="inactive">' + (i - lastDayofMonth + 1) +'</li>';
+					 ulTag += '<li onclick="nextMonthChoose(this)" class="inactive" id="'+ (currYear) + pad(currMonth+2) + pad(i - lastDayofMonth + 1) +'">' + (i - lastDayofMonth + 1) +'</li>';
 			 	 }
 				
 			 }else{
 			 	for (let i = lastDayofMonth; i < 6; i++) {
-			    		liTag += '<li class="inactive">' + (i - lastDayofMonth + 1) +'</li>';
+			 		ulTag += '<li onclick="nextMonthChoose(this) class="inactive" id="'+ (currYear) + pad(currMonth+2) + pad(i - lastDayofMonth + 1) +'">' + (i - lastDayofMonth + 1) +'</li>';
 			 		}
 			 }
+			 ulTag += "</ul>"
+
+			 $('.calendar').append(ulTag);
+		     $('.calendar').children().last().addClass(currYear + "" + (currMonth+1));
+		  }
 			 
-			 daysTag.innerHTML = liTag;
+			 if($('.weeks').nextAll().length > 1){
+				 console.log(icon);
+				 if(icon == "left"){
+					 if($("."+ currYear + (currMonth+1)).length == '1'){
+						 $("."+ (currYear) + (currMonth == 11 ? 12 : currMonth+1)).css("display" ,"flex");
+						 $("."+ (currMonth == 11 ? currYear+1 : currYear) + (currMonth == 11 ? 1 : currMonth+2)).css("display" ,"none");
+					 }else{
+				 		$("." + (currMonth == 11 ? currYear+1 : currYear) + (currMonth == 11 ? 1 : currMonth+2)).css("display" ,"none");
+					 }
+				 }else{
+					 if($("."+currYear + (currMonth+1)).length == '1'){
+						 $("."+ (currYear) + (currMonth == 0 ? 1 :currMonth+1)).css("display" ,"flex");
+						 $("."+ (currMonth == 0 ? currYear-1 : currYear) + (currMonth == 0 ? 12 : currMonth)).css("display" ,"none");
+						 console.log((currYear));
+						 console.log((currMonth == 0 ? 1 :currMonth+1));
+					 	
+					 }else{
+						 $("." + (currMonth == 0 ? currYear-1 : currYear) +  (currMonth == 0 ? 12 : currMonth)).css("display" ,"none");
+					 }
+				 }
+			 }
+			 
+			 
+		
 		}
     
     $(document).ready(function(){
-    		
     		renderCalendar();
     });
     
@@ -291,24 +325,27 @@ body {
 		    } else {
 		      date = new Date();
 		    }
-		    renderCalendar();
+		 	
+		    renderCalendar(icon);
 	}
 	
-	let startObj;
-	let endObj;
+	let startObj = null;
+	let endObj = null;
+	let startDay = 0;
+	let endDay = 0;
 	//선택한 시작 날짜와 종료 날짜 비교하여 css 적용
 	function choose(obj){
 		if(chk == 0){
 			startObj = $(obj);
+			startDay = startObj.attr('id');
+			console.log("choose::startDay : " + startDay);
 			startObj.addClass("startDay");
 			chk++;
 		}else if(chk == 1){
 			endObj = $(obj);
-			
-			let startNum = Number(startObj.html());
-			let endNum = Number(endObj.html());
-			
-			if(startNum > endNum){
+			endDay = endObj.attr('id');
+			console.log("choose::endDay : " + endDay);
+			if(startDay >= endDay){
 				startObj.removeClass("startDay");
 				chk = 0;
 				choose(obj);
@@ -324,18 +361,45 @@ body {
 			reMaker(false);
 			choose(obj);
 		}
+	}
+	//미리보기 다음달의 날짜를 선택하였을 경우 현재 달을 추가해줘야 하므로 function만듬
+	function nextMonthChoose(obj){
 		
-		
+		if(chk == 0){
+			startObj = $(obj);
+			startDay = startObj.attr('id');
+			console.log("nextDayChoose::startDay : " + startDay);
+			startObj.addClass("startDay");
+			chk++;
+		}else if(chk == 1){
+			endObj = $(obj);
+			endDay = endObj.attr('id');
+			console.log("nextDayChoose::endDay : " +endDay);
+			if(startDay >= endDay){
+				startObj.removeClass("startDay");
+				chk = 0;
+				nextMonthChoose(obj);
+			}else{
+				endObj.addClass("endDay");
+				chk++;
+				reMaker(true);
+			}
+		}else{
+			endObj.removeClass("endDay");
+			startObj.removeClass("startDay");
+			chk = 0;
+			reMaker(false);
+			nextMonthChoose(obj);
+		}
 	}
 	
 	//시작 날짜와 종료 날짜의 
 	function reMaker(chk){
-		
 		let chkObj = startObj.next();
-		
+		console.log($(chkObj));
+		console.log($(endObj));
 		while(true){
-			
-			if(chkObj.get(0) === endObj.get(0)){
+			if(chkObj.get(0) === endObj.get(0) || chkObj == null){
 				break;
 			}
 			
@@ -353,17 +417,24 @@ body {
 	
 	 //부모 요소에 날짜 입력
     function calendarInsert(){
-		days = currYear + "년 " + months[currMonth] + startObj.html() + "일 ~ " + currYear + "년 " + months[currMonth] + endObj.html() + "일";
+		let days = "";
+		
+    	days = startDay.substring(0,4)+ "년" + startDay.substring(4,6) + '월' + startDay.substring(6,8) + "일" + "~ " + endDay.substring(0,4)+ "년" + endDay.substring(4,6) + '월' + endDay.substring(6,8) + "일";
+    	console.log(days);
     	$(window.opener.document.getElementById("postDay")).val(days);
     	//자식 요소에서 부모 요소에 summernote값 넣기
 //     	window.opener.$('#postContent').summernote('insertText', days);
     	
     	//새로운 textarea객체를 하나더 추가하는거 같다.
 //     	$(window.opener.document.getElementById("postContent")).summernote("insertText", days);
-    	self.close();
+//     	self.close();
     }
+    function pad(d) {
+    	console.log((Number(d) < 10) ? '0' + d.toString() : d.toString());
+    	return (Number(d) < 10) ? '0' + d.toString() : d.toString();
+    	}
     
     </script>
-    
+
 </body>
 </html>
