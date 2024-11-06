@@ -1,6 +1,7 @@
 package kr.or.iei.user.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import kr.or.iei.user.model.service.UserService;
 import kr.or.iei.user.model.vo.User;
+import kr.or.iei.user.model.vo.UserSite;
 
 /**
  * Servlet implementation class pwChgServlet
@@ -41,7 +43,7 @@ public class pwChgServlet extends HttpServlet {
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 		
 		if(session != null) {
-			User loginUser = (User)session.getAttribute("loginUser");
+			UserSite loginUser = (UserSite)session.getAttribute("loginUser");
 			
 			if(!loginUser.getUserPw().equals(userPw)) {
 				request.setAttribute("title", "알림");
