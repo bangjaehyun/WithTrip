@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,8 +15,8 @@
 	<div class="container">
 		<div class="sidebar">
 	        <ul>
-				<li><a href="#">회원정보수정</a></li>
-	            <li><a href="/views/mypage.jsp">작성한게시글확인</a></li>
+				<li><a href="/views/mypage.jsp">회원정보수정</a></li>
+	            <li><a href="#">작성한게시글확인</a></li>
 	            <li><a href="#">작성한댓글관리</a></li>
 	            <li><a href="#">좋아요누른여행정보</a></li>
 	            <li><a href="#" onclick="delUserBtn()">회원탈퇴</a></li>
@@ -34,10 +35,12 @@
 		            	<td>아이디</td>
 		            	<td><input type="text" value="${loginUser.userId}" readonly></td>
 		            </tr>
-		            <tr>
-		            	<td>비밀번호</td>
-		            	<td><button onclick="pwChgBtn()">비밀번호 변경</button></td>
-		            </tr>
+		            <c:if test="${not empty loginUser and loginUser.userPw not empty}">
+			            <tr>
+			            	<td>비밀번호</td>
+			            	<td><button onclick="pwChgBtn()">비밀번호 변경</button></td>
+			            </tr>
+		            </c:if>
 		            <tr>
 		            	<td>이름</td>
 		            	<td><input type="text" value="${loginUser.userName}" readonly></td>
@@ -46,7 +49,7 @@
 		            	<td>닉네임</td>
 			            <td>
 				            <div class="nickname-group">
-					            <input type="text" value="${loginUser.user_nickname}" id="userNickname">
+					            <input type="text" value="${loginUser.userNickname}" id="userNickname">
 					            <button type="button" class="check-button" id="nicknameChk">중복체크</button>
 				            </div>
 			            </td>

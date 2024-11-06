@@ -2,6 +2,8 @@ package kr.or.iei.user.model.service;
 
 import java.sql.Connection;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.user.model.dao.UserDao;
 
@@ -34,6 +36,9 @@ public class UserService {
 
 	public int userPwChg(String userNo, String newUserPw) {
 		Connection conn = JDBCTemplate.getConnection();
+		newUserPw = BCrypt.hashpw(newUserPw, BCrypt.gensalt());
+		
+		
 		int result = dao.userPwChg(conn, userNo, newUserPw);
 		
 		if(result > 0) {
