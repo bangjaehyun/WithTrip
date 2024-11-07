@@ -42,11 +42,11 @@
             <ul class="user-menu">
                 <c:choose>
                 <c:when test="${empty sessionScope.loginMember}">
-                        <li><a href="#">로그인</a></li> <span> | </span>
+                        <li><a href="/user/loginFrm">로그인</a></li> <span> | </span>
                         <li><a href="#">회원가입</a></li>
                 </c:when>
                 <c:otherwise>
-                        <li><a href="#">마이페이지</a></li> <span> | </span>
+                        <li><a href="/user/mypageFrm">마이페이지</a></li> <span> | </span>
                         <li><a href="#">로그아웃</a></li>
 
                 </c:otherwise>
