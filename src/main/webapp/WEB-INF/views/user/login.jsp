@@ -77,6 +77,69 @@
 		
 		window.open("/user/kakaoLoginFrm", "kakaoLogin", "width="+popupWidth+", top="+top+", height="+popupHeight+", left="+left);
 	}
+	
+	
+	
+	
+	// JavaScript 코드
+	window.onload = function () {
+	    const loginIdInput = document.getElementById('loginId');
+	    const loginPwInput = document.getElementById('loginPw');
+	    const saveIdChkbox = document.getElementById('saveIdChkbox');
+
+	    // 페이지 로드 시, 저장된 아이디가 있다면 표시
+	    if (localStorage.getItem('savedLoginId')) {
+	        loginIdInput.value = localStorage.getItem('savedLoginId');
+	        saveIdChkbox.checked = true;
+	    }
+
+	    // 로그인 버튼 클릭 이벤트
+	    document.querySelector("input[type='button']").onclick = function() {
+	        loginBtn();
+	    };
+	};
+
+	// 로그인 버튼 클릭 시 호출되는 함수
+	function loginBtn() {
+	    const loginId = document.getElementById('loginId').value;
+	    const loginPw = document.getElementById('loginPw').value;
+	    const saveIdChkbox = document.getElementById('saveIdChkbox').checked;
+
+	    // 아이디와 비밀번호 입력 확인
+	    if (loginId === '') {
+	        alert('아이디를 입력해주세요.');
+	        return;
+	    }
+	    if (loginPw === '') {
+	        alert('비밀번호를 입력해주세요.');
+	        return;
+	    }
+
+	    // 로그인 처리 (여기서는 예제로만 작성, 실제로는 서버 요청 필요)
+	    if (loginId === 'testuser' && loginPw === 'password123') { // 예시 조건
+	        alert('로그인 성공!');
+	        
+	        // 아이디 저장 기능
+	        if (saveIdChkbox) {
+	            localStorage.setItem('savedLoginId', loginId);
+	        } else {
+	            localStorage.removeItem('savedLoginId');
+	        }
+
+	        // 로그인 성공 후 페이지 이동 등 추가 처리
+	        window.location.href = '/home'; // 예시: 로그인 성공 후 홈으로 이동
+	    } else {
+	        alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+	    }
+	}
+
+	/*
+	// 카카오 로그인 버튼 클릭 시 호출되는 함수 (추가적인 구현 필요)
+	function kakaoLoginBtn() {
+	    alert('카카오 로그인 기능은 현재 준비 중입니다.');
+	}
+	*/
+	
 </script>
 </body>
 </html>

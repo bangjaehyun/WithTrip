@@ -1,6 +1,8 @@
 package kr.or.iei.user.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,16 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class LoginFrmServlet
+ * Servlet implementation class UserLoginFrmServlet
  */
 @WebServlet("/user/loginFrm")
-public class LoginFrmServlet extends HttpServlet {
+public class UserLoginFrmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginFrmServlet() {
+    public UserLoginFrmServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,7 +28,7 @@ public class LoginFrmServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
+		 request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
 	}
 
 	/**

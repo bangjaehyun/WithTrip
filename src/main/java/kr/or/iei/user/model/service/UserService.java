@@ -74,4 +74,11 @@ public class UserService {
 		
 
 }
+	//  로그인
+	public User userLogin(String loginId, String loginPw) {
+		Connection conn = JDBCTemplate.getConnection();
+		User user = dao.userLogin(conn, loginId, loginPw);
+		JDBCTemplate.close(conn);
+		return null;
+	}
 }
