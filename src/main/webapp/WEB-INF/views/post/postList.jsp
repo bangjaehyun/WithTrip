@@ -11,7 +11,6 @@
 <style>
 	.post-list-wrap {
 		width : 1200px;
-		height : 600px;
 		margin : 0 auto;
 	}
 	.list-content {
@@ -22,6 +21,11 @@
 		padding : 20px 0px;
 		text-align : right;
 	}
+	.list-side {
+		height : 200px;
+		position : sticky;
+		top : 80px;
+	}
 	.side-menu-title {
 		width : 180px;
 		padding : 7px 0px;
@@ -29,6 +33,7 @@
 		font-weight : bold;
 		font-size : 20px;
 		border-bottom: 3px solid var(--main2);
+		position:sticky;
 	}
 </style>
 
@@ -46,7 +51,7 @@
 				</div>			
 			<%-- </c:if> --%>
 	
-				<div class="list-whole">
+				<div class="list-body">
 					<div class="list-side">
 						<ul class="side-menu-title">
 							<li>고객센터</li>						
@@ -55,7 +60,7 @@
 							<li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1" >공지사항</a></li>                          
 	                        <li><a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3" >FAQ</a></li>
 	                        <li><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4" >Q&A</a></li>
-	                        <li><a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5" >사이트 이용안내</a></li>  
+	                        <li><a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5" >사이트 소개</a></li>  
 						</ul>
 					</div>
 					<div class="list-content">

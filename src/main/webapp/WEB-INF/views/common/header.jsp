@@ -23,17 +23,16 @@
                     </li>
                     <li><a href="#">이달의 여행</a>
                         <ul class="sub-menu">
-                            <li><a href="#">테마</a></li>
-                            <li><a href="#">계절</a></li>
+                            <li><a href="#">축제</a></li>
                         </ul>
                     </li>
                    <li><a href="/spot/mainMap">MAP</a></li>
-                   <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">고객센터</a>
+                   <li><a href="/post/CS">고객센터</a>
                       <ul class="sub-menu">
                             <li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항</a></li>                          
                             <li><a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3">FAQ</a></li>
                             <li><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4">Q&A</a></li>
-                            <li><a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5">사이트 이용안내</a></li>                      
+                            <li><a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5">사이트 소개</a></li>                      
                       </ul>
                    </li>
                    
@@ -41,14 +40,13 @@
             </nav>
             <ul class="user-menu">
                 <c:choose>
-                <c:when test="${empty sessionScope.loginUser}">
-                        <li><a href="/user/loginFrm">로그인</a></li> <span> | </span>
-                        <li><a href="/user/joinFrm">회원가입</a></li>
+                <c:when test="${empty sessionScope.loginMember}">
+                        <li><a href="#">로그인</a></li> <span> | </span>
+                        <li><a href="#">회원가입</a></li>
                 </c:when>
                 <c:otherwise>
-                        <li><a href="/user/mypageFrm">마이페이지</a></li> <span> | </span>
-                        <li><a href="/user/logout">로그아웃</a></li>
-
+                        <li><a href="#">로그아웃</a></li>
+                        <li><a href="#">마이페이지</a></li> <span> | </span>
                 </c:otherwise>
                 </c:choose>
             </ul>

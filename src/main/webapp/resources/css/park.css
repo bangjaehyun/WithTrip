@@ -4,7 +4,8 @@
  --main2: #004CA1;
  --main3: #479af8;
  --main4: #67bbdf;
- --main5: #e2d9fc;
+ --main5: #bdecff;
+ --main6: #e2d9fc;
  /*box-bg*/
  --box-bg: #ffffff;
  /*gray*/
@@ -55,10 +56,11 @@
 }
 
 .wrap {
-  min-height: 100vh;
   display: flex;
+  flex-wrap : wrap;
   flex-direction: column;
-  min-width: 850px;
+  min-height: 100vh;
+  min-width: 700px;
   position: relative;
   background-color: var(--box-bg);
 }
@@ -70,32 +72,37 @@
   position: fixed;
   top: 0;
   z-index : 1;
-  height : 70px;
-}
-.header > .fixedMenu {
-  padding: 5px;
-  max-width: 80%;
-  margin: 0 auto;
-  display: flex;
-  justify-items : center;
-  align-items: center;
-  height: 60px;
+  height : 60px;
 }
 
 .header a {
   color: var(--gray8);
 }
+.header > .fixedMenu {
+  padding: 5px;
+  max-width: 70%;
+  margin: 0 auto;
+  display: flex;
+  justify-items : center;
+  align-items: center;
+  height: 50px;
+}
+
+.fixedMenu> * {
+  padding : 5px;
+  display : flex;
+}
+
 
 
 .logo {
-  margin-right: 10px;
   display: table;
-  margin-right: 60px;
+  margin-right: 40px;
   height : 60px;
 }
 .logo > a {
   font-family: ns-black;
-  font-size: 26px;
+  font-size: 16px;
 }
 
 .nav {
@@ -121,23 +128,18 @@
 }
 
 
-.fixedMenu> * {
-  padding : 5px;
-  display : flex;
-}
-
 .recommend {
 	width : 600px;
 }
 .recommend > li {
 	font-family: ns-b;
-	font-size : 18px;
-    /*width: 150px;*/
+	font-size : 16px;
+    width: 140px;
     background-color:var(--main2);
     color : var(--gray8);
     list-style-type: none;
     text-align: center; /* 여기가 text-ident: 10px로 설정되어 있었음 */
-    line-height: 70px;
+    line-height: 60px;
     float: left;
     display: flex;
     position: fixed;
@@ -151,7 +153,7 @@
    display: block;
 
    /* line-height: 50px; */
-    width: 170px;
+    width: 140px;
     height: 100%;
     color : var(--gray8);
 }
@@ -167,7 +169,6 @@
 .recommend >li:hover>.sub-menu{
     height: fit-content;
     line-height: 45px;
-    transition-duration:0.8s;
 }
 
 
@@ -185,7 +186,7 @@
 .sub-menu>li{
     width: 100%;
     height: 45px;
-	background-color : #004CA1;
+	background-color : var(--main2);
 	color : var(--main1);
     list-style-type: none;
     text-align: left;
@@ -212,7 +213,6 @@
 
 .nav > ul > li:hover > .sub-menu {
 	display: block;  
-	/*transition-duration: 0.5s;*/ 
 }
 
 .nav .sub-menu {
@@ -224,15 +224,19 @@
   z-index: 1;
 }
 
-
-.list-whole {
+.list-whole{
+	display : flex;
+}
+.list-body {
 	display : flex;
 	justify-content: space-between;
 }
+
+
 .side-menu {
 	align-content : space-between;
 	width : 180px;
-	font-size : 18px;
+	font-size : 16px;
 }
 .side-menu a {
 	background-color : var(--gray8);
@@ -248,7 +252,7 @@
 	align-items : center;
 	height : 60px;
 	font-family: ns-r;
-	font-size : 18px;
+	font-size : 16px;
 	position: relative;
 }
 .user-menu > li {
@@ -260,15 +264,15 @@
 }
 .user-menu span {
 	color : var(--gray8);
-	font-size : 15px;
+	font-size : 14px;
 }
 
 .content {
   width: 100%;
-  max-width: 1500px;
+  max-width: 1400px;
   padding-top: 40px;
   padding-bottom : 30px;
-  margin: 30px auto;
+  margin: 40px auto;
   flex: 1;
 }
 .page-title {
@@ -284,7 +288,7 @@
 
 section.section {
   padding: 20px;
-  border-radius: 10px; 
+  /*border-radius: 10px;*/ 
   background-color: var(--gray8);
 }
 
@@ -393,24 +397,35 @@ section.section {
 /*footer*/
 .footer {
   background-color: var(--gray7);
+  height : 100px;
 }
 .footer > div {
-  max-width: 80%;
-  padding: 0px 30px;
+  max-width: 70%;
   margin: 10px auto;
 }
-.footer > div > p {
+.footer > div > div > p {
   margin: 10px 0px;
   font-family: ns-b;
   font-size: 15px;
 }
 .copyright {
 	display : flex;
+	flex-wrap : wrap;
 	justify-content: space-between;
+}
+.copyright-left {
+	display : flex;
+	justify-content: center;
+	align-content : center;
+}
+
+.copyright-left > p {
+	padding-left : 30px;
 }
 .siteInfo {
 	font-size : 13px;
 	font-family: ns-l;
+	color : var(--gray2);
 }
 
 
@@ -463,4 +478,140 @@ section.section {
 	padding-right : 148px;
 	text-align : center;
 	align-items: center;
-}		
+}
+
+/*사이트 이용안내*/
+.siteIntro-header {
+	height : 350px;
+	align-content: center;
+	justify-content: center;
+	justify-items: center;
+	position : relative;
+}
+#siteIntro-header {
+	width : 400px;	
+}
+.siteIntro-body {
+    display: flex;
+    /*flex-wrap: wrap;*/
+    /*justify-content: space-evenly;*/
+    justify-items: center;
+    align-content: center;
+    padding : 0 65px;
+}
+
+.siteInfoFlipCard {
+    background-color: transparent;
+    border: 2px solid var(--gray8);
+    height: 400px;
+    padding: 30px 0px;
+    margin : 10px;
+    /*flex-grow: 1;
+    flex-basis: 200px;*/
+}
+.siteInfoFlipCard:hover .flip-card-inner {
+    /*box-shadow: 0 0 5px 5px #004ba150;*/
+    transform: rotateY(180deg);
+   /* Y축으로 180도 flip되게 만들어줌 */
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 270px;
+    height: 350px;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  /* preserve-3d : 변환된 자식 요소가 3D 변환을 유지하도록 함 */
+    flex-grow : 1;
+    flex-basis: 200px;
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    align-content: space-evenly;
+    width: 100%;
+    height: 100%;
+    border-radius: 8%;
+    -webkit-backface-visibility: hidden; 
+    backface-visibility: hidden;
+}
+.flip-card-front {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+.flip-card-front > h4 {
+    font-size: 25px;
+    color: var(--gray8);
+    /* justify-content: start;
+    align-items: start; */
+    z-index: 1;
+    text-indent: 20px;
+    position :absolute;
+    top : 7%;
+    left : 4%;
+    width : 100%;
+}
+
+
+.flip-card-back {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    align-content: space-between;
+    background-color: white;
+    border: 2px solid var(--main2);
+    color: black;
+    text-indent: 20px;
+    transform: rotateY(180deg);
+}
+.flip-card-back-title {
+    height: 50px;
+    padding-bottom: 15px;
+}
+.flip-card-back-title > h4 {
+    font-size: 25px;
+    text-indent: 20px;
+    color: #004CA1;
+  	z-index: 1;
+    text-indent: 20px;
+    position :absolute;
+    top : 6%;
+    left : 1%;
+    width : 100%;   
+}
+.flip-card-back-body {
+    height: 240px;
+    font-size: 15px;
+    line-height: 30px;
+    justify-content: start;
+    align-content: start;
+}
+.flip-card-back-bottom {
+    display: flex;
+}
+a {
+    text-decoration: none;
+    list-style-type: none;
+    color : black;
+}
+
+
+.siteIntro-txt {
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    margin: 10px auto;
+    line-height: 30px;
+}
+.siteIntro-txt > h3 {
+    color : #004CA1;
+    font-size: 23px;
+}
+
+.flipCardImg {
+    height: -webkit-fill-available;
+    object-fit: cover;
+    border-radius: 8%;
+}

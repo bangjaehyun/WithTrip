@@ -135,4 +135,38 @@ public class PostDao {
 			return p;
 		}
 
+		
+		//게시글 종류별 리스트 조회 : 고객센터 메인페이지에서 사용
+		public ArrayList<Post> selectIndexPostList(Connection conn) {
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			
+			//post-type-cd (게시글 종류코드 1-공지사항, 2-여행정보, 3-Q&A, 4-FAQ, 5-사이트 이용안내)별로 그룹지어, 행번호를 조회
+			String query = "select * from ( select row_number() over (partition by post_type_cd order by post_date desc) as rnum, a.* from tbl_post a) where rnum <=5";
+			ArrayList<Post> list = new ArrayList<Post>();
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				rset = pstmt.executeQuery();
+				while(rset.next()) {
+					Post p = new Post();
+					p.setPostNo(rset.getString("post_no"));
+					p.setPostTypeCd(rset.getString("post_type_cd"));
+					p.setPostTitle(rset.getString("post_title"));
+					p.setUserNo(rset.getString("user_no"));
+					p.setPostContent(rset.getString("post_content"));
+					p.setPostDate(rset.getString("post_date"));
+					list.add(p);
+					System.out.println(p);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+			}
+			return list;
+		}
+		
 }

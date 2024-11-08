@@ -109,4 +109,14 @@ public class PostService {
 		return p;
 	}
 
+	
+	//게시글 종류별 리스트 조회 : 고객센터 메인페이지에서 사용
+	public ArrayList<Post> selectIndexPostList() {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Post> list = dao.selectIndexPostList(conn);
+		JDBCTemplate.close(conn);
+		return list;
+	}
+	
+
 }
