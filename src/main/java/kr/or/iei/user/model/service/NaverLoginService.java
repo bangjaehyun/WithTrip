@@ -21,6 +21,10 @@ public class NaverLoginService {
 	String email;
 	String mobile;
 	
+	public NaverLoginService() {
+		dao = new NaverLoginDao();
+	}
+	
 	public UserNaver createToken(String code, String state) {
 		String clientId = "Oc8PVM4NwTiYL085dBsK";
 		String clientSecret = "9jPa31qAEO";
@@ -59,12 +63,12 @@ public class NaverLoginService {
 			if (responseCode == 200) {
 				JParser(res.toString());//네이버에서 토큰 받아오고 정상작동하면 JParser로 전달\
 				
-				UserNaver n = dao.naverLogin(conn, id, email, mobile);
-				n.setUserId(id);
-				n.setUserEmail(email);
-				n.setUserPhone(mobile);				
+				UserNaver n = dao.naverLogin(conn, email);
+				n.setUserEmail(email);	
 				
-				return n;
+				if(n != null) {
+					return n;
+				}		
 			}
 		} catch (Exception e) {
 			System.out.println(e);

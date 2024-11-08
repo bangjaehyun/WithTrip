@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.or.iei.user.model.service.NaverLoginService;
 import kr.or.iei.user.model.vo.UserNaver;
@@ -42,6 +43,11 @@ public class NaverLoginFrmServlet extends HttpServlet {
 		UserNaver n = service.createToken(code, state);
 		System.out.println(n);
 		    
+		if(n != null) {
+			HttpSession session = request.getSession();
+			session.setAttribute("loginUser", n);
+			request.getRequestDispatcher("/").forward(request, response);
+		}
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/user/login.jsp");
 		view.forward(request, response);
 	}
