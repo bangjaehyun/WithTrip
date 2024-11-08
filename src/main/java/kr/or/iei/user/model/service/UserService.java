@@ -6,6 +6,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.user.model.dao.UserDao;
+import kr.or.iei.user.model.vo.User;
 
 public class UserService {
 	UserDao dao;
@@ -49,5 +50,28 @@ public class UserService {
 		JDBCTemplate.close(conn);
 		return result;
 	}
+	//회원가입
+	public int insertUser(User user) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = dao.insertUser(conn, user);
+		
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);	
+		return result;
+			
+		}
+	
+	public int idDuplChk(String userId) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.idDuplChk(conn, userId);
+		JDBCTemplate.close(conn);
+		return result;
+		
 
+}
 }
