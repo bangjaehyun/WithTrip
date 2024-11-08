@@ -4,7 +4,6 @@
 	position: relative;
 	display: flex;
 	z-index: 0;
-	top: 50px;
 }
 
 .map_wrap, .map_wrap * {
@@ -66,12 +65,41 @@
 	cursor: pointer;
 }
 
+#research{
+	position: absolute;
+	z-index: 2;
+	width: 130px;
+	height: 40px;
+	bottom: 20px;
+	left: 50%;
+	cursor: pointer;
+	background-color: white;
+	border-radius: 25px;
+	border: 1px solid #909090;
+	justify-content: center;
+	display: none;
+}
+#research #resrchImg{
+	line-height: 40px;
+	display: inline-block;
+	width:24px;
+	height:40px;
+	background:
+		url(/resources/images/map_research.svg)
+		no-repeat
+		center;
+}
+#research #resrchTxt{
+	display: inline-block;
+	line-height: 40px;
+}
+
 input {
 	border: none;
 	outline: none;
 }
 
-img[name=img] {
+#category div img {
 	display: inline-block;
 	width: 24px;
 }

@@ -12,6 +12,6 @@ public class Spot {
 	private int spotType;
 	private String spotAddr;
 	private String spotLat;
-	private String spotLon;
+	private String spotLng;
 	private String spotPhone;
 }

@@ -1,6 +1,8 @@
 // 마커를 담을 배열입니다
 var markers = [];
 
+var selectMarkers = [];
+
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	mapOption = {
 		// 지도의 중심좌표
@@ -44,6 +46,7 @@ function searchPlaces(bool) {
 
 	$("#menu_wrap").show();
 	$("#toggleListBtn").show();
+	$("#research").css("display", "flex");
 }
 
 // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -53,7 +56,7 @@ function placesSearchCB(data, status, pagination) {
 		// 정상적으로 검색이 완료됐으면
 		// 검색 목록과 마커를 표출합니다
 		displayPlaces(data);
-
+		
 		// 페이지 번호를 표출합니다
 		displayPagination(pagination);
 
@@ -108,13 +111,6 @@ function displayPlaces(places) {
 					infowindow.close();
 				});
 
-			if (false) { // false 값을 게시글에서 들어왔을때 임의의 변수를 받아 ture인지 체크
-				kakao.maps.event.addListener(marker, 'click',
-					function() {
-						console.log(place);
-					});
-			};
-			
 			itemEl.onmouseover = function() {
 				displayInfowindow(marker, title);
 			};
@@ -122,10 +118,34 @@ function displayPlaces(places) {
 			itemEl.onmouseout = function() {
 				infowindow.close();
 			};
-			itemEl.onclick = function() {
-				console.log(place);
-			};
+			
+			// false 값을 게시글에서 들어왔을때 임의의 변수를 받아 ture인지 체크-----------------
+			kakao.maps.event.addListener(marker, 'click',
+				function() {
+					console.log("장소명 : " + place.place_name);
+					console.log("코드 : " + place.category_group_code);
+					console.log("주소: " + place.address_name);
+					console.log("위도 : " + place.y);
+					console.log("경도 : " + place.x);
+					console.log("전화번호: " + place.phone);
+					console.log(marker);
+					console.log(place);
+					selectMarkers.push(place);
+					console.log(selectMarkers);
+					
+					
+				});
 
+			itemEl.onclick = function() {
+				console.log("장소명 : " + place.place_name);
+				console.log("코드 : " + place.category_group_code);
+				console.log("주소: " + place.address_name);
+				console.log("위도 : " + place.y);
+				console.log("경도 : " + place.x);
+				console.log("전화번호: " + place.phone);
+			};
+			// 여기까지---------------------------------------------------------------
+			
 		})(marker, places[i].place_name, places[i]);
 
 		fragment.appendChild(itemEl);
@@ -197,6 +217,11 @@ function removeMarker() {
 		markers[i].setMap(null);
 	}
 	markers = [];
+	
+	for (var i = 0; i < selectMarkers.length; i++) {
+			selectMarkers[i].setMap(null);
+		}
+		selectMarkers = [];
 }
 
 // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
@@ -232,7 +257,7 @@ function displayPagination(pagination) {
 // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
 // 인포윈도우에 장소명을 표시합니다
 function displayInfowindow(marker, title) {
-	var content = '<div style="padding:5px;z-index:1;">' + title
+	var content = '<div style="padding:5px;z-index:1; min-width:max-content;">' + title
 		+ '</div>';
 
 	infowindow.setContent(content);
@@ -256,6 +281,7 @@ function cancel() {
 	// 리스트를 숨겨주는 함수
 	$("#menu_wrap").hide();
 	$("#toggleListBtn").hide();
+	$("#research").hide();
 
 }
 
@@ -265,6 +291,7 @@ function srchCategory(element) {
 	const spanText = $(element).find("span").text();
 	keyword.value = spanText;
 	$("#searchBox").show();
+	$("#research").css("display", "flex");
 	toggleShow();
 	searchPlaces(true);
 }
@@ -291,4 +318,9 @@ function toggleList() {
 		$("#menu_wrap").show();
 		$("#searchBox").show();
 	}
+}
+function research() {
+	$("#searchBox").show();
+	toggleShow();
+	searchPlaces(true);
 }

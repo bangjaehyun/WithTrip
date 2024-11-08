@@ -57,6 +57,10 @@
 				<img name="img" src="/resources/images/map_gas.svg"> <span>주유소</span>
 			</div>
 		</div>
+		<button id="research" onclick="research()" value="">
+			<div id="resrchImg"></div>
+			<div id="resrchTxt">현 지도에서 검색</div>
+		</button>
 	</div>
 	<script src="/resources/js/map.js"></script>
 </body>
