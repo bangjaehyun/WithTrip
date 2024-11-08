@@ -118,7 +118,7 @@ function displayPlaces(places) {
 			itemEl.onmouseout = function() {
 				infowindow.close();
 			};
-			
+			cl();
 			// false 값을 게시글에서 들어왔을때 임의의 변수를 받아 ture인지 체크-----------------
 			kakao.maps.event.addListener(marker, 'click',
 				function() {
@@ -132,8 +132,7 @@ function displayPlaces(places) {
 					console.log(place);
 					selectMarkers.push(place);
 					console.log(selectMarkers);
-					
-					
+					listAdd(place);
 				});
 
 			itemEl.onclick = function() {
