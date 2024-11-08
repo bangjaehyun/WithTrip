@@ -10,7 +10,7 @@
 	String clientId = ApiInfo.nClientId;
 	
 	//인코딩 : URL 정보(문자)가 원하는 형태로 요청되지 않을 수 있으므로 UTF-8이라는 인코딩 방식으로 변환하여 요청
-	String redirectURI = URLEncoder.encode("http://localhost:80/user/loginFrm", "UTF-8");
+	String redirectURI = URLEncoder.encode("http://localhost:80/user/naverLoginFrm", "UTF-8");
 	
 	//Random 클래스 -> SecureRandom을 사용 하는 이유 : Random은 의사 난수(내부 알고리즘을 통해, 만들어낸 임의의 난수)
 	SecureRandom random = new SecureRandom();

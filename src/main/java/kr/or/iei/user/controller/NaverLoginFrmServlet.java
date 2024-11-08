@@ -16,7 +16,7 @@ import kr.or.iei.user.model.vo.UserNaver;
 /**
  * Servlet implementation class LoginFrmServlet
  */
-@WebServlet("/user/loginFrm")
+@WebServlet("/user/naverLoginFrm")
 public class NaverLoginFrmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
