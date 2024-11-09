@@ -36,7 +36,6 @@ public class UserLoginServlet extends HttpServlet {
 		// 값 추출
 		String loginId = request.getParameter("loginId");
 		String loginPw = request.getParameter("loginPw");
-		
 		// 비즈니스 로직 -> 로그인
 		UserService service = new UserService();
 		User loginUser = service.userLogin(loginId, loginPw);
@@ -59,11 +58,12 @@ public class UserLoginServlet extends HttpServlet {
 		response.addCookie(cookie);
 		
 		response.sendRedirect("/");
+		
 		}else {
 			//null일때 == 입력한 아이디 비번 일치하는회원이 없을 때 == 로그인 실패
 			request.setAttribute("title", "알림");
 			request.setAttribute("msg","아이디 또는 비밀번호를 확인하세요.");
-			request.setAttribute("lcon", "error");
+			request.setAttribute("icon", "error");
 			request.setAttribute("loc","/user/loginFrm"); //다시 로그인 페이지로 이동
 			
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");

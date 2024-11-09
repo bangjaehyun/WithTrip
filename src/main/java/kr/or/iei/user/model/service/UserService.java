@@ -79,6 +79,6 @@ public class UserService {
 		Connection conn = JDBCTemplate.getConnection();
 		User user = dao.userLogin(conn, loginId, loginPw);
 		JDBCTemplate.close(conn);
-		return null;
+		return user;
 	}
 }

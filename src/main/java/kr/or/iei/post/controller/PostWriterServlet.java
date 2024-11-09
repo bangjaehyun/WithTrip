@@ -12,10 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 
 import kr.or.iei.common.vo.MyRenamePolicy;
+import kr.or.iei.post.model.service.PostService;
+import kr.or.iei.post.model.vo.Post;
 import kr.or.iei.post.model.vo.PostFile;
 
 /**
@@ -56,11 +59,13 @@ public class PostWriterServlet extends HttpServlet {
 		
 		MultipartRequest mRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyRenamePolicy());
 		
+		String postWriterNo = mRequest.getParameter("loginUserNo");
+		String postType = mRequest.getParameter("postTypeId");
 		String postTitle = mRequest.getParameter("postTitle");
 		String postContent = mRequest.getParameter("postContent");
 		
-		Enumeration<String> files = mRequest.getFileNames(); // input type이 file인 태그들의, name 속성값
 		
+		Enumeration<String> files = mRequest.getFileNames(); // input type이 file인 태그들의, name 속성값
 		
 		ArrayList<PostFile> fileList = new ArrayList<PostFile>();
 		while (files.hasMoreElements()) {
@@ -73,11 +78,23 @@ public class PostWriterServlet extends HttpServlet {
 				file.setFilePath(filePath);
 				
 				fileList.add(file);
-				System.out.println(file);
 			}
 		}
 		
+		Post post = new Post();
+		post.setPostTypeCd(postType);
+		post.setUserNo(postWriterNo);
+		post.setPostTitle(postTitle);
+		post.setPostContent(postContent);
 		
+		PostService service = new PostService();
+		int result = service.insertPost(post, fileList);
+		
+		if(result > 0) {
+			response.getWriter().print("1");
+		}else {
+			response.getWriter().print("0");
+		}
 	}
 
 	/**

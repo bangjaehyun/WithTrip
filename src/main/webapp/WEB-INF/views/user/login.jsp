@@ -34,7 +34,7 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="wrap-login">
         <h3>로그인</h3>
-        <form action="#" method="post">
+        <form action="/user/login" method="post">
             <label for="loginId">아이디</label>
             <input type="text" id="loginId" name="loginId"><br>
             <label for="loginPw">비밀번호</label>
@@ -106,31 +106,16 @@
 	    const saveIdChkbox = document.getElementById('saveIdChkbox').checked;
 
 	    // 아이디와 비밀번호 입력 확인
-	    if (loginId === '') {
+	    if (loginId == '') {
 	        alert('아이디를 입력해주세요.');
 	        return;
 	    }
-	    if (loginPw === '') {
+	    if (loginPw == '') {
 	        alert('비밀번호를 입력해주세요.');
 	        return;
 	    }
-
-	    // 로그인 처리 (여기서는 예제로만 작성, 실제로는 서버 요청 필요)
-	    if (loginId === 'testuser' && loginPw === 'password123') { // 예시 조건
-	        alert('로그인 성공!');
-	        
-	        // 아이디 저장 기능
-	        if (saveIdChkbox) {
-	            localStorage.setItem('savedLoginId', loginId);
-	        } else {
-	            localStorage.removeItem('savedLoginId');
-	        }
-
-	        // 로그인 성공 후 페이지 이동 등 추가 처리
-	        window.location.href = '/home'; // 예시: 로그인 성공 후 홈으로 이동
-	    } else {
-	        alert('아이디 또는 비밀번호가 올바르지 않습니다.');
-	    }
+	    
+	    $('form').submit();
 	}
 
 	/*

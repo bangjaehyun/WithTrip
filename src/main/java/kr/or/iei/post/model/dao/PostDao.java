@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.post.model.vo.Post;
+import kr.or.iei.post.model.vo.PostFile;
+import kr.or.iei.user.model.vo.User;
 
 public class PostDao {
 
@@ -16,7 +18,7 @@ public class PostDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<Post> list = new ArrayList<Post>();
-		String query = "select * from (select rownum rnum, a.* from(select rownum, a.* from tbl_post a where post_type_cd = ? order by post_date desc) a ) a where rnum between ? and ?";
+		String query = "select * from (select rownum rnum, a.* from(select rownum, a.* from tbl_post a where post_type_id = ? order by post_date desc) a ) a where rnum between ? and ?";
 		//String query = "select * from (select rownum rnum, a.* from(select rownum, a.* from tbl_post where post_type_id = ?)a)a) where  rnum between ? and ?"; 
 		
 		try {
@@ -29,7 +31,7 @@ public class PostDao {
 			while(rset.next()) {
 				Post p = new Post();
 				p.setPostNo(rset.getString("post_no"));
-				p.setPostTypeCd(rset.getString("post_type_cd"));
+				p.setPostTypeCd(rset.getString("post_type_id"));
 				p.setPostTitle(rset.getString("post_title"));
 				p.setPostContent(rset.getString("post_content"));
 				p.setUserNo(rset.getString("user_no"));
@@ -54,7 +56,7 @@ public class PostDao {
 		ResultSet rset = null;
 		int totCnt = 0;
 
-		String query = "select count(*) cnt from tbl_post where post_type_cd = ?";
+		String query = "select count(*) cnt from tbl_post where post_type_id = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -78,7 +80,7 @@ public class PostDao {
 		public String selectPostNo(Connection conn) {
 			PreparedStatement pstmt = null;
 			ResultSet rset = null;
-			String query = "select to_char(sysdate, 'yymmdd') || lpad(seq_post.nextval, 4, '0') as post_no from dual";
+			String query = "select to_char(sysdate, 'yyyymmddhh24mi') || lpad(seq_post.nextval, 4, '0') as post_no from dual";
 			String postNo = "";
 			
 			try {
@@ -104,7 +106,7 @@ public class PostDao {
 			PreparedStatement pstmt = null;
 			ResultSet rset = null;
 			Post p = null;
-			String query = "select a.*, c.post_type_nm from tbl_post a, tbl_post_type c where a.post_no = ?  and a.post_type_cd = c.post_type_id";
+			String query = "select a.* from tbl_post a, tbl_post_type c where a.post_no = ?  and a.post_type_id = c.post_type_id";
 			
 			try {
 				pstmt = conn.prepareStatement(query);
@@ -116,8 +118,7 @@ public class PostDao {
 				if(rset.next()) {
 					p = new Post();
 					p.setPostNo(rset.getString("post_no"));
-					p.setPostTypeCd(rset.getString("post_type_cd"));
-					p.setPostTypeNm(rset.getString("post_type_nm"));
+					p.setPostTypeCd(rset.getString("post_type_id"));
 					p.setPostTitle(rset.getString("post_title"));
 					p.setUserNo(rset.getString("user_no"));
 					p.setPostContent(rset.getString("post_content"));
@@ -142,7 +143,7 @@ public class PostDao {
 			ResultSet rset = null;
 			
 			//post-type-cd (게시글 종류코드 1-공지사항, 2-여행정보, 3-Q&A, 4-FAQ, 5-사이트 이용안내)별로 그룹지어, 행번호를 조회
-			String query = "select * from ( select row_number() over (partition by post_type_cd order by post_date desc) as rnum, a.* from tbl_post a) where rnum <=5";
+			String query = "select * from ( select row_number() over (partition by post_type_id order by post_date desc) as rnum, a.* from tbl_post a) where rnum <=5";
 			ArrayList<Post> list = new ArrayList<Post>();
 			
 			try {
@@ -151,7 +152,7 @@ public class PostDao {
 				while(rset.next()) {
 					Post p = new Post();
 					p.setPostNo(rset.getString("post_no"));
-					p.setPostTypeCd(rset.getString("post_type_cd"));
+					p.setPostTypeCd(rset.getString("post_type_id"));
 					p.setPostTitle(rset.getString("post_title"));
 					p.setUserNo(rset.getString("user_no"));
 					p.setPostContent(rset.getString("post_content"));
@@ -167,6 +168,87 @@ public class PostDao {
 				JDBCTemplate.close(pstmt);
 			}
 			return list;
+		}
+
+
+		public int insertPost(Connection conn, Post post) {
+			PreparedStatement pstmt = null;
+			int result = 0;
+			String query = "insert into tbl_post values(?,?,?,?,?,sysdate)";
+			
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, post.getPostNo());
+				pstmt.setString(2, post.getUserNo());
+				pstmt.setString(3, post.getPostTypeCd());
+				pstmt.setString(4, post.getPostTitle());
+				pstmt.setString(5, post.getPostContent());
+				
+				result = pstmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(pstmt);
+			}
+			
+			return result;
+		}
+
+
+		public int insertPostFile(Connection conn, PostFile file) {
+			PreparedStatement pstmt = null;
+			String query = "insert into tbl_post_file values (to_char(sysdate, 'yymmddhh24mi') || lpad(seq_post_file.nextval, 4,'0'), ?, ?, ?)";
+			int result = 0;
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, file.getPostNo());
+				pstmt.setString(2, file.getFileName());
+				pstmt.setString(3, file.getFilePath());
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(pstmt);
+			}
+			
+			return result;
+		}
+
+
+		public User selectUser(Connection conn, String userNo) {
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			String query = "select * from tbl_user where user_no = ?";
+			User user = null;
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, userNo);
+				
+				rset = pstmt.executeQuery();
+				
+				if(rset.next()) {
+					user = new User();
+					user.setUserNo(rset.getString("user_no"));
+					user.setUserNickname(rset.getString("user_nickname"));
+					user.setUserType(rset.getInt("user_type"));
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+			}
+			
+			
+			
+			return user;
 		}
 		
 }

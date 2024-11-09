@@ -47,7 +47,9 @@
 			<%-- <c:if test="${not empty loginMember}"> --%>
 				<div class="list-header">
 					<%-- <a class="btn-point" id="write-btn" href='/post/writeFrm?postTypeid=${postTypeid}&postTypeNm=${postTypeNm}'>${postTypeNm } 작성</a>--%>
-					<a class="btn-point" id="write-btn" href='/post/editorWriteFrm?postTypeId=${postTypeId}&postTypeNm=${postTypeNm}'>${postTypeNm} 작성</a>					
+					<c:if test="${not empty loginUser}">
+						<a class="btn-point" id="write-btn" href='/post/editorWriteFrm?postTypeId=${postTypeId}&postTypeNm=${postTypeNm}'>${postTypeNm} 작성</a>
+					</c:if>					
 				</div>			
 			<%-- </c:if> --%>
 	
@@ -75,7 +77,7 @@
 							<tr>
 								<td>${post.postNo }</td>
 								<td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
-								<td>${post.userNo}</td>
+								<td>${post.user.userNickname}</td>
 								<td>${post.postDate}</td>
 							</tr>
 							</c:forEach>

@@ -12,7 +12,7 @@
 .post-main {
 	width: 100%;
 	max-width: 1400px;
-	margin: 110px auto 30px auto;
+	margin: 80px auto 30px auto;
 	flex: 1;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .lg {
-	margin-bottom : 50px;
+	margin-bottom : 20px;
 	font-size: 30px;
 	font-weight: bold;
 }
@@ -91,9 +91,13 @@
 	background: rgb(189, 236, 255);
 }
 
-.div-day{
+.div-subFun div{
 	display: flex;
 	justify-content: space-between;
+}
+
+.div-map>div{
+	width: 100%;
 }
 
 .div-day>input{
@@ -104,7 +108,7 @@
 	width: 100%;
 }
 
-.div-day>button{
+.div-subFun button{
 	color : white;
 	font-size: 16px;
 	border-radius: 10px;
@@ -115,12 +119,8 @@
 	background: linear-gradient(to top, #5882FA, #004CA1);
 }
 
-.div-day>button:hover{
-  transform: scale(1.1,1.1);
-  box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
-}
 
-.btn-wrap>button:hover{
+body button:hover{
   transform: scale(1.1,1.1);
   box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
 }
@@ -133,14 +133,24 @@
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<main class="post-main">
 			<section class="section post-list-wrap">
-				<form action="/post/writer" class="post-view" method="post" autocomplete="off" enctype="multipart/form-data">
+				<form action="/post/writer" id="post-view" method="post" autocomplete="off" enctype="multipart/form-data">
+					<input type="hidden" name="postTypeId" value="${postTypeId}"/>
+					<input type="hidden" name="loginUserNo" value="${loginUser.userNo}"/>
 					<div>
-						<p class="Content-title lg">게시글 작성</p>
+						<p class="Content-title lg">${postTypeNm} 작성</p>
 					</div>
-					<div class="div-day">
-						<input type="text" id="postDay" onfocus="this.blur()" readonly>
-						<button type="button" onclick="openCalendar()">캘린더 열기</button>
-					</div>
+					<c:if test="${postTypeId eq 1}">
+						<div class="div-subFun">
+							<div class="div-map">
+								<div class="map"></div>
+								<button type="button" onclick="openMap()">지도 열기</button>
+							</div>
+							<div class="div-day">
+								<input type="text" id="tripDay" onfocus="this.blur()" readonly>
+								<button type="button" onclick="openCalendar()">캘린더 열기</button>
+							</div>
+						</div>
+					</c:if>
 					<div class="postTitle-wrap">
 						<input type="text" name="postTitle" id="postTitle" placeholder="제목">
 					</div>
@@ -169,6 +179,15 @@
 	<script src="/resources/summernote/summernote-lite.js"></script>
 	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 	<script>
+	function openMap(){
+		let popupWidth = 1450;
+		let popupHeight = 720;
+		
+		let top = (window.innerHeight - popupHeight) / 2+ window.screenY;
+		let left = (window.innerWidth - popupWidth) / 2+ window.screenX;
+		
+		window.open("/spot/likeFrm", "map", "width="+popupWidth+", height=" + popupHeight + ", top=" + top + ", left=" + left);
+	}
 	function openCalendar(){
 		let popupWidth = 580;
 		let popupHeight = 600;
@@ -229,7 +248,39 @@
 			}
 		}).then(function(isConfrim){
 			if(isConfrim){
-				$('form').submit();
+				var form = $('#post-view')[0];
+				var formData = new FormData(form);
+				$.ajax({
+					url : "/post/writer",
+					type : "POST",
+					enctype:'multipart/form-data',
+					data : formData,
+					processData:false,
+					contentType:false,
+					cache:false,
+					success : function(res) {
+						if(res == "1"){
+							swal({
+								title : "알림",
+								text : "${postTypeNm}" + " 작성이 완료 되었습니다.",
+								icon : "success"
+							}).then(function(){
+								location.href = "/post/list?reqPage=1&postTypeCd=" + ${postTypeId} + "&postTypeNm=" + ${postTypeId};
+							});
+						}else{
+							swal({
+								title : "알림",
+								text :  "${postTypeNm}" + "작성중 오류가 발생하였습니다.",
+								icon : "error"
+							}).then(function(){
+								location.href = "/post/list?reqPage=1&postTypeCd=" + ${postTypeId} + "&postTypeNm=" + ${postTypeId};
+							});
+						}
+					},
+					error : function() {
+						console.log("ajax 에러 발생");
+					}
+				});
 			}
 		});
 	}
@@ -292,6 +343,15 @@
 					tabDisable : true,
 					placeholder : '게시글 작성',
 					disableResizeEditor : true, // Does not work either
+					
+					callbacks : { 
+						onImageUpload : function(files){ 
+							//files[0] : 업로드 이미지
+							//this : 에디터 (업로드 후, 현재 에디터에 이미지 표기용)
+							uploadImage(files[0], this)
+						}
+					},
+					
 					toolbar : [ [ 'style', [ 'style' ] ], // 글자 스타일 설정 옵션
 					[ 'fontsize', [ 'fontsize' ] ], // 글꼴 크기 설정 옵션
 					[ 'font', [ 'bold', 'underline', 'clear' ] ], // 글자 굵게, 밑줄, 포맷 제거 옵션
@@ -330,6 +390,31 @@
 					],
 
 				});
+		
+		function uploadImage(file, editor){
+			const form = new FormData(); //<form> 태그
+			form.append("upfile", file); //<input type="file" name="upfile">
+			
+			$.ajax ({
+				url : "/post/editorImage",
+				type : "post", //post 필수
+				data : form,  //전송 데이터
+				processData : false, //기본 문자열 전송 세팅 해제
+				contentType : false, //기본 form enctype 해제
+				success : function(savePath){
+					//savePath : 파일 업로드 경로
+					$(editor).summernote("insertImage", savePath); //에디터 본문에 이미지 표기
+					
+					//게시글 작성 시, 이미지 중복 등록 방지
+					$("input[id*=note-dialog]").remove();
+					
+					
+				},
+				error : function(){
+				}
+			});
+		}
+
 	</script>
 </body>
 </html>

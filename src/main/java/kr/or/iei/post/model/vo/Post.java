@@ -1,5 +1,6 @@
 package kr.or.iei.post.model.vo;
 
+import kr.or.iei.user.model.vo.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,6 @@ public class Post {
 	
 	private String postTypeNm;			//게시글 종류 이름 : 공지사항, 여행정보, FAQ, Q&A, 사이트 이용안내
 	private String postTypeId;
+	
+	private User user;
 }

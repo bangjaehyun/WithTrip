@@ -69,7 +69,7 @@
 						</tr>
 						<tr>
 							<th style="width:20%;">작성자</th>
-							<td style="width:20%;">${post.userNo}</td>
+							<td style="width:20%;">${post.user.userNickname}</td>
 							<th style="width:15%;">작성일</th>
 							<td style="width:15%;">${post.postDate}</td>
 						</tr>

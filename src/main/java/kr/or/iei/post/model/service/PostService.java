@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.post.model.dao.PostDao;
 import kr.or.iei.post.model.vo.Post;
+import kr.or.iei.post.model.vo.PostFile;
 import kr.or.iei.post.model.vo.PostPageData;
+import kr.or.iei.user.model.vo.User;
 
 public class PostService {
 	
@@ -28,6 +30,10 @@ public class PostService {
 		
 		ArrayList<Post> list = dao.selectPostList(conn, postTypeCd, start, end);
 		
+		for(Post post : list) {
+			User user = dao.selectUser(conn,post.getUserNo());
+			post.setUser(user);
+		}
 		
 		//전체 게시글의 갯수
 		int totCnt = dao.selectPostCount(conn, postTypeCd);
@@ -105,6 +111,9 @@ public class PostService {
 		
 		Post p = dao.selectOnePost(conn, postNo);
 		
+		User user = dao.selectUser(conn, p.getUserNo());
+		p.setUser(user);
+		
 		JDBCTemplate.close(conn); 
 		return p;
 	}
@@ -116,6 +125,38 @@ public class PostService {
 		ArrayList<Post> list = dao.selectIndexPostList(conn);
 		JDBCTemplate.close(conn);
 		return list;
+	}
+
+	public int insertPost(Post post, ArrayList<PostFile> fileList) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		String postNo = dao.selectPostNo(conn);
+		post.setPostNo(postNo);
+		int result = dao.insertPost(conn,post);
+		
+		if(result > 0) {
+			boolean fileChk = true;
+			for (PostFile file : fileList) {
+				file.setPostNo(postNo);
+				result = dao.insertPostFile(conn, file);
+				
+				if(result < 1) {
+					JDBCTemplate.rollback(conn);
+					fileChk = false;
+					break;
+				}
+			}
+			
+			//commit 시점
+			if(fileChk) {				
+				JDBCTemplate.commit(conn);
+			}
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		
+		return result;
 	}
 	
 
