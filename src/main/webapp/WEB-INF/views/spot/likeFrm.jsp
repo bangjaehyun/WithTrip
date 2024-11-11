@@ -186,7 +186,7 @@
 			var result = confirm("저장하시겠습니까?")
 			if(result){
 			window.opener.list = ArrayList;
-			self.colse();
+			self.close();
 			}
 		}
 		
