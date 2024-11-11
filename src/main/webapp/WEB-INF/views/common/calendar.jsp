@@ -607,13 +607,13 @@ body {
 		let days = "";
 		
     	days = startDay.substring(0,4)+ "년" + startDay.substring(4,6) + '월' + startDay.substring(6,8) + "일" + "~ " + endDay.substring(0,4)+ "년" + endDay.substring(4,6) + '월' + endDay.substring(6,8) + "일";
-    	$(window.opener.document.getElementById("postDay")).val(days);
+    	$(window.opener.document.getElementById("tripDay")).val(days);
     	//자식 요소에서 부모 요소에 summernote값 넣기
 //     	window.opener.$('#postContent').summernote('insertText', days);
     	
     	//새로운 textarea객체를 하나더 추가하는거 같다.
 //     	$(window.opener.document.getElementById("postContent")).summernote("insertText", days);
-//     	self.close();
+    	self.close();
     }
     function pad(d) {
     	return (Number(d) < 10) ? '0' + d.toString() : d.toString();

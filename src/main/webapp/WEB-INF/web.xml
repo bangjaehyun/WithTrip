@@ -9,6 +9,9 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+   <listener>
+  	<listener-class>kr.or.iei.common.FestivalLoadListener</listener-class>
+  </listener>
   <filter>
   	<filter-name>EncodingFilter</filter-name>
   	<filter-class>kr.or.iei.common.filter.EncodingFilter</filter-class>
