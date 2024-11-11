@@ -42,7 +42,7 @@
                 <c:choose>
                 <c:when test="${empty sessionScope.loginUser}">
                         <li><a href="/user/loginFrm">로그인</a></li> <span> | </span>
-                        <li><a href="#">회원가입</a></li>
+                        <li><a href="/user/joinFrm">회원가입</a></li>
                 </c:when>
                 <c:otherwise>
                         <li><a href="#">로그아웃</a></li>

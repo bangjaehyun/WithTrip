@@ -27,11 +27,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>로그인 페이지</title>
+<title>WithTrip</title>
 <link rel="stylesheet" href="/resources/css/loginPage.css"/>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+	<jsp:include page ="/WEB-INF/views/common/header.jsp" />
 	<div class="wrap-login">
         <h3>로그인</h3>
         <form action="/user/login" method="post">
@@ -47,8 +47,9 @@
                 <label for="saveId" id="saveId">아이디 저장</label>
             </div>
             <div id="info">
-                <a href="#">회원가입</a> &nbsp; | &nbsp;
-                <a href="#">정보찾기</a>
+                <a href="/user/joinFrm">회원가입</a> &nbsp; | &nbsp;
+                <a href="#">아이디 찾기</a> &nbsp; | &nbsp;
+                <a href="#">비밀번호 찾기</a>
             </div>
         </div>
         <div class="social-login">
