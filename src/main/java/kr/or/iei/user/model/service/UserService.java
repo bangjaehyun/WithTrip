@@ -81,4 +81,20 @@ public class UserService {
 		JDBCTemplate.close(conn);
 		return user;
 	}
+
+	public int updateUserInfo(String userNo, String updNickname, String updUserPhone) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result1 = dao.updateUserPhone(conn, userNo, updUserPhone);		
+		int result2 = dao.updateUserNickname(conn, userNo, updNickname);
+		
+		int result = result1 - result2;
+		
+		if(result == 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
 }

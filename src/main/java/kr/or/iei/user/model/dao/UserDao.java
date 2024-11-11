@@ -13,7 +13,7 @@ public class UserDao {
 	public int deleteUser(Connection conn, String userNo) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "delete from tbl_user_withtrip where user_no = ? cascade";
+		String query = "delete from tbl_user where user_no = ? cascade";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -31,7 +31,7 @@ public class UserDao {
 	public int nicknameChk(Connection conn, String userNickname) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "select count(*) as cnt From tbl_user_withtrip where user_Nickname = ?";
+		String query = "select count(*) as cnt From tbl_user where user_Nickname = ?";
 		int cnt = 0;
 		
 		try {
@@ -163,6 +163,45 @@ public class UserDao {
 		
 		
 		return u;
+	}
+
+	public int updateUserPhone(Connection conn, String userNo, String updUserPhone) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update (SELECT * FROM (SELECT USER_NO FROM  TBL_USER_WITHTRIP UNION ALL SELECT USER_NO FROM  TBL_USER_KAKAO UNION ALL SELECT USER_NO FROM  TBL_USER_NAVER)) set user_phone = ? where user_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, updUserPhone);
+			pstmt.setString(2, userNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateUserNickname(Connection conn, String userNo, String updNickname) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update tbl_user set user_nickname = ? where userNo = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, updNickname);
+			pstmt.setString(2, userNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
 	}
 	
 	

@@ -25,7 +25,7 @@
     	<div class="mypage-content">
     			<h2>회원정보수정</h2>
 
-	        <form action="#" method="post">
+	        <form action="/user/updateInfo" method="post">
 	        	<table>
 	        		<tr>
 		            	<td>회원번호</td>
@@ -71,6 +71,7 @@
 		    </div>
 	    </div>
     <script>  
+    	//비밀번호 변경 팝업
     	function pwChgBtn(){
     		let popupWidth = 600;
     		let popupHeight = 300;
@@ -82,6 +83,7 @@
     		window.open("/user/pwChgFrm",  "userPwChg", "width="+popupWidth+", top="+top+", height="+popupHeight+", left="+left);
     	}
     	
+    	//유저 삭제 팝업
     	function delUserBtn(){		
     		let popupWidth = 550;
     		let popupHeight = 350;
@@ -92,6 +94,7 @@
     		window.open("/user/delUserFrm", "delUser","width="+popupWidth+", top="+top+", height="+popupHeight+", left="+left);
     	}
     	
+    	//개인정보(닉네임 중복체크, 비밀번호) 번경 + 전화번호 변경
     	const checkInfo = {
     			"userNickname" : false,
     			"userNicknameChk" : false,
@@ -101,13 +104,15 @@
     	const regExp =  /^[a-z가-힣0-9]{2,8}$/;
     	
     	$('#nicknameChk').on('click', function(){
-    		if(!regExp.test($(this).val())){
+    		const nicknameValue = $('#userNickname').val();
+    		
+    		if(!regExp.test(nicknameValue)){
     			msg('알림', '영문 소문자, 한글, 숫자 포함 2~8글자로 입력해주세요', 'error');
     			return;
     		}
     			$.ajax({
     				url : "/chkNickname",
-    				data : {"userNickname" : userNickname.val()},
+    				data : {"userNickname" : nicknameValue},
     				type : "GET",
     				success : function(res){
 	    				if(res == 0){
@@ -123,6 +128,8 @@
     				}
     			});   			
     	});
+    	
+    	
     </script>
 </body>
 </html>
