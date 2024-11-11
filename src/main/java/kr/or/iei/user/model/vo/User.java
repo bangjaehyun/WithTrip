@@ -13,6 +13,7 @@ public class User {
 	private String userNo;
 	private int userType;
 	private String userNickname;
+	
 	private String userName;
 	private String userId;
 	private String userPw;

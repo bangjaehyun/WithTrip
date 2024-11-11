@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import kr.or.iei.common.JDBCTemplate;
-import kr.or.iei.user.model.vo.User;
+
+import kr.or.iei.user.model.vo.UserSite;
 
 public class UserDao {
 
@@ -74,7 +75,7 @@ public class UserDao {
 
 	
 	//회원가입
-	public int insertUser(Connection conn, User user) {
+	public int insertUserSite(Connection conn, UserSite usersite) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String query = "insert into tbl_user_withtrip values (to_char(sysdate,'yymmdd')||lapad(seq_user.nextval,4,'0'),?,?,?,?,?,?,3,sysdate)";
@@ -83,12 +84,12 @@ public class UserDao {
 		try {
 			pstmt = conn.prepareStatement(query);
 		
-			pstmt.setString(1, user.getUserId());
-			pstmt.setString(2, user.getUserPw());
-			pstmt.setString(3, user.getUserName());
-			pstmt.setString(4, user.getUserEmail());
-			pstmt.setString(5, user.getUserPhone());
-			pstmt.setString(6, user.getUserNickname());
+			pstmt.setString(1, usersite.getUserId());
+			pstmt.setString(2, usersite.getUserPw());
+			pstmt.setString(3, usersite.getUserName());
+			pstmt.setString(4, usersite.getUserEmail());
+			pstmt.setString(5, usersite.getUserPhone());
+			pstmt.setString(6, usersite.getUserNickname());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -129,10 +130,10 @@ public class UserDao {
 	}
 	
 		//로그인
-	public User userLogin(Connection conn, String loginId, String loginPw) {
+	public UserSite userLogin(Connection conn, String loginId, String loginPw) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		User u = null;
+		UserSite u = null;
 		String query = "select * from tbl_user_withtrip where user_id = ? and user_pw =?";
 		
 		try {
@@ -142,7 +143,7 @@ public class UserDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				u = new User();
+				u = new UserSite();
 				u.setUserNo(rset.getString("user_no"));
 				u.setUserId(rset.getString("user_id"));
 				u.setUserPw(rset.getString("user_pw"));

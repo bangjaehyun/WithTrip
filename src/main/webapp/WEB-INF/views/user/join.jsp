@@ -1,364 +1,493 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>WithTrip</title>
-<style>
-.wrap-join {
-    background-color: #f0f0f0;
-}
-    	/* Main container */
-.join-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /*height: calc(100vh - 70px); /* Adjusted for header height */
-    height : 680px;
-    background-color: #f0f0f0;
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>회원가입</title>
+        <style>
+            /* 레이아웃 틀 */
+html {
+    height: 100%;
 }
 
-/* Form container */
-form {
-    width: 500px;
-    padding: 20px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+body {
+    margin: 0;
+    height: 80%;
+    background: #f5f6f7;
+    font-family: Dotum,'돋움',Helvetica,sans-serif;
 }
 
-/* Headline */
-h1 {
-    text-align: center;
-    font-size: 24px;
-    color: #333;
-/*     margin-bottom: 20px; */
-}
-.join-title {
-	text-align :center;
-	align-content: center;
-	padding: 100px 30px 30px 30px;
-    background-color: #f0f0f0;	
+#wrapper {
+    position: relative;
+    top : 10%;
+    height: 50px;
 }
 
-/* Form field labels */
-form label {
+#content {
+   position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: 460px;
+    padding: 30px;
+    border: 1px solid #333; /* 테두리 두께 조정 */
+    background-color: #ffffff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    border-radius: 8px; /* 모서리 둥글게 */
+}
+
+
+/* 입력폼 */
+
+input:focus {
+    outline: none;
+}
+
+h4 {
+	text-align : center;
+	font-size : 30px;
+	
+}
+
+h3 {
+    margin: 19px 0 8px;
     font-size: 14px;
-    color: #333;
-    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+
+.box {
     display: block;
+    width: 100%;
+    height: 51px;
+    border: solid 1px #dadada;
+    padding: 10px 14px 10px 14px;
+    box-sizing: border-box;
+    background: #fff;
+    position: relative;
 }
 
-/* ID field and button alignment */
-.id {
-    display: flex;
-    justify-content : center;
-    align-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
+.int {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 29px;
+    border: none;
+    background: #fff;
+    font-size: 15px;
 }
 
-.id input[type="text"] {
-    flex: 1; /* Makes the input take available space */
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-align: center;
+input {
+    font-family: Dotum,'돋움',Helvetica,sans-serif;    
 }
 
-/* Phone field alignment */
-.phone {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 15px;
-    justify-content : center;
-    align-content: center;
+.box.int_id {
+    padding-right: 110px;
 }
 
-.phone input[type="text"] {
-    width: 23%; /* Each phone input takes a third of the width */
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-align: center;
-}
-.email {
-	display : flex;
-	margin-bottom: 15px;
-}
-.email input[type="email"] {
-	font-size: 14px;	
+.box.int_pass {
+    padding-right: 40px;
 }
 
-.nickname {
-	display : flex;
-	justify-content : center;
-    align-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
+.box.int_pass_check {
+    padding-right: 40px;
 }
 
-/* Other form fields */
-form input[type="text"],
-form input[type="password"] {
-    width: calc(100% - 10px);
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 15px;
+select {
+    width: 100%;
+    height: 29px;
+    font-size: 15px;
+    background: #fff 100% 50% no-repeat;
+    background-size: 20px 8px;
+    display: inline-block;
+    text-align: start;
+    border: none;
+    cursor: default;
+    font-family: Dotum,'돋움',Helvetica,sans-serif;
 }
 
-/* Buttons */
-input[type="button"] {
+/* 에러메세지 */
+
+.error_next_box {
+    margin-top: 9px;
+    font-size: 12px;
+    color: red;    
+    display: none;
+}
+
+#alertTxt {
+    position: absolute;
+    top: 19px;
+    right: 38px;
+    font-size: 12px;
+    color: red;
+    display: none;
+}
+
+
+
+/*
+#checkNicknameBtn {
     padding: 10px 15px;
     font-size: 14px;
-    color: white;
+    color: #fff;
     background-color: cornflowerblue;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
 }
+*/
 
-input[type="button"]:hover {
-    background-color: cornflowerblue;
+
+
+#btnJoin {
+    width: 100%;
+    padding: 21px 0 17px;
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    background-color: #90cbfb;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: Dotum,'돋움',Helvetica,sans-serif;
+}
+        </style>
+    </head>
+    <body>
+        <jsp:include page ="/WEB-INF/views/common/header.jsp" />
+        <div id="wrapper">
+            
+            <div id="content">
+					<h4>회원가입</h4>
+                <form action="/user/join" method="post" >
+                <div>
+                    <h3 class="join_title">
+                        <label for="id">아이디</label>
+                    </h3>
+                    <span class="box int_id">
+                        <input type="text" id="id" class="int" maxlength="20">
+                       <!-- <button type="button" id="nicknameDuplChkBtn" class="btn-primary">중복체크</button>  --> 
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+
+                <!-- 비번 -->
+                <div>
+                    <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
+                    <span class="box int_pass">
+                        <input type="password" id="pswd1" class="int" maxlength="20"> <!-- type="password"으로 변경 -->
+                        <span id="alertTxt">사용불가</span>
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+                <!-- 비번확인 -->
+                <div>
+                    <h3 class="join_title"><label for="pswd2">비밀번호 재확인</label></h3>
+                    <span class="box int_pass_check">
+                        <input type="password" id="pswd2" class="int" maxlength="20"> <!-- type="password"으로 변경 -->
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+                <!-- 이름 -->
+                <div>
+                    <h3 class="join_title"><label for="name">이름</label></h3>
+                    <span class="box int_name">
+                        <input type="text" id="name" class="int" maxlength="20">
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+                <!-- 이메일 -->
+                <div>
+                    <h3 class="join_title"><label for="email">본인확인 이메일</label></h3>
+                    <span class="box int_email">
+                        <input type="email" id="email" class="int" maxlength="100">
+                    </span>
+                    <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>
+                </div>
+
+                <!-- 휴대전화 -->
+                <div>
+                    <h3 class="join_title"><label for="phoneNo">휴대전화</label></h3>
+                    <span class="box int_mobile">
+                        <input type="tel" id="phoneNo" class="int" maxlength="16" placeholder="전화번호를 입력하세요.">
+                    </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+                <!-- 닉네임 -->
+                <div>
+                    <h3 class="join_title">
+                        <label for="nickname">닉네임</label>
+                    </h3>
+                    <span class="box int_nickname">
+                        <input type="text" id="nickname" class="int" maxlength="20">
+                  	<!-- <button type="button" id="nicknameDuplChkBtn" class="btn-primary">중복체크</button>  --> 
+-                      </span>
+                    <span class="error_next_box"></span>
+                </div>
+
+                <!-- 회원가입 -->
+                <div class="btn_area">
+                    <button type="button" id="btnJoin">
+                        <span>가입하기</span>
+                    </button>
+                </div>
+			</form>
+            </div> 
+
+        </div> 
+        <script>
+            /* 변수 선언 */
+var id = document.querySelector('#id');
+var pw1 = document.querySelector('#pswd1');
+var pwMsg = document.querySelector('#alertTxt');
+var pw2 = document.querySelector('#pswd2');
+var userName = document.querySelector('#name');
+var email = document.querySelector('#email');
+var phoneNo = document.querySelector('#phoneNo');
+var nickname = document.querySelector('#nickname');
+var error = document.querySelectorAll('.error_next_box');
+//var checkIdBtn = document.querySelector('#checkIdBtn'); // 아이디 중복 확인 버튼
+//var checkNicknameBtn = document.querySelector('#checkNicknameBtn'); // 닉네임 중복 확인 버튼
+
+/* 이벤트 핸들러 연결 */
+id.addEventListener("focusout", checkId);
+pw1.addEventListener("focusout", checkPw);
+pw2.addEventListener("focusout", comparePw);
+userName.addEventListener("focusout", checkName);
+email.addEventListener("focusout", isEmailCorrect);
+phoneNo.addEventListener("focusout", checkPhoneNum);
+//checkIdBtn.addEventListener("click", checkIdDuplicate); // 아이디 중복 확인 버튼 이벤트 연결
+//checkNicknameBtn.addEventListener("click", checkNicknameDuplicate); // 닉네임 중복 확인 버튼 이벤트 연결
+
+/* 콜백 함수 */
+
+// 아이디 유효성 검사
+function checkId() {
+    var idPattern = /^[A-Za-z0-9_-]{5,20}$/;
+    if(id.value === "") {
+        error[0].innerHTML = "필수 정보입니다.";
+        error[0].style.display = "block";
+    } else if(!idPattern.test(id.value)) {
+        error[0].innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
+        error[0].style.display = "block";
+    } else {
+        error[0].innerHTML = "확인되었습니다.";
+        error[0].style.color = "#0067a3";
+        error[0].style.display = "block";
+    }
 }
 
-input[type="button"]:active {
-    background-color: cornflowerblue;
+// 비밀번호 유효성 검사
+function checkPw() {
+    var pwPattern = /^[a-zA-Z0-9~!@#$%^&*]{8,16}$/;
+    if(pw1.value === "") {
+        error[1].innerHTML = "필수 정보입니다.";
+        error[1].style.display = "block";
+    } else if(!pwPattern.test(pw1.value)) {
+        error[1].innerHTML = "8~16자 영문 대 소문자, 숫자, 특수문자(!,@,#,$,%,^,&,*)를 사용하세요.";
+        pwMsg.innerHTML = "형식과 일치하지 않습니다.";
+        error[1].style.display = "block";
+        pwMsg.style.display = "block";
+    } else {
+        error[1].style.display = "none";
+        pwMsg.innerHTML = "확인되었습니다.";
+        pwMsg.style.display = "block";
+        pwMsg.style.color = "#03c75a";
+    }
 }
-.joinbtn {
- 	justify-content: center;
- 	align-content: center; 
+
+// 비밀번호 재확인 검사
+function comparePw() {
+    if(pw2.value === pw1.value && pw2.value != "") {
+        error[2].style.display = "none";
+    } else {
+        error[2].innerHTML = "비밀번호가 일치하지 않습니다.";
+        error[2].style.display = "block";
+    }
+    if(pw2.value === "") {
+        error[2].innerHTML = "필수 정보입니다.";
+        error[2].style.display = "block";
+    }
 }
 
-</style>
+// 이름 유효성 검사
+function checkName() {
+    var namePattern = /^[가-힣A-Za-z]{2,20}$/;
+    if(userName.value === "") {
+        error[3].innerHTML = "필수 정보입니다.";
+        error[3].style.display = "block";
+    } else if(!namePattern.test(userName.value) || userName.value.indexOf(" ") > -1) {
+        error[3].innerHTML = "2~20자리의 한글과 영문 대 소문자를 사용하세요. (특수기호, 공백 사용 불가)";
+        error[3].style.display = "block";
+    } else {
+        error[3].style.display = "none";
+    }
+}
 
-</head>
-<body>
-	<div class="wrap-join">		
-    <jsp:include page="/WEB-INF/views/common/header.jsp" />
-	   	<div class="join-title">
-	   		<h1>회원가입</h1>
-	   	</div>
-    <div class="join-body">        
-        <form action="/user/join" method="post">
-              	<div class="id">
-               	<label for="userid">아이디</label>
-                   <input type="text" name="id" id="id" placeholder="8~12자리의 영대소문자,숫자만 가능">
-                   <input type="button" value="ID 확인" onclick="checkId()" >
-				</div>
-				
-               <div class="password">
-               	<label for="userPassword">비밀번호</label>
-                   <input type="password" name="pass" id="pass" placeholder=" 영문,숫자,특수문자(!, @, $, %, ^,&,*)를 포함하여 8~16자리 ">
-               </div>   
-                   
-               <div class="passwordCheck">
-               	<label for="userpasswordCheck">비밀번호 확인</label>
-                   <input type="password" name="pass2" id="pass2" placeholder=" 영문,숫자,특수문자(!, @, $, %, ^,&,*)를 포함하여 8~16자리 ">
-               </div>
+// 이메일 유효성 검사
+function isEmailCorrect() {
+    var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+    if(email.value === "") {
+        error[4].innerHTML = "필수 정보입니다.";
+        error[4].style.display = "block"; 
+    } else if(!emailPattern.test(email.value)) {
+        error[4].style.display = "block";
+    } else {
+        error[4].style.display = "none"; 
+    }
+}
 
-               <div class="name">
-               	<label for="username">이름</label>
-                   <input type="text" name="name" id="name" placeholder="2~20자리의 영 대소문자, 한글만 가능">
-               </div>
-                   
-               <div class="email">
-               	<label for="useremail">이메일</label>
-				<input type="email" name="email" id="email" >	
-				</div>
-						
-               <div class="phone">
-               	<label for="userphone">전화번호</label>
-				 <input type="text" id="phone1" class="phone">-<input type="text" id="phone2" class="phone">-<input type="text" id="phone3" class="phone">
-				</div>
+// 전화번호 유효성 검사
+function checkPhoneNum() {
+    var isPhoneNum = /^(01[01679])([0-9]{3,4})([0-9]{4})$/;
+    if(phoneNo.value === "") {
+        error[5].innerHTML = "필수 정보입니다.";
+        error[5].style.display = "block";
+    } else if(!isPhoneNum.test(phoneNo.value)) {
+        error[5].innerHTML = "형식에 맞지 않는 번호입니다.";
+        error[5].style.display = "block";
+    } else {
+        error[5].style.display = "none";
+    }
+}
 
-               <div class="nickname">
-                   <label for="usernickname">닉네임</label>
-                   <input type="text" id="nickname" placeholder="한글,영소문자,숫자 2~8자리" >
-                   <input type="button" value="닉네임 확인" onclick="checkNickname()">
-               </div>
-               
-				<div class="joinbtn">
-					<input type="button" value="회원가입" onclick="allCheck()">
-				</div>
-		</form>
-		</div>	
-		<jsp:include page = "/WEB-INF/views/common/footer.jsp" />
-	</div>
-	<script>
-	var checkedId = '';
-	var checkedName = '';
-	var checkedEmail = '';
-	var checkedPhone = '';
-	var checkedNickname = '';
 
-	window.onload = function () {
-	    idText = document.getElementById('id');
-	    passText = document.getElementById('pass');
-	    pass2Text = document.getElementById('pass2');
-	    nameText = document.getElementById('name');
-	    emailText = document.getElementById('email');
-	    phone1Text = document.getElementById('phone1');
-	    phone2Text = document.getElementById('phone2');
-	    phone3Text = document.getElementById('phone3');
-	    nicknameText = document.getElementById('nickname');
-	};
+function checkNickname(){
+    var nicknamePattern = /^[a-z가-힣0-9]{2,8}$/;
+    if(nickname.value === "") {
+        error[6].innerHTML = "필수 정보입니다.";
+        error[6].style.display = "block";
+    } else if(!nicknamePattern.test(nickname.value)) {
+        error[6].style.display = "block";
+    } else {
+        error[6].style.display = "none";
+    }
+}
 
-	// ID 형식 및 중복을 확인하는 기능
-	function checkId() {
-	    var id = idText.value;
-	    var idReg = /^[A-Za-z0-9][A-Za-z0-9]{6,20}$/;
-	    if (!idReg.test(id)) {
-	        alert("아이디는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.");
-	        checkedId = '';
-	        return;
-	    }
+/* 
+//아이디 중복 확인
+function checkIdDuplicate() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/check-id", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.exists) {  // 중복 아이디일 때
+                error[0].innerHTML = "이미 사용 중인 아이디입니다.";
+                error[0].style.color = "red";
+                error[0].style.display = "block";
+            } else {  // 사용 가능한 아이디일 때
+                error[0].innerHTML = "사용 가능한 아이디입니다.";
+                error[0].style.color = "green";
+                error[0].style.display = "block";
+            }
+        }
+    };
+    xhr.send(JSON.stringify({ id: id.value }));
+}
 
-	    // AJAX로 아이디 중복체크
-	    checkIdDuplicate(id).then((isDuplicate) => {
-	        if (isDuplicate) {
-	            alert("이미 사용 중인 아이디입니다.");
-	            checkedId = '';
-	        } else {
-	            alert(id + "(은)는 사용 할 수 있는 아이디 입니다.");
-	            checkedId = id;
-	        }
-	    });
-	}
+// 닉네임 중복 확인
+function checkNicknameDuplicate() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/check-nickname", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.exists) {  // 중복 닉네임일 때
+                error[6].innerHTML = "이미 사용 중인 닉네임입니다.";
+                error[6].style.color = "red";
+                error[6].style.display = "block";
+            } else {  // 사용 가능한 닉네임일 때
+                error[6].innerHTML = "사용 가능한 닉네임입니다.";
+                error[6].style.color = "green";
+                error[6].style.display = "block";
+            }
+        }
+    };
+    xhr.send(JSON.stringify({ nickname: nickname.value }));
+}
+ */
+ 
+//가입하기 버튼 선택
+ var joinBtn = document.querySelector('#btnJoin');
 
-	
-	function checkIdDuplicate(id) {
-	    return new Promise((resolve) => {
-	       
-	        setTimeout(() => {
-	            const isDuplicate = false; 
-	            resolve(isDuplicate);
-	        }, 500);
-	    });
-	}
+ // 클릭 이벤트 핸들러 추가
+ joinBtn.addEventListener("click", function() {
+     // 입력 검증 함수 실행
+     checkId();
+     checkPw();
+     comparePw();
+     checkName();
+     isEmailCorrect();
+     checkPhoneNum();
+     checkNickname();
+     
+     console.log("!");
+     
+     // 입력값 검증 결과 확인
+     var hasError = Array.from(document.querySelectorAll('.error_next_box')).some(function(item) {
+         return item.style.display === "block";
+     });
 
-	// 비밀번호 유효성 검사
-	function checkPass() {
-	    var pass = passText.value;
-	    var pass2 = pass2Text.value;
-	    var passReg = /^[A-Za-z][@$!%*#?&][A-Za-z\d!@#$%^&*]{8,16}$/;
-	    if (!passReg.test(pass)) {
-	        alert(" 영문,숫자,특수문자(!, @, $, %, ^,&,*)를 포함하여 8~16자리 ");
-	        return false;
-	    } else if (pass !== pass2) {
-	        alert('비밀번호가 일치하지 않습니다.');
-	        return false;
-	    }
-	    return true;
-	}
+     if (!hasError) {
+         // 모든 필드가 유효하다면, 서버에 Ajax 요청
+         submitForm();
+     } else {
+         swal("모든 필드를 올바르게 입력해주세요.");
+     }
+ });
 
-	// 이름 유효성 검사
-	function checkName() {
-	    var name = nameText.value;
-	    var nameReg = /^[가-힣A-Za-z]{2,20}$/;
-	    if (!nameReg.test(name)) {
-	        alert("올바른 성명을 입력하세요.");
-	        checkedName = '';
-	        return false;
-	    } else {
-	        checkedName = name;
-	        return true;
-	    }
-	}
+ 
+ 
+ 
+ 
+ 
+ // 서버에 회원가입 데이터를 Ajax로 전송하는 함수
+ function submitForm() {
+     // 폼 데이터 수집
+     var formData = {
+         id: document.querySelector('#id').value,
+         password: document.querySelector('#pswd1').value,
+         name: document.querySelector('#name').value,
+         email: document.querySelector('#email').value,
+         phoneNo: document.querySelector('#phoneNo').value,
+         nickname: document.querySelector('#nickname').value
+     };
 
-	// 메일 확인 기능
-	function checkEmail() {
-	    var email = emailText.value;
-	    var emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-	    if (!emailReg.test(email)) {
-	        alert("올바른 E-mail주소를 입력하세요.");
-	        checkedEmail = '';
-	        return false;
-	    } else {
-	        checkedEmail = email;
-	        return true;
-	    }
-	}
+     // Ajax 요청
+     var xhr = new XMLHttpRequest();
+     xhr.open("POST", "/user/join", true);
+     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-	// 휴대폰번호 유효성 검사
-	function checkPhone() {
-	    var phone = phone1Text.value + '-' + phone2Text.value + '-' + phone3Text.value;
-	    var phoneReg = /^\d{3}-\d{3,4}-\d{4}$/;
-	    if (!phoneReg.test(phone)) {
-	        alert("올바른 휴대폰번호를 입력하세요.");
-	        checkedPhone = '';
-	        return false;
-	    } else {
-	        checkedPhone = phone;
-	        return true;
-	    }
-	}
+     xhr.onreadystatechange = function () {
+         if (xhr.readyState === XMLHttpRequest.DONE) {
+             if (xhr.status === 200) {
+                 var response = JSON.parse(xhr.responseText);
+                 if (response.success) {
+                     swal("회원가입이 완료되었습니다.");
+                     window.location.href = "#";  // 회원가입 완료 후 이동할 페이지
+                 } else {
+                	 swal("회원가입에 실패했습니다. 다시 시도해주세요.");
+                 }
+             } else {
+            	 swal("서버 요청 중 오류가 발생했습니다.");
+             }
+         }
+     };
 
-	// 닉네임 중복체크 및 확인 
-	function checkNickname() {
-	    var nickname = nicknameText.value;
-	    var nicknameReg = /^[a-z가-힣0-9]{2,8}$/;
-	    if (!nicknameReg.test(nickname)) {
-	        alert("올바른 닉네임을 입력하세요.");
-	        checkedNickname = '';
-	        return false;
-	    }
-
-	    
-	    checkNicknameDuplicate(nickname).then((isDuplicate) => {
-	        if (isDuplicate) {
-	            alert("이미 사용 중인 닉네임입니다.");
-	            checkedNickname = '';
-	        } else {
-	            alert(nickname + "(은)는 사용 할 수 있는 닉네임입니다.");
-	            checkedNickname = nickname;
-	        }
-	    });
-	}
-
-	
-	function checkNicknameDuplicate(nickname) {
-	    return new Promise((resolve) => {
-	        
-	        setTimeout(() => {
-	            const isDuplicate = false; 
-	            resolve(isDuplicate);
-	        }, 500);
-	    });
-	}
-
-	// 제출전 필드 확인
-	function allCheck() {
-	    if (!checkedId) {
-	        alert('아이디 확인을 해주세요.');
-	        return;
-	    }
-	    if (!checkPass()) return;
-	    if (!checkName()) return;
-	    if (!checkEmail()) return;
-	    if (!checkPhone()) return;
-	    if (!checkedNickname) {
-	        alert('닉네임 확인을 해주세요.');
-	        return;
-	    }
-
-	    alert(
-	        '가입 정보\n\n' +
-	        '아이디 : ' + checkedId +
-	        '\n성명 : ' + checkedName +
-	        '\n이메일 : ' + checkedEmail +
-	        '\n휴대폰번호 : ' + checkedPhone +
-	        '\n닉네임 : ' + checkedNickname +
-	        '\n\n가입이 완료되었습니다.'
-	    );
-	}
-
-		</script>
-	</body>
+     xhr.send(JSON.stringify(formData));
+ }
+ 
+ 
+ 
+        </script>
+        
+    </body>
 </html>

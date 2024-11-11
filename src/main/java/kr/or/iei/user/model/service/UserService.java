@@ -7,6 +7,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.user.model.dao.UserDao;
 import kr.or.iei.user.model.vo.User;
+import kr.or.iei.user.model.vo.UserSite;
 
 public class UserService {
 	UserDao dao;
@@ -51,10 +52,10 @@ public class UserService {
 		return result;
 	}
 	//회원가입
-	public int insertUser(User user) {
+	public int insertUserSite(UserSite usersite) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		int result = dao.insertUser(conn, user);
+		int result = dao.insertUserSite(conn, usersite);
 		
 		if(result>0) {
 			JDBCTemplate.commit(conn);
