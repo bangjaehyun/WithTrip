@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Like Frm</title>
+<title>WithTrip - Like Frm</title>
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4ded6a823694c477130258746c1c95cf&libraries=services"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -186,7 +186,7 @@
 			var result = confirm("저장하시겠습니까?")
 			if(result){
 			window.opener.list = ArrayList;
-			self.close();
+			self.close(); 
 			}
 		}
 		
