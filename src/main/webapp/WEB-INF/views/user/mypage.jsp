@@ -8,7 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="/resources/js/sweetalert.min.js"></script>
 <link rel="stylesheet" href="/resources/css/mypage.css" />
-<title>Insert title here</title>
+<title>withTrip myPage</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -35,7 +35,7 @@
 		            	<td>아이디</td>
 		            	<td><input type="text" value="${loginUser.userId}" readonly></td>
 		            </tr>
-		            <c:if test="${not empty loginUser and loginUser.userPw not empty}">
+		            <c:if test="${not empty loginUser.userPw}">
 			            <tr>
 			            	<td>비밀번호</td>
 			            	<td><button onclick="pwChgBtn()">비밀번호 변경</button></td>

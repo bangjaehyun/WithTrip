@@ -45,8 +45,8 @@
                         <li><a href="/user/joinFrm">회원가입</a></li>
                 </c:when>
                 <c:otherwise>
-                        <li><a href="#">로그아웃</a></li>
-                        <li><a href="#">마이페이지</a></li> <span> | </span>
+                        <li><a href="/user/logout">로그아웃</a></li> <span> | </span>
+                        <li><a href="/user/mypageFrm">마이페이지</a></li>
                 </c:otherwise>
                 </c:choose>
             </ul>
