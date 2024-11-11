@@ -3,13 +3,8 @@
     
 <footer class="footer">
 	<div class="copyright">
-		<div class="copyright-left">
 			<img src="/resources/images/withTrip_logo_h_04.png" width="100px" height="40px">
 			<p>Copyright &copy; 2024. withTrip All rights reserved.</p>
-		</div>
-		<div class="copyright-right">
-			<p>KH Information Educational Institute M-Class - 3조 </p>
-		</div>
 	</div>
 	<div class="siteInfo">
 		<a href="#">프로젝트 소개</a> <span>|</span>

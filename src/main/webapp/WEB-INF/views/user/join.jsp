@@ -3,11 +3,13 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <title>회원가입</title>
-        <style>
-            /* 레이아웃 틀 */
+<head>
+<meta charset="UTF-8">
+<title>WithTrip - 회원가입</title>
+<link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
+<link rel="icon" href="/resources/images/withTrip_favicon.png"/>
+<style>
+    /* 레이아웃 틀 */
 html {
     height: 100%;
 }
