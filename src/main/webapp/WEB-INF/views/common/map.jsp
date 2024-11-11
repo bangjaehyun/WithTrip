@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,11 +58,20 @@
 				<img name="img" src="/resources/images/map_gas.svg"> <span>주유소</span>
 			</div>
 		</div>
-		<button id="research" onclick="research()" value="">
+		<button id="research" onclick="research()">
 			<div id="resrchImg"></div>
 			<div id="resrchTxt">현 지도에서 검색</div>
 		</button>
+
+		<c:if test="${like == '1'}">
+			<button id="confirmBtn" onclick="confrim()">
+				<div id="confirmTxt">저장	</div>
+			</button>
+		</c:if>
 	</div>
+	<script>
+		var like = '${like}';
+	</script>
 	<script src="/resources/js/map.js"></script>
 </body>
 </html>

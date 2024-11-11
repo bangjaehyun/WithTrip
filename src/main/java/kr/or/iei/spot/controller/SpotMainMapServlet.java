@@ -29,6 +29,8 @@ public class SpotMainMapServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		int like = 0;
+		request.setAttribute("like", like);
 		request.getRequestDispatcher("/WEB-INF/views/spot/mainMap.jsp").forward(request, response);
 
 	}
