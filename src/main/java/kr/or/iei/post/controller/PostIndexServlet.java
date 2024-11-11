@@ -39,10 +39,11 @@ public class PostIndexServlet extends HttpServlet {
 		
 		Gson gson = new Gson();
 		String jsonStr = gson.toJson(list);
-		//System.out.println("123" + jsonStr);
+		request.setAttribute("postList", list);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");	//응답 데이터 형식 지정
 		response.getWriter().print(jsonStr);
+		//System.out.println("123" + jsonStr);
 		
 	}
 

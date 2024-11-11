@@ -7,20 +7,25 @@
 <head>
 <meta charset="UTF-8">
 <title>WithTrip</title>
+<link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
+<link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 <style>
 	.post-list-wrap {
 		width : 1200px;
 		margin : 0 auto;
 	}
 	.list-content {
-		/*  height : 500px;*/
+		height : 500px;
 		width : 1000px;
-		padding-right : 140px;
-		padding-left : 20px;
+		padding-right : 180px;
+		padding-left : 50px;
 	}
 	.list-header {
 		padding : 20px 0px;
 		text-align : right;
+	}
+	.list-content-body {
+		height : 500px;
 	}
 	.list-side {
 		height : 200px;
@@ -43,7 +48,6 @@
 	}
 	.list-header {
 		text-align: right;
-		color : red;
 		margin-bottom: 10px;
 	}
 	.list-header>a:hover {
@@ -59,6 +63,7 @@
 		display: flex;
 		justify-content: space-around;
 		align-content: center;
+		flex-wrap: wrap;
 	}
 	.cs-conList {
 		display : flex;
@@ -70,21 +75,32 @@
 		border: 1px solid var(--main2);
 		justify-content : center;
 		align-content: center;
-		justify-items:center; 
+		justify-items:center;
+		margin-bottom : 10px;
 	}
-	.cs-conList > h3 {	
-		color : var(--gray8);
+	.cs-conList:hover {
+		font-weight: bolder;
+	}
+	.cs-conList > p {
 		padding-top : 5px;
 	}
+	.cs-conList > p > a {	
+		color : var(--gray8);
+		padding-top : 5px;
+		font-size: 20px;
+	}
 	.cs-content-header {
-		height : 300px;
+		height : 200px;
 		align-content: center;
 		justify-content: center;
 		justify-items: center;
 		position : relative;
+		margin-bottom : 60px;
 	}
 	#direct-arrow{
 		padding-top : 5px;
+		width: 28px;
+		height: 28px;
 	}
 </style>
 </head>
@@ -112,39 +128,16 @@
 						<div class="cs-content-header">
 							<img src="/resources/images/withTrip_logo_h_04.png" id="siteIntro-header">
 			                <h4>여행을 내곁에, withTrip입니다. 무엇을 도와드릴까요?</h4>
-						</div>
-						<div class="cs-content">
-							<div class="cs-conList">
-								<h3>1:1 문의 작성하러 가기</h3>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png" style="width: 28px; height: 28px;">
-								<c:choose>
-								<c:when test="${empty sessionScope.loginMember}">
-												
-								</c:when>
-								<c:otherwise>
-									
-								</c:otherwise>
-								</c:choose>					
-							</div>
-							<div class="cs-conList">
-								<h3>ID / 비밀번호 찾기</h3>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png" style="width: 28px; height: 28px;">							
-							</div>
-							<div class="cs-conList">
-								<h3>파트너 신청</h3>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png" style="width: 28px; height: 28px;">
-							</div>
-						</div>
-						
+						</div>						
 						<%-- 공지사항, 자주묻는 질문, Q&A의 게시글을 5개씩 보이게 하고 싶었는데 값은 넘어오는데 테이블 tr태그 아래에 추가가 안됨, 추후 확인 후 삭제 or 수정 예정  --%>
-						<c:forEach  var="post" items="${postList}">	
-							<section class="section type${post.postTypeCd}">
+						<c:forEach  var="post" items="${postList}">
+						<section class="section type${post.postTypeCd}">
 								<div class="page-title" style="text-align:left;">${post.postTypeNm}
 									<div class="list-header">
-										<a href='/post/list?reqPage=1&postTypeCd=${post.postTypeCd}&postTypeNm=${post.postTypeNm}'>더보기...</a>
+										<a href='/post/list?reqPage=1&postTypeCd=${post.postTypeCd}&postTypeNm=${post.postTypeNm}'>더보기</a>
 									</div>
-									<div class="list-content">
-										<table class="tbl hover">
+									<div class="list-content-body">
+										<table class="tbl hover" border="1">
 											<tr class="th">
 												<th style="width:10%;">번호</th>
 												<th style="width:30%;">제목</th>
@@ -156,6 +149,41 @@
 								</div>
 							</section>
 						</c:forEach>
+					
+						<div class="cs-content">
+							<div class="cs-conList">
+								<p><a href="#">ID / 비밀번호 찾기</a></p>
+								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">							
+							</div>
+							<div class="cs-conList">
+								<p><a href="/user/joinFrm">회원가입</a></p>
+								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">							
+							</div>
+							<div class="cs-conList">
+								<p><a href="#">파트너 신청</a></p>
+								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
+							</div>
+							<div class="cs-conList">
+								<p><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항 바로가기</a></p>
+								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
+							</div>
+							<div class="cs-conList">
+								<p><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4">Q&A 바로가기</a></p>
+								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
+								<c:choose>
+								<c:when test="${empty sessionScope.loginMember}">
+												
+								</c:when>
+								<c:otherwise>
+									
+								</c:otherwise>
+								</c:choose>					
+							</div>
+							<div class="cs-conList">
+								<p><a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3">자주 묻는 질문 바로가기</a></p>
+								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
+							</div>
+						</div>					
 					</div>						
 				</div>
 			</section>

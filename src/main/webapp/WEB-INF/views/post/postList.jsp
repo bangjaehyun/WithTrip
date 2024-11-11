@@ -8,6 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <title>WithTrip</title>
+<link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
+<link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 <style>
 	.post-list-wrap {
 		width : 1200px;
