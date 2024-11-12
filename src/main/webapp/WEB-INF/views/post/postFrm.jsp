@@ -9,7 +9,8 @@
 <link rel="stylesheet" href="/resources/summernote/summernote-lite.css" />
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
-
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4ded6a823694c477130258746c1c95cf&libraries=services"></script>
 <style>
 .post-main {
 	width: 100%;
@@ -98,7 +99,7 @@
 	justify-content: space-between;
 }
 
-.div-map>div{
+.div-map>.map-wrap{
 	width: 100%;
 }
 
@@ -127,7 +128,16 @@ body button:hover{
   box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
 }
 
+#map {
+	width: 95%;
+	height: 500px;
+	z-index: 2;
+}
 
+
+#map>div>div{
+	line-height: 5px;
+}
 </style>
 </head>
 <body>
@@ -144,7 +154,9 @@ body button:hover{
 					<c:if test="${postTypeId eq 1}">
 						<div class="div-subFun">
 							<div class="div-map">
-								<div class="map"></div>
+								<div class="map-wrap">
+									<div id="map"></div>
+								</div>
 								<button type="button" onclick="openMap()">지도 열기</button>
 							</div>
 							<div class="div-day">
@@ -181,8 +193,63 @@ body button:hover{
 	<script src="/resources/summernote/summernote-lite.js"></script>
 	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 	<script>
+	$('#map').css("display", "none");
+	
+	function addMap(list) {
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+	    mapOption = { 
+	        center: new kakao.maps.LatLng(list[0].y, list[0].x), // 지도의 중심좌표
+	        level: 5 // 지도의 확대 레벨
+	    };
+
+	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	 
+
+	// 마커 이미지의 이미지 주소입니다
+	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+	    
+	for (var i = 0; i < list.length; i ++) {
+	    
+	    // 마커 이미지의 이미지 크기 입니다
+	    var imageSize = new kakao.maps.Size(24, 35); 
+	    
+	    // 마커 이미지를 생성합니다    
+	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+	    console.log(list);
+	    // 마커를 생성합니다
+	    var marker = new kakao.maps.Marker({
+	        map: map, // 마커를 표시할 지도
+	        position:  new kakao.maps.LatLng(list[i].y, list[i].x), // 마커를 표시할 위치
+//		        title : list[i].place_name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+	        image : markerImage // 마커 이미지 
+	    });
+	    
+	    var infowindow = new kakao.maps.InfoWindow({
+	        content: list[i].place_name // 인포윈도우에 표시할 내용
+	    });
+	    
+	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+	    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+	    
+	}       
+	}
+	
+	// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+	function makeOverListener(map, marker, infowindow) {
+	    return function() {
+	        infowindow.open(map, marker);
+	    };
+	}
+
+	// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+	function makeOutListener(infowindow) {
+	    return function() {
+	        infowindow.close();
+	    };
+	}
+	
 	function openMap(){
-		let popupWidth = 1450;
+		let popupWidth = 1550;
 		let popupHeight = 720;
 		
 		let top = (window.innerHeight - popupHeight) / 2+ window.screenY;
@@ -200,10 +267,6 @@ body button:hover{
 		window.open("/openCalendar", "calendar", "width="+popupWidth+", height=" + popupHeight + ", top=" + top + ", left=" + left);
 	}
 	function postCancel(){
-// 		$("#postContent").summernote('insertText', '<p>Hello, world</p>')
-		let tag = $('<p>');
-		tag.html("Gd");
-		$('.note-editable').append(tag);
 		swal({
 			title : "알림",
 			text : "게시글 작성을 취소하시겠습니까?",

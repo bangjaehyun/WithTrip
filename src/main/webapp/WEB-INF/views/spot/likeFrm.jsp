@@ -185,9 +185,10 @@
 		}
 
 		function confrim() {
-			var result = confirm("저장하시겠습니까?")
+			var result = confirm("저장하시겠습니까?");
 			if(result){
-			window.opener.list = ArrayList;
+			window.opener.$('#map').css("display","block");
+			window.opener.addMap(ArrayList);
 			self.close(); 
 			}
 		}
