@@ -1,0 +1,12 @@
+package kr.or.iei.user.model.vo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class UserType {
+	private int userType;
+}

@@ -166,10 +166,19 @@ public class UserDao {
 		return u;
 	}
 
-	public int updateUserPhone(Connection conn, String userNo, String updUserPhone) {
+	public int updateUserPhone(Connection conn, String userNo, String updUserPhone, int type) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "update (SELECT * FROM (SELECT USER_NO FROM  TBL_USER_WITHTRIP UNION ALL SELECT USER_NO FROM  TBL_USER_KAKAO UNION ALL SELECT USER_NO FROM  TBL_USER_NAVER)) set user_phone = ? where user_no = ?";
+		int userType = type;
+		String query = "";
+		
+		if(userType == 3) {
+			query = "update TBL_User_Naver set user_Phone = ? Where User_No = ?";
+		}else if(userType == 4) {
+			query = "update TBL_User_Kakao set user_Phone = ? Where User_No = ?";
+		}else if(userType == 5) {
+			query = "update TBL_User_WithTrip set user_Phone = ? Where User_No = ?";
+		}
 		
 		try {
 			pstmt = conn.prepareStatement(query);

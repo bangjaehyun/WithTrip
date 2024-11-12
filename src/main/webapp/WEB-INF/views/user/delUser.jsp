@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,6 +61,7 @@ button:hover {
 	<form action="/user/delUser" method="post" id="delUser">
 		<legend>회원 탈퇴</legend>
 		<input type="hidden" name="userNo" value="${loginUser.userNo}">
+		<c:if test="${not empty loginUser.userPw}">
 	    <table>
 	        <tr>
 	            <td>아이디</td>
@@ -76,6 +78,21 @@ button:hover {
 	            </td>
 	        </tr>
 	    </table>
+	    </c:if>
+	    <c:otherwise>
+	    	<table>
+	        <tr>
+	            <td>이메일</td>
+	            <td><input type="text" class="input-error" value="${loginUser.userEmail}" readonly></td>
+	        </tr>
+	        <tr>
+	            <td colspan="2" style="text-align: center;">
+	                <button onclick="delApiUserBtn()">회원탈퇴</button>
+	                <button onclick="cancelBtn()">취소</button>
+	            </td>
+	        </tr>
+	    </table>
+	    </c:otherwise>
 	</form><!-- 탈퇴버튼 클릭시 조건이 성립하면 delUserServlet으로 이동해서 회원탈퇴 진행 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	
@@ -91,6 +108,33 @@ button:hover {
 				msg('알림', '비밀번호가 일치하지 않습니다', 'warning');
 				return;
 			}
+		}
+		
+		//API로그인 유저 회원탈퇴
+		function delApiUserBtn() {
+			swal({
+				title : "알림",
+				text : "정말 회원을 탈퇴하시겠습니까?",
+				icon : "error",
+				buttons : {
+					cancel : {
+						text : "취소",
+						value : false,
+						visible : true,
+						closeModal : true
+					},
+					confirm : {
+						text : "탈퇴",
+						value : true,
+						visible : true,
+						closeModal : true
+					}
+				}
+			}).then(function(isConfirm){
+				if(isConfirm){
+					$('#delUser').submit();
+				}
+			});
 		}
 		
 		//회원 삭제 윈도우 창 나가기

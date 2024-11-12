@@ -41,12 +41,17 @@ public class NaverLoginFrmServlet extends HttpServlet {
 		System.out.println(state);
 		NaverLoginService service = new NaverLoginService();
 		UserNaver n = service.createToken(code, state);
-		System.out.println(n);
 		    
 		if(n != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", n);
+			//request.getRequestDispatcher("/").forward(request, response);
+		}
+		
+		if(n.getUserId() != null) {
 			request.getRequestDispatcher("/").forward(request, response);
+		}else {
+			request.getRequestDispatcher("/WEB-INF/views/user/addNaverInfo.jsp").forward(request, response);
 		}
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/user/login.jsp");
 		view.forward(request, response);

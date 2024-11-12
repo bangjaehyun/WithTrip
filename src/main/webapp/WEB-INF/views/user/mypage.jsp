@@ -25,7 +25,7 @@
     	<div class="mypage-content">
     			<h2>회원정보수정</h2>
 
-	        <form action="/user/updateInfo" method="post">
+	        <form action="/user/updateInfo" method="post" id="updInfo">
 	        	<table>
 	        		<tr>
 		            	<td>회원번호</td>
@@ -65,7 +65,7 @@
 		            </table>
 		            <div class="button-group">
 		            	<button type="button" onclick="window.location.reload()">취소</button>
-		            	<button onclick="submit">수정</button>
+		            	<button onclick="updInfoBtn()">수정</button>
 		            </div>
 		        </form>
 		    </div>
@@ -129,7 +129,31 @@
     			});   			
     	});
     	
-    	
+    	function updInfoBtn(){
+    		swal({
+				title : "알림",
+				text : "개인정보를 수정하시겠습니까?",
+				icon : "error",
+				buttons : {
+					cancel : {
+						text : "취소",
+						value : false,
+						visible : true,
+						closeModal : true
+					},
+					confirm : {
+						text : "변경",
+						value : true,
+						visible : true,
+						closeModal : true
+					}
+				}
+			}).then(function(isConfirm){
+				if(isConfirm){
+					$('#updInfo').submit();
+				}
+			});
+		}
     </script>
 </body>
 </html>

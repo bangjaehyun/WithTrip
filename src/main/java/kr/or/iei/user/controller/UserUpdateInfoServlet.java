@@ -10,6 +10,9 @@ import javax.servlet.http.HttpSession;
 
 import kr.or.iei.user.model.service.UserService;
 import kr.or.iei.user.model.vo.User;
+import kr.or.iei.user.model.vo.UserKakao;
+import kr.or.iei.user.model.vo.UserNaver;
+import kr.or.iei.user.model.vo.UserSite;
 
 /**
  * Servlet implementation class UserUpdateInfoServlet
@@ -33,25 +36,18 @@ public class UserUpdateInfoServlet extends HttpServlet {
 		String userNo = request.getParameter("userNo");
 		String updNickname = request.getParameter("userNickName");
 		String updUserPhone = request.getParameter("userPhone");
-		
-		User updUser = new User();
-		updUser.setUserNickname(updNickname);
-		updUser.setUserPhone(updUserPhone);
+		String userType = request.getParameter("userType");
+		int type = Integer.parseInt(userType);
 		
 		UserService service = new UserService();
-		int result = service.updateUserInfo(userNo, updNickname, updUserPhone);
+		int result = service.updateUserInfo(userNo, updNickname, updUserPhone, type);
 		
 		if(result > 0) {
 			request.setAttribute("title", "알림");
 			request.setAttribute("text", "회원정보 수정이 완료되었습니다");
 			request.setAttribute("icon", "success");
-			request.setAttribute("loc", "/user/mypage");
+			request.setAttribute("callback", "window.location.reload();");
 			
-			//로그인중인 회원 닉네임, 전화번호 변경
-			HttpSession session = request.getSession(false);
-			User sessionUser = (User) session.getAttribute("loginUser");
-			sessionUser.setUserNickname(updNickname);
-			sessionUser.setUserPhone(updUserPhone);
 		}else {
 			request.setAttribute("title", "알림");
 			request.setAttribute("text", "회원정보 수정 중 오류가 발생했습니다");
