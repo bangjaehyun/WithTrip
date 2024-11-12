@@ -32,7 +32,6 @@ public class AdminCmtAllSelDelServlet extends HttpServlet {
 		String commentIdArr = request.getParameter("commentIdArr");
 		AdminService service = new AdminService();
 		int result = service.allCmtSelDel(commentIdArr);
-		System.out.println(result);
 		response.getWriter().print(result);
 	}
 

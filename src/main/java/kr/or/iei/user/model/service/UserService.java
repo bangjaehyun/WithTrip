@@ -1,19 +1,27 @@
 package kr.or.iei.user.model.service;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import kr.or.iei.common.JDBCTemplate;
+import kr.or.iei.common.model.vo.PageData;
+import kr.or.iei.common.service.CommonService;
+import kr.or.iei.common.vo.Pagination;
+import kr.or.iei.post.model.vo.Post;
 import kr.or.iei.user.model.dao.UserDao;
 import kr.or.iei.user.model.vo.User;
 import kr.or.iei.user.model.vo.UserSite;
 
 public class UserService {
 	UserDao dao;
+	CommonService commonServ;
 
 	public UserService(){
 		dao = new UserDao();
+		commonServ = new CommonService();
 	}
 	
 	public int deleteUser(String userNo) {
@@ -82,7 +90,44 @@ public class UserService {
 		JDBCTemplate.close(conn);
 		return user;
 	}
+	public ArrayList<Post> selMyPosts(String postTypeId,int reqPg, int pgSize) {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Post> list  = dao.selectAllPostsList(postTypeId, reqPg, pgSize, conn);
+		JDBCTemplate.close(conn);
+		return list;
+	}
+	
+	public PageData pageList(Pagination pageInfo) {
+		int totCnt = commonServ.totalPostCnt(pageInfo.getPstTypeId());
+		pageInfo.setTotCnt(totCnt);
+		PageData pd = commonServ.Pagination(pageInfo);
+		return pd;
+	}
 
+	public int allPostSelDel(String postIdArr) {
+		Connection conn = JDBCTemplate.getConnection();
+		StringTokenizer st = new StringTokenizer(postIdArr, "/");
+		boolean rsltChk = true;
+		while (st.hasMoreTokens()) {
+			String postId = st.nextToken();
+			int result = dao.allPostSelDel(conn, postId);
+			if (result < 1) {
+				rsltChk = false;
+				break;
+			}
+		}
+		if (rsltChk) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		if (rsltChk) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 	public int updateUserInfo(String userNo, String updNickname, String updUserPhone, int type) {
 		Connection conn = JDBCTemplate.getConnection();
 		int result1 = dao.updateUserPhone(conn, userNo, updUserPhone, type);		
