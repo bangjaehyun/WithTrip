@@ -26,10 +26,11 @@
     			<h2>회원정보수정</h2>
 
 	        <form action="/user/updateInfo" method="post" id="updInfo">
+	        <input type="hidden" value="${loginUser.userType}" name="userType">
 	        	<table>
 	        		<tr>
 		            	<td>회원번호</td>
-		            	<td><input type="text" value="${loginUser.userNo}" readonly></td>
+		            	<td><input type="text" value="${loginUser.userNo}" name="userNo" readonly></td>
 		            </tr>
 		            <tr>
 		            	<td>아이디</td>
@@ -51,18 +52,18 @@
 		            	<td>닉네임</td>
 			            <td>
 				            <div class="nickname-group">
-					            <input type="text" value="${loginUser.userNickname}" id="userNickname">
+					            <input type="text" value="${loginUser.userNickname}" id="userNickname" name="userNickname">
 					            <button type="button" class="check-button" id="nicknameChk">중복체크</button>
 				            </div>
 			            </td>
 		            </tr>
 		            <tr>
 		            	<td>이메일</td>
-		            	<td><input type="text" value="${loginUser.userEmail}" readonly></td>
+		            	<td><input type="text" value="${loginUser.userEmail}" name="userEmail" readonly></td>
 		            </tr>
 		            <tr>
 		            	<td>전화번호</td>
-		            	<td><input type="text" value="${loginUser.userPhone}"></td>
+		            	<td><input type="text" value="${loginUser.userPhone}" name="userPhone"></td>
 		            </tr>
 		            </table>
 		            <div class="button-group">
@@ -101,7 +102,6 @@
     	const checkInfo = {
     			"userNickname" : false,
     			"userNicknameChk" : false,
-    			"userPw" : false
     	}
     	
     	const regExp =  /^[a-z가-힣0-9]{2,8}$/;
@@ -112,6 +112,8 @@
     		if(!regExp.test(nicknameValue)){
     			msg('알림', '영문 소문자, 한글, 숫자 포함 2~8글자로 입력해주세요', 'error');
     			return;
+    		}else{
+    			checkInfo.userNickname = true;
     		}
     			$.ajax({
     				url : "/chkNickname",

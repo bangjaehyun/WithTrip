@@ -34,13 +34,18 @@ public class UserUpdateInfoServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userNo = request.getParameter("userNo");
-		String updNickname = request.getParameter("userNickName");
+		String updNickname = request.getParameter("userNickname");
 		String updUserPhone = request.getParameter("userPhone");
 		String userType = request.getParameter("userType");
 		int type = Integer.parseInt(userType);
 		
 		UserService service = new UserService();
 		int result = service.updateUserInfo(userNo, updNickname, updUserPhone, type);
+		
+		System.out.println("userNo: " + userNo);
+		System.out.println("userNickName: " + updNickname);
+		System.out.println("userPhone: " + updUserPhone);
+		System.out.println("userType: " + userType);
 		
 		if(result > 0) {
 			request.setAttribute("title", "알림");
