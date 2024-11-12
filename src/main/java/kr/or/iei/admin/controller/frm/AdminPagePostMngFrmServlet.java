@@ -77,7 +77,7 @@ public class AdminPagePostMngFrmServlet extends HttpServlet {
 		request.setAttribute("pstTypeName", pstTypeName);
 		request.setAttribute("pgList", pd.getList());
 		request.setAttribute("pageNavi", pd.getPageNavi());
-		request.getRequestDispatcher("/WEB-INF/views/admin/adminNtcMng.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/admin/adminPostMng.jsp").forward(request, response);
 		
 		/*안쓸지도...?
 		switch(pstTypeId) {
