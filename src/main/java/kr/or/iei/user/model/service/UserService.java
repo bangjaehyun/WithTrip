@@ -101,6 +101,7 @@ public class UserService {
 	
 	//이메일로 아이디 찾기
 	public String srchInfoId(String userEmail) {
+		Connection conn = JDBCTemplate.getConnection();
 		
 		return null;
 	}
