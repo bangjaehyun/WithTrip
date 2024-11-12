@@ -21,4 +21,7 @@ public class Post {
 	private String postTypeId;
 	
 	private User user;
+	
+	private String userType;
+	private String userNickName;
 }

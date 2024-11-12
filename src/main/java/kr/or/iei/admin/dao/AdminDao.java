@@ -54,15 +54,15 @@ public class AdminDao {
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
 				Post pst = new Post();
-				pst.setPostNo(rset.getString("Post_id"));
+				pst.setPostNo(rset.getString("Post_no"));
 				pst.setUserNo(rset.getString("user_no"));
 				pst.setPostTypeId(rset.getString("Post_type_id"));
 				pst.setPostDate(rset.getString("Post_date"));
 				pst.setPostTitle(rset.getString("Post_title"));
 				pst.setPostContent(rset.getString("Post_content"));
 				//
-//TODO.				pst.setUserType(rset.getInt("user_type"));
-//				pst.setUserNickname(rset.getString("user_nickname"));
+				pst.setUserType(rset.getString("user_type"));
+				pst.setUserNickName(rset.getString("user_nickname"));
 				list.add(pst);
 			}
 		} catch (SQLException e) {
@@ -110,7 +110,7 @@ public class AdminDao {
 	public int allPostSelDel(Connection conn, String PostId) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "delete from tbl_Post where Post_id = ?";
+		String query = "delete from tbl_Post where Post_no = ?";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
@@ -139,37 +139,70 @@ public class AdminDao {
 		}
 		return result;
 	}
-
-	public ArrayList<Post> selectPostList(Connection conn, String postTp, int reqPg, int pgSize) {
+	public ArrayList<Post> selectPostList(Connection conn, String postTypeId, int reqPg, int pgSize) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int endPg = reqPg * pgSize; // 끝 페이지  
 		int startPg = endPg-pgSize+1; // 시작 페이지  
 		ArrayList<Post> list = new ArrayList<Post>();
-		String query = "select * from (select rownum as rnum, a.* from (select a.* from tbl_Post a where Post_type_id = ? order by Post_date desc) a) where rnum between ? and ?";
+		String query = "select * from (select rownum as rnum, a.* from (select * from tbl_Post a join tbl_user b on(a.user_no = b.user_no)where Post_type_id = ? order by Post_date desc) a) where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			//PostTypeId : 게시 코드 : 1.공지사항 2.QnA...
-			pstmt.setString(1, postTp);
+			pstmt.setString(1, postTypeId);
 			pstmt.setInt(2, startPg);
 			pstmt.setInt(3, endPg);
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
-				Post n = new Post();
-				n.setPostNo(rset.getString("Post_no"));
-				n.setUserNo(rset.getString("user_no"));
-				n.setPostTypeId(rset.getString("Post_type_id"));
-				n.setPostDate(rset.getString("Post_date"));
-				n.setPostTitle(rset.getString("Post_title"));
-				n.setPostContent(rset.getString("Post_content"));
+				Post pst = new Post();
+				pst.setPostNo(rset.getString("Post_no"));
+				pst.setUserNo(rset.getString("user_no"));
+				pst.setPostTypeId(rset.getString("Post_type_id"));
+				pst.setPostDate(rset.getString("Post_date"));
+				pst.setPostTitle(rset.getString("Post_title"));
+				pst.setPostContent(rset.getString("Post_content"));
 				
+				pst.setUserNickName(rset.getString("user_nickname"));
+				pst.setUserType(rset.getString("user_type"));
+				list.add(pst);
+			}
 				
-				list.add(n);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
+	public ArrayList<Comment> selectCommentList(Connection conn, String commentTp, int reqPg, int pgSize) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int endPg = reqPg * pgSize; // 끝 페이지  
+		int startPg = endPg-pgSize+1; // 시작 페이지  
+		ArrayList<Comment> list = new ArrayList<Comment>();
+		String query = "select * from (select rownum as rnum, a.* from (select a.* from tbl_comment a where Post_type_id = ? order by Post_date desc) a) where rnum between ? and ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			//PostTypeId : 게시 코드 : 1.공지사항 2.QnA...
+			pstmt.setString(1, commentTp);
+			pstmt.setInt(2, startPg);
+			pstmt.setInt(3, endPg);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Comment cmt = new Comment();
+				cmt.setCommentId(rset.getString("comment_id"));
+				cmt.setUserNo(rset.getString("user_no"));
+				cmt.setCommentVal(rset.getString("comment_val"));
+				cmt.setCommentDate(rset.getString("comment_date"));
+				cmt.setCommentLike(rset.getInt("comment_like"));//변경예정?
+				cmt.setCommentDislike(rset.getInt("comment_dislike"));//변경예정?
+				
+				list.add(cmt);
 				
 			}
 				
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			JDBCTemplate.close(rset);

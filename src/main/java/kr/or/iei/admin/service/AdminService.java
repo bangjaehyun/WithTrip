@@ -9,6 +9,7 @@ import kr.or.iei.comment.vo.Comment;
 import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.common.model.vo.PageData;
 import kr.or.iei.common.service.CommonService;
+import kr.or.iei.common.vo.Pagination;
 import kr.or.iei.post.model.vo.Post;
 
 public class AdminService {
@@ -18,13 +19,25 @@ public class AdminService {
 		dao = new AdminDao();
 		commnServ = new CommonService();
 	}
-	public PageData pageList(String postTypeId, String postTypeNm, int reqPg, int pgSize) {
+	public ArrayList<Post> selectPostList(String postTypeId, int reqPg, int pgSize){
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Post> nList = dao.selectPostList(conn, postTypeId, reqPg, pgSize);
+		ArrayList<Post> pList = dao.selectPostList(conn, postTypeId, reqPg, pgSize);
 		JDBCTemplate.close(conn);
-		PageData pd = commnServ.Pagination(postTypeId, postTypeNm, reqPg, pgSize, nList);
+		return pList;
+	}
+	public ArrayList<Comment> selectCommentList(String postTypeId, String postTypeNm, int reqPg, int pgSize){
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Comment> cList = dao.selectCommentList(conn, postTypeId, reqPg, pgSize);
+		JDBCTemplate.close(conn);
+		return cList;
+	}
+	public PageData pageList(Pagination pageInfo) {
+		int totCnt = commnServ.totalPostCnt(pageInfo.getPstTypeId());
+		pageInfo.setTotCnt(totCnt);
+		PageData pd = commnServ.Pagination(pageInfo);
 		return pd;
 	}
+	
 	public ArrayList<Comment> selectAllCommentsList() {
 		Connection conn = JDBCTemplate.getConnection();
 		ArrayList<Comment> cmtlist = dao.selectAllCommentsList(conn);
@@ -35,8 +48,7 @@ public class AdminService {
 
 	public ArrayList<Post> selectAllPostsList(String i) {
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Post> list = null;
-		list = dao.selectAllPostsList(i, conn);
+		ArrayList<Post> list  = dao.selectAllPostsList(i, conn);
 		JDBCTemplate.close(conn);
 		return list;
 

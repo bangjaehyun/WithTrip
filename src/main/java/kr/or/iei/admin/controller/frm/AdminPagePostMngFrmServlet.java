@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.or.iei.admin.service.AdminService;
+import kr.or.iei.common.model.vo.PageData;
+import kr.or.iei.common.vo.Pagination;
 import kr.or.iei.post.model.vo.Post;
-import kr.or.iei.post.model.vo.PostType;
 
 /**
  * Servlet implementation class AdminPageFrm
@@ -27,7 +28,6 @@ public class AdminPagePostMngFrmServlet extends HttpServlet {
      */
     public AdminPagePostMngFrmServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -35,6 +35,8 @@ public class AdminPagePostMngFrmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//공지사항 관리 서블릿
+		
+		//로그인 후 해당 페이지 접속시 세션값==관리자 확인
 //		HttpSession session = request.getSession(false);
 //		if (session != null) {
 //			User loginUser = (User)session.getAttribute("userNo");
@@ -50,34 +52,74 @@ public class AdminPagePostMngFrmServlet extends HttpServlet {
 //
 //			}
 //		}
+		String mapAddr = "/admin/adminFrm";
+		String pstTypeId = request.getParameter("postTypeId");
+		String pstTypeName = request.getParameter("postTypeName");
+		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
+		int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+		int totCnt = 0;
 		AdminService adService = new AdminService();
-		String ntcTp = request.getParameter("ntcTp");
-		ArrayList<Post> ntcList = new ArrayList<Post>();
-		PostType ntcType = new PostType();
-		switch(ntcTp) {
+		
+		//게시글 리스트 메소드
+		
+		//게시글 갯수..초기값
+	
+		
+		
+		ArrayList<Post> pgList = adService.selectPostList(pstTypeId, reqPage, pageSize);
+		
+		Pagination pageInfo = new Pagination(mapAddr, pstTypeId, pstTypeName, reqPage, pageSize, pgList, totCnt);
+		
+		PageData pd = new PageData();
+		pd= adService.pageList(pageInfo);
+		//게시글 페이징 메소드
+		//페이징
+		request.setAttribute("pstTypeName", pstTypeName);
+		request.setAttribute("pgList", pd.getList());
+		request.setAttribute("pageNavi", pd.getPageNavi());
+		request.getRequestDispatcher("/WEB-INF/views/admin/adminNtcMng.jsp").forward(request, response);
+		
+		/*안쓸지도...?
+		switch(pstTypeId) {
 		case "1":
-			ntcList = adService.selectAllPostsList("1");
-			request.setAttribute("ntcList", ntcList);
-			request.setAttribute("ntcType", ntcType);
+			//게시글 페이징 메소드
+			pgList = adService.selectPostList(pstTypeId, reqPage, pageSize);
+			pd= adService.pageList(mapAddr, pstTypeId, "공지사항", reqPage, pageSize, pgList);
+			//게시글 페이징 메소드
+			//페이징
+			request.setAttribute("pgList", pd.getList());
+			request.setAttribute("pageNavi", pd.getPageNavi());
 			request.getRequestDispatcher("/WEB-INF/views/admin/adminNtcMng.jsp").forward(request, response);
 			break;
+		
 		case "2":
-			ntcList = adService.selectAllPostsList("2");
-			request.setAttribute("ntcList", ntcList);
-			request.setAttribute("ntcType", ntcType);
-			request.getRequestDispatcher("/WEB-INF/views/admin/adminQnaMng.jsp").forward(request, response);
-			break;
-		case "3":
-			ntcList = adService.selectAllPostsList("3");
-			request.setAttribute("ntcList", ntcList);
-			request.setAttribute("ntcType", ntcType);
+			pgList = adService.selectPostList(pstTypeId, reqPage, pageSize);
+			pd= adService.pageList(mapAddr, pstTypeId, "게시글", reqPage, pageSize,pgList);
+			
+			request.setAttribute("pgList", pd.getList());
+			request.setAttribute("pageNavi", pd.getPageNavi());
 			request.getRequestDispatcher("/WEB-INF/views/admin/adminPstMng.jsp").forward(request, response);
 			break;
-		case "4":
-			ntcList = adService.selectAllPostsList("4");
-			request.setAttribute("ntcList", ntcList);
-			request.setAttribute("ntcType", ntcType);
+		case "3":
+			pgList = adService.selectPostList(pstTypeId, reqPage, pageSize);
+			pd= adService.pageList(mapAddr, pstTypeId, "파트너", reqPage, pageSize, pgList);
+			request.setAttribute("pgList", pd.getList());
+			request.setAttribute("pageNavi", pd.getPageNavi());
 			request.getRequestDispatcher("/WEB-INF/views/admin/adminPtnMng.jsp").forward(request, response);
+			break;
+		case "4":
+			pgList = adService.selectPostList(pstTypeId, reqPage, pageSize);
+			pd= adService.pageList(mapAddr, pstTypeId, "QnA", reqPage, pageSize, pgList);
+			request.setAttribute("pgList", pd.getList());
+			request.setAttribute("pageNavi", pd.getPageNavi());
+			request.getRequestDispatcher("/WEB-INF/views/admin/adminQnaMng.jsp").forward(request, response);
+			break;
+		case "5":
+			pgList = adService.selectPostList(pstTypeId, reqPage, pageSize);
+			pd= adService.pageList(mapAddr, pstTypeId, "사이트이용안내", reqPage, pageSize, pgList);
+			request.setAttribute("pgList", pd.getList());
+			request.setAttribute("pageNavi", pd.getPageNavi());
+			request.getRequestDispatcher("/WEB-INF/views/admin/adminUsrManual.jsp").forward(request, response);
 			break;
 		default:
 			break;
@@ -89,14 +131,13 @@ public class AdminPagePostMngFrmServlet extends HttpServlet {
 		//ArrayList 반환
 		
 		//주소로...
-		
+		*/
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

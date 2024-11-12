@@ -4,9 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import kr.or.iei.common.JDBCTemplate;
-
+import kr.or.iei.post.model.vo.Post;
 import kr.or.iei.user.model.vo.UserSite;
 
 public class UserDao {
@@ -165,7 +166,58 @@ public class UserDao {
 		
 		return u;
 	}
+	public ArrayList<Post> selectAllPostsList(String postTypeId,int reqPg, int pgSize, Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int endPg = reqPg * pgSize; // 끝 페이지  
+		int startPg = endPg-pgSize+1; // 시작 페이지  
+		ArrayList<Post> list = new ArrayList<Post>();
+		String query = "";
+			query = "select * from (select rownum as rnum, a.* from (select * from tbl_Post a join tbl_user b on(a.user_no = b.user_no)where Post_type_id = ? order by Post_date desc) a) where rnum between ? and ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, postTypeId);
+			pstmt.setInt(2, startPg);
+			pstmt.setInt(3, endPg);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Post pst = new Post();
+				pst.setPostNo(rset.getString("Post_no"));
+				pst.setUserNo(rset.getString("user_no"));
+				pst.setPostTypeId(rset.getString("Post_type_id"));
+				pst.setPostDate(rset.getString("Post_date"));
+				pst.setPostTitle(rset.getString("Post_title"));
+				pst.setPostContent(rset.getString("Post_content"));
+				//
+				pst.setUserType(rset.getString("user_type"));
+				pst.setUserNickName(rset.getString("user_nickname"));
+				list.add(pst);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
 
+	public int allPostSelDel(Connection conn, String postId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from tbl_Post where post_no = ?";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, postId);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
 	public int updateUserPhone(Connection conn, String userNo, String updUserPhone, int type) {
 		PreparedStatement pstmt = null;
 		int result = 0;

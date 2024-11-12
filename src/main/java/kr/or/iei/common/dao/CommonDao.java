@@ -13,11 +13,33 @@ public class CommonDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String query = "select count(*) cnt from tbl_notice where notice_cd = ?";
+		String query = "select count(*) cnt from tbl_post where post_type_id = ?";
 		int totCnt = 0;
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, postTp);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				totCnt = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return totCnt;
+	}
+
+	public int selectCmntCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String query = "select count(*) cnt from tbl_comment";
+		int totCnt = 0;
+		try {
+			pstmt = conn.prepareStatement(query);
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
 				totCnt = rset.getInt("cnt");
