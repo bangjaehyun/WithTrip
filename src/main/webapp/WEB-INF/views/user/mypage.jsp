@@ -73,7 +73,7 @@
 		    </div>
 	    </div>
     <script>  
-    	console.log(loginUser);
+
     	//비밀번호 변경 팝업
     	function pwChgBtn(){
     		let popupWidth = 600;

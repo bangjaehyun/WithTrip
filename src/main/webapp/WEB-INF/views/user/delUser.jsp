@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Delete User</title>
 <style>
 body {
     font-family: Arial, sans-serif;
@@ -62,7 +62,7 @@ button:hover {
 		<h3>회원 탈퇴</h3>
 		<input type="hidden" name="userNo" value="${loginUser.userNo}">
 		<c:choose>
-		<c:when test="${not empty loginUser.userPw}">
+		<c:when test="${loginUser.userType} eq 5">
 	    <table>
 	        <tr>
 	            <td>아이디</td>
