@@ -14,11 +14,11 @@ public class UserDao {
 	public int deleteUser(Connection conn, String userNo) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "delete from tbl_user where user_no = ? cascade";
+		String query = "delete from tbl_user where user_no = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, "userNo");
+			pstmt.setString(1, userNo);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

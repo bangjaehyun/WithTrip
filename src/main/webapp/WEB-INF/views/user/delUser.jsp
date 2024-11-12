@@ -59,9 +59,10 @@ button:hover {
 <body>
 	<jsp:include page="/WEB-INF/views/common/myPageHeader.jsp" />
 	<form action="/user/delUser" method="post" id="delUser">
-		<legend>회원 탈퇴</legend>
+		<h3>회원 탈퇴</h3>
 		<input type="hidden" name="userNo" value="${loginUser.userNo}">
-		<c:if test="${not empty loginUser.userPw}">
+		<c:choose>
+		<c:when test="${not empty loginUser.userPw}">
 	    <table>
 	        <tr>
 	            <td>아이디</td>
@@ -78,7 +79,7 @@ button:hover {
 	            </td>
 	        </tr>
 	    </table>
-	    </c:if>
+	    </c:when>
 	    <c:otherwise>
 	    	<table>
 	        <tr>
@@ -93,6 +94,7 @@ button:hover {
 	        </tr>
 	    </table>
 	    </c:otherwise>
+	    </c:choose>
 	</form><!-- 탈퇴버튼 클릭시 조건이 성립하면 delUserServlet으로 이동해서 회원탈퇴 진행 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	
@@ -100,8 +102,8 @@ button:hover {
 		//회원 삭제 버튼
 		function delUserBtn(){
 			let pwChk = $('#pwChk');
-			//let userPw = '${loginUser.userPw}'; <- 로그인 전에 쓰면 오류생겨서 막아놨어요
-			
+			let userPw = ${loginUser.userPw};// <- 로그인 전에 쓰면 오류생겨서 막아놨어요
+			console.log(userPw);
 			if(pwChk.val() == userPw){
 				$('#delUser').submit();
 			}else{
