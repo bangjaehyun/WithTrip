@@ -59,7 +59,7 @@ public class UserLoginServlet extends HttpServlet {
 		
 		response.sendRedirect("/");
 		
-		}else {
+		} else {
 			//null일때 == 입력한 아이디 비번 일치하는회원이 없을 때 == 로그인 실패
 			request.setAttribute("title", "알림");
 			request.setAttribute("msg","아이디 또는 비밀번호를 확인하세요.");

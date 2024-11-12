@@ -31,25 +31,43 @@
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 <style>
-/* 전체 레이아웃을 중앙 정렬 */
-.wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20px;
-    height: 100%;
-    background-color: #f5f5f5;
-    position: relative;
-    left:450px;
+
+#loginfm{
+position: relative;
+top : 30px;
 }
 
-.login-container {
-    width: 350px;
-    padding: 50px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+div.wrap{
+background-color:  #efefef;
+}
+
+.section.login-wrap{
+width:458px;
+position: relative;
+height: 600px;
+border-radius: 15px;
+border: 1px solid #d6d6d6;
+top:80px;
+}
+
+.login-wrap {
+width: 50%;
+
+
+}
+
+.login-container{
+	width: 500px;
+	max-width: 1400px;
+    margin: 40px auto;
+    flex: 1;
+    
+    border-radius: 15px;
+    text-align : center;
+    position : relative;
+    top : 20px;
+    
+    
 }
 
 /* 제목 스타일 */
@@ -58,27 +76,41 @@
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
+    width: 380px;
     color: #333;
+    position : relative;
+    top : 40px;
 }
 
 /* 입력 폼 스타일 */
 .input-wrap {
     margin-bottom: 15px;
-}
-
-.input-title label {
-    font-size: 14px;
-    color: #555;
+    width: 450px;
+    padding:10px;
+    font-size: 16px;
+    
 }
 
 .input-item input {
-    width: 100%;
+    width: 50%;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #d6d6d6;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 15px;
     color: #333;
     box-sizing: border-box;
+}
+
+#loginId {
+	width: 350px;
+	
+	border: 1px solid #d6d6d6;
+}
+
+#loginPw {
+	width:350px;
+	
+	border: 1px solid #d6d6d6;
 }
 
 /* 로그인 버튼 스타일 */
@@ -87,20 +119,20 @@
     margin-top: 15px;
 }
 
-.btn-primary {
-    width: 100%;
+/* 로그인 버튼  */
+.btn-primarylg {
+    width: 360px;
     padding: 10px;
-    background-color: #e0e0e0;
-    border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     font-size: 16px;
-    color: #333;
-    cursor: pointer;
+    color: white;
+    background-color : #004ca1;
 }
 
-.btn-primary:hover {
-    background-color: #d0d0d0;
-}
+.btn-primarylg:hover {
+background-color :  #90cbfb;
+} 
+
 
 /* 아이디 저장 체크박스 스타일 */
 .input-wrap input[type="checkbox"] {
@@ -117,12 +149,14 @@
     text-align: center;
     margin-top: 15px;
     font-size: 14px;
+    width:450px;
 }
 
 .user-link-box a {
     color: #555;
     text-decoration: none;
     margin: 0 5px;
+    
 }
 
 .user-link-box a:hover {
@@ -133,6 +167,7 @@
 .social-login {
     text-align: center;
     margin-top: 20px;
+    width:450px;
 }
 
 .social-login h6 {
@@ -159,21 +194,22 @@
     border-radius: 50%;
 }
 
+
+
 </style>
 </head>
 <body>
 	<jsp:include page ="/WEB-INF/views/common/header.jsp" />
 	<div class="wrap">
-        <main class="content login-container">
+        <main class="login-container">
             <section class="section login-wrap">
                 <div class="page-title">로그인</div>
-                <form action="/user/login" method="post" autocomplete="off" onsubmit="return loginValidate()">
+                <form action="/user/login" method="post" id="loginfm" autocomplete="off" onsubmit="return loginValidate()">
                 <div class="input-wrap">
                     <div class="input-title">
                         <label for="loginId">아이디</label>
                     </div>
                     <div class="input-item">
-                    
                         <input type="text" id="loginId" name="loginId" value="${cookie.saveId.value}">
                     </div>
                 </div>
@@ -196,7 +232,7 @@
                 </div>
                                 
                 <div class="login-button-box">
-                    <button type="submit" class="btn-primary lg" onclick="loginBtn()"> 로그인</button>
+                    <button type="submit" class="btn-primarylg" onclick="loginBtn()"> 로그인</button>
                 </div>
                 <div class="user-link-box">
                     <a href="/user/joinFrm">회원가입</a> |
@@ -216,6 +252,11 @@
                         </a>
                     </div>
                 </div>
+                </form>
+		</section>
+	</main>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+</div>          
 <script>
 	function kakaoLoginBtn(){
 		let popupWidth = 500;
@@ -249,7 +290,9 @@
 	    };
 	};
 
-	// 로그인 버튼 클릭 시 호출되는 함수
+	
+	/*
+	로그인 버튼 클릭 시 호출되는 함수
 	
 		function loginBtn() {
 	    const loginId = document.getElementById('loginId').value;
@@ -268,6 +311,7 @@
 	    
 	    $('form').submit();
 	}
+	*/
 
 	/*
 	// 카카오 로그인 버튼 클릭 시 호출되는 함수 (추가적인 구현 필요)
@@ -277,9 +321,5 @@
 	*/
 	
 </script>
-</form>
-</section>
-</main>
-</div>
 </body>
 </html>

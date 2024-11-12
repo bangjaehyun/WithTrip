@@ -1,10 +1,69 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="/resource/js/sweetalert.min.js"></script>
+<style>
+
+section.section {
+  padding: 20px;
+  border-radius: 10px; 
+  background-color: var(--gray8);
+}
+
+[class^="btn-"] { 
+  cursor: pointer; 
+  font-size: 14px;
+  padding: 9px 20px;
+  border: none;
+  border-radius: 5px;
+  font-family: ns-b;
+}
+
+.btn-primary {
+  border: 1px solid var(--main3);
+  background-color: var(--main3);
+  color: var(--gray8);
+}
+
+.btn-primary:hover {
+  background-color: rgba(101, 146, 254, 0.9);
+}
+
+[class^="btn-"].md {
+  padding: 7px 15px;
+  font-size: 14px;
+  border-radius: 20px;
+}
+
+.wrap {
+	min-width :  400px;
+	min-height :  300px;
+}
+.srch-Info-container {
+	display : flex;
+	align-items : center;
+}
+.srch-info-wrap {
+	width : 80%; 
+}
+.section {
+	width : 400px;
+	margin : 0 auto;
+}
+.btn-wrap {
+	display : flex;
+	align-itmes :  center;
+	justify-content : center;
+	gap : 10px;
+}
+
+</style>
 </head>
 <body>
 	<div class="wrap">
