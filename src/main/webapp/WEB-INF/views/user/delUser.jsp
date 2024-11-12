@@ -74,8 +74,8 @@ button:hover {
 	        </tr>
 	        <tr>
 	            <td colspan="2" style="text-align: center;">
-	                <button onclick="delUserBtn()">회원탈퇴</button>
-	                <button onclick="cancelBtn()">취소</button>
+	                <button type="button" onclick="delUserBtn()">회원탈퇴</button>
+	                <button type="button" onclick="cancelBtn()">취소</button>
 	            </td>
 	        </tr>
 	    </table>
@@ -88,8 +88,8 @@ button:hover {
 	        </tr>
 	        <tr>
 	            <td colspan="2" style="text-align: center;">
-	                <button onclick="delApiUserBtn()">회원탈퇴</button>
-	                <button onclick="cancelBtn()">취소</button>
+	                <button type="button" onclick="delApiUserBtn()">회원탈퇴</button>
+	                <button type="button" onclick="cancelBtn()">취소</button>
 	            </td>
 	        </tr>
 	    </table>
