@@ -168,24 +168,6 @@ select {
                     </span>
                     <span class="error_next_box"></span>
                 </div>
-                <!-- 비번 -->
-                <div>
-                    <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
-                    <span class="box int_pass">
-                        <input type="password" id="pswd1" class="int" maxlength="20"> <!-- type="password"으로 변경 -->
-                        <span id="alertTxt">사용불가</span>
-                    </span>
-                    <span class="error_next_box"></span>
-                </div>
-                <!-- 비번확인 -->
-                <div>
-                    <h3 class="join_title"><label for="pswd2">비밀번호 확인</label></h3>
-                    <span class="box int_pass_check">
-                        <input type="password" id="pswd2" class="int" maxlength="20"> <!-- type="password"으로 변경 -->
-                    </span>
-                    <span class="error_next_box"></span>
-                </div>
-                <!-- 닉네임 -->
                 <div>
                     <h3 class="join_title">
                         <label for="nickname">닉네임</label>

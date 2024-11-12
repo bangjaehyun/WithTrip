@@ -46,7 +46,7 @@ public class UserUpdateInfoServlet extends HttpServlet {
 			request.setAttribute("title", "알림");
 			request.setAttribute("text", "회원정보 수정이 완료되었습니다");
 			request.setAttribute("icon", "success");
-			request.setAttribute("callback", "window.location.reload();");
+			request.setAttribute("loc", "/user/mypage");
 			
 		}else {
 			request.setAttribute("title", "알림");

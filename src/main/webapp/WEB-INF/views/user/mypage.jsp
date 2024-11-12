@@ -35,12 +35,14 @@
 		            	<td>아이디</td>
 		            	<td><input type="text" value="${loginUser.userId}" readonly></td>
 		            </tr>
-		            <c:if test="${not empty loginUser.userPw}">
+		            <c:choose>
+    				<c:when test="${loginUser.userType} eq 5">
 			            <tr>
 			            	<td>비밀번호</td>
 			            	<td><button onclick="pwChgBtn()">비밀번호 변경</button></td>
 			            </tr>
-		            </c:if>
+		            </c:when>
+		            </c:choose>	
 		            <tr>
 		            	<td>이름</td>
 		            	<td><input type="text" value="${loginUser.userName}" readonly></td>
@@ -71,6 +73,7 @@
 		    </div>
 	    </div>
     <script>  
+    	console.log(loginUser);
     	//비밀번호 변경 팝업
     	function pwChgBtn(){
     		let popupWidth = 600;
