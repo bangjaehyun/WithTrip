@@ -98,4 +98,12 @@ public class UserService {
 		JDBCTemplate.close(conn);
 		return result;
 	}
+	
+	//이메일로 아이디 찾기
+	public String srchInfoId(String userEmail) {
+		
+		return null;
+	}
+
+	
 }

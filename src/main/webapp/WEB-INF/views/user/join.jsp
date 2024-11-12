@@ -371,7 +371,7 @@ function checkNickname(){
     }
 }
 
-/* 
+
 //아이디 중복 확인
 function checkIdDuplicate() {
     var xhr = new XMLHttpRequest();
@@ -403,19 +403,19 @@ function checkNicknameDuplicate() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             var response = JSON.parse(xhr.responseText);
             if (response.exists) {  // 중복 닉네임일 때
-                error[6].innerHTML = "이미 사용 중인 닉네임입니다.";
-                error[6].style.color = "red";
-                error[6].style.display = "block";
+                error[7].innerHTML = "이미 사용 중인 닉네임입니다.";
+                error[7].style.color = "red";
+                error[7].style.display = "block";
             } else {  // 사용 가능한 닉네임일 때
-                error[6].innerHTML = "사용 가능한 닉네임입니다.";
-                error[6].style.color = "green";
-                error[6].style.display = "block";
+                error[7].innerHTML = "사용 가능한 닉네임입니다.";
+                error[7].style.color = "green";
+                error[7].style.display = "block";
             }
         }
     };
     xhr.send(JSON.stringify({ nickname: nickname.value }));
 }
- */
+ 
  
 //가입하기 버튼 선택
  var joinBtn = document.querySelector('#btnJoin');
