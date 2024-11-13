@@ -9,8 +9,9 @@
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4ded6a823694c477130258746c1c95cf&libraries=services"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" href="/resources/css/map.css" />
-<link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
-<link rel="icon" href="/resources/images/withTrip_favicon.png"/>
+<link rel="apple-touch-icon"
+	href="/resources/images/withTrip_favicon.png" />
+<link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <style>
 .content {
 	positon: relative;
@@ -145,12 +146,20 @@
 	<script>
 		var ArrayList = [];
 		
+		  $(document).ready(function(){
+				  let mapList = window.opener.calMapList();
+				  if(mapList != null){
+				 	 for(let i = 0; i < mapList.length; i++){
+					  listAdd(mapList[i]);
+				  	}
+				  }
+	    });
+		
+		
+		
 		function listAdd(place) {
 			// ArrayList가 비어있지 않을 때
-			if(ArrayList.length != 0){
-				var set = new Set(ArrayList);
-				
-				if(set.has(place)){
+				if(ArrayList.filter((e) => { return e.id == place.id }).length > 0){
 					alert("중복 장소가 존재합니다.");
 				}else{
 					let Tag = getListItem(ArrayList.length, place);
@@ -160,21 +169,7 @@
 					$(Tag).append(buttonEl);
 					$("#likeList").append(Tag);
 					ArrayList.push(place);
-
-					set = new Set(ArrayList);
 				}
-			}else{
-			// ArrayList가 비어있을 때 (아무것도 등록하지 않았을 때)
-			let Tag = getListItem(ArrayList.length, place);
-			let buttonEl = '<button onclick="listRemove(this)">' + "삭제"
-					+ '</button>';
-			
-			$(Tag).append(buttonEl);
-			$("#likeList").append(Tag);
-			ArrayList.push(place);
-			
-			set = new Set(ArrayList);
-			}
 		}
 
 		function listRemove(obj) {
