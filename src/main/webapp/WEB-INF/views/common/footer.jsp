@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<style>
+
+@media screen and (max-width: 1300px) {
+  .pageBrife, .copyright>p {
+    display: none;
+  }
+} 
+</style>
     
 <footer class="footer">
 	<div class="copyright">

@@ -37,6 +37,18 @@
 		border-bottom: 3px solid var(--main2);
 	}
 	
+	#arrow_outward {
+		width: 17px;
+		height: 17px;
+	}
+	.siteNotice {
+		justify-content: center;
+		align-content: cetner;
+	}
+	.siteNotice > * {
+		font-size : 14px;
+	}
+	
 </style>
 </head>
 <body>
@@ -142,7 +154,7 @@
 			                </div>
 			            </div>
 			            <div class="siteIntro-txt">
-			                <h3>이달의 여행</h3>
+			                <h3>이달의 축제</h3>
 			                <p>매달 새로운 축제와 이벤트를 발견하고, 특별한 여행을 계획할 수 있습니다.</p>
 			                <p>오늘은 어떤 축제가 열리고 있을까요? 이번에는 어떤 이벤트에 참여해볼까요?</p>
 			            </div>
@@ -172,7 +184,7 @@
 			            </div>
 			               <div class="siteInfoCard">
 				               <div class="link-box">
-					               <a href="#" class="link-box-btn">바로가기
+					               <a href="#" class="link-box-btn">우리의 여행 바로가기
 		                           		<img src="/resources/images/arrow_outward_white.png" id="arrow_outward">
 		                           </a>			               
 				               </div>
@@ -184,7 +196,7 @@
 			            </div>
 			               <div class="siteInfoCard">
 				               <div class="link-box">
-					               <a href="/spot/mainMap" class="link-box-btn">바로가기
+					               <a href="/spot/mainMap" class="link-box-btn">MAP 바로가기
 		                           		<img src="/resources/images/arrow_outward_white.png" id="arrow_outward">
 		                           </a>			               
 				               </div>
@@ -207,9 +219,13 @@
 		                           </a>
 		                           <a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4" class="link-box-btn">Q&A 바로가기 
 		                           		<img src="/resources/images/arrow_outward_white.png" id="arrow_outward">
-		                           </a>
-		                                         
+		                           </a>          
 				               </div>
+			               </div>
+			               <div class="siteNotice">				               
+				               <p>withTrip의 대부분의 서비스는 회원가입이 필요하지 않지만</p>
+				               <p><b>우리의 여행</b>과 <b>1:1문의</b> 작성은 <b>회원가입 후 로그인을 하셔야 가능합니다.</b></p>
+				               <p>withTrip에 가입해보세요. 더 많은 여행이 한 걸음 더 가까워 질거에요!</p>
 			               </div>
    					</div>
 				</div>

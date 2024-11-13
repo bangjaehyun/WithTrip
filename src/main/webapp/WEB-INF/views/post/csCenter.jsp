@@ -17,8 +17,8 @@
 	.list-content {
 		height : 500px;
 		width : 1000px;
-		padding-right : 180px;
-		padding-left : 50px;
+		padding-right : 190px;
+		padding-left : 60px;
 	}
 	.list-header {
 		padding : 20px 0px;
@@ -65,9 +65,12 @@
 		align-content: center;
 		flex-wrap: wrap;
 	}
+	.cs-conTxt {
+		font-size : 13px;
+	}
 	.cs-conList {
 		display : flex;
-		height : 40px;
+		height : 38px;
 		width : 250px;
 		line-height : 25px;
 		background-color : var(--main2);
@@ -76,7 +79,7 @@
 		justify-content : center;
 		align-content: center;
 		justify-items:center;
-		margin-bottom : 10px;
+		margin-bottom : 5px;
 	}
 	.cs-conList:hover {
 		font-weight: bolder;
@@ -87,7 +90,7 @@
 	.cs-conList > p > a {	
 		color : var(--gray8);
 		padding-top : 5px;
-		font-size: 20px;
+		font-size: 17px;
 	}
 	.cs-content-header {
 		height : 200px;
@@ -98,9 +101,9 @@
 		margin-bottom : 60px;
 	}
 	#direct-arrow{
-		padding-top : 5px;
-		width: 28px;
-		height: 28px;
+		padding-top : 7px;
+		width: 25px;
+		height: 25px;
 	}
 </style>
 </head>
@@ -166,22 +169,17 @@
 							<div class="cs-conList">
 								<p><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항 바로가기</a></p>
 								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
-							</div>
+							</div>				
 							<div class="cs-conList">
 								<p><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4">Q&A 바로가기</a></p>
 								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
-								<c:choose>
-								<c:when test="${empty sessionScope.loginMember}">
-												
-								</c:when>
-								<c:otherwise>
-									
-								</c:otherwise>
-								</c:choose>					
 							</div>
 							<div class="cs-conList">
 								<p><a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3">자주 묻는 질문 바로가기</a></p>
 								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
+							</div>
+							<div class="cs-conTxt">
+								<p>1:1문의 작성은 로그인을 하셔야 가능합니다. </p>
 							</div>
 						</div>					
 					</div>						

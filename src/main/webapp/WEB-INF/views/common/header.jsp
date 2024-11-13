@@ -8,6 +8,13 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="/resources/js/sweetalert.min.js"></script>
 
+<style>
+@media screen and (max-width: 1300px) {
+  .user-menu, .logo {
+    display: none;
+  }
+} 
+</style>
 
 <header class="header">   
    <div class="fixedMenu">
