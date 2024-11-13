@@ -15,11 +15,16 @@
 }
 
 .festival-title{
-	display: flex;
-	justify-content :space-between;
-	font-size: 24px;
-	font-weight: bold;
-	margin: 20px;
+   display: flex;
+   justify-content :space-between;   
+   margin: 20px;
+}
+.festival-title > span {
+   font-size: 22px;
+   font-weight: bold;
+}
+.festival-title > a {
+   padding-top : 10px;
 }
 
 

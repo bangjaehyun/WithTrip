@@ -14,12 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.oreilly.servlet.MultipartRequest;
 
 import kr.or.iei.common.vo.MyRenamePolicy;
 import kr.or.iei.post.model.service.PostService;
 import kr.or.iei.post.model.vo.Post;
 import kr.or.iei.post.model.vo.PostFile;
+import kr.or.iei.spot.model.vo.Spot;
 
 /**
  * Servlet implementation class postInsertServlet
@@ -63,7 +70,25 @@ public class PostWriterServlet extends HttpServlet {
 		String postType = mRequest.getParameter("postTypeId");
 		String postTitle = mRequest.getParameter("postTitle");
 		String postContent = mRequest.getParameter("postContent");
+		String mapList = mRequest.getParameter("mapList");
 		
+		ArrayList<Spot> spotList = new ArrayList<Spot>();
+		
+		if(!mapList.equals("null")) {
+		JsonParser jsonParser = new JsonParser();
+        
+		JsonArray jArray = jsonParser.parse(mapList).getAsJsonArray();
+		for (JsonElement pa : jArray) {
+			JsonObject paymentObj = pa.getAsJsonObject();
+			Spot spot = new Spot();
+			spot.setSpotAddr(paymentObj.get("address_name").getAsString());
+			spot.setSpotName(paymentObj.get("place_name").getAsString());
+			spot.setSpotLat(paymentObj.get("x").getAsString());
+			spot.setSpotLng(paymentObj.get("y").getAsString());
+			spot.setSpotPhone(paymentObj.get("phone").getAsString());
+			spotList.add(spot);
+		}
+	}
 		
 		Enumeration<String> files = mRequest.getFileNames(); // input type이 file인 태그들의, name 속성값
 		
@@ -88,7 +113,7 @@ public class PostWriterServlet extends HttpServlet {
 		post.setPostContent(postContent);
 		
 		PostService service = new PostService();
-		int result = service.insertPost(post, fileList);
+		int result = service.insertPost(post, fileList, spotList);
 		
 		if(result > 0) {
 			response.getWriter().print("1");

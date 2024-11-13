@@ -8,6 +8,7 @@ import kr.or.iei.post.model.dao.PostDao;
 import kr.or.iei.post.model.vo.Post;
 import kr.or.iei.post.model.vo.PostFile;
 import kr.or.iei.post.model.vo.PostPageData;
+import kr.or.iei.spot.model.vo.Spot;
 import kr.or.iei.user.model.vo.User;
 
 public class PostService {
@@ -127,7 +128,7 @@ public class PostService {
 		return list;
 	}
 
-	public int insertPost(Post post, ArrayList<PostFile> fileList) {
+	public int insertPost(Post post, ArrayList<PostFile> fileList, ArrayList<Spot> spotList) {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		String postNo = dao.selectPostNo(conn);
@@ -148,8 +149,20 @@ public class PostService {
 			}
 			
 			//commit 시점
-			if(fileChk) {				
-				JDBCTemplate.commit(conn);
+			if(fileChk) {
+				boolean soptChk = true;
+				for(int i =0; i < spotList.size(); i++) {
+					result = dao.insertPostSpot(conn, spotList.get(i));
+					if(result < 1) {
+						JDBCTemplate.rollback(conn);
+						soptChk = false;
+						break;
+					}
+				}
+				
+				if(soptChk) {
+					JDBCTemplate.commit(conn);
+				}
 			}
 		}else {
 			JDBCTemplate.rollback(conn);

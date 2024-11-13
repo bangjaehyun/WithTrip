@@ -131,11 +131,11 @@ body button:hover{
 #map {
 	width: 95%;
 	height: 500px;
-	z-index: 2;
 }
 
 
 #map>div>div{
+	z-index: 0;
 	line-height: 5px;
 }
 </style>
@@ -194,16 +194,19 @@ body button:hover{
 	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 	<script>
 	$('#map').css("display", "none");
-	
+	let mapList = null;
 	function addMap(list) {
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+		if(mapList != null){
+			$('#map').empty();
+		}
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 	    mapOption = { 
 	        center: new kakao.maps.LatLng(list[0].y, list[0].x), // 지도의 중심좌표
 	        level: 5 // 지도의 확대 레벨
 	    };
 
-	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-	 
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		
 
 	// 마커 이미지의 이미지 주소입니다
 	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
@@ -215,7 +218,6 @@ body button:hover{
 	    
 	    // 마커 이미지를 생성합니다    
 	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-	    console.log(list);
 	    // 마커를 생성합니다
 	    var marker = new kakao.maps.Marker({
 	        map: map, // 마커를 표시할 지도
@@ -230,7 +232,7 @@ body button:hover{
 	    
 	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
 	    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-	    
+	    mapList = list;
 	}       
 	}
 	
@@ -247,15 +249,16 @@ body button:hover{
 	        infowindow.close();
 	    };
 	}
-	
+	function calMapList(){
+		return mapList;
+	}
 	function openMap(){
 		let popupWidth = 1550;
 		let popupHeight = 720;
 		
 		let top = (window.innerHeight - popupHeight) / 2+ window.screenY;
 		let left = (window.innerWidth - popupWidth) / 2+ window.screenX;
-		
-		window.open("/spot/likeFrm", "map", "width="+popupWidth+", height=" + popupHeight + ", top=" + top + ", left=" + left);
+		window.open("/spot/likeFrm" , "map", "width="+popupWidth+", height=" + popupHeight + ", top=" + top + ", left=" + left)
 	}
 	function openCalendar(){
 		let popupWidth = 580;
@@ -315,11 +318,15 @@ body button:hover{
 			if(isConfrim){
 				var form = $('#post-view')[0];
 				var formData = new FormData(form);
+				console.log(JSON.stringify(mapList));
+				formData.append("mapList",  JSON.stringify(mapList));
+			    
+				출처: https://shxrecord.tistory.com/175 [3인칭시점:티스토리]
 				$.ajax({
 					url : "/post/writer",
 					type : "POST",
 					enctype:'multipart/form-data',
-					data : formData,
+					data : formData, 
 					processData:false,
 					contentType:false,
 					cache:false,
@@ -397,7 +404,7 @@ body button:hover{
 		$('#postContent').summernote(
 				{
 					codeviewFilter : false, // 코드 보기 필터 비활성화
-					codeviewIframeFilter : false, // 코드 보기 iframe 필터 비활성화
+					codeviewIframeFilter : true, // 코드 보기 iframe 필터 비활성화
 					height : 700, // 에디터 높이
 					width : '100%',
 					minHeight : null, // 최소 높이
@@ -407,15 +414,7 @@ body button:hover{
 					disableDragAndDrop : false,
 					tabDisable : true,
 					placeholder : '게시글 작성',
-					disableResizeEditor : true, // Does not work either
-					
-					callbacks : { 
-						onImageUpload : function(files){ 
-							//files[0] : 업로드 이미지
-							//this : 에디터 (업로드 후, 현재 에디터에 이미지 표기용)
-							uploadImage(files[0], this)
-						}
-					},
+					disableResizeEditor : true, // Does not work either	
 					
 					toolbar : [ [ 'style', [ 'style' ] ], // 글자 스타일 설정 옵션
 					[ 'fontsize', [ 'fontsize' ] ], // 글꼴 크기 설정 옵션
@@ -453,6 +452,15 @@ body button:hover{
 					}, // 어두운 코드 스타일 옵션
 					'h1', 'h2', 'h3', 'h4', 'h5', 'h6', // 제목 스타일 옵션
 					],
+					
+					callbacks : {                                                    
+						onImageUpload : function(files, editor, welEditable) {   
+			                // 다중 이미지 처리를 위해 for문을 사용했습니다.
+							for (var i = 0; i < files.length; i++) {
+								uploadImage(files[i], this);
+							}
+						}
+					}
 
 				});
 		
@@ -466,16 +474,16 @@ body button:hover{
 				data : form,  //전송 데이터
 				processData : false, //기본 문자열 전송 세팅 해제
 				contentType : false, //기본 form enctype 해제
+				cache:false,
 				success : function(savePath){
 					//savePath : 파일 업로드 경로
 					$(editor).summernote("insertImage", savePath); //에디터 본문에 이미지 표기
 					
 					//게시글 작성 시, 이미지 중복 등록 방지
-					$("input[id*=note-dialog]").remove();
-					
-					
+// 					$("input[id*=note-dialog]").remove();
 				},
 				error : function(){
+					console.log("erererer");
 				}
 			});
 		}
