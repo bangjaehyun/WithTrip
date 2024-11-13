@@ -23,10 +23,18 @@ var infowindow = new kakao.maps.InfoWindow({
 	zIndex: 1
 });
 
+// 메인 페이지에서 검색할 경우 호출되는 함수
+if (srchVal.length != 0) {
+	$('#keyword').val(srchVal);
+	
+	searchPlaces();
+
+}
+
 // 키워드 검색을 요청하는 함수입니다
 function searchPlaces(bool) {
 
-	var keyword = document.getElementById('keyword').value;
+	let keyword = $('#keyword').val();
 
 	if (!keyword.replace(/^\s+|\s+$/g, '')) {
 		alert('키워드를 입력해주세요!');
@@ -125,7 +133,7 @@ function displayPlaces(places) {
 					});
 
 				itemEl.onclick = function() {
-					
+
 				};
 			}
 			//------------------------------------------------------------
@@ -251,8 +259,7 @@ function removeAllChildNods(el) {
 
 // 취소 버튼을 눌렀을 때
 function cancel() {
-	var keyword = document.getElementById('keyword');
-	keyword.value = "";
+	$('#keyword').val("");
 
 	// 마커를 지워주는 함수
 	removeMarker();
@@ -267,7 +274,8 @@ function cancel() {
 function srchCategory(element) {
 	// span 내부 텍스트를 input.value로 넣어주고, searchPlaces() 실행
 	const spanText = $(element).find("span").text();
-	keyword.value = spanText;
+
+	$('#keyword').val(spanText);
 	$("#searchBox").show();
 	$("#research").css("display", "flex");
 	toggleShow();

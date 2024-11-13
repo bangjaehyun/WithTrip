@@ -73,6 +73,7 @@
 	</div>
 	<script>
 		var like = '${like}';
+		var srchVal = '${srchVal}';
 	</script>
 	<script src="/resources/js/map.js"></script>
 </body>
