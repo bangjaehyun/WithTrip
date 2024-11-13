@@ -12,8 +12,8 @@
 	justify-content: center;
 	align-items: center;
 	background: #97a8bf;
-	background: url(/resources/images/search_bak.jpeg);
-	background-size: 340px 300px;
+	background: url(/resources/images/search_bak.jpg);
+	background-size: 272px 300px;
 }
 
 .search_map_box {
