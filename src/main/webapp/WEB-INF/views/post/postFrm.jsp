@@ -138,6 +138,27 @@ body button:hover{
 	z-index: 0;
 	line-height: 5px;
 }
+
+.ul-tag{
+display: flex;
+justify-content : center;
+border : 1px solid orange;
+border-radius: 30px;
+height: 50px;
+width: 500px;
+gap : 20px;
+background-color: #00e0ff;
+}
+
+.ul-tag li{
+	text-decoration: none;
+	font-size: 20px;
+	margin : auto 0;
+	
+	color : white;
+	border-radius: 30px;
+}
+
 </style>
 </head>
 <body>
@@ -162,6 +183,15 @@ body button:hover{
 							<div class="div-day">
 								<input type="text" id="tripDay" onfocus="this.blur()" readonly>
 								<button type="button" onclick="openCalendar()">캘린더 열기</button>
+							</div>
+							<div class="div-tag">
+								<ul class="ul-tag">
+									<li>#아이들과</li>
+									<li>#혼자</li>
+									<li>#커플</li>
+									<li>#우정</li>
+									<li>#부모님과</li>
+								</ul>
 							</div>
 						</div>
 					</c:if>

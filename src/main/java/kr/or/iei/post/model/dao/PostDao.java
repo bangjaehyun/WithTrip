@@ -10,6 +10,7 @@ import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.post.model.vo.Post;
 import kr.or.iei.post.model.vo.PostComment;
 import kr.or.iei.post.model.vo.PostFile;
+import kr.or.iei.spot.model.vo.Spot;
 import kr.or.iei.user.model.vo.User;
 
 public class PostDao {
@@ -342,5 +343,32 @@ public class PostDao {
 			}
 			return result;
 		}
+
+
+		public int insertPostSpot(Connection conn, Spot spot) {
+            PreparedStatement pstmt = null;
+            int result = 0;
+            String query = "insert into tbl_spot values(to_char(sysdate, 'yyyymmddhh24mi') || lpad(seq_spot_no.nextval, 4, '0'), ?,?,?,?,?,?,default)";
+            
+            try {
+                pstmt = conn.prepareStatement(query);
+                pstmt.setString(1, spot.getSpotName());
+                pstmt.setInt(2, spot.getSpotType());
+                pstmt.setString(3, spot.getSpotAddr());
+                pstmt.setString(4, spot.getSpotLat());
+                pstmt.setString(5, spot.getSpotLng());
+                pstmt.setString(6, spot.getSpotPhone());
+                
+                result = pstmt.executeUpdate();
+                
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }finally {
+                JDBCTemplate.close(pstmt);
+            }
+            
+            return result;
+        }
 		
 }
