@@ -54,19 +54,27 @@
 	font-size: 14px;
 	color: white;
 }
+
+.srch_a:hover {
+	text-decoration: underline;
+}
+
+.go_map:hover {
+	text-decoration: underline;
+}
 </style>
 </head>
 <body>
 	<div class="search_map_wrap">
 		<div class="search_map_box">
-				<input class="input_box" id="input_box" type="text"
-					placeholder="지역명, 장소명으로 검색"
-					onKeyPress="if (event.keyCode==13){srchMap();}">
-				<div class="srch_list">
-					추천 검색어 : <a class="srch_a" onClick="setSrch(this);">강남</a>, <a
-						class="srch_a" onClick="setSrch(this);">부산</a>, <a class="srch_a"
-						onClick="setSrch(this);">첨성대</a>
-				</div>
+			<input class="input_box" id="input_box" type="text"
+				placeholder="지역명, 장소명으로 검색"
+				onKeyPress="if (event.keyCode==13){srchMap();}">
+			<div class="srch_list">
+				추천 검색어 : <a class="srch_a" onClick="setSrch(this);">강남</a>, <a
+					class="srch_a" onClick="setSrch(this);">부산</a>, <a class="srch_a"
+					onClick="setSrch(this);">첨성대</a>
+			</div>
 			<button class="go_map" onClick="srchMap();">지도로 검색</button>
 		</div>
 	</div>
