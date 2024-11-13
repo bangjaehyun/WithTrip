@@ -71,9 +71,10 @@
 						<table class="tbl hover">
 							<tr>
 								<th style="width:10%;">번호</th>
-								<th style="width:45%;">제목</th>
+								<th style="width:30%;">제목</th>
 								<th style="width:15%;">작성자</th>
 								<th style="width:20%;">작성일</th>
+								<th style="width:10%;">조회수</th>
 							</tr>
 							<c:forEach var="post" items="${postList}">
 							<tr>
@@ -81,11 +82,12 @@
 								<td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
 								<td>${post.user.userNickname}</td>
 								<td>${post.postDate}</td>
+								<td>${post.readCount}</td>
 							</tr>
 							</c:forEach>
 						</table>
 						<div id="pageNavi">
-							${pageNavi }
+							${pageNavi}
 						</div>	
 					</div>						
 				</div>
