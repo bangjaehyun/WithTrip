@@ -47,7 +47,7 @@ public class DeleteUserServlet extends HttpServlet {
 			request.setAttribute("title", "알림");
 			request.setAttribute("msg", "회원 탈퇴가 완료되었습니다");
 			request.setAttribute("icon", "success");
-			request.setAttribute("loc", "/");		
+			request.setAttribute("loc", "javascript:window.opener.location.href=\"/\"; self.close();");		
 		}else {
 			request.setAttribute("title", "알림");
 			request.setAttribute("msg", "회원 탈퇴 중 오류가 발생했습니다");
