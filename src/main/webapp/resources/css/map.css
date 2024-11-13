@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+.map-container{
+margin-top: 43px;	
+}
+
 .map_wrap {
 	position: relative;
 	display: flex;

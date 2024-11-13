@@ -15,7 +15,7 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<main class="content">
-		<section class="section">
+		<section class="section map-container">
 			<jsp:include page="/WEB-INF/views/common/map.jsp" />
 		</section>
 	</main>

@@ -130,7 +130,7 @@ public class FestivalService {
 
 	}
 
-	public ArrayList<FestivalSubInfo> subInfo(String festivalId, String festivalType) {
+	public FestivalSubInfo subInfo(String festivalId, String festivalType) {
 		StringBuilder urlBuilder = new StringBuilder(
 				"http://apis.data.go.kr/B551011/KorService1/detailCommon1"); /* URL */
 
@@ -148,7 +148,7 @@ public class FestivalService {
 					"&" + URLEncoder.encode("contentId", "UTF-8") + "=" + URLEncoder.encode(festivalId, "UTF-8"));
 			urlBuilder.append(
 					"&MobileOS=ETC&MobileApp=AppTest&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y");
-			
+
 			// 3. URL 객체 생성.
 			URL url = new URL(urlBuilder.toString());
 			// 4. 요청하고자 하는 URL과 통신하기 위한 Connection 객체 생성.
@@ -172,7 +172,7 @@ public class FestivalService {
 			while ((line = rd.readLine()) != null) {
 				sb.append(line);
 			}
-			
+
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -184,8 +184,8 @@ public class FestivalService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		ArrayList<FestivalSubInfo> list = new ArrayList<FestivalSubInfo>();
+
+		FestivalSubInfo festival = new FestivalSubInfo();
 
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -195,26 +195,101 @@ public class FestivalService {
 			Document doc = builder.parse(is);
 			NodeList nodes = doc.getElementsByTagName("item");
 
-			for (int i = 0; i < nodes.getLength(); i++) {
-				Node nNode = nodes.item(i);
-				Element element = (Element) nNode;
+			Node nNode = nodes.item(0);
+			Element element = (Element) nNode;
 
-				FestivalSubInfo festival = new FestivalSubInfo();
-				festival.setFestivalAddr(element.getElementsByTagName("addr1").item(0).getTextContent());
-				festival.setFestivalLat(element.getElementsByTagName("mapx").item(0).getTextContent());
-				festival.setFestivalLng(element.getElementsByTagName("mapy").item(0).getTextContent());
-				festival.setFestivalTitle(element.getElementsByTagName("title").item(0).getTextContent());
-				festival.setFestivalContent(element.getElementsByTagName("overview").item(0).getTextContent());
-				festival.setFestivalTel(element.getElementsByTagName("tel").item(0).getTextContent());
-				list.add(festival);
-			}
+			festival.setFestivalAddr(element.getElementsByTagName("addr1").item(0).getTextContent());
+			festival.setFestivalLat(element.getElementsByTagName("mapy").item(0).getTextContent());
+			festival.setFestivalLng(element.getElementsByTagName("mapx").item(0).getTextContent());
+			festival.setFestivalTitle(element.getElementsByTagName("title").item(0).getTextContent());
+			festival.setFestivalContent(element.getElementsByTagName("overview").item(0).getTextContent());
+			festival.setFestivalTel(element.getElementsByTagName("tel").item(0).getTextContent());
+			festival.setFestivalHomepage(element.getElementsByTagName("homepage").item(0).getTextContent());
+			festival.setFestivalImg(element.getElementsByTagName("firstimage").item(0).getTextContent());
+
+			detailInfo(festivalId, festivalType, festival);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return list;
-		
+		return festival;
+
+	}
+
+	public void detailInfo(String festivalId, String festivalType, FestivalSubInfo festival) {
+		StringBuilder urlBuilder = new StringBuilder(
+				"http://apis.data.go.kr/B551011/KorService1/detailIntro1"); /* URL */
+
+		BufferedReader rd = null;
+		HttpURLConnection conn = null;
+		StringBuilder sb = new StringBuilder();
+		try {
+			urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "="
+					+ URLEncoder.encode(
+							"AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==",
+							"UTF-8"));
+			urlBuilder.append(
+					"&" + URLEncoder.encode("contentTypeId", "UTF-8") + "=" + URLEncoder.encode(festivalType, "UTF-8"));
+			urlBuilder.append(
+					"&" + URLEncoder.encode("contentId", "UTF-8") + "=" + URLEncoder.encode(festivalId, "UTF-8"));
+			urlBuilder.append("&&MobileOS=ETC&MobileApp=AppTest");
+
+			// 3. URL 객체 생성.
+			URL url = new URL(urlBuilder.toString());
+			// 4. 요청하고자 하는 URL과 통신하기 위한 Connection 객체 생성.
+			conn = (HttpURLConnection) url.openConnection();
+			// 5. 통신을 위한 메소드 SET.
+			conn.setRequestMethod("GET");
+			// 6. 통신을 위한 Content-type SET.
+			conn.setRequestProperty("Content-type", "application/json");
+			// 7. 통신 응답 코드 확인.
+			System.out.println("Response code: " + conn.getResponseCode());
+			// 8. 전달받은 데이터를 BufferedReader 객체로 저장.
+
+			if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			} else {
+				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+			}
+			// 9. 저장된 데이터를 라인별로 읽어 StringBuilder 객체로 저장.
+
+			String line;
+			while ((line = rd.readLine()) != null) {
+				sb.append(line);
+			}
+
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // 시작일
+		catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			System.out.println(sb.toString());
+			InputStream is = new ByteArrayInputStream(sb.toString().getBytes());
+			Document doc = builder.parse(is);
+			NodeList nodes = doc.getElementsByTagName("item");
+
+			Node nNode = nodes.item(0);
+			Element element = (Element) nNode;
+
+			festival.setFestivalStartDay(element.getElementsByTagName("eventstartdate").item(0).getTextContent());
+			festival.setFestivalEndDay(element.getElementsByTagName("eventenddate").item(0).getTextContent());
+			festival.setFestivalTime(element.getElementsByTagName("playtime").item(0).getTextContent());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

@@ -12,8 +12,11 @@ public class FestivalSubInfo {
 	private String festivalAddr;
 	private String festivalStartDay;
 	private String festivalEndDay;
+	private String festivalTime;
 	private String festivalLat;
 	private String festivalLng;
 	private String festivalTel;
 	private String festivalContent;
+	private String festivalHomepage;
+	private String festivalImg;
 }

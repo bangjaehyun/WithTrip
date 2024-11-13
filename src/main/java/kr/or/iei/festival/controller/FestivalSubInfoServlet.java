@@ -35,12 +35,11 @@ public class FestivalSubInfoServlet extends HttpServlet {
 		String festivalType = request.getParameter("festivalType");
 		
 		FestivalService service = new FestivalService();
-		ArrayList<FestivalSubInfo> infoList = service.subInfo(festivalId, festivalType);
-		System.out.println(infoList);
+		FestivalSubInfo info = service.subInfo(festivalId, festivalType);
 		
 		request.setAttribute("festivalId", festivalId);
 		request.setAttribute("festivalType", festivalType);
-		
+		request.setAttribute("info", info);
 		
 		
 		request.getRequestDispatcher("/WEB-INF/views/festival/subInfoFrm.jsp").forward(request, response);
