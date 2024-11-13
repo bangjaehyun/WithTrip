@@ -7,9 +7,8 @@
 <meta charset="UTF-8">
 <title>WithTrip</title>
 <link rel="stylesheet" href="/resources/summernote/summernote-lite.css" />
-<link rel="apple-touch-icon"
-	href="/resources/images/withTrip_favicon.png" />
-<link rel="icon" href="/resources/images/withTrip_favicon.png" />
+<link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
+<link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4ded6a823694c477130258746c1c95cf&libraries=services"></script>
 <style>
@@ -25,7 +24,7 @@
 }
 
 .lg {
-	margin-bottom: 20px;
+	margin-bottom : 20px;
 	font-size: 30px;
 	font-weight: bold;
 }
@@ -49,12 +48,12 @@
 	justify-content: flex-end;
 }
 
-.subFileBox {
+.subFileBox{
 	text-align: right;
 }
 
 .filelabel {
-	display: block;
+	display : block;
 	margin: auto 0;
 }
 
@@ -95,25 +94,25 @@
 	background: rgb(189, 236, 255);
 }
 
-.div-subFun div {
+.div-subFun div{
 	display: flex;
 	justify-content: space-between;
 }
 
-.div-map>.map-wrap {
+.div-map>.map-wrap{
 	width: 100%;
 }
 
-.div-day>input {
+.div-day>input{
 	border: none;
-	pointer-events: none;
+	pointer-events : none;
 	font-size: 20px;
 	font-weight: bold;
 	width: 100%;
 }
 
-.div-subFun button {
-	color: white;
+.div-subFun button{
+	color : white;
 	font-size: 16px;
 	border-radius: 10px;
 	width: 100px;
@@ -123,9 +122,10 @@
 	background: linear-gradient(to top, #5882FA, #004CA1);
 }
 
-body button:hover {
-	transform: scale(1.1, 1.1);
-	box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
+
+body button:hover{
+  transform: scale(1.1,1.1);
+  box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
 }
 
 #map {
@@ -133,39 +133,43 @@ body button:hover {
 	height: 500px;
 }
 
-#map>div>div {
+
+#map>div>div{
 	z-index: 0;
 	line-height: 5px;
 }
 
-.ul-tag {
-	display: flex;
-	justify-content: center;
-	border-radius: 10px;
-	height: 50px;
-	width: 600px;
-	gap: 20px;
-	background-color: #e2d9fc;
-	text-align: center;
+.ul-tag{
+display: flex;
+justify-content : center;
+border-radius: 30px;
+height: 50px;
+width: 600px;
+gap : 20px;
+background-color: #e2d9fc;
+text-align: center;
+
 }
 
-.ul-tag li {
+.ul-tag li{
 	text-decoration: none;
 	font-size: 20px;
-	margin: auto 0;
-	width: 100px;
-	border-radius: 10px;
+	margin : auto 0;
+	width : 100px;
+	border-radius: 30px;
 }
 
-.ul-tag li:hover {
-	background-color: #bbafdf;
+.ul-tag li:hover{
+	background-color : #bbafdf;
 	color: white;
 }
 
-.addTag {
-	background-color: #bbafdf;
+.addTag{
+	background-color : #bbafdf;
 	color: white;
 }
+
+
 </style>
 </head>
 <body>
@@ -173,12 +177,11 @@ body button:hover {
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<main class="post-main">
 			<section class="section post-list-wrap">
-				<form action="/post/writer" id="post-view" method="post"
-					autocomplete="off" enctype="multipart/form-data">
-					<input type="hidden" name="postTypeId" value="${postTypeId}" /> <input
-						type="hidden" name="loginUserNo" value="${loginUser.userNo}" />
+				<form action="/post/writer" id="post-view" method="post" autocomplete="off" enctype="multipart/form-data">
+					<input type="hidden" name="postTypeId" value="${postTypeId}"/>
+					<input type="hidden" name="loginUserNo" value="${loginUser.userNo}"/>
 					<div>
-						<p class="Content-title lg">${postTypeNm}작성</p>
+						<p class="Content-title lg">${postTypeNm} 작성</p>
 					</div>
 					<c:if test="${postTypeId eq 1}">
 						<div class="div-subFun">
@@ -204,17 +207,16 @@ body button:hover {
 						</div>
 					</c:if>
 					<div class="postTitle-wrap">
-						<input type="text" name="postTitle" id="postTitle"
-							placeholder="제목">
+						<input type="text" name="postTitle" id="postTitle" placeholder="제목">
 					</div>
 					<div class="filebox">
-						<div class="subFileBox">
-							<label class="filelabel"> <input type="file"
-								name="uploadFile" onchange="change(this)"> <span
-								class="file_name">첨부 파일</span> <span
-								class="file_btn material-icons">add_circle</span>
-							</label>
-						</div>
+					<div class="subFileBox">
+						<label class="filelabel"> 
+						<input type="file" name="uploadFile" onchange="change(this)"> 
+						<span class="file_name">첨부 파일</span> 
+						<span class="file_btn material-icons">add_circle</span>
+						</label>
+					</div>
 					</div>
 					<div class='post-content'>
 						<textarea id="postContent" name="postContent"></textarea>
@@ -232,267 +234,228 @@ body button:hover {
 	<script src="/resources/summernote/summernote-lite.js"></script>
 	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 	<script>
-		let tagList = [];
-
-		function tagClick(obj) {
-			if (tagList.includes($(obj).text())) {
-				tagList.pop($(obj).text());
-				$(obj).removeClass("addTag");
-
-			} else {
-				tagList.push($(obj).text());
-				$(obj).addClass("addTag");
-			}
-			console.log(tagList);
+	let tagList = [];
+	
+	function tagClick(obj){
+		if(tagList.includes($(obj).text())){
+			tagList.pop($(obj).text());
+			$(obj).removeClass("addTag");
+		
+		}else{
+			tagList.push($(obj).text());
+			$(obj).addClass("addTag");
 		}
-
-		$('#map').css("display", "none");
-		let mapList = null;
-		function addMap(list) {
-			if (mapList != null) {
-				$('#map').empty();
-			}
-			var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-			mapOption = {
-				center : new kakao.maps.LatLng(list[0].y, list[0].x), // 지도의 중심좌표
-				level : 5
-			// 지도의 확대 레벨
-			};
-
-			var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-			// 마커 이미지의 이미지 주소입니다
-			var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
-			for (var i = 0; i < list.length; i++) {
-
-				// 마커 이미지의 이미지 크기 입니다
-				var imageSize = new kakao.maps.Size(24, 35);
-
-				// 마커 이미지를 생성합니다    
-				var markerImage = new kakao.maps.MarkerImage(imageSrc,
-						imageSize);
-				// 마커를 생성합니다
-				var marker = new kakao.maps.Marker({
-					map : map, // 마커를 표시할 지도
-					position : new kakao.maps.LatLng(list[i].y, list[i].x), // 마커를 표시할 위치
-					//		        title : list[i].place_name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-					image : markerImage
-				// 마커 이미지 
-				});
-
-				var infowindow = new kakao.maps.InfoWindow({
-					content : list[i].place_name
-				// 인포윈도우에 표시할 내용
-				});
-
-				kakao.maps.event.addListener(marker, 'mouseover',
-						makeOverListener(map, marker, infowindow));
-				kakao.maps.event.addListener(marker, 'mouseout',
-						makeOutListener(infowindow));
-				mapList = list;
-			}
+		console.log(tagList);
+	}
+	
+	
+	$('#map').css("display", "none");
+	let mapList = null;
+	function addMap(list) {
+		if(mapList != null){
+			$('#map').empty();
 		}
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+	    mapOption = { 
+	        center: new kakao.maps.LatLng(list[0].y, list[0].x), // 지도의 중심좌표
+	        level: 5 // 지도의 확대 레벨
+	    };
 
-		// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-		function makeOverListener(map, marker, infowindow) {
-			return function() {
-				infowindow.open(map, marker);
-			};
-		}
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		
 
-		// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-		function makeOutListener(infowindow) {
-			return function() {
-				infowindow.close();
-			};
-		}
-		function calMapList() {
-			return mapList;
-		}
-		function openMap() {
-			let popupWidth = 1550;
-			let popupHeight = 720;
+	// 마커 이미지의 이미지 주소입니다
+	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+	    
+	for (var i = 0; i < list.length; i ++) {
+	    
+	    // 마커 이미지의 이미지 크기 입니다
+	    var imageSize = new kakao.maps.Size(24, 35); 
+	    
+	    // 마커 이미지를 생성합니다    
+	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+	    // 마커를 생성합니다
+	    var marker = new kakao.maps.Marker({
+	        map: map, // 마커를 표시할 지도
+	        position:  new kakao.maps.LatLng(list[i].y, list[i].x), // 마커를 표시할 위치
+//		        title : list[i].place_name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+	        image : markerImage // 마커 이미지 
+	    });
+	    
+	    var infowindow = new kakao.maps.InfoWindow({
+	        content: list[i].place_name // 인포윈도우에 표시할 내용
+	    });
+	    
+	    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+	    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+	    mapList = list;
+	}       
+	}
+	
+	// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+	function makeOverListener(map, marker, infowindow) {
+	    return function() {
+	        infowindow.open(map, marker);
+	    };
+	}
 
-			let top = (window.innerHeight - popupHeight) / 2 + window.screenY;
-			let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
-			window.open("/spot/likeFrm", "map", "width=" + popupWidth
-					+ ", height=" + popupHeight + ", top=" + top + ", left="
-					+ left)
-		}
-		function openCalendar() {
-			let popupWidth = 580;
-			let popupHeight = 600;
-
-			let top = (window.innerHeight - popupHeight) / 2 + window.screenY;
-			let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
-
-			window.open("/openCalendar", "calendar", "width=" + popupWidth
-					+ ", height=" + popupHeight + ", top=" + top + ", left="
-					+ left);
-		}
-		function postCancel() {
-			swal({
-				title : "알림",
-				text : "게시글 작성을 취소하시겠습니까?",
-				icon : "warning",
-				buttons : {
-					cancel : {
-						text : "취소",
-						value : false,
-						visible : true,
-						closeModal : true
-					},
-					confirm : {
-						text : "확인",
-						value : true,
-						visible : true,
-						closeModal : true
-					}
+	// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+	function makeOutListener(infowindow) {
+	    return function() {
+	        infowindow.close();
+	    };
+	}
+	function calMapList(){
+		return mapList;
+	}
+	function openMap(){
+		let popupWidth = 1550;
+		let popupHeight = 720;
+		
+		let top = (window.innerHeight - popupHeight) / 2+ window.screenY;
+		let left = (window.innerWidth - popupWidth) / 2+ window.screenX;
+		window.open("/spot/likeFrm" , "map", "width="+popupWidth+", height=" + popupHeight + ", top=" + top + ", left=" + left)
+	}
+	function openCalendar(){
+		let popupWidth = 580;
+		let popupHeight = 600;
+		
+		let top = (window.innerHeight - popupHeight) / 2+ window.screenY;
+		let left = (window.innerWidth - popupWidth) / 2+ window.screenX;
+		
+		window.open("/openCalendar", "calendar", "width="+popupWidth+", height=" + popupHeight + ", top=" + top + ", left=" + left);
+	}
+	function postCancel(){
+		swal({
+			title : "알림",
+			text : "게시글 작성을 취소하시겠습니까?",
+			icon : "warning",
+			buttons : {
+				cancel : {
+					text : "취소",
+					value : false,
+					visible : true,
+					closeModal : true
+				},
+				confirm :{
+					text : "확인",
+					value : true,
+					visible : true,
+					closeModal : true
 				}
-			}).then(function(isConfrim) {
-				if (isConfrim) {
-	<%-- 게시글을 취소했을경우 페이지 이동 --%>
-		}
-			});
-		}
-
-		function postInsert() {
-			swal({
-				title : "알림",
-				text : "게시글을 등록 하시겠습니까?",
-				icon : "warning",
-				buttons : {
-					cancel : {
-						text : "취소",
-						value : false,
-						visible : true,
-						closeModal : true
-					},
-					confirm : {
-						text : "확인",
-						value : true,
-						visible : true,
-						closeModal : true
-					}
+			}
+		}).then(function(isConfrim){
+			if(isConfrim){
+				<%-- 게시글을 취소했을경우 페이지 이동 --%>
+			}
+		});
+	}
+	
+	function postInsert(){
+		swal({
+			title : "알림",
+			text : "게시글을 등록 하시겠습니까?",
+			icon : "warning",
+			buttons : {
+				cancel : {
+					text : "취소",
+					value : false,
+					visible : true,
+					closeModal : true
+				},
+				confirm :{
+					text : "확인",
+					value : true,
+					visible : true,
+					closeModal : true
 				}
-			})
-					.then(
-							function(isConfrim) {
-								if (isConfrim) {
-									var form = $('#post-view')[0];
-									var formData = new FormData(form);
-									console.log(JSON.stringify(mapList));
-									formData.append("mapList", JSON
-											.stringify(mapList));
-
-									출처: https: //shxrecord.tistory.com/175 [3인칭시점:티스토리]
-									$
-											.ajax({
-												url : "/post/writer",
-												type : "POST",
-												enctype : 'multipart/form-data',
-												data : formData,
-												processData : false,
-												contentType : false,
-												cache : false,
-												success : function(res) {
-													if (res == "1") {
-														swal(
-																{
-																	title : "알림",
-																	text : "${postTypeNm}"
-																			+ " 작성이 완료 되었습니다.",
-																	icon : "success"
-																})
-																.then(
-																		function() {
-																			location.href = "/post/list?reqPage=1&postTypeCd="
-																					+ $
-																			{
-																				postTypeId
-																			}
-																			+"&postTypeNm="
-																					+ $
-																			{
-																				postTypeId
-																			}
-																			;
-																		});
-													} else {
-														swal(
-																{
-																	title : "알림",
-																	text : "${postTypeNm}"
-																			+ "작성중 오류가 발생하였습니다.",
-																	icon : "error"
-																})
-																.then(
-																		function() {
-																			location.href = "/post/list?reqPage=1&postTypeCd="
-																					+ $
-																			{
-																				postTypeId
-																			}
-																			+"&postTypeNm="
-																					+ $
-																			{
-																				postTypeId
-																			}
-																			;
-																		});
-													}
-												},
-												error : function() {
-													console.log("ajax 에러 발생");
-												}
-											});
-								}
+			}
+		}).then(function(isConfrim){
+			if(isConfrim){
+				var form = $('#post-view')[0];
+				var formData = new FormData(form);
+				console.log(JSON.stringify(mapList));
+				formData.append("mapList",  JSON.stringify(mapList));
+			    
+				출처: https://shxrecord.tistory.com/175 [3인칭시점:티스토리]
+				$.ajax({
+					url : "/post/writer",
+					type : "POST",
+					enctype:'multipart/form-data',
+					data : formData, 
+					processData:false,
+					contentType:false,
+					cache:false,
+					success : function(res) {
+						if(res == "1"){
+							swal({
+								title : "알림",
+								text : "${postTypeNm}" + " 작성이 완료 되었습니다.",
+								icon : "success"
+							}).then(function(){
+								location.href = "/post/list?reqPage=1&postTypeCd=" + ${postTypeId} + "&postTypeNm=" + ${postTypeId};
 							});
-		}
-
-		function change(obj) {
-			if ($(obj).val().length > 1) {
-				var fileName = $(obj).val().split('/').pop().split('\\').pop();
-				if ($(obj).next().html() == '첨부 파일') {
-					$(obj).next().html(fileName);
-					$(obj).next().next().html("remove_circle");
-
-					let fileLabel = $('<label>');
-					fileLabel.attr('class', 'filelabel');
-
-					let file = $('<input>');
-					file.attr('type', 'file');
-	<%-- uploadFile의 name을 바꿔주기 위한 자식 갯수 --%>
-		let chiledCount = $(obj).parent().parent()
-							.children('label').length;
-					file.attr('name', 'uploadFile' + chiledCount);
-					file.attr('onchange', 'change(this)');
-					let fileNameSpan = $('<span>');
-					fileNameSpan.attr('class', 'file_name');
-					fileNameSpan.html("첨부 파일");
-
-					let fileBtnSpan = $('<span>');
-					fileBtnSpan.attr('class', 'file_btn material-icons');
-					fileBtnSpan.html("add_circle");
-	<%-- 파일 라벨로 합치기 --%>
-		fileLabel.append(file).append(fileNameSpan).append(
-							fileBtnSpan);
-	<%-- 부모 div마지막 요소로 추가 --%>
-		$(obj).parent().parent().append(fileLabel);
-				} else {
-					$(obj).next().html(fileName);
-				}
-
-			} else {
-				if ($(obj).parent().parent().children().length > 1) {
-					$(obj).parent().remove();
-				} else {
-					$(obj).next().html("첨부 파일");
-					$(obj).next().next().html("add_circle");
-				}
+						}else{
+							swal({
+								title : "알림",
+								text :  "${postTypeNm}" + "작성중 오류가 발생하였습니다.",
+								icon : "error"
+							}).then(function(){
+								location.href = "/post/list?reqPage=1&postTypeCd=" + ${postTypeId} + "&postTypeNm=" + ${postTypeId};
+							});
+						}
+					},
+					error : function() {
+						console.log("ajax 에러 발생");
+					}
+				});
 			}
-		};
+		});
+	}
+	
+	function change(obj){
+				if ($(obj).val().length > 1) {
+					var fileName = $(obj).val().split('/').pop().split('\\').pop();
+						if($(obj).next().html() == '첨부 파일'){
+							$(obj).next().html(fileName);
+							$(obj).next().next().html("remove_circle");
+							
+							let fileLabel = $('<label>');
+							fileLabel.attr('class','filelabel');
+							
+							let file = $('<input>');
+							file.attr('type','file');
+							<%-- uploadFile의 name을 바꿔주기 위한 자식 갯수 --%>
+							let chiledCount = $(obj).parent().parent().children('label').length;
+							file.attr('name','uploadFile'+chiledCount);
+							file.attr('onchange', 'change(this)');
+							let fileNameSpan = $('<span>');
+							fileNameSpan.attr('class','file_name');
+							fileNameSpan.html("첨부 파일");
+							
+							let fileBtnSpan = $('<span>');
+							fileBtnSpan.attr('class','file_btn material-icons');
+							fileBtnSpan.html("add_circle");
+							
+							<%-- 파일 라벨로 합치기 --%>
+							fileLabel.append(file).append(fileNameSpan).append(fileBtnSpan);
+							
+							<%-- 부모 div마지막 요소로 추가 --%>
+							$(obj).parent().parent().append(fileLabel);
+						}else{
+							$(obj).next().html(fileName);
+						}
+					
+				} else {
+					if($(obj).parent().parent().children().length > 1){
+						$(obj).parent().remove();
+					}else{
+						$(obj).next().html("첨부 파일");
+						$(obj).next().next().html("add_circle");
+					}
+				}
+			};
+		
 
 		$('#postContent').summernote(
 				{
@@ -508,7 +471,7 @@ body button:hover {
 					tabDisable : true,
 					placeholder : '게시글 작성',
 					disableResizeEditor : true, // Does not work either	
-
+					
 					toolbar : [ [ 'style', [ 'style' ] ], // 글자 스타일 설정 옵션
 					[ 'fontsize', [ 'fontsize' ] ], // 글꼴 크기 설정 옵션
 					[ 'font', [ 'bold', 'underline', 'clear' ] ], // 글자 굵게, 밑줄, 포맷 제거 옵션
@@ -545,10 +508,10 @@ body button:hover {
 					}, // 어두운 코드 스타일 옵션
 					'h1', 'h2', 'h3', 'h4', 'h5', 'h6', // 제목 스타일 옵션
 					],
-
-					callbacks : {
-						onImageUpload : function(files, editor, welEditable) {
-							// 다중 이미지 처리를 위해 for문을 사용했습니다.
+					
+					callbacks : {                                                    
+						onImageUpload : function(files, editor, welEditable) {   
+			                // 다중 이미지 처리를 위해 for문을 사용했습니다.
 							for (var i = 0; i < files.length; i++) {
 								uploadImage(files[i], this);
 							}
@@ -556,30 +519,31 @@ body button:hover {
 					}
 
 				});
-
-		function uploadImage(file, editor) {
+		
+		function uploadImage(file, editor){
 			const form = new FormData(); //<form> 태그
 			form.append("upfile", file); //<input type="file" name="upfile">
-
-			$.ajax({
+			
+			$.ajax ({
 				url : "/post/editorImage",
 				type : "post", //post 필수
-				data : form, //전송 데이터
+				data : form,  //전송 데이터
 				processData : false, //기본 문자열 전송 세팅 해제
 				contentType : false, //기본 form enctype 해제
-				cache : false,
-				success : function(savePath) {
+				cache:false,
+				success : function(savePath){
 					//savePath : 파일 업로드 경로
 					$(editor).summernote("insertImage", savePath); //에디터 본문에 이미지 표기
-
+					
 					//게시글 작성 시, 이미지 중복 등록 방지
-					// 					$("input[id*=note-dialog]").remove();
+// 					$("input[id*=note-dialog]").remove();
 				},
-				error : function() {
+				error : function(){
 					console.log("erererer");
 				}
 			});
 		}
+
 	</script>
 </body>
 </html>
