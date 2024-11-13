@@ -53,12 +53,18 @@ public class PostWriterServlet extends HttpServlet {
 		String today = sdf.format(date); // 오늘날짜
 
 		String rootPath = request.getSession().getServletContext().getRealPath("/");// webapp 폴더 경로
+		String saveFolder = rootPath + "resources/upload/";
+		
+		File folder = new File(saveFolder);
+		if(!folder.exists()) {
+			folder.mkdir();
+		}
+		
 		String savePath = rootPath + "resources/upload/" + today + "/"; // 파일 저장 경로
 		
 		int maxSize = 1024 * 1024 * 10; // 10MB
 
 		File dir = new File(savePath);// 오늘날짜로 지정한 폴더
-		
 		if (!dir.exists()) { // 해당 경로에 폴더가 생성되어 있지 않을 떄
 			dir.mkdir();// 폴더 생성
 		}

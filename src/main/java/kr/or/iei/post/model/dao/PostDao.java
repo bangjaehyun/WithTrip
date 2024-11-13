@@ -177,7 +177,7 @@ public class PostDao {
 		public int insertPost(Connection conn, Post post) {
 			PreparedStatement pstmt = null;
 			int result = 0;
-			String query = "insert into tbl_post values(?,?,?,?,?,sysdate)";
+			String query = "insert into tbl_post values(?,?,?,?,?,sysdate,default)";
 			
 			
 			try {
