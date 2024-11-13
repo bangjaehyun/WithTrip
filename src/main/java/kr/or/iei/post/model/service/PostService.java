@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.post.model.dao.PostDao;
 import kr.or.iei.post.model.vo.Post;
+import kr.or.iei.post.model.vo.PostComment;
 import kr.or.iei.post.model.vo.PostFile;
 import kr.or.iei.post.model.vo.PostPageData;
-import kr.or.iei.spot.model.vo.Spot;
 import kr.or.iei.user.model.vo.User;
 
 public class PostService {
@@ -128,7 +128,7 @@ public class PostService {
 		return list;
 	}
 
-	public int insertPost(Post post, ArrayList<PostFile> fileList, ArrayList<Spot> spotList) {
+	public int insertPost(Post post, ArrayList<PostFile> fileList) {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		String postNo = dao.selectPostNo(conn);
@@ -149,20 +149,8 @@ public class PostService {
 			}
 			
 			//commit 시점
-			if(fileChk) {
-				boolean soptChk = true;
-				for(int i =0; i < spotList.size(); i++) {
-					result = dao.insertPostSpot(conn, spotList.get(i));
-					if(result < 1) {
-						JDBCTemplate.rollback(conn);
-						soptChk = false;
-						break;
-					}
-				}
-				
-				if(soptChk) {
-					JDBCTemplate.commit(conn);
-				}
+			if(fileChk) {				
+				JDBCTemplate.commit(conn);
 			}
 		}else {
 			JDBCTemplate.rollback(conn);
@@ -171,6 +159,47 @@ public class PostService {
 		
 		return result;
 	}
+
+	//댓글 작성(등록)
+	public int insertComment(PostComment comment) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.insertComment(conn, comment);
+		
+		if(result > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
 	
+	//댓글 삭제
+		public int deleteComment(String commentNo) {
+			Connection conn = JDBCTemplate.getConnection();
+			int result = dao.deleteComment(conn, commentNo);
+			
+			if(result > 0) {
+				JDBCTemplate.commit(conn);
+			} else {
+				JDBCTemplate.rollback(conn);
+			}
+			JDBCTemplate.close(conn);
+			return result;
+		}
+
+		//댓글 수정
+		public int updateComment(PostComment comment) {
+			Connection conn = JDBCTemplate.getConnection();
+			int result = dao.updateComment(conn, comment);
+			
+			if(result > 0) {
+				JDBCTemplate.commit(conn);
+			} else {
+				JDBCTemplate.rollback(conn);
+			}
+			JDBCTemplate.close(conn);
+			return result;
+		}
 
 }

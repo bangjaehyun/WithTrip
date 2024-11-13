@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.post.model.vo.Post;
+import kr.or.iei.post.model.vo.PostComment;
 import kr.or.iei.post.model.vo.PostFile;
-import kr.or.iei.spot.model.vo.Spot;
 import kr.or.iei.user.model.vo.User;
 
 public class PostDao {
@@ -124,6 +124,7 @@ public class PostDao {
 					p.setUserNo(rset.getString("user_no"));
 					p.setPostContent(rset.getString("post_content"));
 					p.setPostDate(rset.getString("post_date"));
+					p.setReadCount(rset.getInt("read_count"));
 				}
 				
 			} catch (SQLException e) {
@@ -171,11 +172,11 @@ public class PostDao {
 			return list;
 		}
 
-
+		//게시글 등록
 		public int insertPost(Connection conn, Post post) {
 			PreparedStatement pstmt = null;
 			int result = 0;
-			String query = "insert into tbl_post values(?,?,?,?,?,sysdate, default)";
+			String query = "insert into tbl_post values(?,?,?,?,?,sysdate)";
 			
 			
 			try {
@@ -198,7 +199,7 @@ public class PostDao {
 			return result;
 		}
 
-
+		//게시글에 파일 넣기
 		public int insertPostFile(Connection conn, PostFile file) {
 			PreparedStatement pstmt = null;
 			String query = "insert into tbl_post_file values (to_char(sysdate, 'yymmddhh24mi') || lpad(seq_post_file.nextval, 4,'0'), ?, ?, ?)";
@@ -220,7 +221,7 @@ public class PostDao {
 			return result;
 		}
 
-
+		//게시글 작성자 - 닉네임 불러오는 용도
 		public User selectUser(Connection conn, String userNo) {
 			PreparedStatement pstmt = null;
 			ResultSet rset = null;
@@ -247,35 +248,98 @@ public class PostDao {
 				JDBCTemplate.close(pstmt);
 			}
 			
-			
-			
 			return user;
 		}
 
-
-		public int insertPostSpot(Connection conn, Spot spot) {
+		//댓글 작성(등록)
+		public int insertComment(Connection conn, PostComment comment) {
 			PreparedStatement pstmt = null;
 			int result = 0;
-			String query = "insert into tbl_spot values(to_char(sysdate, 'yyyymmddhh24mi') || lpad(seq_spot_no.nextval, 4, '0'), ?,?,?,?,?,?,default)";
+			String query = "insert into tbl_comment values ((to_char(sysdate, 'yymmddhh24mi') || lpad(seq_comment_id.nextval, 4, 0)), ?, ?,sysdate, default, default)";
 			
 			try {
 				pstmt = conn.prepareStatement(query);
-				pstmt.setString(1, spot.getSpotName());
-				pstmt.setInt(2, spot.getSpotType());
-				pstmt.setString(3, spot.getSpotAddr());
-				pstmt.setString(4, spot.getSpotLat());
-				pstmt.setString(5, spot.getSpotLng());
-				pstmt.setString(6, spot.getSpotPhone());
+				pstmt.setString(1, comment.getUserNo());
+				pstmt.setString(2, comment.getCommentVal());
 				
-				result = pstmt.executeUpdate();
+				System.out.println("DAO : " +  comment);
 				
+				result =  pstmt.executeUpdate();	
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}finally {
+			} finally {
 				JDBCTemplate.close(pstmt);
 			}
+			return result;
+		}
+		
+		//해당 게시글에 대한 댓글정보 불러오기
+		public ArrayList<PostComment> selectCommentList(Connection conn, String postNo) {
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			ArrayList<PostComment> list = new ArrayList<PostComment>();
+			String query = "select * from tbl_comment where comment_ref = ? order by comment_date desc";	///최신순으로 댓글 가져오기
+		
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, postNo);
+				rset = pstmt.executeQuery();
+				while(rset.next()) {
+					PostComment c = new PostComment();
+					c.setCommentId(rset.getString("comment_Id"));
+					c.setUserNo(rset.getString("comment_writer"));
+					c.setCommentVal(rset.getString("comment_val"));
+					c.setCommentRef(rset.getString("comment_ref"));
+					c.setCommentDate(rset.getString("comment_date"));
+					list.add(c);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+			}
+			return list;
+		}
+
+		//댓글 삭제
+		public int deleteComment(Connection conn, String commentId) {
+			PreparedStatement pstmt = null;
+			int result = 0;
+			String query = "delete from tbl_comment where comment_id = ?";
 			
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, commentId);
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(pstmt);
+			}
+			return result;
+		}
+
+		//댓글 수정	
+		public int updateComment(Connection conn, PostComment comment) {
+			PreparedStatement pstmt = null;
+			int result = 0; 
+			String query = "update tbl_post_comment set comment_val = ?  where comment_id = ?";
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, comment.getCommentVal());
+				pstmt.setString(2, comment.getCommentId());
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(pstmt);
+			}
 			return result;
 		}
 		
