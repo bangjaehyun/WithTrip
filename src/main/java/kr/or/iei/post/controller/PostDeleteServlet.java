@@ -1,8 +1,6 @@
 package kr.or.iei.post.controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,20 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.or.iei.post.model.service.PostService;
-import kr.or.iei.post.model.vo.Post;
-import kr.or.iei.post.model.vo.PostType;
 
 /**
- * Servlet implementation class PostViewServlet
+ * Servlet implementation class PostDeleteServlet
  */
-@WebServlet("/post/view")
-public class PostViewServlet extends HttpServlet {
+@WebServlet("/post/delete")
+public class PostDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PostViewServlet() {
+    public PostDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,19 +28,16 @@ public class PostViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1. 인코딩
 		
-		//2. 값 추출
 		String postNo = request.getParameter("postNo");
-		
-		//System.out.println("postNo : " + postNo);
-		
-		//3. 로직
 		PostService service = new PostService();
-		Post p = service.selectOnePost(postNo);
-		p.setPostTypeNm(PostType.type[Integer.parseInt(p.getPostTypeCd())-1]);
-		request.setAttribute("post", p);
-		request.getRequestDispatcher("/WEB-INF/views/post/view.jsp").forward(request, response);
+		int result = service.deletePost(postNo);
+		
+		if(result > 0) {
+			response.getWriter().print("1");
+		}else {
+			response.getWriter().print("0");
+		}
 	}
 
 	/**
