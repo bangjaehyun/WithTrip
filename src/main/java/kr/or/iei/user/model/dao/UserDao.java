@@ -135,6 +135,7 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		UserSite u = null;
+		int userType = 5;
 		String query = "select * from tbl_user_withtrip where user_id = ? and user_pw =?";
 		
 		try {
@@ -153,6 +154,7 @@ public class UserDao {
 				u.setUserPhone(rset.getString("user_phone"));
 				u.setUserNickname(rset.getString("user_nickname"));
 				u.setEnrollDate(rset.getDate("enroll_date"));
+				u.setUserType(userType);
 			}
 			
 		} catch (SQLException e) {
@@ -250,7 +252,7 @@ public class UserDao {
 	public int updateUserNickname(Connection conn, String userNo, String updNickname) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "update tbl_user set user_nickname = ? where userNo = ?";
+		String query = "update tbl_user set user_nickname = ? where user_No = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);

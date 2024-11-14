@@ -20,4 +20,5 @@ public class UserSite extends User {
 	private String userEmail;
 	private String userPhone;
 	private Date enrollDate;
+	private int userType;
 }
