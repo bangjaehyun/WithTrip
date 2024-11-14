@@ -51,13 +51,13 @@ public class UserUpdateInfoServlet extends HttpServlet {
 			request.setAttribute("title", "알림");
 			request.setAttribute("text", "회원정보 수정이 완료되었습니다");
 			request.setAttribute("icon", "success");
-			request.setAttribute("loc", "/user/mypage");
+			request.setAttribute("loc", "/user/mypageFrm");
 			
 		}else {
 			request.setAttribute("title", "알림");
 			request.setAttribute("text", "회원정보 수정 중 오류가 발생했습니다");
 			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/user/mypage");
+			request.setAttribute("loc", "/user/mypageFrm");
 		}
 		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 	}
