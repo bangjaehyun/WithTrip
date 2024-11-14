@@ -77,11 +77,13 @@ public class PostWriterServlet extends HttpServlet {
 		String postTitle = mRequest.getParameter("postTitle");
 		String postContent = mRequest.getParameter("postContent");
 		String mapList = mRequest.getParameter("mapList");
+		String tagList = mRequest.getParameter("tagList");
 		
 		ArrayList<Spot> spotList = new ArrayList<Spot>();
+		JsonParser jsonParser = new JsonParser();
 		
 		if(!mapList.equals("null")) {
-		JsonParser jsonParser = new JsonParser();
+		
         
 		JsonArray jArray = jsonParser.parse(mapList).getAsJsonArray();
 		for (JsonElement pa : jArray) {
@@ -117,6 +119,10 @@ public class PostWriterServlet extends HttpServlet {
 		post.setUserNo(postWriterNo);
 		post.setPostTitle(postTitle);
 		post.setPostContent(postContent);
+		if(tagList != null) {
+			post.setTagList(tagList);
+			System.out.println(tagList);
+		}
 		
 		PostService service = new PostService();
 		int result = service.insertPost(post, fileList, spotList);

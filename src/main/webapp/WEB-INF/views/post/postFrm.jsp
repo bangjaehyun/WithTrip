@@ -157,6 +157,7 @@ text-align: center;
 	margin : auto 0;
 	width : 100px;
 	border-radius: 30px;
+	cursor: pointer;
 }
 
 .ul-tag li:hover{
@@ -234,18 +235,13 @@ text-align: center;
 	<script src="/resources/summernote/summernote-lite.js"></script>
 	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 	<script>
-	let tagList = [];
 	
 	function tagClick(obj){
-		if(tagList.includes($(obj).text())){
-			tagList.pop($(obj).text());
+		if($(obj).attr('class') == "addTag"){
 			$(obj).removeClass("addTag");
-		
 		}else{
-			tagList.push($(obj).text());
 			$(obj).addClass("addTag");
 		}
-		console.log(tagList);
 	}
 	
 	
@@ -374,10 +370,18 @@ text-align: center;
 			if(isConfrim){
 				var form = $('#post-view')[0];
 				var formData = new FormData(form);
-				console.log(JSON.stringify(mapList));
-				formData.append("mapList",  JSON.stringify(mapList));
-			    
-				출처: https://shxrecord.tistory.com/175 [3인칭시점:티스토리]
+				formData.append("mapList", JSON.stringify(mapList));
+				
+				tagList = [];
+				 $('.addTag').each(function(index,item){
+					 tagList.push($(this).text());
+				});
+				 console.log(tagList.length);
+				if(tagList.length > 0){
+					formData.append("tagList", JSON.stringify(tagList));
+				}
+				
+				
 				$.ajax({
 					url : "/post/writer",
 					type : "POST",
