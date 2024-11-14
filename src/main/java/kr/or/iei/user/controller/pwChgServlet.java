@@ -61,7 +61,7 @@ public class pwChgServlet extends HttpServlet {
 			
 			if(result > 0) {
 				request.setAttribute("title", "알림");
-				request.setAttribute("text", "비밀번호 변경이 완료되었습니다. 다시 로그인하세요");
+				request.setAttribute("text", "비밀번호 변경이 완료되었습니다. 다시 로그인해주세요");
 				request.setAttribute("icon", "success");
 				request.setAttribute("callback", "self.close(); window.opener.location.href=\"/user/mypage\";");				
 				
