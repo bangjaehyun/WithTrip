@@ -68,7 +68,7 @@
 		            </table>
 		            <div class="button-group">
 		            	<button type="button" onclick="window.location.reload()">취소</button>
-		            	<button onclick="updInfoBtn()">수정</button>
+		            	<button type="button" onclick="updInfoBtn()">수정</button>
 		            </div>
 		        </form>
 		    </div>
