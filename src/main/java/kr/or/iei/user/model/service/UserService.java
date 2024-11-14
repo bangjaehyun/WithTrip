@@ -130,16 +130,19 @@ public class UserService {
 	}
 	public int updateUserInfo(String userNo, String updNickname, String updUserPhone, int type) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result1 = dao.updateUserPhone(conn, userNo, updUserPhone, type);		
-		int result2 = dao.updateUserNickname(conn, userNo, updNickname);
 		
-		int result = result1 + result2;
+		int result = dao.updateUserPhone(conn, userNo, updNickname ,updUserPhone, type);
 		
-		if(result == 2) {
-			JDBCTemplate.commit(conn);
-		}else {
-			JDBCTemplate.rollback(conn);
+		if(result > 0) {
+			result = dao.updateUserNickname(conn, userNo, updNickname);
+			
+			if(result > 0) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollback(conn);
+			}
 		}
+		
 		JDBCTemplate.close(conn);
 		return result;
 	}
