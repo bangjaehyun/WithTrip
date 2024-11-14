@@ -107,6 +107,7 @@ public class PostService {
 		return pd;
 	}
 
+	/*
 	//게시글 상세 보기
 	public Post selectOnePost(String postNo) {
 		Connection conn = JDBCTemplate.getConnection();
@@ -119,7 +120,7 @@ public class PostService {
 		JDBCTemplate.close(conn); 
 		return p;
 	}
-	
+	*/
 	
 	//게시글 - 조회수 +1 처리 없이 하나 상세보기
 	public Post getOnePost (String postNo) {
@@ -137,7 +138,7 @@ public class PostService {
 
 	//게시글 상세보기 + 댓글
 	///다양한 서블릿에서 상세보기 메소드를 호출하고 있는데, 댓글확인이 항상 있는 것이 아님 -> commentChk는 있을수도, 없을수도 있음  -> 댓글을 작성을 하고 요청하는 경우가 아니라면 commentChk 의 값은 null
-	public Post selectOneNotice(String postNo, String commentChk) {
+	public Post selectOnePost(String postNo, String commentChk) {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		Post p = dao.selectOnePost (conn, postNo);
@@ -145,28 +146,37 @@ public class PostService {
 		
 		//조회해온 다음에 조회수 +1 처리
 		if(p != null) {
-			int result = 0;
-			 
+			int result = 0;	 
 			//commentChk == null 인 것은, 댓글을 작성하고 상세보기 이동하는 경우를 제외한 모든 요청
 			
 			///일반적으로 상세보기하는 경우에는 result == 0
 			if(commentChk == null) {
 				result = dao.updateReadCount(conn, postNo);				
 			}
-				
+			
+			User user = dao.selectUser(conn, p.getUserNo());
+			p.setUser(user);
 			
 			//게시글 파일정보 불러오기
 			//commentChk != null 인 것은 댓글을 작성하고 상세보기 이동하는 경우에도, 파일 정보를 select 할 수 있도록
 			if(result > 0 || commentChk != null) {
 				JDBCTemplate.commit(conn);
 				
-				//파일 리스트, 댓글리스트 모두 1개의 게시글에 종속적인 데이터이므로, 별도의 클래스를 생성하지 않고(NoticePageData.java를 만들었던것 처럼이 아니라), Notice 클래스에 변수로 추가
+				//파일 리스트, 댓글리스트 모두 1개의 게시글에 종속적인 데이터이므로, 별도의 클래스를 생성하지 않고(PostPageData.java를 만들었던것 처럼이 아니라), Notice 클래스에 변수로 추가
 				ArrayList<PostFile> fileList = dao.selectPostFileList(conn, postNo);
 				p.setFileList(fileList);
 				
 				///해당 게시글에 대한 댓글정보도 읽어와야 함
 				ArrayList<PostComment> commentList = dao.selectCommentList (conn, postNo);
 				p.setCommentList(commentList);
+				
+				for(int i =0; i<commentList.size(); i++) {
+					//유저 정보 조회
+					User cmtUser = dao.selectUser(conn, commentList.get(i).getUserNo());
+					if(cmtUser != null) {						
+						commentList.get(i).setUser(cmtUser);
+					}
+				}
 				
 			} else {
 				JDBCTemplate.rollback(conn);
@@ -178,14 +188,6 @@ public class PostService {
 		return p;
 	}
 	
-	//게시글 종류별 리스트 조회 : 고객센터 메인페이지에서 사용
-	public ArrayList<Post> selectIndexPostList() {
-		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Post> list = dao.selectIndexPostList(conn);
-		JDBCTemplate.close(conn);
-		return list;
-	}
-
 	//게시글 등록
 	public int insertPost(Post post, ArrayList<PostFile> fileList, ArrayList<Spot> spotList) {
 		Connection conn = JDBCTemplate.getConnection();
@@ -234,6 +236,13 @@ public class PostService {
 	//댓글 작성(등록)
 	public int insertComment(PostComment comment) {
 		Connection conn = JDBCTemplate.getConnection();
+		
+		//comment_id 임시테이블에서 생성
+		String commentId = dao.selectCommentId(conn);
+		comment.setCommentId(commentId);
+		
+		System.out.println("postService - comment 0 : " + commentId);
+		
 		int result = dao.insertComment(conn, comment);
 		
 		System.out.println("postService - comment 1 : " + comment);
@@ -255,9 +264,9 @@ public class PostService {
 	}
 	
 	//댓글 삭제
-	public int deleteComment(String commentNo) {
+	public int deleteComment(String commentId) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = dao.deleteComment(conn, commentNo);
+		int result = dao.deleteComment(conn, commentId);
 		
 		if(result > 0) {
 			JDBCTemplate.commit(conn);

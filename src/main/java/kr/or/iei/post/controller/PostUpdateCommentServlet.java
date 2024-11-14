@@ -11,16 +11,16 @@ import kr.or.iei.post.model.service.PostService;
 import kr.or.iei.post.model.vo.PostComment;
 
 /**
- * Servlet implementation class PostInsertCommentServlet
+ * Servlet implementation class PostUpdateCommentServlet
  */
-@WebServlet("/post/insertComment")
-public class PostInsertCommentServlet extends HttpServlet {
+@WebServlet("/post/updateComment")
+public class PostUpdateCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PostInsertCommentServlet() {
+    public PostUpdateCommentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,45 +29,35 @@ public class PostInsertCommentServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1. 인코딩
-		
-		//2. 값 추출
-		String commentRef = request.getParameter("commentRef");
-		String commentWriter = request.getParameter("commentWriter");
-		String commentVal = request.getParameter("commentVal");
-		int postTypeCd = Integer.parseInt(request.getParameter("postTypeCd"));
 		String commentId = request.getParameter("commentId");
+		String postNo = request.getParameter("postNo");
+		String commentVal = request.getParameter("commentVal");
 		
-		System.out.println("게시글번호 : " +commentRef);
-		System.out.println("댓글 작성한 사람 회원번호 :  " + commentWriter);
-		System.out.println("댓글내용 : " + commentVal);
-		System.out.println("게시글 분류 번호 : " + postTypeCd);
+		System.out.println("PostUpdateCommentServlet의 commentId : " + commentId);
+		System.out.println("PostUpdateCommentServlet의 postNo : " + postNo);
+		System.out.println("PostUpdateCommentServlet의 commentVal : " + commentVal);
 		
-		//3. 로직
 		PostComment comment = new PostComment();
-		comment.setCommentRef(commentRef);
-		comment.setUserNo(commentWriter);
+		comment.setCommentId(commentId);
+		comment.setCommentRef(postNo);
 		comment.setCommentVal(commentVal);
-		comment.setPostTypeCd(postTypeCd);
 		
 		PostService service = new PostService();
-		int result = service.insertComment(comment);
+		int result = service.updateComment(comment);
 		
-		System.out.println("서블릿 result : " + result);
-		System.out.println("서블릿 commentRef : " + commentRef);
-		//4. 결과처리
-		if(result > 0 ) {
+		if(result > 0) {
 			request.setAttribute("title", "알림");
-			request.setAttribute("msg", "댓글 작성을 완료했습니다.");
+			request.setAttribute("msg", "댓글 수정이 완료되었습니다.");
 			request.setAttribute("icon", "success");
-			request.setAttribute("loc", "/post/view?postNo="+commentRef+"&commentChk=chk");
+			request.setAttribute("loc", "/post/view?postNo="+postNo+"&commentChk=chk");
 		} else {
-			request.setAttribute("title", "실패");
-			request.setAttribute("msg", "댓글 작성 중, 오류가 발생하였습니다.");
+			request.setAttribute("title", "알림");
+			request.setAttribute("msg", "댓글 수정 중, 오류가 발생했습니다.");
 			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/post/view?postNo="+commentRef+"&commentChk=chk");
+			request.setAttribute("loc", "/post/view?postNo="+postNo+"&commentChk=chk");
 		}
 		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+		
 	}
 
 	/**

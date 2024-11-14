@@ -18,22 +18,18 @@
 
 <header class="header">   
    <div class="fixedMenu">
-            <div class="logo"><a href="/"><img src="/resources/images/withTrip_logo_h_01.png" width="100%" height="60px"></a></div>
+            <div class="logo"><a href="/"><img src="/resources/images/withTrip_logo_h_03.png" width="150px" height="60px"></a></div>
             <nav class="nav">
                 <ul class="recommend">
-                    <li><a href="#">추천 여행</a>
-                       <ul class="sub-menu">
-                            <li><a href="#">도시</a></li>
-                            <li><a href="#">테마</a></li>
-                            <li><a href="#">계절</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">이달의 여행</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">축제</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">우리의 여행</a></li>
+                   <li><a href="#">추천 여행</a>
+                      <ul class="sub-menu">
+                           <li><a href="#">도시</a></li>
+                           <li><a href="#">테마</a></li>
+                           <li><a href="#">계절</a></li>
+                           <li><a href="#">축제</a></li>
+                       </ul>
+                   </li>
+                   <li><a href="#">우리의 여행</a></li>
                    <li><a href="/spot/mainMap">MAP</a></li>
                    <li><a href="/post/CS">고객센터</a>
                       <ul class="sub-menu">
@@ -43,7 +39,6 @@
                             <li><a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5">사이트 소개</a></li>                      
                       </ul>
                    </li>
-                   
                 </ul>
             </nav>
             <ul class="user-menu">

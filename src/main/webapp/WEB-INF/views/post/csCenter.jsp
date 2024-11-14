@@ -23,6 +23,8 @@
 	.list-header {
 		padding : 20px 0px;
 		text-align : right;
+		text-align: right;
+		margin-bottom: 10px;
 	}
 	.list-content-body {
 		height : 500px;
@@ -35,20 +37,14 @@
 	.side-menu-title {
 		width : 180px;
 		padding : 7px 0px;
-		text-align : left;
-		
+		text-align : left;		
 		font-weight : bold;
 		font-size : 20px;
 		border-bottom: 3px solid var(--main2);
 		position:sticky;
 	}
-	
 	.section {
 		margin-bottom: 20px;
-	}
-	.list-header {
-		text-align: right;
-		margin-bottom: 10px;
 	}
 	.list-header>a:hover {
 		text-decoration : underline;
@@ -61,25 +57,27 @@
 	.cs-content {
 		height : 30px;
 		display: flex;
-		justify-content: space-around;
+		justify-content: center;
 		align-content: center;
 		flex-wrap: wrap;
+		gap : 8px;
 	}
 	.cs-conTxt {
 		font-size : 13px;
+		padding-left : 300px;
+		justify-content: space-between;
 	}
 	.cs-conList {
 		display : flex;
-		height : 38px;
-		width : 250px;
-		line-height : 25px;
+		height : 50px;
+		width : 300px;
+		line-height : 35px;
 		background-color : var(--main2);
 		border-radius : 8px;
 		border: 1px solid var(--main2);
 		justify-content : center;
 		align-content: center;
 		justify-items:center;
-		margin-bottom : 5px;
 	}
 	.cs-conList:hover {
 		font-weight: bolder;
@@ -93,15 +91,15 @@
 		font-size: 17px;
 	}
 	.cs-content-header {
-		height : 200px;
+		height : 300px;
 		align-content: center;
 		justify-content: center;
 		justify-items: center;
 		position : relative;
-		margin-bottom : 60px;
+		margin-bottom : 80px;
 	}
 	#direct-arrow{
-		padding-top : 7px;
+		padding-top : 11px;
 		width: 25px;
 		height: 25px;
 	}
@@ -132,53 +130,34 @@
 							<img src="/resources/images/withTrip_logo_h_04.png" id="siteIntro-header">
 			                <h4>여행을 내곁에, withTrip입니다. 무엇을 도와드릴까요?</h4>
 						</div>						
-						<%-- 공지사항, 자주묻는 질문, Q&A의 게시글을 5개씩 보이게 하고 싶었는데 값은 넘어오는데 테이블 tr태그 아래에 추가가 안됨, 추후 확인 후 삭제 or 수정 예정  --%>
-						<c:forEach  var="post" items="${postList}">
-						<section class="section type${post.postTypeCd}">
-								<div class="page-title" style="text-align:left;">${post.postTypeNm}
-									<div class="list-header">
-										<a href='/post/list?reqPage=1&postTypeCd=${post.postTypeCd}&postTypeNm=${post.postTypeNm}'>더보기</a>
-									</div>
-									<div class="list-content-body">
-										<table class="tbl hover" border="1">
-											<tr class="th">
-												<th style="width:10%;">번호</th>
-												<th style="width:30%;">제목</th>
-												<th style="width:20%;">작성자</th>
-												<th style="width:20%;">작성일</th>
-											</tr>
-										</table>
-									</div>
-								</div>
-							</section>
-						</c:forEach>
-					
+						
 						<div class="cs-content">
 							<div class="cs-conList">
 								<p><a href="#">ID / 비밀번호 찾기</a></p>
 								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">							
 							</div>
 							<div class="cs-conList">
-								<p><a href="/user/joinFrm">회원가입</a></p>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">							
-							</div>
-							<div class="cs-conList">
-								<p><a href="#">파트너 신청</a></p>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
-							</div>
-							<div class="cs-conList">
 								<p><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항 바로가기</a></p>
 								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
-							</div>				
+							</div>	
 							<div class="cs-conList">
-								<p><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4">Q&A 바로가기</a></p>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
+								<p><a href="/user/joinFrm">회원가입</a></p>
+								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">							
 							</div>
 							<div class="cs-conList">
 								<p><a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3">자주 묻는 질문 바로가기</a></p>
 								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
 							</div>
+							<div class="cs-conList">
+								<p><a href="/cs/joinPartner">파트너 신청</a></p>
+								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
+							</div>		
+							<div class="cs-conList">
+								<p><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4">Q&A 바로가기</a></p>
+								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
+							</div>		
 							<div class="cs-conTxt">
+								<p></p>
 								<p>1:1문의 작성은 로그인을 하셔야 가능합니다. </p>
 							</div>
 						</div>					
@@ -188,39 +167,5 @@
 		</main>
 		<jsp:include page = "/WEB-INF/views/common/footer.jsp" />
 	</div>
-	<script>
-	//게시글 종류별 리스트 조회
-	function postList() {
-		$.ajax ({
-			url : "/post/index",
-			type : "GET",
-			dataType : "json",	//서블릿에서 응답해주는 데이터의 형식	
-			success : function(res){
-				console.log(res);
-				$(res).each(function(index, item) {
-					let html = "";
-					html += "<tr>";
-					html += "<td>" + item.postTypeCd + "</td>";
-					html += "<td><a href='post/view?postNo="+item.postNo+"'>"+item.postTitle+"</a></td>";
-					html += "<td>"+item.userNo+"</td>";
-					html += "<td>"+item.postDate+"</td>";
-					html += "</tr>";
-					console.log(html);
-					$('.section.type' + item.postTypeCd).append(html);
-				});
-			},
-			error : function() {
-				console.log("ajax 통신 오류");				
-			}
-		});
-	}
-	
-	setInterval(function() {
-		postList(); 
-	}, 1000*60*10);	//10분에 1번씩
-	$(function () {
-		postList();
-	});
-	</script>
 </body>
 </html>

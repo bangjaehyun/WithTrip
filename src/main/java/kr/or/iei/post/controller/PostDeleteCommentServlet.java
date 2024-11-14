@@ -1,8 +1,6 @@
 package kr.or.iei.post.controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,20 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.or.iei.post.model.service.PostService;
-import kr.or.iei.post.model.vo.Post;
-import kr.or.iei.post.model.vo.PostType;
 
 /**
- * Servlet implementation class PostViewServlet
+ * Servlet implementation class PostDeleteCommentServlet
  */
-@WebServlet("/post/view")
-public class PostViewServlet extends HttpServlet {
+@WebServlet("/post/deleteComment")
+public class PostDeleteCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PostViewServlet() {
+    public PostDeleteCommentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,22 +28,27 @@ public class PostViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1. 인코딩
-		
-		//2. 값 추출
 		String postNo = request.getParameter("postNo");
-		String commentChk = request.getParameter("commentChk");
+		String commentId = request.getParameter("commentId");
 		
-		//System.out.println("postNo : " + postNo);
+		System.out.println("PostDeleteCommentServlet의 postNo : " + postNo);
+		System.out.println("PostDeleteCommentServlet의 commentId : " + commentId);		
 		
-		//3. 로직
 		PostService service = new PostService();
-		Post p = service.selectOnePost(postNo, commentChk);
-		p.setPostTypeNm(PostType.type[Integer.parseInt(p.getPostTypeCd())-1]);
-		request.setAttribute("post", p);
-		//System.out.println("PostViewServlet의 게시글 정보 : " + p);
+		int result =  service.deleteComment(commentId);
 		
-		request.getRequestDispatcher("/WEB-INF/views/post/view.jsp").forward(request, response);
+		if(result > 0) {
+			request.setAttribute("title", "알림");
+			request.setAttribute("msg", "댓글을 삭제했습니다.");
+			request.setAttribute("icon", "success");
+			request.setAttribute("loc", "/post/view?postNo="+postNo+"&commentChk=chk");
+		} else {
+			request.setAttribute("title", "알림");
+			request.setAttribute("msg", "댓글 삭제중, 오류가 발생했습니다.");
+			request.setAttribute("icon", "error");
+			request.setAttribute("loc", "/post/view?postNo="+postNo+"&commentChk=chk");
+		}
+		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 	}
 
 	/**

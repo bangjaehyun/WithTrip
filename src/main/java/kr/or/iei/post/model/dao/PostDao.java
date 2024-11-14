@@ -38,6 +38,7 @@ public class PostDao {
 				p.setPostContent(rset.getString("post_content"));
 				p.setUserNo(rset.getString("user_no"));
 				p.setPostDate(rset.getString("post_date"));
+				p.setReadCount(rset.getInt("read_count"));
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -135,41 +136,8 @@ public class PostDao {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
-		System.out.println(p);
+		System.out.println("PostDao : " + p);
 		return p;
-	}
-
-	//게시글 종류별 리스트 조회 : 고객센터 메인페이지에서 사용
-	public ArrayList<Post> selectIndexPostList(Connection conn) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		
-		//post-type-cd (게시글 종류코드 1-공지사항, 2-여행정보, 3-Q&A, 4-FAQ, 5-사이트 이용안내)별로 그룹지어, 행번호를 조회
-		String query = "select * from ( select row_number() over (partition by post_type_id order by post_date desc) as rnum, a.* from tbl_post a) where rnum <=5";
-		ArrayList<Post> list = new ArrayList<Post>();
-		
-		try {
-			pstmt = conn.prepareStatement(query);
-			rset = pstmt.executeQuery();
-			while(rset.next()) {
-				Post p = new Post();
-				p.setPostNo(rset.getString("post_no"));
-				p.setPostTypeCd(rset.getString("post_type_id"));
-				p.setPostTitle(rset.getString("post_title"));
-				p.setUserNo(rset.getString("user_no"));
-				p.setPostContent(rset.getString("post_content"));
-				p.setPostDate(rset.getString("post_date"));
-				list.add(p);
-				System.out.println(p);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rset);
-			JDBCTemplate.close(pstmt);
-		}
-		return list;
 	}
 
 	//게시글 등록
@@ -238,6 +206,8 @@ public class PostDao {
 				user.setUserNo(rset.getString("user_no"));
 				user.setUserNickname(rset.getString("user_nickname"));
 				user.setUserType(rset.getInt("user_type"));
+				
+				System.out.println("PostDao 게시글 작성자" + user);
 			}
 			
 		} catch (SQLException e) {
@@ -250,21 +220,22 @@ public class PostDao {
 		
 		return user;
 	}
-
+	
 	//댓글 작성(등록)
 	public int insertComment(Connection conn, PostComment comment) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into tbl_comment values ((to_char(sysdate, 'yymmddhh24mi') || lpad(seq_comment_id.nextval, 4, 0)), ?, ?,sysdate, default, default)";
+		String query = "insert into tbl_comment values (?, ?, ?,sysdate, default, default)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, comment.getUserNo());
-			pstmt.setString(2, comment.getCommentVal());
+			pstmt.setString(1, comment.getCommentId());
+			pstmt.setString(2, comment.getUserNo());
+			pstmt.setString(3, comment.getCommentVal());
 			
 			System.out.println("DAO  - 1, commentId : " +  comment.getCommentId());
 			
-			System.out.println("DAO : " +  comment);
+			//System.out.println("DAO : " +  comment);
 			
 			
 			result =  pstmt.executeUpdate();	
@@ -282,8 +253,10 @@ public class PostDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<PostComment> list = new ArrayList<PostComment>();
-		String query = "select * from tbl_comment where comment_ref = ? order by comment_date desc";	///최신순으로 댓글 가져오기
+		String query = "select * from tbl_comment where comment_id in (select comment_id from tbl_post_comment_management where post_no = ?) order by comment_date desc";	///최신순으로 댓글 가져오기
 	
+		System.out.println("PostDao - 댓글정보 comment_ref : " + postNo);
+		
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, postNo);
@@ -291,11 +264,16 @@ public class PostDao {
 			while(rset.next()) {
 				PostComment c = new PostComment();
 				c.setCommentId(rset.getString("comment_Id"));
-				c.setUserNo(rset.getString("comment_writer"));
+				c.setUserNo(rset.getString("user_no"));
 				c.setCommentVal(rset.getString("comment_val"));
-				c.setCommentRef(rset.getString("comment_ref"));
+				/* c.setCommentRef(rset.getString("post_no")); */
 				c.setCommentDate(rset.getString("comment_date"));
+				c.setCommentLike(rset.getString("comment_like"));
+				c.setCommentDisLike(rset.getString("comment_dislike"));
 				list.add(c);
+				
+				System.out.println("PostDao - 댓글정보 c : " + c);
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -304,6 +282,8 @@ public class PostDao {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
+		System.out.println("PostDao CommentList : " +list);
+		
 		return list;
 	}
 
@@ -312,6 +292,8 @@ public class PostDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String query = "delete from tbl_comment where comment_id = ?";
+		
+		System.out.println("PostDao 댓글삭제 commentId : " + commentId);
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -323,6 +305,8 @@ public class PostDao {
 		} finally {
 			JDBCTemplate.close(pstmt);
 		}
+		System.out.println("PostDao 댓글삭제 결과 : " + result);
+		
 		return result;
 	}
 
@@ -448,6 +432,7 @@ public class PostDao {
 		} finally {
 			JDBCTemplate.close(pstmt);
 		}
+		System.out.println("PostDao의 게시글 조회수+1 결과 : " + result);
 		return result;
 	}
 	
@@ -471,6 +456,28 @@ public class PostDao {
 		
 		
 		return result;
+	}
+
+	//comment_Id 조회
+	public String selectCommentId(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "select to_char(sysdate, 'yyyymmddhh24mi')||lpad (seq_comment_id.nextval,4,'0')as comment_id from dual";
+		String commentId = "";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			rset.next();
+			commentId = rset.getString("comment_id");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return commentId;
 	}
 
 		

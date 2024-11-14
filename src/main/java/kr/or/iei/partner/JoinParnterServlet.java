@@ -1,29 +1,23 @@
-package kr.or.iei.post.controller;
+package kr.or.iei.partner;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kr.or.iei.post.model.service.PostService;
-import kr.or.iei.post.model.vo.Post;
-import kr.or.iei.post.model.vo.PostType;
-
 /**
- * Servlet implementation class PostViewServlet
+ * Servlet implementation class JoinParnterServlet
  */
-@WebServlet("/post/view")
-public class PostViewServlet extends HttpServlet {
+@WebServlet("/cs/joinPartner")
+public class JoinParnterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PostViewServlet() {
+    public JoinParnterServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,22 +26,7 @@ public class PostViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1. 인코딩
-		
-		//2. 값 추출
-		String postNo = request.getParameter("postNo");
-		String commentChk = request.getParameter("commentChk");
-		
-		//System.out.println("postNo : " + postNo);
-		
-		//3. 로직
-		PostService service = new PostService();
-		Post p = service.selectOnePost(postNo, commentChk);
-		p.setPostTypeNm(PostType.type[Integer.parseInt(p.getPostTypeCd())-1]);
-		request.setAttribute("post", p);
-		//System.out.println("PostViewServlet의 게시글 정보 : " + p);
-		
-		request.getRequestDispatcher("/WEB-INF/views/post/view.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/partner/joinPartner.jsp").forward(request, response);
 	}
 
 	/**
