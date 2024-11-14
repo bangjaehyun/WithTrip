@@ -220,24 +220,25 @@ public class UserDao {
 		}
 		return result;
 	}
-	public int updateUserPhone(Connection conn, String userNo, String updUserPhone, int type) {
+	public int updateUserPhone(Connection conn, String userNo,String updNickname ,String updUserPhone, int type) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		int userType = type;
 		String query = "";
 		
 		if(userType == 3) {
-			query = "update TBL_User_Naver set user_Phone = ? Where User_No = ?";
+			query = "update TBL_User_Naver set user_Phone = ?, user_Nickname = ? Where User_No = ?";
 		}else if(userType == 4) {
-			query = "update TBL_User_Kakao set user_Phone = ? Where User_No = ?";
+			query = "update TBL_User_Kakao set user_Phone = ?, user_Nickname = ? Where User_No = ?";
 		}else if(userType == 5) {
-			query = "update TBL_User_WithTrip set user_Phone = ? Where User_No = ?";
+			query = "update TBL_User_WithTrip set user_Phone = ?, user_Nickname = ? Where User_No = ?";
 		}
 		
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, updUserPhone);
-			pstmt.setString(2, userNo);
+			pstmt.setString(2, updNickname);
+			pstmt.setString(3, userNo);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

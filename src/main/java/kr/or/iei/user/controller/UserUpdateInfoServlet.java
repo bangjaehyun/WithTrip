@@ -1,6 +1,8 @@
 package kr.or.iei.user.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,26 +41,41 @@ public class UserUpdateInfoServlet extends HttpServlet {
 		String userType = request.getParameter("userType");
 		int type = Integer.parseInt(userType);
 		
-		UserService service = new UserService();
-		int result = service.updateUserInfo(userNo, updNickname, updUserPhone, type);
-		
 		System.out.println("userNo: " + userNo);
 		System.out.println("userNickName: " + updNickname);
 		System.out.println("userPhone: " + updUserPhone);
 		System.out.println("userType: " + userType);
 		
+		UserService service = new UserService();
+		int result = service.updateUserInfo(userNo, updNickname, updUserPhone, type);
+		
 		if(result > 0) {
+			HttpSession session = request.getSession(false);
+			
+			if(type == 3) {
+				UserNaver sessionNaver = (UserNaver) session.getAttribute("loginUser");
+				sessionNaver.setUserNickname(updNickname);
+				sessionNaver.setUserPhone(updUserPhone);
+			}else if(type == 4) {
+				UserKakao sessionKakao = (UserKakao) session.getAttribute("loginUser");
+				sessionKakao.setUserNickname(updNickname);
+				sessionKakao.setUserPhone(updUserPhone);
+			}else if(type == 5) {
+				UserSite sessionSite = (UserSite) session.getAttribute("loginUser");
+				sessionSite.setUserNickname(updNickname);
+				sessionSite.setUserPhone(updUserPhone);
+			}
+			
 			request.setAttribute("title", "알림");
-			request.setAttribute("text", "회원정보 수정이 완료되었습니다");
+			request.setAttribute("msg", "회원정보 수정이 완료되었습니다");
 			request.setAttribute("icon", "success");
 			request.setAttribute("loc", "/user/mypageFrm");
-			
 		}else {
 			request.setAttribute("title", "알림");
-			request.setAttribute("text", "회원정보 수정 중 오류가 발생했습니다");
+			request.setAttribute("msg", "회원정보 수정 중 오류가 발생했습니다");
 			request.setAttribute("icon", "error");
 			request.setAttribute("loc", "/user/mypageFrm");
-		}
+		}		
 		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 	}
 
