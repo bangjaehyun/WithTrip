@@ -26,12 +26,14 @@
 }
 
 .input_box {
+	position: absolute;
 	outline: none;
 	border: none;
 	width: 100%;
 	height: 50px;
 	font-size: 18px;
 	border-radius: 2px;
+	outline: none;
 }
 
 .srch_list {
@@ -43,10 +45,14 @@
 }
 
 .go_map {
-	float: right;
+	background: url(/resources/images/map_search.svg) no-repeat;
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	top: 13px;
+	right: 15px;
 	border: none;
 	outline: none;
-	background-color: transparent;
 	cursor: pointer;
 }
 
@@ -62,20 +68,37 @@
 .go_map:hover {
 	text-decoration: underline;
 }
+
+.input_wrap {
+	position: relative;
+	width: 540px;
+	height: 50px;
+}
+
+.input_img {
+	background: url(/resources/images/map_search.svg) no-repeat;
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	top: 13px;
+	right: 15px;
+}
 </style>
 </head>
 <body>
 	<div class="search_map_wrap">
 		<div class="search_map_box">
-			<input class="input_box" id="input_box" type="text"
-				placeholder="지역명, 장소명으로 검색"
-				onKeyPress="if (event.keyCode==13){srchMap();}">
+			<div class="input_wrap">
+				<input class="input_box" id="input_box" type="text"
+					placeholder="지역명, 장소명으로 검색"
+					onKeyPress="if (event.keyCode==13){srchMap();}">
+				<button class="go_map" onClick="srchMap();"></button>
+			</div>
 			<div class="srch_list">
 				추천 검색어 : <a class="srch_a" onClick="setSrch(this);">강남</a>, <a
 					class="srch_a" onClick="setSrch(this);">부산</a>, <a class="srch_a"
-					onClick="setSrch(this);">첨성대</a>
+					onClick="setSrch(this);">보노보노</a>
 			</div>
-			<button class="go_map" onClick="srchMap();">지도로 검색</button>
 		</div>
 	</div>
 	<script>
