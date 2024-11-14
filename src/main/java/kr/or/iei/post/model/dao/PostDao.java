@@ -176,7 +176,7 @@ public class PostDao {
 	public int insertPost(Connection conn, Post post) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into tbl_post values(?,?,?,?,?,sysdate,default)";
+		String query = "insert into tbl_post values(?,?,?,?,?,sysdate,default,?)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -185,6 +185,7 @@ public class PostDao {
 			pstmt.setString(3, post.getPostTypeCd());
 			pstmt.setString(4, post.getPostTitle());
 			pstmt.setString(5, post.getPostContent());
+			pstmt.setString(6, post.getTagList());
 			
 			result = pstmt.executeUpdate();
 			
@@ -447,6 +448,28 @@ public class PostDao {
 		} finally {
 			JDBCTemplate.close(pstmt);
 		}
+		return result;
+	}
+	
+	public int deletePost(Connection conn, String postNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from tbl_post where post_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, postNo);
+			
+			result = pstmt.executeUpdate();
+					
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
 		return result;
 	}
 

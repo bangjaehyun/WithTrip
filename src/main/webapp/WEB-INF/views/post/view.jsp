@@ -170,6 +170,60 @@
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</div>
 	<script>
+	//게시글 삭제
+	function deletePost(delPostNo){
+		swal ({
+			title : "삭제",
+			text : "게시글을 삭제하시겠습니까?",
+			icon : "warning",
+			buttons : {
+				cancel : {
+					text : "취소",
+					value : false,
+					visible : true,
+					closeModal : true
+				},
+				confirm : {
+					text : "삭제",
+					value : true,
+					visible : true,
+					closeModal : true
+				}
+			}
+		}).then(function (isConfirm) {
+			if(isConfirm) {
+				$.ajax({
+					url : "/post/delete",
+					type : "GET",
+					data : {
+						"postNo" : delPostNo
+						}, 
+					success : function(res) {
+						if(res == "1"){
+							swal({
+								title : "알림",
+								text : '${post.postTypeNm}' + " 삭제가 완료 되었습니다.",
+								icon : "success"
+							}).then(function(){
+								location.href = "/post/list?reqPage=1&postTypeCd=" + 1 + "&postTypeNm=" + 1;
+							});
+						}else{
+							swal({
+								title : "알림",
+								text : '${post.postTypeNm}' + "삭제중 오류가 발생하였습니다.",
+								icon : "error"
+							}).then(function(){
+								location.href = "/post/list?reqPage=1&postTypeCd=" +1 + "&postTypeNm=" + 1;
+							});
+						}
+					},
+					error : function() {
+						console.log("ajax 에러 발생");
+					}
+				});
+			}
+		});
+	}
 	//뒤로가기
 	function backward() {
 		history.go(-1);

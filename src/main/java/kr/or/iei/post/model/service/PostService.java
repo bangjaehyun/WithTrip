@@ -281,5 +281,20 @@ public class PostService {
 		JDBCTemplate.close(conn);
 		return result;
 	}
+	
+	public int deletePost(String postNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.deletePost(conn, postNo);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
 
 }
