@@ -120,6 +120,8 @@
 								<form name="insertComment" action="/post/insertComment" method = "post">
 									<input type="hidden" name="commentRef" 		value="${post.postNo}">	<%-- 현재 게시글 번호 --%>
 									<input type="hidden" name="commentWriter"	value="${loginUser.userNo}"> <%-- 현재 댓글 작성자(로그인한 회원) --%>
+									<input type="hidden" name="postTypeCd"		value="${post.postTypeCd}">		<%-- 현재 게시글 분류 --%>
+									<input type="hidden" name="commentId"		value="${comment.commentId}">	<%--작성한 댓글PK commentId --%>
 									<%-- <input type="hidden" name="commentVal"		value="${comment.commentVal}">	현재 작성한 댓글내용 --%>
 									<ul class="comment-write">
 										<li>

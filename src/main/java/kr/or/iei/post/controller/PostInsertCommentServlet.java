@@ -35,16 +35,22 @@ public class PostInsertCommentServlet extends HttpServlet {
 		String commentRef = request.getParameter("commentRef");
 		String commentWriter = request.getParameter("commentWriter");
 		String commentVal = request.getParameter("commentVal");
+		int postTypeCd = Integer.parseInt(request.getParameter("postTypeCd"));
+		String commentId = request.getParameter("commentId");
 		
 		System.out.println("게시글번호 : " +commentRef);
 		System.out.println("댓글 작성한 사람 회원번호 :  " + commentWriter);
 		System.out.println("댓글내용 : " + commentVal);
+		System.out.println("게시글 분류 번호 : " + postTypeCd);
+		System.out.println("댓글 번호 : " + commentId);
+
 		
 		//3. 로직
 		PostComment comment = new PostComment();
 		comment.setCommentRef(commentRef);
 		comment.setUserNo(commentWriter);
 		comment.setCommentVal(commentVal);
+		comment.setPostTypeCd(postTypeCd);
 		
 		PostService service = new PostService();
 		int result = service.insertComment(comment);
