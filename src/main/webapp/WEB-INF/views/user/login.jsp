@@ -1,3 +1,4 @@
+<%@page import="kr.or.iei.user.model.vo.GoogleApiSetting"%>
 <%@page import="kr.or.iei.user.model.vo.ApiInfo"%>
 <%@page import="java.math.BigInteger"%>
 <%@page import="java.security.SecureRandom"%>
@@ -22,6 +23,13 @@
 	apiURL += "&redirect_uri=" + redirectURI;
 	apiURL += "&state=" + state;
 	session.setAttribute("state", state);
+%>
+<%
+	String googleRedirectUrl = GoogleApiSetting.googleRedirectUrl;
+	String googleClientId = GoogleApiSetting.googleClientId;
+	String googleLogin = GoogleApiSetting.googleLoginUrl;
+
+	String googleURL = googleLogin + "/o/oauth2/v2/auth?client_id=" + googleClientId + "&redirect_uri=" + googleRedirectUrl + "&response_type=code&scope=email%20profile%20openid&access_type=offline";
 %>
 <!DOCTYPE html>
 <html>
@@ -242,10 +250,10 @@ background-color :  #90cbfb;
                 <div class="social-login">
                     <h6>소셜계정으로 로그인</h6>
                     <div class="social-login-icon">
-                        <button type="button" onclick="kakaoLoginBtn()" id="kakaoLogin">
-                            <img src="/resources/images/KakaoTalk_Icon_fix.png">
+                        <a href="<%=googleURL%>">
+                        <button type="button" id="googleLogin"><img src="/resources/images/google_icon.png">
                         </button>
-                        
+                        </a>
                         <a href="<%=apiURL%>">
                         <button type="button" id="naverLogin"><img src="/resources/images/Naver_Icon.png">
                         </button>    
@@ -258,7 +266,7 @@ background-color :  #90cbfb;
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </div>          
 <script>
-	function kakaoLoginBtn(){
+/*	function kakaoLoginBtn(){
 		let popupWidth = 500;
 		let popupHeight = 800;
 		
@@ -267,7 +275,7 @@ background-color :  #90cbfb;
 		
 		
 		window.open("/user/kakaoLoginFrm", "kakaoLogin", "width="+popupWidth+", top="+top+", height="+popupHeight+", left="+left);
-	}
+	}*/
 	
 	
 	
