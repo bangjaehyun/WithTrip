@@ -321,7 +321,18 @@ public class PostService {
 			}
 			
 			if(chk) {
-				JDBCTemplate.commit(conn);
+				boolean commentChk = true;
+				for(PostComment comment : commentList) {
+					result = dao.deleteComment(conn, comment.getCommentId());
+					if(result < 1) {
+						JDBCTemplate.rollback(conn);
+						commentChk = false;
+						break;
+					}
+				}
+				if(commentChk) {
+					JDBCTemplate.commit(conn);
+				}
 			}
 		}else {
 			JDBCTemplate.rollback(conn);
