@@ -120,7 +120,7 @@ public class PostModifyServlet extends HttpServlet {
 			post.setTagList(tagList);
 		}
 		if(removeFileList != null) {
-			String delrootPath = request.getSession().getServletContext().getRealPath("/resources/upload/");
+			String delRootPath = request.getSession().getServletContext().getRealPath("/resources/upload/");
 				JsonArray jFileArray = jsonParser.parse(removeFileList).getAsJsonArray();
 				ArrayList<PostFile> list = new ArrayList<PostFile>(); 
 				for (JsonElement pa : jFileArray) {
@@ -129,7 +129,7 @@ public class PostModifyServlet extends HttpServlet {
 					postFile.setFileNo(obj.get("fileNo").getAsString());
 					String fileName = obj.get("fileName").getAsString();
 					postFile.setFileName(fileName);
-					String delFilePath = delrootPath + fileName.substring(0,8) + fileName + "/";
+					String delFilePath = delRootPath + fileName.substring(0,8) + "/"  + fileName;
 					postFile.setFilePath(delFilePath);
 					postFile.setPostNo(postNo);
 					list.add(postFile);
