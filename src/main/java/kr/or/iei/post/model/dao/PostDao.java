@@ -102,6 +102,31 @@ public class PostDao {
 		
 		return postNo;
 	}
+	
+	//장소 번호 조회
+			public String selectSpotNo(Connection conn) {
+				PreparedStatement pstmt = null;
+				ResultSet rset = null;
+				String query = "select to_char(sysdate, 'yyyymmddhh24miss') || lpad(seq_spot_no.nextval, 4, '0') as spot_no from dual";
+				String spotNo = "";
+				
+				try {
+					pstmt = conn.prepareStatement(query);
+					rset = pstmt.executeQuery();
+					rset.next();
+					spotNo = rset.getString("spot_no");
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					JDBCTemplate.close(rset);
+					JDBCTemplate.close(pstmt);
+				}
+				
+				return spotNo;
+			}
+
 
 
 	//게시글 상세 보기 //게시글 - 조회수 +1 처리 없이 하나 상세보기
@@ -127,6 +152,8 @@ public class PostDao {
 				p.setPostContent(rset.getString("post_content"));
 				p.setPostDate(rset.getString("post_date"));
 				p.setReadCount(rset.getInt("read_count"));
+				p.setTagList(rset.getString("post_option"));
+				p.setTripDate(rset.getString("post_trip_date"));;
 			}
 			
 		} catch (SQLException e) {
@@ -144,7 +171,7 @@ public class PostDao {
 	public int insertPost(Connection conn, Post post) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into tbl_post values(?,?,?,?,?,sysdate,default,?)";
+		String query = "insert into tbl_post values(?,?,?,?,?,sysdate,default,?,?)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -154,6 +181,7 @@ public class PostDao {
 			pstmt.setString(4, post.getPostTitle());
 			pstmt.setString(5, post.getPostContent());
 			pstmt.setString(6, post.getTagList());
+			pstmt.setString(7, post.getTripDate());
 			
 			result = pstmt.executeUpdate();
 			
@@ -335,16 +363,18 @@ public class PostDao {
 	public int insertPostSpot(Connection conn, Spot spot) {
         PreparedStatement pstmt = null;
         int result = 0;
-        String query = "insert into tbl_spot values(to_char(sysdate, 'yyyymmddhh24mi') || lpad(seq_spot_no.nextval, 4, '0'), ?,?,?,?,?,?,default)";
+        String query = "insert into tbl_spot values(?,?,?,?,?,?,?,?)";
         
         try {
-            pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, spot.getSpotName());
-            pstmt.setInt(2, spot.getSpotType());
-            pstmt.setString(3, spot.getSpotAddr());
-            pstmt.setString(4, spot.getSpotLat());
-            pstmt.setString(5, spot.getSpotLng());
-            pstmt.setString(6, spot.getSpotPhone());
+        	pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, spot.getSpotNo());
+            pstmt.setString(2, spot.getKakaoMapId());
+            pstmt.setString(3, spot.getSpotName());
+            pstmt.setInt(4, spot.getSpotType());
+            pstmt.setString(5, spot.getSpotAddr());
+            pstmt.setString(6, spot.getSpotLat());
+            pstmt.setString(7, spot.getSpotLng());
+            pstmt.setString(8, spot.getSpotPhone());
             
             result = pstmt.executeUpdate();
             
@@ -402,8 +432,8 @@ public class PostDao {
 				PostFile file = new PostFile();
 				file.setFileNo(rset.getString("file_no"));
 				file.setPostNo(rset.getString("post_no"));
-				file.setFileName(rset.getString("file_name"));
-				file.setFilePath(rset.getString("file_path"));
+				file.setFileName(rset.getString("post_file_name"));
+				file.setFilePath(rset.getString("post_file_src"));
 				fileList.add(file);
 			}
 		} catch (SQLException e) {
@@ -479,6 +509,152 @@ public class PostDao {
 		}
 		return commentId;
 	}
+	
+	public int deleteSpot(Connection conn, String spotNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from tbl_spot where spot_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, spotNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int deleteSpotManageMent(Connection conn, String spotNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from tbl_post_spot_management where spot_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, spotNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+	
+	public int modifyPost(Connection conn, Post post) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update tbl_post set post_title = ?, post_content = ?, post_option = ?, post_trip_date = ? where post_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, post.getPostTitle());
+			pstmt.setString(2, post.getPostContent());
+			pstmt.setString(3, post.getTagList());
+			pstmt.setString(4, post.getTripDate());
+			pstmt.setString(5, post.getPostNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	
+	
+	public int insertPostSpotManageMent(Connection conn, String postNo, String spotNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "insert into tbl_post_spot_management values(?,?)";
+		
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, postNo);
+			pstmt.setString(2, spotNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public ArrayList<Spot> selectPostSpot(Connection conn, String postNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "select * from tbl_spot where spot_no in (select spot_no from tbl_post_spot_management where post_no = ?)";
+		ArrayList<Spot> spotList = new ArrayList<Spot>();
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, postNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Spot spot = new Spot();
+				spot.setSpotNo(rset.getString("spot_no"));
+				spot.setKakaoMapId(rset.getString("kakao_spot_id"));
+				spot.setSpotName(rset.getString("spot_name"));
+				spot.setSpotType(rset.getInt("spot_type"));
+				spot.setSpotAddr(rset.getString("spot_addr"));
+				spot.setSpotLat(rset.getString("spot_lat"));
+				spot.setSpotLng(rset.getString("spot_lng"));
+				spot.setSpotPhone(rset.getString("spot_phone"));
+				
+				spotList.add(spot);
+			}
+					
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return spotList;
+	}
+	
+	public int deletePostFile(Connection conn, String fileNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from tbl_post_file where post_file_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, fileNo);
+			result = pstmt.executeUpdate();
+					
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+			
+		}
+		return result;
+	}
+
 
 		
 }
