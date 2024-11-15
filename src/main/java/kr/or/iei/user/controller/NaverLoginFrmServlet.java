@@ -42,17 +42,19 @@ public class NaverLoginFrmServlet extends HttpServlet {
 		NaverLoginService service = new NaverLoginService();
 		UserNaver n = service.createToken(code, state);
 		    
+		//일단 네이버 로그인하면 세션에 값 넣어줌
 		if(n != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", n);
 			//request.getRequestDispatcher("/").forward(request, response);
-		}
 		
-		if(n.getUserId() != null) {
-			request.getRequestDispatcher("/").forward(request, response);
+		
+			//세션에서 아이디가 널값이면 추가 정보 입력 페이지로 널값이 아니면 바로 홈페이지로
+				request.getRequestDispatcher("/").forward(request, response);
 		}else {
 			request.getRequestDispatcher("/WEB-INF/views/user/addNaverInfo.jsp").forward(request, response);
 		}
+		
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/user/login.jsp");
 		view.forward(request, response);
 	}

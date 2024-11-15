@@ -13,9 +13,11 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserNaver extends User{
 	private String userNo;
+	private String userNickname;
 	private String userName;
 	private String userId;
 	private String userEmail;
 	private String userPhone;
 	private Date enrollDate;
+	private int userType;
 }

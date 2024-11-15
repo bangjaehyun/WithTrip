@@ -40,6 +40,27 @@ public class NaverLoginDao {
 		return n;
 	}
 
+	public int addNaverInfo(Connection conn, UserNaver naverLogin) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "insert into tbl_user_naver values (to_char(sysdate,'yymmdd')||lapad(seq_user.nextval,4,'0'),?,?,?,?,?,sysdate)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, naverLogin.getUserNickname());
+			pstmt.setString(2, naverLogin.getUserName());
+			pstmt.setString(3, naverLogin.getUserId());
+			pstmt.setString(4, naverLogin.getUserEmail());
+			pstmt.setString(5, naverLogin.getUserPhone());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		return result;
+	}
+
 
 
 }

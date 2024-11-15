@@ -64,11 +64,14 @@ public class NaverLoginService {
 				JParser(res.toString());//네이버에서 토큰 받아오고 정상작동하면 JParser로 전달\
 				
 				UserNaver n = dao.naverLogin(conn, email);
-				n.setUserEmail(email);	
+				n.setUserEmail(email);
 				
 				if(n != null) {
 					return n;
 				}		
+				
+				
+				
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -148,6 +151,21 @@ public class NaverLoginService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public int addNaverInfo(UserNaver naverLogin) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result = dao.addNaverInfo(conn, naverLogin);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		
+		return result;
 	}
 	
 
