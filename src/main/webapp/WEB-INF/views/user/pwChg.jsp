@@ -73,15 +73,15 @@ button:hover {
 				<table>
 					<tr>
 						<td>기존 비밀번호 입력</td>
-						<td><input type="password" id="userPw"></td>
+						<td><input type="password" id="userPw" name="userPw"></td>
 					</tr>
 					<tr>
 						<td>새 비밀번호 입력</td>
-						<td><input type="password" id="newUserPw"></td>
+						<td><input type="password" id="newUserPw" name="newUserPw"></td>
 					</tr>
 					<tr>
 						<td>비밀번호 확인</td>
-						<td><input type="password" id="newUserPwChk"></td>
+						<td><input type="password" id="newUserPwChk" name="newUserPwChk"></td>
 					<tr>
 						<td><button type="button" onclick="chgPwBtn()" style="margin-left:30px;">변경</button></td>
 						<td><button type="button" onclick="closePop()" style="margin-left:50px;">닫기</button></td>
@@ -124,7 +124,7 @@ button:hover {
 			}
 			
 			//새로 입력한 비밀번호와 비밀번호 체크가 일치하는지
-			if(newUserPw.val() == newUserPwChk()){
+			if(newUserPw.val() == newUserPwChk.val()){
 				checkObj.newUserPwChk = true;
 			}else{
 				checkObj.newUserPwChk = false;

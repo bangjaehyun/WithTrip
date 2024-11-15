@@ -35,7 +35,7 @@ public class PostListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//1. 인코딩 - 필터
 		
-		//2. 값 추출 - ?
+		//2. 값 추출 - 게시글 종류 코드와 이름 1.공지사항 / 2.여행정보 / 3.FAQ / 4.Q&A /5.사이트 이용안내
 		String postTypeCd = request.getParameter("postTypeCd"); //게시글 종류 코드
 		String postTypeNm = request.getParameter("postTypeNm");	//게시글 종류 이름
 		

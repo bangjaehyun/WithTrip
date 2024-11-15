@@ -14,7 +14,7 @@
 			<img src="/resources/images/withTrip_logo_h_04.png" width="100px" height="40px">
 			<p>Copyright &copy; 2024. withTrip All rights reserved.</p>
 	</div>
-	<div class="siteInfo">
+	<div class="pageBrife">
 		<a href="#">프로젝트 소개</a> <span>|</span>
 		<a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5">사이트 소개</a> <span>|</span> 
 		<a href="#">이용약관</a> <span>|</span>

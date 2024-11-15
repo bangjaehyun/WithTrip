@@ -4,7 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>WithTrip - Festival Info</title>
+<link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
+<link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4ded6a823694c477130258746c1c95cf&libraries=services"></script>
 <style>
@@ -26,7 +28,8 @@
 	padding: 30px;
 	border-radius: 10px;
 	box-shadow: 1px 1px 5px 1px;
-	min-width: 1300px;
+	width: 1200px;
+	margin: 0 auto;
 }
 
 .subInfo_content {
@@ -48,14 +51,14 @@
 	background-size: cover;
 	background-position: center;
 	width: 600px;
-	height: 350px;
+	height: 300px;
 }
 
 .map_box {
 	border-radius: 10px;
 	box-shadow: 1px 1px 5px 1px;
 	width: 500px;
-	height: 350px;
+	height: 300px;
 }
 
 .map_box div {
@@ -88,51 +91,51 @@ td {
 </style>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-	<main class="content">
-		<section class="section">
-			<div class="subInfo_title">축제 정보</div>
-			<div class="subInfo_wrap">
-				<div class="subInfo_content">
-					<div class="image_box"></div>
-					<div class="map_box" id="map_box"></div>
-					<div class="info_box">
-						<table>
-							<tr>
-								<th>이름</th>
-								<td>${info.festivalTitle}</td>
-							</tr>
-							<tr>
-								<th>행사일</th>
-								<td>${info.festivalStartDay}~${info.festivalEndDay}</td>
-							</tr>
-							<tr>
-								<th>공연시간</th>
-								<td>${info.festivalTime}</td>
-							</tr>
-							<tr>
-								<th>전화번호</th>
-								<td>${info.festivalTel}</td>
-							</tr>
-							<tr>
-								<th>홈페이지</th>
-								<td>${info.festivalHomepage}</td>
-							</tr>
-							<tr>
-								<th>주소</th>
-								<td>${info.festivalAddr}</td>
-							</tr>
-						</table>
+	<div class="wrap">
+		<jsp:include page="/WEB-INF/views/common/header.jsp" />
+		<main class="content">
+			<section class="section festival_section">
+				<div class="subInfo_title">축제 정보</div>
+				<div class="subInfo_wrap">
+					<div class="subInfo_content">
+						<div class="image_box"></div>
+						<div class="map_box" id="map_box"></div>
+						<div class="info_box">
+							<table>
+								<tr>
+									<th>이름</th>
+									<td>${info.festivalTitle}</td>
+								</tr>
+								<tr>
+									<th>행사일</th>
+									<td>${info.festivalStartDay}~${info.festivalEndDay}</td>
+								</tr>
+								<tr>
+									<th>공연시간</th>
+									<td>${info.festivalTime}</td>
+								</tr>
+								<tr>
+									<th>전화번호</th>
+									<td>${info.festivalTel}</td>
+								</tr>
+								<tr>
+									<th>홈페이지</th>
+									<td>${info.festivalHomepage}</td>
+								</tr>
+								<tr>
+									<th>주소</th>
+									<td>${info.festivalAddr}</td>
+								</tr>
+							</table>
+						</div>
+						<div class="description_box">${info.festivalContent}</div>
 					</div>
-					<div class="description_box">${info.festivalContent}</div>
 				</div>
-			</div>
-		</section>
-	</main>
-	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+			</section>
+		</main>
+		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+	</div>
 	<script>
-		console.log(${info.festivalLat});
-		console.log(${info.festivalLng});
 		
 		var mapContainer = document.getElementById('map_box'), // 지도를 표시할 div
 	    	mapOption = { 

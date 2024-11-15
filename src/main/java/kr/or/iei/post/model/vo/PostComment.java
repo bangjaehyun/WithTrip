@@ -1,5 +1,6 @@
 package kr.or.iei.post.model.vo;
 
+import kr.or.iei.user.model.vo.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,8 +21,10 @@ public class PostComment {
 	
 	//private String commentNo;		//댓글 번호
 	//private String commentContent;	//댓글 내용
-	//private String commentWriter;	//댓글 작성자
+	private String commentWriter;	//댓글 작성자
 	//private String userId;			//회원아이디
 	//private int userType;			//회원 분류 -> 1 관리자 2 사용자 3 파트너
 	private int postTypeCd;			//게시글 분류번호 -> 1.공지사항 2.여행기록 3.FAQ 4.Q&A 5.사이트 이용안내
+	
+	private User user;
 }
