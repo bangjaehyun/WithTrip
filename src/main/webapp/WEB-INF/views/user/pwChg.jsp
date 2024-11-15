@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,17 +84,17 @@ button:hover {
 					<tr>
 						<td>비밀번호 확인</td>
 						<td><input type="password" id="newUserPwChk" name="newUserPwChk"></td>
-					<tr>
-						<td><button type="button" onclick="chgPwBtn()" style="margin-left:30px;">변경</button></td>
-						<td><button type="button" onclick="closePop()" style="margin-left:50px;">닫기</button></td>
-					</tr>
+
 				</table>
-		</form>
+				<button type="button" onclick="chgPwBtn()" style="margin-left:30px;">변경</button>
+				<button type="button" onclick="closeBtn()" style="margin-left:50px;">닫기</button>
+			</form>
 	</div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="/resources/js/sweetalert.min.js"></script>
 	<script>
-		function closePop(){
-			self.close();
+		function closeBtn(){
+			window.self.close();
 		}
 		
 			//결과값 true or false저장용 -> 마지막 submit용도
@@ -102,15 +104,19 @@ button:hover {
 				"newUserPwChk"  : false
 		}
 		
+		const loginUserPw = '${loginUser.userPw}';
 		const userPwChk = $('#userPw');
 		const newUserPw = $('#newUserPw');
 		const newUserPwChk = $('#newUserPwChk');
+		
+		//userPwChk.on('input', )
+		
 		const regExp = /^[a-zA-Z0-9!@#$%^&*]{8,16}$/;
 		
 		
-		function chkPwBtn(){				
+		function chgPwBtn(){				
 			//기존 비밀번호가 같은지
-			if(loginUser.userPw == userPwChk.val()){
+			if(loginUserPw == userPwChk.val()){
 				checkObj.userPw = true;	
 			}else{
 				checkObj.userPw = false;
@@ -157,20 +163,20 @@ button:hover {
 				icon : "success",
 				buttons : {
 					cancel :{
-						text : "취소"
+						text : "취소",
 						value : false,
 						visible : true,
 						closeModal : true
 					},
 					confirm : {
 						text : "변경",
-						value : false,
+						value : true,
 						visible : true,
 						closeModal : true
 					}					
 				}
-			}).then(function(confirm){
-				if(confirm){
+			}).then(function(isConfirm){
+				if(isConfirm){
 					$('#userPwChg').submit();
 				}
 			});
