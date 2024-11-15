@@ -302,10 +302,12 @@ public class PostService {
 		return result;
 	}
 	
-	public int deletePost(String postNo) {
+	public int deletePost(String postNo, String delRootPath) {
 		Connection conn = JDBCTemplate.getConnection();
 		ArrayList<Spot> spotList = dao.selectPostSpot(conn, postNo);
 		ArrayList<PostComment> commentList = dao.selectCommentList(conn, postNo);
+		ArrayList<PostFile> fileList = dao.selectPostFileList(conn, postNo);
+		
 		int result = dao.deletePost(conn, postNo);
 		System.out.println(result);
 		if(result > 0) {
@@ -331,6 +333,17 @@ public class PostService {
 					}
 				}
 				if(commentChk) {
+					for(PostFile file : fileList) {
+						String delFilePath = delRootPath + file.getFilePath().substring(0,8) + "/" + file.getFilePath();
+						System.out.println(file);
+						System.out.println(delFilePath);
+						File delfile = new File(delFilePath);// 파일 경로
+						if (delfile.exists()) {
+							System.out.println("삭제 완료");
+							delfile.delete();
+						}
+					}
+					
 					JDBCTemplate.commit(conn);
 				}
 			}
@@ -432,7 +445,6 @@ public class PostService {
 								result = dao.deletePostFile(conn, removeFile.getFileNo());
 
 								if (result > 0) {
-									System.out.println(removeFile.getFilePath());
 									File file = new File(removeFile.getFilePath());// 파일 경로
 									if (file.exists()) {
 										file.delete();

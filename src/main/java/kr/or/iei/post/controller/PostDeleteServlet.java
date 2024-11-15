@@ -31,8 +31,8 @@ public class PostDeleteServlet extends HttpServlet {
 		
 		String postNo = request.getParameter("postNo");
 		PostService service = new PostService();
-		System.out.println(postNo);
-		int result = service.deletePost(postNo);
+		String delRootPath = request.getSession().getServletContext().getRealPath("/resources/upload/");
+		int result = service.deletePost(postNo,delRootPath);
 		
 		
 		if(result > 0) {
