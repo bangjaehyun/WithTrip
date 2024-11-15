@@ -121,7 +121,7 @@
 						<tr>
 							<td colspan="6">
 								<a onclick='modifyPost(${post.postNo})' class = "btn-primary">수정</a>
-								<button class="btn-secondary" onclick="deletePost(${Post.postNo})">삭제</button>
+								<button class="btn-secondary" onclick="deletePost(${post.postNo})">삭제</button>
 							</td>
 						</tr>
 						</c:if>
@@ -183,7 +183,6 @@
 	<script>
 	//게시글 수정
 	function modifyPost(modifyPostNo){
-		console.log(modifyPostNo);
 		swal({
 			title : "게시글 수정",
 			text : "게시글을 수정하시겠습니까?",

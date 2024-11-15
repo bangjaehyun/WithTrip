@@ -94,7 +94,9 @@ public class PostWriterServlet extends HttpServlet {
 			spot.setSpotName(paymentObj.get("place_name").getAsString());
 			spot.setSpotLat(paymentObj.get("x").getAsString());
 			spot.setSpotLng(paymentObj.get("y").getAsString());
-			spot.setSpotPhone(paymentObj.get("phone").getAsString());
+			if(paymentObj.has("phone")) {
+				spot.setSpotPhone(paymentObj.get("phone").getAsString());
+			}
 			spot.setKakaoMapId(paymentObj.get("id").getAsString());
 			spotList.add(spot);
 		}

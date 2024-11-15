@@ -192,7 +192,7 @@ text-align: center;
 								<button type="button" onclick="openMap()">지도 열기</button>
 							</div>
 							<div class="div-day">
-								<input type="text" id="tripDate" onfocus="this.blur()" readonly>
+								<input type="text" id="tripDate" name="tripDate" onfocus="this.blur()" readonly>
 								<button type="button" onclick="openCalendar()">캘린더 열기</button>
 							</div>
 							<div class="div-tag">

@@ -31,7 +31,9 @@ public class PostDeleteServlet extends HttpServlet {
 		
 		String postNo = request.getParameter("postNo");
 		PostService service = new PostService();
+		System.out.println(postNo);
 		int result = service.deletePost(postNo);
+		
 		
 		if(result > 0) {
 			response.getWriter().print("1");

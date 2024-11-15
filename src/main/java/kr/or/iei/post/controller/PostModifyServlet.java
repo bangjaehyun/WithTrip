@@ -75,13 +75,11 @@ public class PostModifyServlet extends HttpServlet {
 		String mapList = mRequest.getParameter("mapList");
 		String tagList = mRequest.getParameter("tagList");
 		String removeFileList = mRequest.getParameter("removeFileList");
-		
 		ArrayList<Spot> spotList = new ArrayList<Spot>();
 		JsonParser jsonParser = new JsonParser();
 		
 		if(!mapList.equals("null")) {
 		JsonArray jArray = jsonParser.parse(mapList).getAsJsonArray();
-		System.out.println(mapList);
 		for (JsonElement pa : jArray) {
 			JsonObject paymentObj = pa.getAsJsonObject();
 			Spot spot = new Spot();
@@ -92,6 +90,7 @@ public class PostModifyServlet extends HttpServlet {
 			if(paymentObj.has("phone")) {
 				spot.setSpotPhone(paymentObj.get("phone").getAsString());
 			}
+			spot.setKakaoMapId(paymentObj.get("id").getAsString());
 			spotList.add(spot);
 		}
 	}
@@ -107,6 +106,7 @@ public class PostModifyServlet extends HttpServlet {
 				PostFile file = new PostFile();
 				file.setFileName(fileName);
 				file.setFilePath(filePath);
+				file.setPostNo(postNo);
 				fileList.add(file);
 			}
 		}
@@ -120,16 +120,23 @@ public class PostModifyServlet extends HttpServlet {
 			post.setTagList(tagList);
 		}
 		if(removeFileList != null) {
+			String delrootPath = request.getSession().getServletContext().getRealPath("/resources/upload/");
 				JsonArray jFileArray = jsonParser.parse(removeFileList).getAsJsonArray();
+				ArrayList<PostFile> list = new ArrayList<PostFile>(); 
 				for (JsonElement pa : jFileArray) {
 					JsonObject obj = pa.getAsJsonObject();
 					PostFile postFile = new PostFile();
-					postFile.setFileName(obj.get("fileNo;").getAsString());
-					postFile.setFileName(obj.get("fileName").getAsString());
-					post.getFileList().add(postFile);
+					postFile.setFileNo(obj.get("fileNo").getAsString());
+					String fileName = obj.get("fileName").getAsString();
+					postFile.setFileName(fileName);
+					String delFilePath = delrootPath + fileName.substring(0,8) + fileName + "/";
+					postFile.setFilePath(delFilePath);
+					postFile.setPostNo(postNo);
+					list.add(postFile);
 				}
+				post.setFileList(list);
 		}
-		
+		System.out.println("date" + tripDate);
 		PostService service = new PostService();
 		int result = service.modifyPost(post, fileList, spotList);
 		
