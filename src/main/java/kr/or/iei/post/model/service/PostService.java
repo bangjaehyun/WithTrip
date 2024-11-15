@@ -1,5 +1,6 @@
 package kr.or.iei.post.model.service;
 
+import java.io.File;
 import java.sql.Connection;
 import java.util.ArrayList;
 
@@ -9,6 +10,7 @@ import kr.or.iei.post.model.vo.Post;
 import kr.or.iei.post.model.vo.PostComment;
 import kr.or.iei.post.model.vo.PostFile;
 import kr.or.iei.post.model.vo.PostPageData;
+import kr.or.iei.post.model.vo.PostType;
 import kr.or.iei.spot.model.vo.Spot;
 import kr.or.iei.user.model.vo.User;
 
@@ -189,49 +191,58 @@ public class PostService {
 	}
 	
 	//게시글 등록
-	public int insertPost(Post post, ArrayList<PostFile> fileList, ArrayList<Spot> spotList) {
-		Connection conn = JDBCTemplate.getConnection();
-		
-		String postNo = dao.selectPostNo(conn);
-		post.setPostNo(postNo);
-		int result = dao.insertPost(conn,post);
-		
-		if(result > 0) {
-			boolean fileChk = true;
-			for (PostFile file : fileList) {
-				file.setPostNo(postNo);
-				result = dao.insertPostFile(conn, file);
-				
-				if(result < 1) {
-					JDBCTemplate.rollback(conn);
-					fileChk = false;
-					break;
-				}
-			}
+		public int insertPost(Post post, ArrayList<PostFile> fileList, ArrayList<Spot> spotList) {
+			Connection conn = JDBCTemplate.getConnection();
 			
-			//commit 시점
-            if(fileChk) {
-                boolean soptChk = true;
-                for(int i =0; i < spotList.size(); i++) {
-                    result = dao.insertPostSpot(conn, spotList.get(i));
-                    if(result < 1) {
-                        JDBCTemplate.rollback(conn);
-                        soptChk = false;
-                        break;
-                    }
-                }
-                
-                if(soptChk) {
-                    JDBCTemplate.commit(conn);
-                }
+			String postNo = dao.selectPostNo(conn);
+			post.setPostNo(postNo);
+			int result = dao.insertPost(conn,post);
+			
+			if(result > 0) {
+				boolean fileChk = true;
+				for (PostFile file : fileList) {
+					file.setPostNo(postNo);
+					result = dao.insertPostFile(conn, file);
+					
+					if(result < 1) {
+						JDBCTemplate.rollback(conn);
+						fileChk = false;
+						break;
+					}
+				}
+				
+				//commit 시점
+	            if(fileChk) {
+	                boolean soptChk = true;
+	                for(int i =0; i < spotList.size(); i++) {
+	                	String spotNo = dao.selectSpotNo(conn);
+	                	spotList.get(i).setSpotNo(spotNo);
+	                    result = dao.insertPostSpot(conn, spotList.get(i));
+	                    if(result < 1) {
+	                        JDBCTemplate.rollback(conn);
+	                        soptChk = false;
+	                        break;
+	                    }
+	                    result = dao.insertPostSpotManageMent(conn,postNo,spotNo);
+	                    	
+	                    if(result < 1) {
+	                    JDBCTemplate.rollback(conn);
+	                    soptChk = false;
+	                     break;
+	                    }
+	                }
+	                
+	                if(soptChk) {
+	                    JDBCTemplate.commit(conn);
+	                }
+				}
+			}else {
+				JDBCTemplate.rollback(conn);
 			}
-		}else {
-			JDBCTemplate.rollback(conn);
+			JDBCTemplate.close(conn);
+			
+			return result;
 		}
-		JDBCTemplate.close(conn);
-		
-		return result;
-	}
 
 	//댓글 작성(등록)
 	public int insertComment(PostComment comment) {
@@ -293,16 +304,139 @@ public class PostService {
 	
 	public int deletePost(String postNo) {
 		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Spot> spotList = dao.selectPostSpot(conn, postNo);
+		ArrayList<PostComment> commentList = dao.selectCommentList(conn, postNo);
 		int result = dao.deletePost(conn, postNo);
-		
 		if(result > 0) {
-			JDBCTemplate.commit(conn);
+			
+			boolean chk = true;
+			for(Spot spot : spotList) {
+				
+				result = dao.deleteSpot(conn, spot.getSpotNo());
+				
+				if(result < 1) {
+					JDBCTemplate.rollback(conn);
+					chk = false;
+					break;
+				}
+			}
+			
+			if(chk) {
+				JDBCTemplate.commit(conn);
+			}
 		}else {
 			JDBCTemplate.rollback(conn);
 		}
 		
 		JDBCTemplate.close(conn);
 		
+		return result;
+	}
+	
+	public Post selectModifyPost(String postNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		Post post = dao.selectOnePost(conn, postNo);
+		post.setPostTypeNm(PostType.type[Integer.parseInt(post.getPostTypeCd())]);
+		
+		if(post != null) {
+			ArrayList<Spot> spotList = dao.selectPostSpot(conn, postNo);
+			if(spotList.size() > 0) {
+				post.setSpotList(spotList);
+			}
+			
+			ArrayList<PostFile> fileList = dao.selectPostFileList(conn, postNo);
+			if(fileList.size() > 0) {
+				post.setFileList(fileList);
+			}
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return post;
+	}
+
+
+	public int modifyPost(Post post, ArrayList<PostFile> fileList, ArrayList<Spot> spotList) {
+		Connection conn = JDBCTemplate.getConnection();
+
+		int result = dao.modifyPost(conn, post);
+
+		if (result > 0) {
+			boolean fileChk = true;
+			for (PostFile file : fileList) {
+				result = dao.insertPostFile(conn, file);
+
+				if (result < 1) {
+					JDBCTemplate.rollback(conn);
+					fileChk = false;
+					break;
+				}
+			}
+
+			if (fileChk) {
+				if (post.getFileList() != null && post.getFileList().size() > 0) {
+					for (PostFile removeFile : post.getFileList()) {
+						result = dao.deletePostFile(conn, removeFile.getFileNo());
+
+						if (result > 0) {
+							ArrayList<Spot> list = dao.selectPostSpot(conn, post.getPostNo());
+
+							boolean spotdelChk = true;
+							for (Spot spot : list) {
+								result = dao.deleteSpotManageMent(conn, spot.getSpotNo());
+
+								if (result < 1) {
+									JDBCTemplate.rollback(conn);
+									spotdelChk = false;
+									break;
+								}
+
+								result = dao.deleteSpot(conn, spot.getSpotNo());
+
+								if (result < 1) {
+									JDBCTemplate.rollback(conn);
+									spotdelChk = false;
+									break;
+								}
+							}
+
+							if (spotdelChk) {
+								boolean soptChk = true;
+								for (Spot spot : post.getSpotList()) {
+									String spotNo = dao.selectSpotNo(conn);
+									spot.setSpotNo(spotNo);
+									result = dao.insertPostSpot(conn, spot);
+									if (result < 1) {
+										JDBCTemplate.rollback(conn);
+										soptChk = false;
+										break;
+									}
+									result = dao.insertPostSpotManageMent(conn, post.getPostNo(), spotNo);
+
+									if (result < 1) {
+										JDBCTemplate.rollback(conn);
+										soptChk = false;
+										break;
+									}
+								}
+
+								if (soptChk) {
+									JDBCTemplate.commit(conn);
+									File file = new File(removeFile.getFilePath());// 파일 경로
+									if (file.exists()) {
+										file.delete();
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+
 		return result;
 	}
 

@@ -120,7 +120,7 @@
 						<c:if test="${not empty loginUser and loginUser.userNo eq post.user.userNo}">
 						<tr>
 							<td colspan="6">
-								<a href='/post/updateFrm?postNo=${post.postNo}' class = "btn-primary">수정</a>
+								<a onclick='modifyPost(${post.postNo})' class = "btn-primary">수정</a>
 								<button class="btn-secondary" onclick="deletePost(${Post.postNo})">삭제</button>
 							</td>
 						</tr>
@@ -181,6 +181,33 @@
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</div>
 	<script>
+	//게시글 수정
+	function modifyPost(modifyPostNo){
+		console.log(modifyPostNo);
+		swal({
+			title : "게시글 수정",
+			text : "게시글을 수정하시겠습니까?",
+			icon : "warning",
+			buttons : {
+				cancel : {
+					text : "취소",
+					value : false,
+					visible : true,
+					closeModal : true
+				},
+				confirm : {
+					text : "수정",
+					value : true,
+					visible : true,
+					closeModal : true
+				}
+			}
+		}).then(function(isConfirm){
+			if(isConfirm){
+				location.href = "/post/modifyFrm?postNo="+ modifyPostNo;
+			}
+		})
+	}
 	//게시글 삭제
 	function deletePost(delPostNo){
 		swal ({
