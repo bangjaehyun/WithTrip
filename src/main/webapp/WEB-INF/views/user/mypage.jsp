@@ -36,14 +36,14 @@
 		            	<td>아이디</td>
 		            	<td><input type="text" value="${loginUser.userId}" readonly></td>
 		            </tr>
-		            <c:choose>
-    				<c:when test="${loginUser.userType} eq 5">
+
+    				<c:if test="${loginUser.userType eq 5}">
 			            <tr>
 			            	<td>비밀번호</td>
-			            	<td><button onclick="pwChgBtn()">비밀번호 변경</button></td>
+			            	<td><button type="button" onclick="pwChgBtn()">비밀번호 변경</button></td>
 			            </tr>
-		            </c:when>
-		            </c:choose>	
+		            </c:if>
+
 		            <tr>
 		            	<td>이름</td>
 		            	<td><input type="text" value="${loginUser.userName}" readonly></td>
