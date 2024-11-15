@@ -430,7 +430,7 @@ public class PostDao {
 					
 			while (rset.next()) {
 				PostFile file = new PostFile();
-				file.setFileNo(rset.getString("file_no"));
+				file.setFileNo(rset.getString("post_file_no"));
 				file.setPostNo(rset.getString("post_no"));
 				file.setFileName(rset.getString("post_file_name"));
 				file.setFilePath(rset.getString("post_file_src"));
