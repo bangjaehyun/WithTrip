@@ -12,9 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.json.simple.JSONArray;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -29,16 +26,16 @@ import kr.or.iei.post.model.vo.PostFile;
 import kr.or.iei.spot.model.vo.Spot;
 
 /**
- * Servlet implementation class postInsertServlet
+ * Servlet implementation class PostModifyServlet
  */
-@WebServlet("/post/writer")
-public class PostWriterServlet extends HttpServlet {
+@WebServlet("/post/modify")
+public class PostModifyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PostWriterServlet() {
+    public PostModifyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,7 +44,6 @@ public class PostWriterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		String today = sdf.format(date); // 오늘날짜
@@ -72,21 +68,20 @@ public class PostWriterServlet extends HttpServlet {
 		
 		MultipartRequest mRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyRenamePolicy());
 		
-		String postWriterNo = mRequest.getParameter("loginUserNo");
-		String postType = mRequest.getParameter("postTypeId");
+		String postNo = mRequest.getParameter("postNo");
 		String postTitle = mRequest.getParameter("postTitle");
 		String postContent = mRequest.getParameter("postContent");
 		String tripDate = mRequest.getParameter("tripDate");
 		String mapList = mRequest.getParameter("mapList");
 		String tagList = mRequest.getParameter("tagList");
+		String removeFileList = mRequest.getParameter("removeFileList");
 		
 		ArrayList<Spot> spotList = new ArrayList<Spot>();
 		JsonParser jsonParser = new JsonParser();
 		
 		if(!mapList.equals("null")) {
-		
-        
 		JsonArray jArray = jsonParser.parse(mapList).getAsJsonArray();
+		System.out.println(mapList);
 		for (JsonElement pa : jArray) {
 			JsonObject paymentObj = pa.getAsJsonObject();
 			Spot spot = new Spot();
@@ -94,8 +89,9 @@ public class PostWriterServlet extends HttpServlet {
 			spot.setSpotName(paymentObj.get("place_name").getAsString());
 			spot.setSpotLat(paymentObj.get("x").getAsString());
 			spot.setSpotLng(paymentObj.get("y").getAsString());
-			spot.setSpotPhone(paymentObj.get("phone").getAsString());
-			spot.setKakaoMapId(paymentObj.get("id").getAsString());
+			if(paymentObj.has("phone")) {
+				spot.setSpotPhone(paymentObj.get("phone").getAsString());
+			}
 			spotList.add(spot);
 		}
 	}
@@ -116,18 +112,26 @@ public class PostWriterServlet extends HttpServlet {
 		}
 		
 		Post post = new Post();
-		post.setPostTypeCd(postType);
-		post.setUserNo(postWriterNo);
+		post.setPostNo(postNo);
 		post.setPostTitle(postTitle);
 		post.setPostContent(postContent);
 		post.setTripDate(tripDate);
 		if(tagList != null) {
 			post.setTagList(tagList);
-			System.out.println(tagList);
+		}
+		if(removeFileList != null) {
+				JsonArray jFileArray = jsonParser.parse(removeFileList).getAsJsonArray();
+				for (JsonElement pa : jFileArray) {
+					JsonObject obj = pa.getAsJsonObject();
+					PostFile postFile = new PostFile();
+					postFile.setFileName(obj.get("fileNo;").getAsString());
+					postFile.setFileName(obj.get("fileName").getAsString());
+					post.getFileList().add(postFile);
+				}
 		}
 		
 		PostService service = new PostService();
-		int result = service.insertPost(post, fileList, spotList);
+		int result = service.modifyPost(post, fileList, spotList);
 		
 		if(result > 0) {
 			response.getWriter().print("1");

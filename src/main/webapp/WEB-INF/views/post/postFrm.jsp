@@ -193,7 +193,7 @@ text-align: center;
 								<button type="button" onclick="openMap()">지도 열기</button>
 							</div>
 							<div class="div-day">
-								<input type="text" id="tripDay" onfocus="this.blur()" readonly>
+								<input type="text" id="tripDate" name="tripDate" onfocus="this.blur()" readonly>
 								<button type="button" onclick="openCalendar()">캘린더 열기</button>
 							</div>
 							<div class="div-tag">
@@ -235,7 +235,7 @@ text-align: center;
 	<script src="/resources/summernote/summernote-lite.js"></script>
 	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 	<script>
-	
+	//태그내용 선택했을경우 색상 변경하려는 함수
 	function tagClick(obj){
 		if($(obj).attr('class') == "addTag"){
 			$(obj).removeClass("addTag");
@@ -247,6 +247,7 @@ text-align: center;
 	
 	$('#map').css("display", "none");
 	let mapList = null;
+	//맵창에서 지도에 값을 넣어주는 함수
 	function addMap(list) {
 		if(mapList != null){
 			$('#map').empty();
@@ -368,6 +369,9 @@ text-align: center;
 			}
 		}).then(function(isConfrim){
 			if(isConfrim){
+				//게시글 작성시 중복값으로 editor에있는 파일도 가져오므로 remove하여 servlet으로 전달
+				$("input[id*=note-dialog]").remove();
+				
 				var form = $('#post-view')[0];
 				var formData = new FormData(form);
 				formData.append("mapList", JSON.stringify(mapList));
@@ -380,6 +384,7 @@ text-align: center;
 				if(tagList.length > 0){
 					formData.append("tagList", JSON.stringify(tagList));
 				}
+				
 				
 				
 				$.ajax({
