@@ -87,6 +87,8 @@ public class UserSrchInfoPwServlet extends HttpServlet {
 			int result = service.updateUserPw(userId, newPw);
 			
 			if (result > 0) {
+				System.out.println("DB 업데이트 완료");
+				
 				
 				Properties prop = new Properties();
 				prop.put("mail.smtp.host", "smtp.naver.com");
@@ -98,7 +100,7 @@ public class UserSrchInfoPwServlet extends HttpServlet {
 				//2. 세션 설정 및 인증 정보 설정
 				Session session = Session.getDefaultInstance(prop, new Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication("withtrip@naver.com", "비밀번호");
+						return new PasswordAuthentication("wodnjs5027@naver.com", "wodnjs9950272788");
 					}
 				
 				});
@@ -108,7 +110,7 @@ public class UserSrchInfoPwServlet extends HttpServlet {
 				
 				try {
 					msg.setSentDate(new Date());
-					msg.setFrom(new InternetAddress("withtrip@naver.com", "KH정보교육원 강남2관 M강의장"));
+					msg.setFrom(new InternetAddress("wodnjs5027@naver.com", "KH정보교육원 강남2관 M강의장"));
 					
 					//수신자
 					InternetAddress to = new InternetAddress(toEmail);
