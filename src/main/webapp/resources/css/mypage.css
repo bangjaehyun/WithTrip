@@ -35,13 +35,13 @@ body {
     margin: 0 auto;
     height: 90%;
    	justify-content: center;
-   	z-index: -1;
+   	z-index: 0;
    	position: relative;
 }
 /* container 안의 모든 div 태그 */
 .container > div {
     position: relative; /* z-index가 적용되도록 설정 */
-    z-index: -1; /* 최하위 레이어로 설정 */
+    z-index: 0; /* 최하위 레이어로 설정 */
 }
 /* Sidebar styles */
 .sidebar {

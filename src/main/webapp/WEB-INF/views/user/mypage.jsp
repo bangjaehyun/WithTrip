@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="/resources/css/mypage.css" />
 <title>withTrip myPage</title>
 </head>
-<body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
+<body>
 	<div class="container">
 		<div class="sidebar">
 	        <ul>
