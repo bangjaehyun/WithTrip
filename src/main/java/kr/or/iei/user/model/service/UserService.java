@@ -150,21 +150,37 @@ public class UserService {
 	//이메일로 아이디 찾기
 	public String srchInfoId(String userEmail) {
 		Connection conn = JDBCTemplate.getConnection();
-		
-		return null;
-	}
-
-	public int userIdChk(String userId) {
-		Connection conn = JDBCTemplate.getConnection();
-		
-		int result = dao.userIdChkSite(conn, userId);
-		if(result == 0) {
-			result = dao.userIdChkNaver(conn, userId);
-		}
+		String userId = dao.srchInfoId(conn, userEmail);
 		JDBCTemplate.close(conn);
 		
-		return result;
+		
+		return userId;
 	}
-
 	
+	//이메일과 아이디로 비밀번호 찾기 - 이메일 전송
+	    public String srchInfoPw(String userId, String userEmail) {
+	       Connection conn = JDBCTemplate.getConnection();
+	       String toEmail = dao.srchInfoPw(conn, userId, userEmail);
+	       JDBCTemplate.close(conn);
+	       return toEmail;
+	    }
+
+	    public int updateUserPw(String userId, String newUserPw) {
+	       Connection conn = JDBCTemplate.getConnection();
+	       
+	       newUserPw = BCrypt.hashpw(newUserPw, BCrypt.gensalt());   //새 비밀번호 암호화
+	       int result = dao.updateUserPw(conn, userId, newUserPw);
+	       
+	       if(result > 0) {
+	          JDBCTemplate.commit(conn);
+	       } else {
+	          JDBCTemplate.rollback(conn);
+	       }
+	       JDBCTemplate.close(conn);
+	       
+	       return result;
+	    }
+
+
+		
 }

@@ -42,6 +42,17 @@ public class UserLoginServlet extends HttpServlet {
 		
 		// 결과 처리
 		if(loginUser != null) {
+			//정상로그인
+			
+			if(loginUser.getUserType() == 3 ) {
+				request.setAttribute("title", "알림");
+				request.setAttribute("msg", "로그인 권한이 없습니다. 관리자에게 문의하세요.");
+				request.setAttribute("icon", "error");
+				request.setAttribute("loc", "/user/loginFrm");
+				
+				request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+				return;
+			}
 			
 		HttpSession session = request.getSession(true);
 		session.setAttribute("loginUser", loginUser);
