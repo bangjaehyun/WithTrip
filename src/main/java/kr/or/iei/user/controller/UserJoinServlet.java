@@ -32,7 +32,7 @@ public class UserJoinServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+		
 		
 		//2. 값 추출
 		String userId = request.getParameter("userId");
@@ -65,9 +65,10 @@ public class UserJoinServlet extends HttpServlet {
 			request.setAttribute("title", "실패");
 			request.setAttribute("msg", "회원가입에 실패하였습니다. 메인페이지로 이동합니다.");
 			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/localhost");
+			request.setAttribute("loc", "/");
 		}
-		 request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+		 RequestDispatcher view  = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+		 view.forward(request, response);
 		
 	}
 

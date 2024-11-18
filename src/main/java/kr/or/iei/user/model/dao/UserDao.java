@@ -79,18 +79,19 @@ public class UserDao {
 	public int insertUserSite(Connection conn, UserSite usersite) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into tbl_user_withtrip values (to_char(sysdate,'yymmdd')||lapad(seq_user.nextval,4,'0'),?,?,?,?,?,?,3,sysdate)";
+		String query = "insert into tbl_user_withtrip values (to_char(sysdate,'yymmddhh24mi') || lpad(seq_user_no.nextval,4,'0'),?,?,?,?,?,?,sysdate)";
 		
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-		
-			pstmt.setString(1, usersite.getUserId());
-			pstmt.setString(2, usersite.getUserPw());
-			pstmt.setString(3, usersite.getUserName());
-			pstmt.setString(4, usersite.getUserEmail());
-			pstmt.setString(5, usersite.getUserPhone());
-			pstmt.setString(6, usersite.getUserNickname());
+			
+			pstmt.setString(1, usersite.getUserNickname());
+			pstmt.setString(2, usersite.getUserName());			
+			pstmt.setString(3, usersite.getUserId());
+			pstmt.setString(4, usersite.getUserPw());
+			pstmt.setString(5, usersite.getUserEmail());
+			pstmt.setString(6, usersite.getUserPhone());
+			System.out.println(usersite);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -107,7 +108,7 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String query = "select count(*) as cnt from tbl_user where user_id = ?";
+		String query = "select count(*) as cnt from tbl_user_withtrip where user_id = ?";
 		
 		int cnt = 0;
 		
@@ -266,6 +267,83 @@ public class UserDao {
 		} finally {
 			JDBCTemplate.close(pstmt);
 		}
+		return result;
+	}
+
+		//이메일로 아이디 찾기
+	public String srchInfoId(Connection conn, String userEmail) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "select user_id from tbl_user_withtrip where user_email = ? ";
+		String userId = null;
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userEmail);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				userId = rset.getString("user_id");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+			
+		return userId;
+	}
+
+	//아이디와 이메일로 비밀번호 찾기 -> 이메일 전송
+	public String srchInfoPw(Connection conn, String userId, String userEmail) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "select user_email from tbl_user_withtrip where user_id = ? and user_email =?";
+		String toEmail = null;
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userId);
+			pstmt.setString(2, userEmail);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				toEmail = rset.getString("user_email");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return toEmail;
+	}
+
+	public int updateUserPw(Connection conn, String userId, String newUserPw) {
+		
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update tbl_user set user_pw = ? where user_id = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, newUserPw);
+			pstmt.setString(2, userId);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
 		return result;
 	}
 	
