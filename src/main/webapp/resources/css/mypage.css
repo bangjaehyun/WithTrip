@@ -8,12 +8,14 @@ body {
     background-color: #f9f9f9;
 }
 .header {
-    background-color: #004a99;
+     background-color: #004a99;
     color: white;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative; /* 헤더를 기준으로 서브메뉴 배치 */
+    z-index: 1000; /* 헤더의 우선순위 지정 */
 }
 .header .logo img {
     height: 50px;
@@ -33,6 +35,13 @@ body {
     margin: 0 auto;
     height: 90%;
    	justify-content: center;
+   	z-index: -1;
+   	position: relative;
+}
+/* container 안의 모든 div 태그 */
+.container > div {
+    position: relative; /* z-index가 적용되도록 설정 */
+    z-index: -1; /* 최하위 레이어로 설정 */
 }
 /* Sidebar styles */
 .sidebar {
@@ -41,6 +50,7 @@ body {
     padding: 20px;
     border: 1px solid #ddd;
     background-color: #f3f3f3;
+    position: relative
 }
 .mypage-content {
     z-index : 1;
@@ -48,6 +58,7 @@ body {
     margin-left: 20px;
     background-color: #fff;
     width: 65%;
+    position: relative
 }
 
 .sidebar h3 {
