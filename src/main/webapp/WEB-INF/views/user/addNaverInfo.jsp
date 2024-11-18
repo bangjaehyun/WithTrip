@@ -94,7 +94,7 @@
                     </h3>
                     <span class="box int_id">
                         <input type="text" id="userId" name="userId" class="int" maxlength="20">
-                       <button type="button" id="idChk" class="btn-primary">중복체크</button>
+                       <button type="button" id="idChk" name="idChk" class="btn-primary">중복체크</button>
                     </span>
                     <span class="error_next_box"></span>
                 </div>
@@ -104,7 +104,7 @@
                     </h3>
                     <span class="box int_nickname">
                         <input type="text" id="userNickname" name="userNickname" class="int" maxlength="20">
-                  		<button type="button" id="nicknameChk" class="btn-primary">중복체크</button>
+                  		<button type="button" id="nicknameChk" name="nicknameChk" class="btn-primary">중복체크</button>
 -                      </span>
                     <span class="error_next_box"></span>
                 </div>
