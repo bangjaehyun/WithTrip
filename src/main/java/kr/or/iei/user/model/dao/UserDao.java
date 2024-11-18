@@ -346,6 +346,53 @@ public class UserDao {
 	    
 	   return result;
 	}
+
+	public int userIdChkSite(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		ResultSet rset = null;
+		String query = "select count(*) as cnt from tbl_user_withTrip where user_id = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userId);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("cnt");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int userIdChkNaver(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		ResultSet rset = null;
+		String query = "select count(*) as cnt from tbl_user_naver where user_id = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userId);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 	 
 	 
 	}

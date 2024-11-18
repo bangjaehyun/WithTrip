@@ -181,6 +181,18 @@ public class UserService {
 	       return result;
 	    }
 
+		public int userIdChk(String userId) {
+			Connection conn = JDBCTemplate.getConnection();
+			
+			int result = dao.userIdChkSite(conn, userId);
+			if(result == 0) {
+				result = dao.userIdChkNaver(conn, userId);
+			}
+			JDBCTemplate.close(conn);
+			
+			return result;
+		}
+
 
 		
 }
