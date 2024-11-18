@@ -5,6 +5,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <title>WithTrip - 회원가입</title>
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
@@ -12,26 +13,45 @@
 
 
 
-        
-        
-     
-        
 
+#idDuplChkBtn {
+  border : 1px solid white;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer; 
+  font-size: 14px;
+  padding: 9px 10px;
+  background-color : #004ca1;
+}
+#idDuplChkBtn:hover {
+background-color :  #90cbfb;
+}
 
+#nicknameChk {
+  border : 1px solid white;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer; 
+  font-size: 14px;
+  padding: 9px 10px;
+  background-color : #004ca1;
+}
 
+#nicknameChk:hover {
+background-color :  #90cbfb;
+}
 
 .join-container {
-	
-		width: 500px;
-        max-width: 1400px;
-        margin: 40px auto;
-        flex: 1;
-        border: 1px solid #d6d6d6;
-        border-radius: 15px;
-        position : relative;
-        top : 100px;
-        height: 700px;
-        background-color : white;
+	width: 550px;
+    max-width: 1400px;
+    margin: 40px auto;
+    flex: 1;
+    border: 1px solid #d6d6d6;
+    border-radius: 15px;
+    position : relative;
+    top : 30px;
+    height: 800px;
+    background-color : white;
 }
 
 
@@ -67,9 +87,7 @@
     display: none;
 }
 
-.box.int_id {
-    padding-right: 110px;
-}
+
 
 .box.int_pass {
     padding-right: 40px;
@@ -84,7 +102,7 @@
     margin-top: 15px;
 }
 
-#btnJoin {
+.btnJoin {
 	width: 360px;
     padding: 10px;
     border : 1px solid white;
@@ -94,58 +112,54 @@
     background-color : #004ca1;
     cursor: pointer;
 }
-#btnJoin:hover {
+.btnJoin:hover {
 background-color :  #90cbfb;
 }
 
-#id {
-	
-	margin-bottom: 15px;
+p{
+margin-bottom : 10px;
+}
+
+#userId {
     width: 350px;
-    
+    height : 30px;
     font-size: 16px;
 	border: 1px solid #d6d6d6;
 }
 
-#pswd1 {
-	margin-bottom: 15px;
+#userPw {
     width: 350px;
-    
+    height : 30px;
     font-size: 16px;
 	border: 1px solid #d6d6d6;
 }
-#pswd2 {
-	margin-bottom: 15px;
+#userPw2 {
     width: 350px;
-    
+    height : 30px;
     font-size: 16px;
 	border: 1px solid #d6d6d6;
 }
-#name{
-	margin-bottom: 15px;
+#userName{
     width: 350px;
-    
+    height : 30px;
     font-size: 16px;
 	border: 1px solid #d6d6d6;
 }
-#email {
-	margin-bottom: 15px;
+#userEmail {
     width: 350px;
-    
+    height : 30px;
     font-size: 16px;
 	border: 1px solid #d6d6d6;
 }
-#phoneNo {
-	margin-bottom: 15px;
+#userPhone {
     width: 350px;
-    
+    height : 30px;
     font-size: 16px;
 	border: 1px solid #d6d6d6;
 }
-#nickname {
-	margin-bottom: 15px;
+#userNickname {
     width: 350px;
-    
+    height : 30px;
     font-size: 16px;
 	border: 1px solid #d6d6d6;
 }
@@ -162,7 +176,7 @@ background-color: #efefef;
 }
 .footer{
 position : relative;
-top: 110px;
+
 }
 
 
@@ -180,11 +194,12 @@ top: 110px;
                     <div class="join_title">
                         <label for="id">아이디</label>
                     </div>
-                    <span class="box int_id">
-                        <input type="text" id="id" class="int" maxlength="20">
-                       <!-- <button type="button" id="nicknameDuplChkBtn" class="btn-primary">중복체크</button>  --> 
-                    </span>
-                    <span class="error_next_box"></span>
+                    <div class="box int_id">
+                        <input type="text" id="userId" name="userId" class="int" maxlength="20">
+                    	<button type="button" id="idDuplChkBtn" class="btn-primary">중복체크</button>
+                    </div>
+                    <p id="idMessage" class="input-msg"></p>                  
+                    <div class="error_next_box"></div>
                 </div>
 
 
@@ -192,11 +207,12 @@ top: 110px;
                 <div class= op>
                     <div class="join_title"><label for="pswd1">비밀번호</label>
                      </div>
-                    <span class="box int_pass">
-                        <input type="password" id="pswd1" class="int" maxlength="20"> <!-- type="password"으로 변경 -->
+                    <div class="box int_pass">
+                        <input type="password" id="userPw" name= "userPw" class="int" maxlength="20"> <!-- type="password"으로 변경 -->
                         <span id="alertTxt">사용불가</span>
-                    </span>
-                    <span class="error_next_box"></span>
+                    </div>
+                    <p id="pwMessage" class="input-msg"></p> 
+                    <div class="error_next_box"></div>
                
                 </div>
 
@@ -204,10 +220,11 @@ top: 110px;
                 <div class= op>
                     <div class="join_title"><label for="pswd2">비밀번호 재확인</label>
                     </div>
-                    <span class="box int_pass_check">
-                        <input type="password" id="pswd2" class="int" maxlength="20"> <!-- type="password"으로 변경 -->
-                    </span>
-                    <span class="error_next_box"></span>
+                    <div class="box int_pass_check">
+                        <input type="password" id="userPw2" name="userPw2" class="int" maxlength="20"> <!-- type="password"으로 변경 -->
+                    </div>
+                    <p id="pw2Message" class="input-msg"></p> 
+                    <div class="error_next_box"></div>
                 </div>
                 
 
@@ -215,10 +232,11 @@ top: 110px;
                 <div class= op>
                     <div class="join_title"><label for="name">이름</label>
                     </div>
-                    <span class="box int_name">
-                        <input type="text" id="name" class="int" maxlength="20">
-                    </span>
-                    <span class="error_next_box"></span>
+                    <div class="box int_name">
+                        <input type="text" id="userName" name="userName" class="int" maxlength="20">
+                    </div>
+                    <p id="nameMessage" class="input-msg"></p> 
+                    <div class="error_next_box"></div>
                 </div>
                 
 
@@ -226,10 +244,11 @@ top: 110px;
                 <div class= op>
                     <div class="join_title"><label for="email">본인확인 이메일</label>
                     </div>
-                    <span class="box int_email">
-                        <input type="email" id="email" class="int" maxlength="100">
-                    </span>
-                    <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>
+                    <div class="box int_email">
+                        <input type="email" id="userEmail" name="userEmail" class="int" maxlength="100">
+                    </div>
+                    <p id="emailMessage" class="input-msg"></p> 
+                    <div class="error_next_box">이메일 주소를 다시 확인해주세요.</div>
                 </div>
                 
 
@@ -237,10 +256,11 @@ top: 110px;
                 <div class= op>
                     <div class="join_title"><label for="phoneNo">휴대전화</label>
                     </div>
-                    <span class="box int_mobile">
-                        <input type="tel" id="phoneNo" class="int" maxlength="16" placeholder="전화번호를 입력하세요.">
-                    </span>
-                    <span class="error_next_box"></span>
+                    <div class="box int_mobile">
+                        <input type="tel" id="userPhone" name="userPhone" class="int" maxlength="16" >
+                    </div>
+                    <p id="phoneMessage" class="input-msg"></p> 
+                    <div class="error_next_box"></div>
                 </div>
                 
 
@@ -249,18 +269,19 @@ top: 110px;
                     <div class="join_title">
                         <label for="nickname">닉네임</label>
                      </div>
-                    <span class="box int_nickname">
-                        <input type="text" id="nickname" class="int" maxlength="20">
-                  	<!-- <button type="button" id="nicknameDuplChkBtn" class="btn-primary">중복체크</button>  --> 
-                      </span>
-                    <span class="error_next_box"></span>
+                    <div class="box int_nickname">
+                        <input type="text" id="userNickname" name="userNickname" class="int" maxlength="20">
+                        <button type="button" id="nicknameChk" class="btn-primary">중복체크</button>
+                      </div>
+                      <p id="nicknameMessage" class="input-msg"></p>                    
+                    <div class="error_next_box"></div>
                 </div>
                
                 
 
                 <!-- 회원가입 -->
                 <div class="btn_area">
-                    <button type="button" id="btnJoin">
+                    <button type="submit" class="btnJoin">
                        가입하기
                     </button>
                 </div>
@@ -271,254 +292,311 @@ top: 110px;
             </div> 
 
         
-        <script>
-            /* 변수 선언 */
-var id = document.querySelector('#id');
-var pw1 = document.querySelector('#pswd1');
-var pwMsg = document.querySelector('#alertTxt');
-var pw2 = document.querySelector('#pswd2');
-var userName = document.querySelector('#name');
-var email = document.querySelector('#email');
-var phoneNo = document.querySelector('#phoneNo');
-var nickname = document.querySelector('#nickname');
-var error = document.querySelectorAll('.error_next_box');
-//var checkIdBtn = document.querySelector('#checkIdBtn'); // 아이디 중복 확인 버튼
-//var checkNicknameBtn = document.querySelector('#checkNicknameBtn'); // 닉네임 중복 확인 버튼
+<script>
 
-/* 이벤트 핸들러 연결 */
-id.addEventListener("focusout", checkId);
-pw1.addEventListener("focusout", checkPw);
-pw2.addEventListener("focusout", comparePw);
-userName.addEventListener("focusout", checkName);
-email.addEventListener("focusout", isEmailCorrect);
-phoneNo.addEventListener("focusout", checkPhoneNum);
-nickname.addEventListener("focusout", checkNickname);
-//checkIdBtn.addEventListener("click", checkIdDuplicate); // 아이디 중복 확인 버튼 이벤트 연결
-//checkNicknameBtn.addEventListener("click", checkNicknameDuplicate); // 닉네임 중복 확인 버튼 이벤트 연결
-
-/* 콜백 함수 */
-
-// 아이디 유효성 검사
-function checkId() {
-    var idPattern = /^[A-Za-z0-9_-]{5,20}$/;
-    if(id.value === "") {
-        error[0].innerHTML = "필수 정보입니다.";
-        error[0].style.display = "block";
-    } else if(!idPattern.test(id.value)) {
-        error[0].innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
-        error[0].style.display = "block";
-    } else {
-        error[0].innerHTML = "확인되었습니다.";
-        error[0].style.color = "#0067a3";
-        error[0].style.display = "block";
-    }
-}
-
-// 비밀번호 유효성 검사
-function checkPw() {
-    var pwPattern = /^[a-zA-Z0-9~!@#$%^&*]{8,16}$/;
-    if(pw1.value === "") {
-        error[1].innerHTML = "필수 정보입니다.";
-        error[1].style.display = "block";
-    } else if(!pwPattern.test(pw1.value)) {
-        error[1].innerHTML = "8~16자 영문 대 소문자, 숫자, 특수문자(!,@,#,$,%,^,&,*)를 사용하세요.";
-        pwMsg.innerHTML = "형식과 일치하지 않습니다.";
-        error[1].style.display = "block";
-        pwMsg.style.display = "block";
-    } else {
-        error[1].style.display = "none";
-        pwMsg.innerHTML = "확인되었습니다.";
-        pwMsg.style.display = "block";
-        pwMsg.style.color = "#03c75a";
-    }
-}
-
-// 비밀번호 재확인 검사
-function comparePw() {
-    if(pw2.value === pw1.value && pw2.value != "") {
-        error[2].style.display = "none";
-    } else {
-        error[2].innerHTML = "비밀번호가 일치하지 않습니다.";
-        error[2].style.display = "block";
-    }
-    if(pw2.value === "") {
-        error[2].innerHTML = "필수 정보입니다.";
-        error[2].style.display = "block";
-    }
-}
-
-// 이름 유효성 검사
-function checkName() {
-    var namePattern = /^[가-힣A-Za-z]{2,20}$/;
-    if(userName.value === "") {
-        error[3].innerHTML = "필수 정보입니다.";
-        error[3].style.display = "block";
-    } else if(!namePattern.test(userName.value) || userName.value.indexOf(" ") > -1) {
-        error[3].innerHTML = "2~20자리의 한글과 영문 대 소문자를 사용하세요. (특수기호, 공백 사용 불가)";
-        error[3].style.display = "block";
-    } else {
-        error[3].style.display = "none";
-    }
-}
-
-// 이메일 유효성 검사
-function isEmailCorrect() {
-    var emailPattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-    if(email.value === "") {
-        error[4].innerHTML = "필수 정보입니다.";
-        error[4].style.display = "block"; 
-    } else if(!emailPattern.test(email.value)) {
-        error[4].style.display = "block";
-    } else {
-        error[4].style.display = "none"; 
-    }
-}
-
-// 전화번호 유효성 검사
-function checkPhoneNum() {
-    var isPhoneNum = /^(01[01679])([0-9]{3,4})([0-9]{4})$/;
-    if(phoneNo.value === "") {
-        error[5].innerHTML = "필수 정보입니다.";
-        error[5].style.display = "block";
-    } else if(!isPhoneNum.test(phoneNo.value)) {
-        error[5].innerHTML = "형식에 맞지 않는 번호입니다.";
-        error[5].style.display = "block";
-    } else {
-        error[5].style.display = "none";
-    }
-}
-
-
-function checkNickname(){
-    var nicknamePattern = /^[a-z가-힣0-9]{2,8}$/;
-    if(nickname.value === "") {
-        error[6].innerHTML = "필수 정보입니다.";
-        error[6].style.display = "block";
-    } else if(!nicknamePattern.test(nickname.value)) {
-        error[6].style.display = "block";
-    } else {
-        error[6].style.display = "none";
-    }
-}
-
-
-//아이디 중복 확인
-function checkIdDuplicate() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/check-id", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.exists) {  // 중복 아이디일 때
-                error[0].innerHTML = "이미 사용 중인 아이디입니다.";
-                error[0].style.color = "red";
-                error[0].style.display = "block";
-            } else {  // 사용 가능한 아이디일 때
-                error[0].innerHTML = "사용 가능한 아이디입니다.";
-                error[0].style.color = "green";
-                error[0].style.display = "block";
-            }
-        }
-    };
-    xhr.send(JSON.stringify({ id: id.value }));
-}
-
-// 닉네임 중복 확인
-function checkNicknameDuplicate() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/check-nickname", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.exists) {  // 중복 닉네임일 때
-                error[7].innerHTML = "이미 사용 중인 닉네임입니다.";
-                error[7].style.color = "red";
-                error[7].style.display = "block";
-            } else {  // 사용 가능한 닉네임일 때
-                error[7].innerHTML = "사용 가능한 닉네임입니다.";
-                error[7].style.color = "green";
-                error[7].style.display = "block";
-            }
-        }
-    };
-    xhr.send(JSON.stringify({ nickname: nickname.value }));
-}
+	//submit 동작 시, 아래 객체 모든 속성에 대해 값이 true인지 검사 (유효성 검사 결과 저장할 객체)
+	const checkObj = {
+			"userId"					: false,
+			"idDuplChkBtn"  			: false,
+			"userPw"					: false,
+			"userPw2"					: false,
+			"userName"					: false,
+			"userEmail"					: false,
+			"userPhone"					: false,
+			"userNickname"				: false,	
+			"nicknameChk" 				: false
+	};
  
- 
-//가입하기 버튼 선택
- var joinBtn = document.querySelector('#btnJoin');
-
- // 클릭 이벤트 핸들러 추가
- joinBtn.addEventListener("click", function() {
-     // 입력 검증 함수 실행
-     checkId();
-     checkPw();
-     comparePw();
-     checkName();
-     isEmailCorrect();
-     checkPhoneNum();
-     checkNickname();
-     
-     console.log("!");
-     
-     // 입력값 검증 결과 확인
-     var hasError = Array.from(document.querySelectorAll('.error_next_box')).some(function(item) {
-         return item.style.display === "block";
-     });
-
-     if (!hasError) {
-         // 모든 필드가 유효하다면, 서버에 Ajax 요청
-         submitForm();
-     } else {
-         swal("모든 필드를 올바르게 입력해주세요.");
-     }
- });
-
- 
- 
- 
- 
- 
- // 서버에 회원가입 데이터를 Ajax로 전송하는 함수
- function submitForm() {
-     // 폼 데이터 수집
-     var formData = {
-         id: document.querySelector('#id').value,
-         password: document.querySelector('#pswd1').value,
-         name: document.querySelector('#name').value,
-         email: document.querySelector('#email').value,
-         phoneNo: document.querySelector('#phoneNo').value,
-         nickname: document.querySelector('#nickname').value
-     };
-
-     // Ajax 요청
-     var xhr = new XMLHttpRequest();
-     xhr.open("POST", "/user/join", true);
-     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-     xhr.onreadystatechange = function () {
-         if (xhr.readyState === XMLHttpRequest.DONE) {
-             if (xhr.status === 200) {
-                 var response = JSON.parse(xhr.responseText);
-                 if (response.success) {
-                     swal("회원가입이 완료되었습니다.");
-                     window.location.href = "#";  // 회원가입 완료 후 이동할 페이지
-                 } else {
-                	 swal("회원가입에 실패했습니다. 다시 시도해주세요.");
-                 }
-             } else {
-            	 swal("서버 요청 중 오류가 발생했습니다.");
-             }
-         }
-     };
-
-     xhr.send(JSON.stringify(formData));
- }
- 
- 
- 
+	const userId = $("#userId");
+	const idMessage = $("#idMessage");
+ 	//한글자 입력할때마다 동작
+	userId.on('input', function() {
+		checkObj.idDuplChkBtn = false;  //아이디를 수정하면 중복체크 다시 하게 false
+		
+		idMessage.removeClass('valid');
+		idMessage.removeClass('invalid');
+		
+		const regExp = /^[A-Za-z0-9_-]{5,20}$/;
+		if(regExp.test($(this).val())) {
+			idMessage.html("아이디 중복체크를 해주세요.");
+			idMessage.addClass('valid');
+			idMessage.css("color", "red");
+			checkObj.userId = true;
+		}else{
+			idMessage.html("영대소문자,특수문자(_-),숫자 포함 5~20자리");
+			idMessage.addClass('invalid');
+			idMessage.css("color", "red");
+			checkObj.userId = false;
+		}
+	});
+ 	
+ 	
+ 	//아이디 중복체크
+ 	$('#idDuplChkBtn').on('click', function() {
+ 		if(!checkObj.userId) {
+ 			msg("알림", "유효한 아이디를 입력한 후, 중복체크를 진행하세요.", "error");
+			return false;
+ 		}
+ 		
+ 		$.ajax({
+			url : "/idDuplChk",
+			data : {"userId" : userId.val()},
+			type : "GET",
+			success : function(res){
+				//console.log(res);
+				if(res == 0) {
+					//중복된 아이디가 없음 == 회원가입 가능
+					idMessage.html("사용가능한 아이디 입니다.");
+					idMessage.css("color","green");
+					msg("알림", "사용가능한 아이디 입니다.", "success");
+					checkObj.idDuplChk = true;
+				} else {
+					msg("알림", "중복된 아이디가 존재합니다.", "warning");
+					checkObj.idDuplChk = false;	//아이디 중복체크 결과 저장
+				}
+			},
+			error : function(){
+				console.log("ajax 오류 발생");
+			}
+		});
+	});
+ 	
+ 	
+ 	const userPw = $("#userPw");	
+	const pwMessage = $("#pwMessage");	
+	
+	userPw.on('input', function() {
+		
+				
+		pwMessage.removeClass('valid');
+		pwMessage.removeClass('invalid');
+		
+		const regExp = /^[a-zA-Z0-9~!@#$%^&*]{8,16}$/;
+		
+		if(regExp.test($(this).val())){
+			checkObj.userPw = true;
+			//비밀번호 값이 정규표현식 패턴에 만족할 때, 비밀번호 확인 입력값이, 입력되었는지를 조건식에 작성
+			if($(userPw2).val().length < 1) {
+				//비밀번호는 정상입력한 상태 && 비밀번호 확인값은 입력되지 않은 상태
+				pwMessage.html("");
+				pwMessage.addClass("valid");
+				
+			} else {
+				//비밀번호 정상 입력 && 비밀번호 확인값도 입력된 상태
+				checkPw();
+			}
+			pwMessage.html("사용가능한 비밀번호입니다.");
+			pwMessage.addClass("valid");
+			pwMessage.css("color", "green");
+		} else {
+			pwMessage.html("비밀번호 형식이 유효하지 않습니다.");
+			pwMessage.addClass("invalid");
+			pwMessage.css("color", "red");
+			checkObj.userPw = false;
+		}
+	
+	});
+ 	
+	const userPw2 = $('#userPw2');
+	const pw2Message = $('#pw2Message');
+	userPw2.on('input', checkPw);	//아래 작성한 이벤트 핸들러 함수를 이벤트와 연결
+	
+	//이벤트핸들러 함수
+	function checkPw() {
+		//비밀번호와 비밀번호 확인 값 결과 표시할 p태그 공용 사용
+		pw2Message.removeClass('valid');
+		pw2Message.removeClass('invalid');
+		
+		if(userPw2.val() == userPw.val()) {
+			//비밀번호값 == 비밀번호 확인 값
+			pw2Message.addClass('valid');
+			pw2Message.html("비밀번호가 일치합니다.");
+			pw2Message.css("color", "green");
+			checkObj.userPw2 = true;
+		} else {
+			pw2Message.addClass('invalid');
+			pw2Message.html("비밀번호가 일치하지 않습니다.");
+			pw2Message.css("color", "red");
+			checkObj.userPw2 = false;
+		}
+	};
+	
+ 	//이름 유효성 검사
+	const userName = $('#userName');
+	const nameMessage = $('#nameMessage');
+	
+	userName.on('input', function() {
+		nameMessage.removeClass('valid');
+		nameMessage.removeClass('invalid');
+	
+		const regExp = /^[가-힣A-Za-z]{2,20}$/;
+		
+		if(regExp.test($(this).val())) {
+			nameMessage.addClass('valid');
+			nameMessage.html("");
+			nameMessage.css("color", "green");
+			checkObj.userName = true;
+		}else {
+			nameMessage.addClass('invalid');
+			nameMessage.html("이름 형식이 유효하지 않습니다.");
+			nameMessage.css("color", "red");
+			checkObj.userName = false;
+			
+		}
+	});
+	
+	//이메일 유효성 검사
+	const userEmail = $('#userEmail');
+	const emailMessage = $('#emailMessage');
+	
+	userEmail.on('input', function() {
+		emailMessage.removeClass('valid');
+		emailMessage.removeClass('invalid');
+		
+		const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{3}$/;
+		
+		if(regExp.test($(this).val())) {
+			emailMessage.addClass('valid');
+			emailMessage.html("확인되었습니다.");
+			emailMessage.css("color", "green");
+			checkObj.userEmail = true;
+		}else {
+			emailMessage.addClass('invalid');
+			emailMessage.html("이메일 형식이 유효하지 않습니다.");
+			emailMessage.css("color", "red");
+			checkObj.userEmail = false;
+		}
+	});
+	
+	
+	//전화번호 유효성 검사
+	const userPhone = $('#userPhone');
+	const phoneMessage =$('#phoneMessage');
+	
+	userPhone.on('input', function() {
+		phoneMessage.removeClass('valid');
+		phoneMessage.removeClass('invalid');
+		
+		const regExp = /^(01[01679])([0-9]{3,4})([0-9]{4})$/;
+		
+		if(regExp.test($(this).val())) {
+			phoneMessage.addClass('valid');
+			phoneMessage.html(" ");
+			checkObj.userPhone = true;
+		} else {
+			phoneMessage.addClass('invalid');
+			phoneMessage.html("전화번호 형식이 유효하지 않습니다.");
+			phoneMessage.css("color", "red")
+			checkObj.userPhone = false;
+		}
+	});
+	
+	
+	//닉네임 유효성 검사
+	const userNickname = $('#userNickname');
+	const nicknameMessage = $('#nicknameMessage');
+	
+	userNickname.on('input', function() {
+		nicknameMessage.removeClass('valid');
+		nicknameMessage.removeClass('invalid');
+		
+		const regExp = /^[a-z가-힣0-9]{2,8}$/;
+		
+		if(regExp.test($(this).val())) {
+			nicknameMessage.addClass('valid');
+			nicknameMessage.html("닉네임 중복체크를 해주세요.");
+			nicknameMessage.css("color","red");
+			checkObj.userNickname = true;
+		}else{
+			nicknameMessage.addClass('invalid');
+			nicknameMessage.html("닉네임 형식이 유효하지 않습니다.");
+			nicknameMessage.css("color","red");
+			checkObj.userNickname = false;
+		}
+	});
+	
+	
+	//닉네임 중복체크
+ 	$('#nicknameChk').on('click', function() {
+ 		if(!checkObj.userNickname) {
+ 			msg("알림", "유효한 닉네임을 입력한 후, 중복체크를 진행하세요.", "error");
+			return false;
+ 		}
+ 		
+ 		$.ajax({
+			url : "/chkNickname",
+			data : {"userNickname" : userNickname.val()},
+			type : "GET",
+			success : function(res){
+				//console.log(res);
+				if(res == 0) {
+					//중복된 닉네임이 없음 == 회원가입 가능
+					msg("알림", "사용가능한 닉네임 입니다.", "success");
+					nicknameMessage.html("사용가능한 닉네임 입니다.");
+					nicknameMessage.css("color","green");
+					checkObj.userNickname = true;
+				} else {
+					msg("알림", "중복된 닉네임이 존재합니다.", "warning");
+					checkObj.userNickname = false;	//닉네임 중복체크 결과 저장
+				}
+			},
+			error : function(){
+				console.log("ajax 오류 발생");
+			}
+		});
+	});
+	
+	
+ 	function joinValidate() {
+		//입력값들이 전부다 입력되었는지 확인하고 상태에 따라 submit을 할지말지 정해야함
+		//각 입력값마다 boolean 형태로 객체를 만들어주고 정상입력이 아닐땐 false로
+		
+		let str = "";
+		
+		for(let key in checkObj) {
+		
+			
+			
+			//console.log('key : ' + checkObj[key]);
+			/*
+			각 입력값의 유효성 검사 결과를 저장하고 있는 객체의, 현재 값이 false일 때
+			*/
+			if(!checkObj[key]) {	
+				switch(key) {
+					case "userId"				: str = "아이디 형식"; 					break;
+					case "idDuplChk"			: str = "아이디 중복 체크를 진행하세요"; 		break;
+					case "userPw"				: str = "비밀번호 형식";					break;
+					case "userPw2"				: str = "비밀번호 확인 형식";				break;
+					case "userName"				: str = "이름 형식";						break;
+					case "userEmail"			: str = "이메일 형식";						break;
+					case "userPhone"			: str = "전화번호 형식";					break;
+					case "userNickname"			: str = "닉네임 형식";						break;
+				}
+			
+			if(key != "idDuplChk") {
+				str += "이 유효하지 않습니다.";
+			}
+				
+				//하나의 함수지만 객체 형태로 전달
+				msg("회원가입 실패", str, "warning");
+				
+				return false;	//submit을 막아주기 위함				
+			}
+			
+			if(key != "nicknameChk") {
+				str += "이 유효하지 않습니다.";
+			}
+			
+				msg("회원가입 실패", str, "warning");
+				
+				return false;
+		}
+				
+		//전부 정상적으로 입력했을 때 -> 정상 submit이 동작하게끔
+		return true;
+	};
+	
+	
         </script>
         
     </body>

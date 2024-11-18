@@ -36,6 +36,7 @@
 <head>
 <meta charset="UTF-8">
 <title>WithTrip</title>
+<script src="/resources/js/sweetalert.min.js"></script>
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 <style>
@@ -202,6 +203,10 @@ background-color :  #90cbfb;
     border-radius: 50%;
 }
 
+.user-link-box {
+	dispaly : flex;
+	
+}
 
 
 </style>
@@ -240,12 +245,12 @@ background-color :  #90cbfb;
                 </div>
                                 
                 <div class="login-button-box">
-                    <button type="submit" class="btn-primarylg" onclick="loginBtn()"> 로그인</button>
+                    <button type="submit" class="btn-primarylg" > 로그인</button>
                 </div>
                 <div class="user-link-box">
                     <a href="/user/joinFrm">회원가입</a> |
-                    <a href="#">아이디 찾기</a> |
-                    <a href="#">비밀번호 찾기</a>
+                    <a href="javascript:void(0)" onclick="searchInfo('id')">아이디 찾기</a> |
+						<a href="javascript:void(0)" onclick="searchInfo('pw')">비밀번호 찾기</a>
                 </div>	
                 <div class="social-login">
                     <h6>소셜계정으로 로그인</h6>
@@ -292,41 +297,41 @@ background-color :  #90cbfb;
 	        saveIdChkbox.checked = true;
 	    }
 
-	    // 로그인 버튼 클릭 이벤트
-	    document.querySelector(".login-button-box>button").onclick = function() {
-	        loginBtn();
-	    };
-	};
-
-	
-	/*
-	로그인 버튼 클릭 시 호출되는 함수
-	
-		function loginBtn() {
-	    const loginId = document.getElementById('loginId').value;
-	    const loginPw = document.getElementById('loginPw').value;
-	    const saveId = document.getElementById('saveId').checked;
-
-	    // 아이디와 비밀번호 입력 확인
-	    if (loginId == '') {
-	        swal('아이디를 입력해주세요.');
-	        return;
-	    }
-	    if (loginPw == '') {
-	        swal('비밀번호를 입력해주세요.');
-	        return;
-	    }
 	    
-	    $('form').submit();
+	    
+	};
+	
+	//아이디 비번 찾기
+	function searchInfo(gb) {
+		let popupWidth = 500;
+		let popupHeight = 330;
+		
+		if(gb == 'pw'){
+			popuHeight = 400;
+		}
+		
+		let top = (window.innerHeight - popupHeight) /2 + window.screenY;
+		let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
+		
+		window.open("/user/searchInfoFrm?gb=" + gb, "searchInfo", "width=" + popupWidth +", height=" + popupHeight + ", top="+top+", left=" + left);
 	}
-	*/
+	
+	
+	//로그인 버튼 클릭 시 호출되는 함수
+	function loginValidate() {
+	if($('#loginId').val().length < 1){
+		msg("알림", "아이디를 입력하세요.", "warning");	//header.jsp에 있는 fuction msg 호출 중
+		return false;	
+	}
+	if($('#loginPw').val().length < 1){
+		msg("알림", "비밀번호를 입력하세요.", "warning");
+		return false;
+	}
+}
+	
 
-	/*
-	// 카카오 로그인 버튼 클릭 시 호출되는 함수 (추가적인 구현 필요)
-	function kakaoLoginBtn() {
-	    alert('카카오 로그인 기능은 현재 준비 중입니다.');
-	}
-	*/
+	
+	
 	
 </script>
 </body>
