@@ -12,15 +12,15 @@
 <style>
 .page-title {
 	font-size:30px;
-	
+	margin-bottom: 10px;
 	
 	
 }
 .input-title {
 	font-size:20px;
-	
-	
 }
+
+
 
 
 </style>
@@ -64,7 +64,8 @@
 						<div>
 							<button type="button" onclick="srchInfo('${gb}')"
 								class="btn-primary md">찾기</button>
-						
+						</div>
+						<div>
 							<button type="button" onclick="closeFn()" class="btn-primary md">닫기</button>
 						</div>
 					</div>
@@ -85,10 +86,10 @@
 
 			param.userEmail = userEmail.val();
 
-			if (gb == 'Id') {
+			if (gb == 'id') {
 				link = '/user/srchInfoId';
 
-			} else if (gb == 'Pw') {
+			} else if (gb == 'pw') {
 				link = '/user/srchInfoPw';
 				param.userEmail = userEmail.val();
 
@@ -122,13 +123,11 @@
 						console.log(res);
 
 						if (res == "0") {
-							msg('알림', '생성된 임시 비밀번호가 입력하신 이메일로 전송되었습니다.',
-									'success', 'closeFn()');
+							msg('알림', '생성된 임시 비밀번호가 입력하신 이메일로 전송되었습니다.','success', 'closeFn()');
 						} else if (res == "1") {
-							msg('알림', '비밀번호 찾기 중, 오류가 발생했습니다.', 'warning');
+							msg('알림', '비밀번호 찾기 중, 오류가 발생했습니다.', 'warning');		//오류발생!!!!
 						} else if (res == "2") {
-							msg('알림', '입력하신 정보와 일치하는 회원 정보가 존재하지 않습니다.',
-									'warning');
+							msg('알림', '입력하신 정보와 일치하는 회원 정보가 존재하지 않습니다.','warning');
 						}
 					}
 
