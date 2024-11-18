@@ -135,10 +135,11 @@
     	});
     	
     	function updInfoBtn(){
+    		if(checkInfo.userNicknameChk == true){//닉네임 체크가 true면 진행 false면 빠꾸
     		swal({
 				title : "알림",
 				text : "개인정보를 수정하시겠습니까?",
-				icon : "error",
+				icon : "success",
 				buttons : {
 					cancel : {
 						text : "취소",
@@ -158,6 +159,9 @@
 					$('#updInfo').submit();
 				}
 			});
+    		}else{
+    			msg('알림', '닉네임 중복체크를 진행해주세요', 'success');
+    		}
 		}
     </script>
 </body>

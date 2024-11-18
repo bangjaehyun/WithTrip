@@ -8,7 +8,7 @@
 
 
 <header class="header">   
-	<div class="fixedMenu">
-		<div class="logo"><img src="/resources/images/withTrip_logo3.png" width="100%" height="74px"></div>
-	</div>
+   <div class="fixedMenu">
+      <div class="logo"><img src="/resources/images/withTrip_logo_h_03.png" width="100%" height="74px"></div>
+   </div>
 </header>
