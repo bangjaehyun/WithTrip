@@ -79,7 +79,7 @@ public class UserDao {
 	public int insertUserSite(Connection conn, UserSite usersite) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into tbl_user_withtrip values (to_char(sysdate,'yymmddhh24mi') || lpad(seq_user_no.nextval,5,'0'),?,?,?,?,?,?,sysdate)";
+		String query = "insert into tbl_user_withtrip values (to_char(sysdate,'yyyymmddhh24mi')||lpad(seq_user_no.nextval,4,'0'),?,?,?,?,?,?,sysdate)";
 		
 		
 		try {
