@@ -51,7 +51,7 @@ public class UserSrchInfoPwServlet extends HttpServlet {
 			String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";	//영문자 대문자
 			String lower = "abcdefghijklmnopqrstuvwxyz";	//영문자 소문자
 			String digit = "0123456789";					//숫자
-			String special = "!@#$";						//특수문자
+			String special = "~!@#$%^&*";						//특수문자
 			String allStr = upper + lower + digit + special;
 			
 			SecureRandom random = new SecureRandom();
@@ -110,7 +110,7 @@ public class UserSrchInfoPwServlet extends HttpServlet {
 				
 				try {
 					msg.setSentDate(new Date());
-					msg.setFrom(new InternetAddress("with_trip2412@naver.com", "KH정보교육원 강남2관 M강의장"));
+					msg.setFrom(new InternetAddress("with_trip2412@naver.com", "withTrip"));
 					
 					//수신자
 					InternetAddress to = new InternetAddress(toEmail);

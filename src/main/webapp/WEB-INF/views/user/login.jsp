@@ -310,8 +310,8 @@ background-color :  #90cbfb;
 			popuHeight = 400;
 		}
 		
-		let top = (window.innerHeight - popupHeight) /2 + window.screenY;
-		let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
+		let top = (window.innerHeight - popupHeight) /3 + window.screenY;
+		let left = (window.innerWidth - popupWidth) / 3 + window.screenX;
 		
 		window.open("/user/searchInfoFrm?gb=" + gb, "searchInfo", "width=" + popupWidth +", height=" + popupHeight + ", top="+top+", left=" + left);
 	}

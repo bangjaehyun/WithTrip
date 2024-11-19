@@ -12,7 +12,6 @@ import kr.or.iei.common.service.CommonService;
 import kr.or.iei.common.vo.Pagination;
 import kr.or.iei.post.model.vo.Post;
 import kr.or.iei.user.model.dao.UserDao;
-import kr.or.iei.user.model.vo.User;
 import kr.or.iei.user.model.vo.UserSite;
 
 public class UserService {
@@ -63,6 +62,10 @@ public class UserService {
 	public int insertUserSite(UserSite usersite) {
 		Connection conn = JDBCTemplate.getConnection();
 		
+		String encPw = BCrypt.hashpw(usersite.getUserPw(), BCrypt.gensalt());
+		System.out.println("encPw: " + encPw);
+		usersite.setUserPw(encPw);
+		
 		int result = dao.insertUserSite(conn, usersite);
 		
 		if(result>0) {
@@ -83,12 +86,27 @@ public class UserService {
 		
 
 }
-	//  로그인
-	public User userLogin(String loginId, String loginPw) {
+	// 로그인 BCrypt사용
+	public UserSite userLogin(String loginId, String loginPw) {
 		Connection conn = JDBCTemplate.getConnection();
-		User user = dao.userLogin(conn, loginId, loginPw);
+		UserSite Usersite = dao.userLogin(conn, loginId);
+		
 		JDBCTemplate.close(conn);
-		return user;
+		
+		if(Usersite == null) {
+			return null;
+		} else {
+			boolean login = BCrypt.checkpw(loginPw, Usersite.getUserPw()); //평문과 암호화된 데이터가 일치하는가?
+			
+			if(login) {
+				return Usersite;
+			} else {
+				return null;
+			}
+			
+		}
+		
+		
 	}
 	public ArrayList<Post> selMyPosts(String postTypeId,int reqPg, int pgSize) {
 		Connection conn = JDBCTemplate.getConnection();

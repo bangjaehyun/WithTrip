@@ -41,6 +41,9 @@
 #userEmail {
 	width : 200px;
 }
+#userId {
+	width : 200px;
+}
 .input-wrap {
 	height : 50px;
 }

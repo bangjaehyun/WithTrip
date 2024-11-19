@@ -79,7 +79,7 @@ public class UserDao {
 	public int insertUserSite(Connection conn, UserSite usersite) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into tbl_user_withtrip values (to_char(sysdate,'yymmddhh24mi') || lpad(seq_user_no.nextval,4,'0'),?,?,?,?,?,?,sysdate)";
+		String query = "insert into tbl_user_withtrip values (to_char(sysdate,'yymmddhh24mi') || lpad(seq_user_no.nextval,5,'0'),?,?,?,?,?,?,sysdate)";
 		
 		
 		try {
@@ -132,17 +132,17 @@ public class UserDao {
 	}
 	
 		//로그인
-	public UserSite userLogin(Connection conn, String loginId, String loginPw) {
+	public UserSite userLogin(Connection conn, String loginId) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		UserSite u = null;
 		int userType = 5;
-		String query = "select * from tbl_user_withtrip where user_id = ? and user_pw =?";
+		String query = "select * from tbl_user_withtrip where user_id = ? ";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, loginId);
-			pstmt.setString(2, loginPw);
+			
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
@@ -328,7 +328,7 @@ public class UserDao {
 	    
 	    PreparedStatement pstmt = null;
 	    int result = 0;
-	    String query = "update tbl_user set user_pw = ? where user_id = ?";
+	    String query = "update tbl_user_withtrip set user_pw = ? where user_id = ?";
 	
 		try {
 		   pstmt = conn.prepareStatement(query);
