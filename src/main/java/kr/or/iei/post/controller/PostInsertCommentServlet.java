@@ -55,18 +55,34 @@ public class PostInsertCommentServlet extends HttpServlet {
 		
 		System.out.println("서블릿 result : " + result);
 		System.out.println("서블릿 commentRef : " + commentRef);
-		//4. 결과처리
-		if(result > 0 ) {
-			request.setAttribute("title", "알림");
-			request.setAttribute("msg", "댓글 작성을 완료했습니다.");
-			request.setAttribute("icon", "success");
-			request.setAttribute("loc", "/post/view?postNo="+commentRef+"&commentChk=chk");
-		} else {
-			request.setAttribute("title", "실패");
-			request.setAttribute("msg", "댓글 작성 중, 오류가 발생하였습니다.");
-			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/post/view?postNo="+commentRef+"&commentChk=chk");
+		if(request.getParameter("trip") != null) {
+			//4. 결과처리
+			if(result > 0 ) {
+				request.setAttribute("title", "알림");
+				request.setAttribute("msg", "댓글 작성을 완료했습니다.");
+				request.setAttribute("icon", "success");
+				request.setAttribute("loc", "/post/trip?postNo="+commentRef+"&commentChk=chk");
+			} else {
+				request.setAttribute("title", "실패");
+				request.setAttribute("msg", "댓글 작성 중, 오류가 발생하였습니다.");
+				request.setAttribute("icon", "error");
+				request.setAttribute("loc", "/post/trip?postNo="+commentRef+"&commentChk=chk");
+			}
+		}else {
+			//4. 결과처리
+			if(result > 0 ) {
+				request.setAttribute("title", "알림");
+				request.setAttribute("msg", "댓글 작성을 완료했습니다.");
+				request.setAttribute("icon", "success");
+				request.setAttribute("loc", "/post/view?postNo="+commentRef+"&commentChk=chk");
+			} else {
+				request.setAttribute("title", "실패");
+				request.setAttribute("msg", "댓글 작성 중, 오류가 발생하였습니다.");
+				request.setAttribute("icon", "error");
+				request.setAttribute("loc", "/post/view?postNo="+commentRef+"&commentChk=chk");
+			}
 		}
+		
 		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 	}
 

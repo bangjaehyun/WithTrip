@@ -45,7 +45,6 @@ public class PostViewServlet extends HttpServlet {
 		Post p = service.selectOnePost(postNo, commentChk);
 		p.setPostTypeNm(PostType.type[Integer.parseInt(p.getPostTypeCd())-1]);
 		request.setAttribute("post", p);
-		//System.out.println("PostViewServlet의 게시글 정보 : " + p);
 		
 		request.getRequestDispatcher("/WEB-INF/views/post/view.jsp").forward(request, response);
 	}

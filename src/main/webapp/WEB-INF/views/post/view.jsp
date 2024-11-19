@@ -242,7 +242,7 @@
 								text : '${post.postTypeNm}' + " 삭제가 완료 되었습니다.",
 								icon : "success"
 							}).then(function(){
-								location.href = "/post/list?reqPage=1&postTypeCd=" + 1 + "&postTypeNm=" + 1;
+								location.href = "/post/list?reqPage=1&postTypeCd=" + ${post.postTypeCd} + "&postTypeNm=" + ${post.postTypeCd};
 							});
 						}else{
 							swal({
@@ -250,7 +250,7 @@
 								text : '${post.postTypeNm}' + "삭제중 오류가 발생하였습니다.",
 								icon : "error"
 							}).then(function(){
-								location.href = "/post/list?reqPage=1&postTypeCd=" +1 + "&postTypeNm=" + 1;
+								location.href = "/post/list?reqPage=1&postTypeCd=" + ${post.postTypeCd} + "&postTypeNm=" + ${post.postTypeCd};
 							});
 						}
 					},

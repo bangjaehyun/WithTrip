@@ -184,7 +184,7 @@ text-align: center;
 					<div>
 						<p class="Content-title lg">${postTypeNm} 작성</p>
 					</div>
-					<c:if test="${postTypeId eq 1}">
+					<c:if test="${postTypeId eq 2}">
 						<div class="div-subFun">
 							<div class="div-map">
 								<div class="map-wrap">
@@ -246,10 +246,10 @@ text-align: center;
 	
 	
 	$('#map').css("display", "none");
-	let mapList = null;
+	let mapList = [];
 	//맵창에서 지도에 값을 넣어주는 함수
 	function addMap(list) {
-		if(mapList != null){
+		if(mapList.length > 0){
 			$('#map').empty();
 		}
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -343,12 +343,15 @@ text-align: center;
 			}
 		}).then(function(isConfrim){
 			if(isConfrim){
-				<%-- 게시글을 취소했을경우 페이지 이동 --%>
+				location.href = "/post/list?reqPage=1&postTypeCd="+${postTypeId}+"&postTypeNm="+ ${postTypeId};
 			}
 		});
 	}
 	
 	function postInsert(){
+		
+		if(checkPost()){
+		
 		swal({
 			title : "알림",
 			text : "게시글을 등록 하시겠습니까?",
@@ -374,7 +377,9 @@ text-align: center;
 				
 				var form = $('#post-view')[0];
 				var formData = new FormData(form);
-				formData.append("mapList", JSON.stringify(mapList));
+				if(mapList.length > 0){
+					formData.append("mapList", JSON.stringify(mapList));
+				}
 				
 				tagList = [];
 				 $('.addTag').each(function(index,item){
@@ -420,6 +425,33 @@ text-align: center;
 				});
 			}
 		});
+		}
+	}
+	
+	
+	function checkPost(){
+		if($('#postTitle').val().length < 1){
+			swal({
+				title : "알림",
+				text :  "제목을 입력하여 주시기 바랍니다.",
+				icon : "warning"
+			}).then(function(){
+				$('#postTitle').focus();
+				return false;
+			});
+		}else if($('#postContent').val().length < 1){
+			swal({
+				title : "알림",
+				text :  "내용을 입력하여 주시기 바랍니다.",
+				icon : "warning"
+			}).then(function(){
+				$('#postContent').summernote('focus');
+				return false;
+			});
+		}
+		else{
+			return true;
+		}
 	}
 	
 	function change(obj){

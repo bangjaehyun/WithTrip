@@ -45,7 +45,7 @@
 		<jsp:include page = "/WEB-INF/views/common/header.jsp" />
 		<main class="content">
 			<section class="section post-list-wrap">
-			<div class="page-title">${postTypeNm}</div>
+			<div class="page-title" style="<c:if test='${postTypeId eq 2}'>text-indent : 0px</c:if>">${postTypeNm}</div>
 			<%-- <c:if test="${not empty loginMember}"> --%>
 				<div class="list-header">
 					<%-- <a class="btn-point" id="write-btn" href='/post/writeFrm?postTypeid=${postTypeid}&postTypeNm=${postTypeNm}'>${postTypeNm } 작성</a>--%>
@@ -56,6 +56,7 @@
 			<%-- </c:if> --%>
 	
 				<div class="list-body">
+					<c:if test="${postTypeId ne 2}">
 					<div class="list-side">
 						<ul class="side-menu-title">
 							<li>고객센터</li>						
@@ -67,7 +68,8 @@
 	                        <li><a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5" >사이트 소개</a></li>  
 						</ul>
 					</div>
-					<div class="list-content">
+					</c:if>
+					<div  class="list-content" style="<c:if test='${postTypeId eq 2}'>width:1800px;</c:if>">
 						<table class="tbl hover">
 							<tr>
 								<th style="width:10%;">번호</th>
@@ -79,14 +81,21 @@
 							<c:forEach var="post" items="${postList}">
 							<tr>
 								<td>${post.postNo}</td>
-								<td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
+								<c:choose>
+										<c:when test="${postTypeId eq 2}">
+											<td><a href='/post/trip?postNo=${post.postNo}'>${post.postTitle}</a></td>
+										</c:when>
+										<c:otherwise>
+											<td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
+										</c:otherwise>
+								</c:choose>  
 								<td>${post.user.userNickname}</td>
 								<td>${post.postDate}</td>
 								<td>${post.readCount}</td>
 							</tr>
 							</c:forEach>
 						</table>
-						<div id="pageNavi">
+						<div id="pageNavi" style="<c:if test='${postTypeId eq 2}'>padding-right : 0px;</c:if>">
 							${pageNavi}
 						</div>	
 					</div>						

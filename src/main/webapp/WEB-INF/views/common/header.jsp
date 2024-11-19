@@ -29,7 +29,7 @@
                            <li><a href="#">축제</a></li>
                        </ul>
                    </li>
-                   <li><a href="#">우리의 여행</a></li>
+                   <li><a href="/post/list?reqPage=1&postTypeCd=2&postTypeNm=2"">우리의 여행</a></li>
                    <li><a href="/spot/mainMap">MAP</a></li>
                    <li><a href="/post/CS">고객센터</a>
                       <ul class="sub-menu">
