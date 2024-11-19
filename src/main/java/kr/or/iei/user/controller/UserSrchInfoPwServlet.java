@@ -80,11 +80,11 @@ public class UserSrchInfoPwServlet extends HttpServlet {
 			}
 			
 			//최종적으로 임시 비밀번호가 들어있는 allChars(배열)을 String으로 변환
-			String newPw = new String(allChars);
+			String newUserPw = new String(allChars);
 			
 			//DB 업데이트
 			
-			int result = service.updateUserPw(userId, newPw);
+			int result = service.updateUserPw(userId, newUserPw);
 			
 			if (result > 0) {
 				System.out.println("DB 업데이트 완료");
@@ -100,7 +100,7 @@ public class UserSrchInfoPwServlet extends HttpServlet {
 				//2. 세션 설정 및 인증 정보 설정
 				Session session = Session.getDefaultInstance(prop, new Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication("wodnjs5027@naver.com", "wodnjs9950272788");
+						return new PasswordAuthentication("with_trip2412@naver.com", "withtrip241122");
 					}
 				
 				});
@@ -110,14 +110,14 @@ public class UserSrchInfoPwServlet extends HttpServlet {
 				
 				try {
 					msg.setSentDate(new Date());
-					msg.setFrom(new InternetAddress("wodnjs5027@naver.com", "KH정보교육원 강남2관 M강의장"));
+					msg.setFrom(new InternetAddress("with_trip2412@naver.com", "KH정보교육원 강남2관 M강의장"));
 					
 					//수신자
 					InternetAddress to = new InternetAddress(toEmail);
 					msg.setRecipient(Message.RecipientType.TO, to);
 					
 					msg.setSubject("임시 비밀번호 발급 안내");
-					msg.setContent("회원님의 임시 비밀번호는 [<span style = 'color:red; font-weight:bold;'>" + newPw + "</span>] 입니다.", "text/html; charset = utf-8");
+					msg.setContent("회원님의 임시 비밀번호는 [<span style = 'color:red; font-weight:bold;'>" + newUserPw + "</span>] 입니다.", "text/html; charset = utf-8");
 				
 					Transport.send(msg);
 				} catch (MessagingException e) {
