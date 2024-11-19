@@ -90,7 +90,7 @@
     	//유저 삭제 팝업
     	function delUserBtn(){		
     		let popupWidth = 550;
-    		let popupHeight = 350;
+    		let popupHeight = 500;
     		
     		let top = (window.innerHeight - popupHeight) / 2 + window.screenY;
     		let left = (window.innerWidth - popupWidth) / 2 + window.screenX;

@@ -14,24 +14,27 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
+    background-color: #f9f9f9;
 }
 .popup-container {
-    width: 400px;
+    width: 350px;
     border: 1px solid #ccc;
     padding: 20px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    background-color: #fff;
 }
-legend {
-    font-size: 1.5em;
-    font-weight: bold;
+h3 {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 20px;
 }
 table {
     width: 100%;
-    margin-top: 10px;
+    margin-bottom: 20px;
 }
 td {
-    padding: 8px;
+    padding: 8px 0;
     text-align: left;
     font-size: 1em;
 }
@@ -39,20 +42,30 @@ input[type="text"], input[type="password"] {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
-}
-.input-error {
-    border: 1px solid black;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 button {
-    padding: 8px 16px;
-    margin: 5px;
+    width: 48%;
+    padding: 10px;
+    margin-top: 10px;
     font-size: 1em;
     cursor: pointer;
     border: 1px solid #ccc;
-    background-color: #fff;
+    background-color: #0073e6;
+    color: white;
+    border-radius: 4px;
 }
 button:hover {
-    background-color: #f0f0f0;
+    background-color: #005bb5;
+}
+button.cancel {
+    background-color: #ccc;
+    color: #333;
+}
+button.cancel:hover {
+    background-color: #999;
 }
 </style>
 </head>
@@ -62,7 +75,7 @@ button:hover {
 		<h3>회원 탈퇴</h3>
 		<input type="hidden" name="userNo" value="${loginUser.userNo}">
 		<c:choose>
-		<c:when test="${loginUser.userType} eq 5">
+		<c:when test="${loginUser.userType eq 5}">
 	    <table>
 	        <tr>
 	            <td>아이디</td>
@@ -99,11 +112,14 @@ button:hover {
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	
 	<script>
+	
+	
 		//회원 삭제 버튼
 		function delUserBtn(){
+			
 			let pwChk = $('#pwChk');
-			let userPw = ${loginUser.userPw};// <- 로그인 전에 쓰면 오류생겨서 막아놨어요
-			console.log(userPw);
+			let userPw = '${loginUser.userPw}';
+
 			if(pwChk.val() == userPw){
 				$('#delUser').submit();
 			}else{
