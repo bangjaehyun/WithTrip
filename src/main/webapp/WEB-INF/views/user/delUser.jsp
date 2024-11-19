@@ -83,7 +83,7 @@ button.cancel:hover {
 	        </tr>
 	        <tr>
 	            <td>비밀번호</td>
-	            <td><input type="password" id="pwChk"></td>
+	            <td><input type="password" id="pwChk" name="pwChk"></td>
 	        </tr>
 	        <tr>
 	            <td colspan="2" style="text-align: center;">
@@ -112,22 +112,48 @@ button.cancel:hover {
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	
 	<script>
-	
-	
 		//회원 삭제 버튼
 		function delUserBtn(){
-			
-			let pwChk = $('#pwChk');
-			let userPw = '${loginUser.userPw}';
-
-			if(pwChk.val() == userPw){
-				$('#delUser').submit();
-			}else{
-				msg('알림', '비밀번호가 일치하지 않습니다', 'warning');
-				return;
-			}
+			swal({
+				title : "알림",
+				text : "정말 회원을 탈퇴하시겠습니까?",
+				icon : "error",
+				buttons : {
+					cancel : {
+						text : "취소",
+						value : false,
+						visible : true,
+						closeModal : true
+					},
+					confirm : {
+						text : "탈퇴",
+						value : true,
+						visible : true,
+						closeModal : true
+					}
+				}
+			}).then(function(isConfirm){
+				if(isConfirm){
+					$.ajax ({
+						url : "/user/delUser",
+						type : "post",
+						data : {"userNo" : ${loginUser.userNo}, 
+								"pwChk" : $('#pwChk').val()}, 
+						success : function(res){
+							if(res == "1"){
+								console.log("성공");
+							}else{
+								console.log("실패");
+							}												
+						},
+						error : function(){
+							console.log("erererer");
+						}
+					});
+				}
+			});
 		}
-		
+	
 		//API로그인 유저 회원탈퇴
 		function delApiUserBtn() {
 			swal({
@@ -150,7 +176,18 @@ button.cancel:hover {
 				}
 			}).then(function(isConfirm){
 				if(isConfirm){
-					$('#delUser').submit();
+					$.ajax ({
+						url : "/user/delUser",
+						type : "post",
+						data : {"userNo" : ${loginUser.userNo}, 
+								"pwChk" : $('#pwChk').val()}, 
+						success : function(savePath){
+							console.log(res);														
+						},
+						error : function(){
+							console.log("erererer");
+						}
+					});
 				}
 			});
 		}

@@ -7,6 +7,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.Connection;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -17,7 +20,7 @@ import kr.or.iei.user.model.vo.UserNaver;
 
 public class NaverLoginService {
 	NaverLoginDao dao;
-	String id;
+	String name;
 	String email;
 	String mobile;
 	
@@ -61,16 +64,18 @@ public class NaverLoginService {
 			}
 			br.close();//버퍼리더 닫기
 			if (responseCode == 200) {
-				JParser(res.toString());//네이버에서 토큰 받아오고 정상작동하면 JParser로 전달\
+				UserNaver n = JParser(res.toString());//네이버에서 토큰 받아오고 정상작동하면 JParser로 전달\
 				
-				UserNaver n = dao.naverLogin(conn, email);
-				n.setUserEmail(email);
+				UserNaver chkUser = dao.naverLogin(conn, email);
 				
-				if(n != null) {
+				if(chkUser != null) {
+					n = chkUser;
+					n.setUserEmail(email);	
+				}
+				
+				if(chkUser != null) {
 					return n;
-				}		
-				
-				
+				}
 				
 			}
 		} catch (Exception e) {
@@ -81,10 +86,10 @@ public class NaverLoginService {
 	}
 	
 	
-	public void JParser(String json) {
+	public UserNaver JParser(String json) {
 		JSONParser parser = new JSONParser();//JSONParser 선언	    
 	    Object obj;
-	    
+	    UserNaver n = null;
 		try {
 			obj = parser.parse(json);
 			
@@ -92,17 +97,18 @@ public class NaverLoginService {
 			
 		    String access_token = (String) jsonObj.get("access_token");//API 요청에 필요한 인증 토큰.
 		    
-		    NaverLoginService service = new NaverLoginService();//선언만 하고 안쓴다???
-		    start(access_token);//토큰을 스타트에 넘겨줌
+		    //NaverUser
+		    n = start(access_token);//토큰을 스타트에 넘겨줌
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return n;
 	}
 	
 
-	public void start(String token) {
+	public UserNaver start(String token) {
 		String header = "Bearer " + token; // Bearer : 접근 토큰 타입
 		try {
 			String apiURL = "https://openapi.naver.com/v1/nid/me";//네이버 회원의 프로필을 조회하는 url
@@ -126,15 +132,19 @@ public class NaverLoginService {
 			br.close();
 			System.out.println(responseCode);
 			System.out.println(response.toString());
-			loginInfo(response.toString());
+			
+			return loginInfo(response.toString());
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return null;
 	}
 	
-	public void loginInfo(String response){
+	public UserNaver loginInfo(String response){
 		JSONParser parser = new JSONParser();//JSONParser 선언	    
 	    Object obj;
+	    UserNaver userNaver = new UserNaver();
+	    //HttpSession session = request.getSession();
 	    
 		try {
 			obj = parser.parse(response);
@@ -143,16 +153,26 @@ public class NaverLoginService {
 			
 			JSONObject responseObj = (JSONObject) jsonObj.get("response");
 			
-		     id = (String) responseObj.get("id");
+		     name = (String) responseObj.get("name");
 		     email = (String) responseObj.get("email");
 		     mobile = (String) responseObj.get("mobile");
 		    
+		     System.out.println("name : " + name);
+		     System.out.println("email : " + email);
+		     System.out.println("mobile : " + mobile);
+		     
+		     userNaver.setUserName(name);
+		     userNaver.setUserEmail(email);
+		     userNaver.setUserPhone(mobile);
+		     
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return userNaver;
 	}
 
+	//DB에서 조회 후 없으면 추가 정보 입력
 	public int addNaverInfo(UserNaver naverLogin) {
 		Connection conn = JDBCTemplate.getConnection();
 		
@@ -166,6 +186,16 @@ public class NaverLoginService {
 		JDBCTemplate.close(conn);
 		
 		return result;
+	}
+
+	//추가 정보 입력 후 자동 로그아웃 & 로그인해서 값 가져오기
+	public UserNaver naverUserLogin(String userEmail) {
+		Connection conn = JDBCTemplate.getConnection();
+		UserNaver loginUser = dao.naverUserLogin(conn, userEmail);
+		
+		JDBCTemplate.close(conn);
+		
+		return loginUser;
 	}
 	
 

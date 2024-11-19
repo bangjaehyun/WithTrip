@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import kr.or.iei.user.model.service.NaverLoginService;
 import kr.or.iei.user.model.vo.UserNaver;
 
@@ -39,24 +42,26 @@ public class NaverLoginFrmServlet extends HttpServlet {
 	    
 		System.out.println(code);
 		System.out.println(state);
+		
 		NaverLoginService service = new NaverLoginService();
-		UserNaver n = service.createToken(code, state);
+		UserNaver n = service.createToken(code, state);//Tlqkf 왜 n이 null인데
 		    
+		HttpSession session = request.getSession();
+		session.setAttribute("loginUser", n);
+		
+		//UserNaver info = service.loginInfo(state);
 		//일단 네이버 로그인하면 세션에 값 넣어줌
 		if(n != null) {
-			HttpSession session = request.getSession();
-			session.setAttribute("loginUser", n);
-			//request.getRequestDispatcher("/").forward(request, response);
-		
+			n = (UserNaver) session.getAttribute("loginUser");
+			//Member loginMember = (Member) session.getAttribute("loginMember"); <- 태욱형이 준 예시 코드
+			//String memberNo = loginMember.getMemberNo();
 		
 			//세션에서 아이디가 널값이면 추가 정보 입력 페이지로 널값이 아니면 바로 홈페이지로
-				request.getRequestDispatcher("/").forward(request, response);
+			request.getRequestDispatcher("/").forward(request, response);
 		}else {
 			request.getRequestDispatcher("/WEB-INF/views/user/addNaverInfo.jsp").forward(request, response);
 		}
-		
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/user/login.jsp");
-		view.forward(request, response);
+		//request.getRequestDispatcher("/").forward(request, response);
 	}
 
 	/**

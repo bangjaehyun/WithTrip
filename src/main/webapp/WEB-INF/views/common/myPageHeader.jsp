@@ -13,3 +13,14 @@
       <div class="logo"><img src="/resources/images/withTrip_logo_h_03.png" width="100%" height="74px"></div>
    </div>
 </header>
+
+<script>
+   //자주사용하는 함수 header에 선언 -> 다른 jsp에서 script에 작성하지 않아도 됨
+   function msg(title, text, icon) {
+      swal({
+         title : title,
+         text : text,
+         icon : icon
+      });
+   }
+   </script>

@@ -37,18 +37,18 @@ public class NaverAddInfoServlet extends HttpServlet {
 		String userEmail = request.getParameter("userEmail");
 		String userPhone = request.getParameter("userPhone");
 		String userNickname = request.getParameter("userNickname");
-		int userType = 3;
+
+		HttpSession session = request.getSession();
 		
-		UserNaver nLogin = new UserNaver();
-		nLogin.setUserId(userId);
-		nLogin.setUserName(userName);
-		nLogin.setUserEmail(userEmail);
-		nLogin.setUserPhone(userPhone);
-		nLogin.setUserNickname(userNickname);
-		nLogin.setUserType(userType);
+		UserNaver joinNaver = new UserNaver();
+		joinNaver.setUserId(userId);
+		joinNaver.setUserName(userName);
+		joinNaver.setUserEmail(userEmail);
+		joinNaver.setUserPhone(userPhone);
+		joinNaver.setUserNickname(userNickname);
 		
 		NaverLoginService service = new NaverLoginService();
-		int result = service.addNaverInfo(nLogin);
+		int result = service.addNaverInfo(joinNaver);
 		
 		if(result > 0) {
 			request.setAttribute("title", "알림");
@@ -56,16 +56,18 @@ public class NaverAddInfoServlet extends HttpServlet {
 			request.setAttribute("icon", "success");
 			request.setAttribute("loc", "/");
 			
-			HttpSession session = request.getSession();
-			session.setAttribute("naverLogin", nLogin);
+			session.invalidate();
 			
+			UserNaver loginUser = service.naverUserLogin(userEmail);			
+			session.setAttribute("loginUser", loginUser);
+			session.setMaxInactiveInterval(3600);//1시간 -> 필터에서 페이지 넘어갈 때 마다 값 초기화
 		}else {
 			request.setAttribute("title", "알림");
 			request.setAttribute("msg", "추가정보 입력중 오류가 발생했습니다");
 			request.setAttribute("icon", "error");
 			request.setAttribute("loc", "/user/naverLoginFrm");
 		}
-		request.getRequestDispatcher("/WEB-INf/views/common/msg.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 	}
 
 	/**

@@ -84,7 +84,6 @@
             <div id="content">
 					<h4>네이버 추가 정보 입력</h4>
                 <form action="/user/naverAddInfo" method="post" autocomplete="off" onsubmit="return joinValidate()">
-                
                 <input type="hidden" name="userName" value="${loginUser.userName}">
                 <input type="hidden" name="userEmail" value="${loginUser.userEmail}">
                 <input type="hidden" name="userPhone" value="${loginUser.userPhone}">
@@ -125,14 +124,14 @@
    		"userNicknameChk" : false
    	}
    	
-   	const regExpId = /^[a-zA-Z_]{6,10}$/;
+   	const regExpId = /^[a-zA-Z0-9_]{6,20}$/;
    	const regExpNickname =  /^[a-z가-힣0-9]{2,8}$/;
    	
    	$('#idChk').on('click', function(){
    		const idVal = $('#userId').val();
    		
    		if(!regExpId.test(idVal)){
-   			msg('알림', '영문 대소문자 _ 포함 6~20글자로 입력해주세요', 'error');
+   			msg('알림', '영문 대소문자, 숫자, _ 포함 6~20글자로 입력해주세요', 'error');
    			return;
    		}else{
    			checkInfo.id = true;
@@ -191,7 +190,9 @@
 		for(let key in checkInfo){
 			if(!checkInfo[key]){
 				switch(key){
+					case "id" : str = "아이디 형식이 일치하지 않습니다"; break;
 					case "idChk" : str = "아이디 중복체크를 해주세요"; break;
+					case "userNickname" : str = "닉네임 형식이 일치하지 않습니다"; break;
 					case "userNicknameChk" : str = "닉네임 중복체크를 해주세요"; break;
 				}
 				msg('알림', str, "error");

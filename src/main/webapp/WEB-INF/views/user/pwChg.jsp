@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="/resources/js/sweetalert.min.js"></script>
 <title>비밀번호 변경</title>
 <style>
 * {
@@ -68,9 +70,9 @@ button:hover {
 
 </head>
 <body>
-	<div class="wrap">
 	<jsp:include page="/WEB-INF/views/common/myPageHeader.jsp" />
-			<form id="userPwChg" action="/user/pwChg" method="post">
+	<div class="wrap">
+			<form action="/user/pwChg" id="pwChk" method="post" autocomplete="off" onsubmit="return joinValidate()">
 			<input type="hidden" name="userNo" value="${loginUser.userNo}">
 				<table>
 					<tr>
@@ -90,8 +92,7 @@ button:hover {
 				<button type="button" onclick="closeBtn()" style="margin-left:50px;">닫기</button>
 			</form>
 	</div>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="/resources/js/sweetalert.min.js"></script>
+	
 	<script>
 		function closeBtn(){
 			window.self.close();
@@ -99,15 +100,12 @@ button:hover {
 		
 			//결과값 true or false저장용 -> 마지막 submit용도
 		const checkObj = {
-				"userPw" 		: false,
 				"newUserPw"		: false,
 				"newUserPwChk"  : false
 		}
 		
-		const loginUserPw = '${loginUser.userPw}';
-		const userPwChk = $('#userPw');
-		const newUserPw = $('#newUserPw');
-		const newUserPwChk = $('#newUserPwChk');
+		const newUserPw = $('#newUserPw').val();
+		const newUserPwChk = $('#newUserPwChk').val();
 		
 		//userPwChk.on('input', )
 		
@@ -115,71 +113,61 @@ button:hover {
 		
 		
 		function chgPwBtn(){				
-			//기존 비밀번호가 같은지
-			if(loginUserPw == userPwChk.val()){
-				checkObj.userPw = true;	
-			}else{
-				checkObj.userPw = false;
-			}
-			
 			//새로 입력한 비밀번호가 패턴에 일치하는지
-			if(regExp.test(newUserPw.val())){
+			if(regExp.test(newUserPw)){
 				checkObj.newUserPw = true;
 			}else{
 				checkObj.newUserPw = false;
 			}
 			
 			//새로 입력한 비밀번호와 비밀번호 체크가 일치하는지
-			if(newUserPw.val() == newUserPwChk.val()){
+			if(newUserPw == newUserPwChk){
 				checkObj.newUserPwChk = true;
 			}else{
 				checkObj.newUserPwChk = false;
 			}			
 			
-			let str = "";
-			
 			//비밀번호 변경할 때 입력이 올바르지 않은 경우
-			for(let key in checkObj){
-				if(!checkObj[key]){
-					switch(key){
-						case "userPwChk" 	: str = "기존 비밀번호가 일치하지 않습니다"; 												break;
+			function joinValidate(){
+				let str = "";
+				
+				for(let key in checkInfo){
+					if(!checkInfo[key]){
+						switch(key){
 						case "newUserPw" 	: str = "비밀번호 형식이 일치하지 않습니다. 영어 소문자, 대문자, 숫자, 특수기호를 포함한 8~16자리"; 	break;
 						case "newUserPwChk" : str = "새로 입력한 비밀번호와 비밀번호 체크가 일치하지 않습니다"; 								break;
+						}
+						msg('알림', str, "error");
+						return false;
 					}
-					
-					swal({
-						title : "알림",
-						text : str,
-						icon : "error"
-					});
-					return false;
 				}
+
+				//똑띠 입력한 경우
+				swal({
+					title : "알림",
+					text : "비밀번호를 변경하시겠습니까?",
+					icon : "success",
+					buttons : {
+						cancel :{
+							text : "취소",
+							value : false,
+							visible : true,
+							closeModal : true
+						},
+						confirm : {
+							text : "변경",
+							value : true,
+							visible : true,
+							closeModal : true
+						}					
+					}
+				}).then(function(isConfirm){
+					if(isConfirm){
+						$('#pwChg').submit();
+					}
+				});
 			}
-			
-			//똑띠 입력한 경우
-			swal({
-				title : "알림",
-				text : "비밀번호를 변경하시겠습니까?",
-				icon : "success",
-				buttons : {
-					cancel :{
-						text : "취소",
-						value : false,
-						visible : true,
-						closeModal : true
-					},
-					confirm : {
-						text : "변경",
-						value : true,
-						visible : true,
-						closeModal : true
-					}					
-				}
-			}).then(function(isConfirm){
-				if(isConfirm){
-					$('#userPwChg').submit();
-				}
-			});
+
 		}
 	</script>
 </body>
