@@ -183,7 +183,7 @@ text-align: center;
 					<div>
 						<p class="Content-title lg">${post.postTypeNm} 수정</p>
 					</div>
-					<c:if test="${post.postTypeCd eq 1}">
+					<c:if test="${post.postTypeCd eq 2}">
 						<div class="div-subFun">
 							<div class="div-map">
 								<div class="map-wrap">
@@ -234,12 +234,18 @@ text-align: center;
 	<script src="/resources/summernote/summernote-lite.js"></script>
 	<script src="/resources/summernote/lang/summernote-ko-KR.js"></script>
 	<script>
+	//제거된 파일 리스트 관리할 리스트
+	let removeFileList = [];
+	//맵에 정보를 담을 리스트
+	let mapList = [];
 	function postModify(){
 		$("input[id*=note-dialog]").remove();
 		
 		var form = $('#post-view')[0];
 		var formData = new FormData(form);
-		formData.append("mapList", JSON.stringify(mapList));
+		if(mapList.length > 0){
+			formData.append("mapList", JSON.stringify(mapList));
+		}
 		
 		tagList = [];
 		 $('.addTag').each(function(index,item){
@@ -309,12 +315,32 @@ text-align: center;
 			}	
 		});
 	}
-	
-	//제거된 파일 리스트 관리할 리스트
-	let removeFileList = [];
-	
-	//맵에 정보를 담을 리스트
-	let maplist = null;
+
+	function postCancel(){
+		swal({
+			title : "알림",
+			text : "게시글 작성을 취소하시겠습니까?",
+			icon : "warning",
+			buttons : {
+				cancel : {
+					text : "취소",
+					value : false,
+					visible : true,
+					closeModal : true
+				},
+				confirm :{
+					text : "확인",
+					value : true,
+					visible : true,
+					closeModal : true
+				}
+			}
+		}).then(function(isConfrim){
+			if(isConfrim){
+				location.href = "/post/list?reqPage=1&postTypeCd="+${post.postTypeCd}+"&postTypeNm="+ ${post.postTypeCd};
+			}
+		});
+	}
 	
 	//파일을 담을 리스트
 	let fileList = [];
@@ -333,11 +359,11 @@ text-align: center;
 			list.push(obj);
 		});
 		
-		maplist = list;
-		if(maplist.length < 1){
+		mapList = list;
+		if(mapList.length < 1){
 			$('#map').css("display", "none");
 		}else{
-			firstAddMap(maplist);
+			firstAddMap(mapList);
 		}
 		
 		$(${fileList}).each(function(index, item){
@@ -505,7 +531,7 @@ text-align: center;
 	
 	
 	function addMap(list) {
-		if(maplist != null){
+		if(mapList.length > 0){
 			$('#map').empty();
 		}
 		
@@ -640,14 +666,33 @@ text-align: center;
 							uploadImage(files[i], this);
 						}
 					}
-// 					onMediaDelete : function($target) {
-
-// 		         	}
 				}
 
 			});
 	
-	
+	function uploadImage(file, editor){
+		const form = new FormData(); //<form> 태그
+		form.append("upfile", file); //<input type="file" name="upfile">
+		
+		$.ajax ({
+			url : "/post/editorImage",
+			type : "post", //post 필수
+			data : form,  //전송 데이터
+			processData : false, //기본 문자열 전송 세팅 해제
+			contentType : false, //기본 form enctype 해제
+			cache:false,
+			success : function(savePath){
+				//savePath : 파일 업로드 경로
+				$(editor).summernote("insertImage", savePath); //에디터 본문에 이미지 표기
+				
+				//게시글 작성 시, 이미지 중복 등록 방지
+//					$("input[id*=note-dialog]").remove();
+			},
+			error : function(){
+				console.log("erererer");
+			}
+		});
+	}
 	</script>
 </body>
 </html>

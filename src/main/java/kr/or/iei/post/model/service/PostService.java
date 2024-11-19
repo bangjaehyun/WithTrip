@@ -356,12 +356,20 @@ public class PostService {
 		return result;
 	}
 	
-	public Post selectModifyPost(String postNo) {
+	public Post selectModifyPost(String postNo, String commentChk) {
 		Connection conn = JDBCTemplate.getConnection();
 		Post post = dao.selectOnePost(conn, postNo);
-		post.setPostTypeNm(PostType.type[Integer.parseInt(post.getPostTypeCd())]);
+		post.setPostTypeNm(PostType.type[Integer.parseInt(post.getPostTypeCd())-1]);
 		
-		if(post != null) {
+		if(post != null || commentChk != null) {
+			int result = 0;	 
+			//commentChk == null 인 것은, 댓글을 작성하고 상세보기 이동하는 경우를 제외한 모든 요청
+			
+			///일반적으로 상세보기하는 경우에는 result == 0
+			if(commentChk == null) {
+				result = dao.updateReadCount(conn, postNo);				
+			}
+			
 			ArrayList<Spot> spotList = dao.selectPostSpot(conn, postNo);
 			if(spotList.size() > 0) {
 				post.setSpotList(spotList);
@@ -371,6 +379,27 @@ public class PostService {
 			if(fileList.size() > 0) {
 				post.setFileList(fileList);
 			}
+			
+			User user = dao.selectUser(conn, post.getUserNo());
+			post.setUser(user);
+			
+			if(result > 0 || commentChk != null) {
+				JDBCTemplate.commit(conn);
+				/// 해당 게시글에 대한 댓글정보도 읽어와야 함
+				ArrayList<PostComment> commentList = dao.selectCommentList(conn, postNo);
+				post.setCommentList(commentList);
+
+				for (int i = 0; i < commentList.size(); i++) {
+					// 유저 정보 조회
+					User cmtUser = dao.selectUser(conn, commentList.get(i).getUserNo());
+					if (cmtUser != null) {
+						commentList.get(i).setUser(cmtUser);
+					}
+				}
+			}else {
+				JDBCTemplate.rollback(conn);
+			}
+			
 		}
 		
 		JDBCTemplate.close(conn);

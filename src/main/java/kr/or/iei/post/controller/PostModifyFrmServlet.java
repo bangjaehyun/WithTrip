@@ -36,8 +36,10 @@ public class PostModifyFrmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String postNo = request.getParameter("postNo");
+		String commentChk = request.getParameter("commentChk");
+		
 		PostService service = new PostService();
-		Post post = service.selectModifyPost(postNo);
+		Post post = service.selectModifyPost(postNo, commentChk);
 		if(post != null) {
 			Gson gson = new Gson();
 			String spotList = gson.toJson(post.getSpotList());

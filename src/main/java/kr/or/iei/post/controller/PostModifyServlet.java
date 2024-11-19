@@ -77,8 +77,8 @@ public class PostModifyServlet extends HttpServlet {
 		String removeFileList = mRequest.getParameter("removeFileList");
 		ArrayList<Spot> spotList = new ArrayList<Spot>();
 		JsonParser jsonParser = new JsonParser();
-		
-		if(!mapList.equals("null")) {
+		System.out.println(mapList);
+		if(mapList != null) {
 		JsonArray jArray = jsonParser.parse(mapList).getAsJsonArray();
 		for (JsonElement pa : jArray) {
 			JsonObject paymentObj = pa.getAsJsonObject();

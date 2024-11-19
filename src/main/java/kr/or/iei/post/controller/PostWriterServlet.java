@@ -83,9 +83,7 @@ public class PostWriterServlet extends HttpServlet {
 		ArrayList<Spot> spotList = new ArrayList<Spot>();
 		JsonParser jsonParser = new JsonParser();
 		
-		if(!mapList.equals("null")) {
-		
-        
+		if(mapList != null) {
 		JsonArray jArray = jsonParser.parse(mapList).getAsJsonArray();
 		for (JsonElement pa : jArray) {
 			JsonObject paymentObj = pa.getAsJsonObject();
