@@ -11,6 +11,7 @@ import kr.or.iei.post.model.vo.PostComment;
 import kr.or.iei.post.model.vo.PostFile;
 import kr.or.iei.post.model.vo.PostPageData;
 import kr.or.iei.post.model.vo.PostType;
+import kr.or.iei.post.model.vo.UserLikeComment;
 import kr.or.iei.spot.model.vo.Spot;
 import kr.or.iei.user.model.vo.User;
 
@@ -512,82 +513,74 @@ public class PostService {
 	//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 있는지 확인
 	public int chkCmtLike(String postNo, String commentId, String userNo, int like) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = dao.chkTblCmtLike(conn, postNo, commentId, userNo);
-		
-		if(result > 0) {
-			//이미 좋아요를 누른 상태 -> 댓글호감도 테이블에 해당 댓글에 대한 유저의 정보 삭제
-			int delCmtLike = dao.delCmtLikeInfo(conn, commentId, userNo);
-			
-			if(delCmtLike > 0) {
-				//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 삭제됨 -> 댓글 테이블에서 좋아요 -1 진행 == 좋아요 취소
-				int minusCmtLike = dao.minusCmtLike(conn, commentId);
-					
-				if(minusCmtLike > 0) {
-					//댓글 테이블에서 해당 댓글에 좋아요수가 -1이 성공적으로 진행됨
-					JDBCTemplate.commit(conn);
-				} else {
-					//댓글 테이블에서 해당 댓글에 좋아요 수 -1이 안됨
-					JDBCTemplate.rollback(conn);
+		UserLikeComment commentLike = dao.chkTblCmtLike(conn, commentId, userNo);
+		boolean chk = false; //기존 호감도를 해제하는 것인지 변경하는 것인지에 대한 분류
+		int result = 0;
+		if(commentLike != null) {
+			//정보가 있을 경우 사용자가 누른 값이랑 기존값이랑 체크
+			if(commentLike.getUserLike() == like) {
+				//입력된 값이 같으면 취소 == 값 == 0
+				commentLike.setUserLike(0);
+				result = dao.updCommentLike(conn,commentLike);
+				
+				if(result > 0) {
+				//댓글에대한 카운트 변경
+					if(like == -1) {
+						result = dao.updateCmtDislike(conn, commentId, -1);
+					}else {
+						result = dao.updateCmtLike(conn, commentId, -1);
+					}
 				}
-			} else {
-				//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 삭제되지 않음
+			}else {
+				//입력된 값이 다르면 변경 like값 = 1 or -1
+				int oldLike = commentLike.getUserLike();
+				commentLike.setUserLike(like);
+				result = dao.updCommentLike(conn,commentLike);
+				
+				if(result > 0) {
+					if(oldLike == 0) {
+						if(like == -1) {
+							result = dao.updateCmtDislike(conn, commentId, 1);
+						}else {
+							result = dao.updateCmtLike(conn, commentId, 1);
+						}
+					}else {
+						if(like == -1) {
+								result = dao.updateCmtLike(conn, commentId, -1);
+							if(result > 0) { 
+								result = dao.updateCmtDislike(conn, commentId, 1);
+							}
+						}else {
+							result = dao.updateCmtLike(conn, commentId, 1);
+							if(result > 0) { 
+								result = dao.updateCmtDislike(conn, commentId, -1);
+							}
+						}
+					}
+					
+				}
+			}
+			
+			if(result > 0) {
+				JDBCTemplate.commit(conn);
+			}else {
 				JDBCTemplate.rollback(conn);
 			}
+			
 		} else {
 			//좋아요를 누르지 않은 상태 -> 댓글호감도 테이블에 해당 댓글에 대한 유저의 정보 삽입
-			int insertCmtLikeInfo = dao.insertCmtLikeInfo(conn, userNo, commentId, like);
-			
-			if(insertCmtLikeInfo > 0) {
-				//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 삽입됨 -> 댓글테이블에서 좋아요 +1 진행 == 좋아요
-				int updCmtLike = dao.updateCmtLike(conn, commentId);
+			result = dao.insertCmtLikeInfo(conn, userNo, commentId, like);
+			if(result > 0) {
 				
-				if(updCmtLike > 0) {
-					//댓글테이블에서 정상적으로 해당 댓글에 대한 좋아요 +1이 진행됨
-					JDBCTemplate.commit(conn);
-				} else {
-					//댓글테이블에서 해당 댓글에 대한 좋아요 +1이 정상적으로 진행되지 않음
-					JDBCTemplate.rollback(conn);
+				if(like == -1) {
+					result = dao.updateCmtDislike(conn, commentId, 1);
+				}else {
+					result = dao.updateCmtLike(conn, commentId, 1);
 				}
-			} else {
-				//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 삽입되지 않음.
-				JDBCTemplate.rollback(conn);
-			}
-		}
-		JDBCTemplate.close(conn);
-		return result;
-	}
-
-	//댓글 싫어요에서 tbl_comment_like 확인
-	public int chkTblCmtLike(String postNo, String commentId, String userNo, int like) {
-		Connection conn = JDBCTemplate.getConnection();
-		int result = dao.chkTblCmtLike(conn, postNo, commentId, userNo);
-		
-		if(result > 0) {
-			int delCmtLike = dao.delCmtLikeInfo(conn, commentId, userNo);
-			
-			if(delCmtLike > 0) {
-				int minusCmtDislike = dao.minusCmtDisLike(conn, commentId);
-				
-				if(minusCmtDislike > 0) {
+				if(result > 0) {
 					JDBCTemplate.commit(conn);
-				} else {
-					JDBCTemplate.rollback(conn);
-				}
-			} else {
-				JDBCTemplate.rollback(conn);
-			}
-		} else {
-			int insertCmtDislikeInfo = dao.insertCmtDislikeInfo(conn, userNo, commentId, like);
-			
-			if(insertCmtDislikeInfo > 0) {
-				int updCmtDislike = dao.updateCmtDislike(conn, commentId);
-				
-				if(updCmtDislike > 0) {
-					//댓글테이블에서 정상적으로 해당 댓글에 대한 좋아요 +1이 진행됨
-					JDBCTemplate.commit(conn);
-				} else {
-					//댓글테이블에서 해당 댓글에 대한 좋아요 +1이 정상적으로 진행되지 않음
-					JDBCTemplate.rollback(conn);
+				}else {
+					JDBCTemplate.rollback(conn);	
 				}
 			} else {
 				//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 삽입되지 않음.

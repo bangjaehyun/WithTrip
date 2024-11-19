@@ -31,9 +31,6 @@ public class PostDeleteCommentServlet extends HttpServlet {
 		String postNo = request.getParameter("postNo");
 		String commentId = request.getParameter("commentId");
 		
-		System.out.println("PostDeleteCommentServlet의 postNo : " + postNo);
-		System.out.println("PostDeleteCommentServlet의 commentId : " + commentId);		
-		
 		PostService service = new PostService();
 		int result =  service.deleteComment(commentId);
 		

@@ -38,8 +38,6 @@ public class PostViewServlet extends HttpServlet {
 		String postNo = request.getParameter("postNo");
 		String commentChk = request.getParameter("commentChk");
 		
-		//System.out.println("postNo : " + postNo);
-		
 		//3. 로직
 		PostService service = new PostService();
 		Post p = service.selectOnePost(postNo, commentChk);

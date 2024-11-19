@@ -12,7 +12,7 @@ import kr.or.iei.post.model.service.PostService;
 /**
  * Servlet implementation class PostUpdCmtLike
  */
-@WebServlet("/post/manageCmtLike")
+@WebServlet("/post/updCmtLike")
 public class PostManageCmtLike extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,16 +34,9 @@ public class PostManageCmtLike extends HttpServlet {
 		String userNo = request.getParameter("userNo");
 		int like = Integer.parseInt(request.getParameter("like"));
 		
-		System.out.println("댓글좋아요서블릿 postNo : " + postNo);
-		System.out.println("댓글좋아요서블릿 commentId : " + commentId);
-		System.out.println("댓글좋아요서블릿 userNo : " + userNo);
-		System.out.println("댓글좋아요서블릿 like : " + like);
-		
 		
 		PostService service = new PostService();
 		int result = service.chkCmtLike(postNo, commentId, userNo, like);
-		
-		System.out.println("댓글좋아요서블릿 result : " + result);
 		
 		if(result > 0) {
 			response.getWriter().print("1");

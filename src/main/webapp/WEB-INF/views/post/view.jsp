@@ -200,7 +200,7 @@
 											</span>
 											<span id="commentLikeCnt">${comment.commentLike}</span>
 											<span class="cmt-react">
-												<a href='javascript:void(0)' id="commentDislike" onclick="commentDislike(this, '${comment.commentId}',-1);">
+												<a href='javascript:void(0)' id="commentDislike" onclick="commentLike(this, '${comment.commentId}',-1);">
 													<img src="/resources/images/thumb_down_line.png" id="thumb">
 												</a>
 											</span>
@@ -421,6 +421,56 @@
 		$(obj).prev().text('수정');
 		$(obj).prev().attr('onclick', 'mdfComment(this, "' + commentId + '")');
 	}
+	
+	
+	   //댓글 좋아요, 좋아요 취소
+	   function commentLike (obj, commentId, like) {
+		  if(chkLogin()){
+	      $.ajax({
+	         url : "/post/updCmtLike",
+	         type : "GET",
+	         data : {
+	            "postNo" : "${post.postNo}",
+	            "commentId" : commentId,
+	            "userNo" : "${loginUser.userNo}",
+	            "like" : like
+	            }, 
+	         success : function(res) {
+	            if(res == "1"){
+	               swal({
+	                  title : "알림",
+	                  text : '${postComment.commentId}' + " 댓글 좋아요가 완료 되었습니다.",
+	                  icon : "success"
+	               }).then(function(){
+	                  location.href = "/post/view?postNo=${post.postNo}";
+	               });
+	            }else{
+	               swal({
+	                  title : "알림",
+	                  text : '${postComment.commentId}' + " 댓글 호감도 반영 중 오류가 발생하였습니다.",
+	                  icon : "error"
+	               }).then(function(){
+	                  location.href = "/post/view?postNo=${post.postNo}";
+	               });
+	            }
+	         },
+	         error : function() {
+	            console.log("ajax 에러 발생");
+	         }
+	      });
+		  }
+	   }
+	  
+	   
+	   function chkLogin(){
+		   if(${empty loginUser}){
+		 		return false;
+		   }else{
+			   return true;
+		   }
+	   }
+	 
+	
 </script>
 </body>
 </html>
