@@ -75,6 +75,16 @@
 	height: 50px;
 }
 
+.line {
+	position: absolute;
+	width: 2px;
+	height: 24px;
+	background-color: gray;
+	margin: 0 10px;
+	top: 13px;
+	right: 40px;
+}
+
 .input_img {
 	background: url(/resources/images/map_search.svg) no-repeat;
 	position: absolute;
@@ -82,6 +92,7 @@
 	height: 24px;
 	top: 13px;
 	right: 15px;
+	border-left: 1px solid black;
 }
 </style>
 </head>
@@ -92,6 +103,7 @@
 				<input class="input_box" id="input_box" type="text"
 					placeholder="지역명, 장소명으로 검색"
 					onKeyPress="if (event.keyCode==13){srchMap();}">
+				<div class="line"></div>
 				<button class="go_map" onClick="srchMap();"></button>
 			</div>
 			<div class="srch_list">

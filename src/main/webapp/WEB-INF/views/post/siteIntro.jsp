@@ -161,18 +161,18 @@
 		                <div class="siteInfoCard">
 							<div class="site-card-inner">
 								<div class="site-card">
-										<div class="move-monthly-trip"><a href="/festival/month?month=1">1월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/month?month=2">2월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/month?month=3">3월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/month?month=4">4월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/month?month=5">5월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/month?month=6">6월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/month?month=7">7월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/month?month=8">8월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/month?month=9">9월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/month?month=10">10월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/month?month=11">11월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/month?month=12">12월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=0">1월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=1">2월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=2">3월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=3">4월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=4">5월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=5">6월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=6">7월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=7">8월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=8">9월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=9">10월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=10">11월</a></div>
+										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=11">12월</a></div>
 								</div>
 		                 	</div>
 		                </div>

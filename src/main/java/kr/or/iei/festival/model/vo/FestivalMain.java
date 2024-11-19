@@ -12,5 +12,6 @@ public class FestivalMain {
 	private String festivalImage;
 	private String festivalId;
 	private String festivalType;
-	
+	private String festivalPageNo;
+	private String festivalTotalCount;
 }

@@ -33,7 +33,8 @@
 .festival-box>li {
 	width: 24%;
 	position: relative;
-	margin-right: 1.3%;
+	margin-right: 1%;
+	margin-left: 1%;
 	margin-bottom: 30px;
 	border: 1px solid #ddd;
 	text-align: center;
@@ -79,14 +80,21 @@
 				<jsp:include page="/WEB-INF/views/spot/searchMap.jsp" />
 
 				<div class="festival-title">
-					<span>이달의 축제</span> <a href="#"><span>더보기...</span></a>
+					<span>이달의 축제</span> <a href="/festival/mainPage?searchType=1"><span>더보기...</span></a>
 				</div>
 				<ul class="festival-box">
 					<c:forEach var="festival" items="${festivalList}" end="3">
 						<li><a
 							href="/festival/subInfo?festivalId=${festival.festivalId}&festivalType=${festival.festivalType}"
-							class="festival-tag"> <span> <img class="festival-img"
-									src="${festival.festivalImage}"></img>
+							class="festival-tag"> <span> 
+							<c:choose>
+								<c:when test="${not empty festival.festivalImage}">
+									<img class="festival-img" src="${festival.festivalImage}" />
+								</c:when>
+								<c:otherwise>
+									<img class="festival-img" src="/resources/images/festival_no_image.png" />
+								</c:otherwise>
+							</c:choose>
 							</span> <strong class="festival-name">${festival.festivalTitle}</strong>
 						</a></li>
 					</c:forEach>

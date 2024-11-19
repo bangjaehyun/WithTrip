@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>WithTrip - Festival Info</title>
-<link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
-<link rel="icon" href="/resources/images/withTrip_favicon.png"/>
+<link rel="apple-touch-icon"
+	href="/resources/images/withTrip_favicon.png" />
+<link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4ded6a823694c477130258746c1c95cf&libraries=services"></script>
 <style>
@@ -14,7 +16,7 @@
 	height: 783px;
 }
 
-.subInfo_title {
+.subInfo-title {
 	font-weight: bold;
 	padding: 40px 30px 30px 30px;
 	text-align: center;
@@ -24,7 +26,7 @@
 	color: var(--main2);
 }
 
-.subInfo_wrap {
+.subInfo-wrap {
 	padding: 30px;
 	border-radius: 10px;
 	box-shadow: 1px 1px 5px 1px;
@@ -32,7 +34,7 @@
 	margin: 0 auto;
 }
 
-.subInfo_content {
+.subInfo-content {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
@@ -40,33 +42,38 @@
 	align-items: center;
 }
 
-.subInfo_content div {
+.subInfo-content div {
 	margin: 20px;
 }
 
-.image_box {
+.image-box {
 	border-radius: 10px;
 	box-shadow: 1px 1px 5px 1px;
-	background: url(${info.festivalImg}) no-repeat;
-	background-size: cover;
-	background-position: center;
-	width: 600px;
+	width: 530px;
 	height: 300px;
+	overflow: hidden;
 }
 
-.map_box {
+.subInfo-img {
+	width: 100%;
+	height: auto;
+	
+}
+
+.map-box {
 	border-radius: 10px;
 	box-shadow: 1px 1px 5px 1px;
-	width: 500px;
+	width: 570px;
 	height: 300px;
+	z-index: 0;
 }
 
-.map_box div {
+.map-box div {
 	padding: 0px;
 	margin: 0px;
 }
 
-.description_box {
+.description-box {
 	width: 600px;
 }
 
@@ -85,7 +92,7 @@ td {
 	font-size: 14px;
 }
 
-.info_box>table tr {
+.info-box>table tr {
 	border-top: 1px solid #b5b5b5;
 }
 </style>
@@ -94,13 +101,22 @@ td {
 	<div class="wrap">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<main class="content">
-			<section class="section festival_section">
-				<div class="subInfo_title">축제 정보</div>
-				<div class="subInfo_wrap">
-					<div class="subInfo_content">
-						<div class="image_box"></div>
-						<div class="map_box" id="map_box"></div>
-						<div class="info_box">
+			<section class="section festival-section">
+				<div class="subInfo-title">${info.festivalTitle}</div>
+				<div class="subInfo-wrap">
+					<div class="subInfo-content">
+						<div class="image-box">
+							<c:choose>
+								<c:when test="${not empty info.festivalImg}">
+									<img class="subInfo-img" src="${info.festivalImg}" />
+								</c:when>
+								<c:otherwise>
+									<img class="subInfo-img" src="/resources/images/festival_no_image.png" />
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<div class="map-box" id="map-box"></div>
+						<div class="info-box">
 							<table>
 								<tr>
 									<th>이름</th>
@@ -128,7 +144,7 @@ td {
 								</tr>
 							</table>
 						</div>
-						<div class="description_box">${info.festivalContent}</div>
+						<div class="description-box">${info.festivalContent}</div>
 					</div>
 				</div>
 			</section>
@@ -136,8 +152,7 @@ td {
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</div>
 	<script>
-		
-		var mapContainer = document.getElementById('map_box'), // 지도를 표시할 div
+		var mapContainer = document.getElementById('map-box'), // 지도를 표시할 div
 	    	mapOption = { 
 	           center: new kakao.maps.LatLng(${info.festivalLat}, ${info.festivalLng}), // 지도의 중심좌표
 	           level: 4 // 지도의 확대 레벨
