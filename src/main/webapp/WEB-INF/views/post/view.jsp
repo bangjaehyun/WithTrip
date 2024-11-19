@@ -10,65 +10,100 @@
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 
 <style>
-	.post-view-wrap{
-		width : 1200px;
-		margin : 0 auto;
-		height : 100%;
-	}
-	.postContent {
-		min-height : 300px;
-	}
-	.comment-write {
-		overflow : hidden;
-	}
-	.comment-write textarea[name=commentVal] {
-		width : 800px;
-		height : 30px;
-		margin-right : 10px; 
-	}
-	.comment-write li {
-		float : left;
-	}
-	.inputCommentBox {
-		margin-bottom: 20px;
-	}
-	.comment-write button {
-		width : 150px;
-		height : 60px;
-		font-size :  20px;
-	}
-	.commentBox ul {
-		margin-bottom : 15px;
-		border-bottom : solid 1px var(--gray5);
-	}
-	#commentUserNickname {
-		padding-right : 30px;
-		color : var(--main2);
-		font-weight : bold;
-	}
-	.list-content {
-		width: 1000px;
-		justify-content: center;
-	}
-	.list-side {
-		height : 200px;
-		position : sticky;
-		top : 80px;
-	}
-	.side-menu-title {
-		width : 180px;
-		padding : 7px 0px;
-		text-align : left;
-		font-weight : bold;
-		font-size : 20px;
-		border-bottom: 3px solid var(--main2);
-	}
-	#mdfComment:hover {
-		color : var(--main3);
-	}
-	#delComment:hover {
-		color : #f90b00;
-	}
+.post-view-wrap{
+    width : 1200px;
+    margin : 0 auto;
+    height : 100%;
+}
+.postContent {
+    min-height : 300px;
+}
+.comment-write {
+    overflow : hidden;
+}
+.comment-write textarea[name=commentVal] {
+    width : 800px;
+    height : 30px;
+    margin-right : 10px; 
+}
+.comment-write li {
+    float : left;
+}
+.inputCommentBox {
+    margin-bottom: 20px;
+}
+.comment-info {
+    display : flex;
+    justify-content: space-between;
+}
+.comment-write button {
+    width : 150px;
+    height : 60px;
+    font-size :  20px;
+}
+.commentBox ul {
+    margin-bottom : 15px;
+    border-bottom : solid 1px var(--gray5);
+}
+
+.cmt-react > img {
+    padding-top : 5px;    
+}
+#commentLike{
+    display : inline-block;
+    text-align : center;
+    align-content: start;
+    padding-right : 10px;
+}
+#commentDislike {
+    padding-left : 20px;
+    padding-right : 10px;
+}
+/* #commentDislikeCnt {
+    padding-right : 540px;
+} */
+#commentUserNickname {
+    padding-right : 30px;
+    color : var(--main2);
+    font-weight : bold;
+}
+#commentDate {
+    padding-right : 20px;
+}
+.updComment {
+    justify-content: End;
+}
+.list-content {
+    width: 1000px;
+    justify-content: center;
+}
+.list-side {
+    height : 200px;
+    position : sticky;
+    top : 80px;
+}
+.side-menu-title {
+    width : 180px;
+    padding : 7px 0px;
+    text-align : left;
+    font-weight : bold;
+    font-size : 20px;
+    border-bottom: 3px solid var(--main2);
+}
+#mdfComment {
+    padding-right: 10px;
+}
+#mdfComment:hover {
+    color : var(--main3);
+}
+#delComment:hover {
+    color : #f90b00;
+}
+#thumb {
+    padding-top : 3px;
+    width : 18px;
+    height : 20px;
+}
 </style>
 </head>
 <body>
@@ -154,15 +189,31 @@
 									<span class="material-icons">account_box</span>
 								</li> 
 								<li>
-									<p class="comment-info">
-										<span id="commentUserNickname">${comment.user.userNickname}</span>
-										<span>${comment.commentDate}</span>
+									<div class="comment-info">
+										<div class="cmt-info">
+											<span id="commentUserNickname">${comment.user.userNickname}</span>
+											<span id="commentDate">${comment.commentDate}</span>
+											<span class="cmt-react">										
+												<a href='javascript:void(0)' id="commentLike" onclick="commentLike(this,'${comment.commentId}',1);">
+													<img src="/resources/images/thumb_up_line.png" id="thumb">	
+												</a> 
+											</span>
+											<span id="commentLikeCnt">${comment.commentLike}</span>
+											<span class="cmt-react">
+												<a href='javascript:void(0)' id="commentDislike" onclick="commentDislike(this, '${comment.commentId}',-1);">
+													<img src="/resources/images/thumb_down_line.png" id="thumb">
+												</a>
+											</span>
+											<span id="commentDislikeCnt">${comment.commentDislike}</span>
+										</div>
 										<%-- 로그인한 회원 아이디 == 현재 댓글을 작성한 아이디 --%>
 										<c:if test="${not empty loginUser and loginUser.userNo eq comment.user.userNo}">
-											<a href='javascript:void(0)' id="mdfComment" onclick="mdfComment(this, '${comment.commentId}');">수정</a>
-											<a href='javascript:void(0)' id="delComment" onclick="delComment('${comment.commentId}');">삭제</a>
+											<div class="updComment">
+												<a href='javascript:void(0)' id="mdfComment" onclick="mdfComment(this, '${comment.commentId}');">수정</a>
+												<a href='javascript:void(0)' id="delComment" onclick="delComment('${comment.commentId}');">삭제</a>
+											</div>
 										</c:if>
-									</p>
+									</div>
 									<p class="comment-content">
 										${comment.commentVal}
 									</p>

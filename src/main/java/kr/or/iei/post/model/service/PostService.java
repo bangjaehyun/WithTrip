@@ -500,5 +500,102 @@ public class PostService {
 
 		return result;
 	}
+	
+//	//댓글 좋아요
+//	public int updCmtLike(String postNo, String commentId, String userNo) {
+//		Connection conn = JDBCTemplate.getConnection();
+//		int result = dao.updCmtLike(conn, postNo, commentId, userNo);
+//		
+//		return result;
+//	}
+
+	//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 있는지 확인
+	public int chkCmtLike(String postNo, String commentId, String userNo, int like) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.chkTblCmtLike(conn, postNo, commentId, userNo);
+		
+		if(result > 0) {
+			//이미 좋아요를 누른 상태 -> 댓글호감도 테이블에 해당 댓글에 대한 유저의 정보 삭제
+			int delCmtLike = dao.delCmtLikeInfo(conn, commentId, userNo);
+			
+			if(delCmtLike > 0) {
+				//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 삭제됨 -> 댓글 테이블에서 좋아요 -1 진행 == 좋아요 취소
+				int minusCmtLike = dao.minusCmtLike(conn, commentId);
+					
+				if(minusCmtLike > 0) {
+					//댓글 테이블에서 해당 댓글에 좋아요수가 -1이 성공적으로 진행됨
+					JDBCTemplate.commit(conn);
+				} else {
+					//댓글 테이블에서 해당 댓글에 좋아요 수 -1이 안됨
+					JDBCTemplate.rollback(conn);
+				}
+			} else {
+				//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 삭제되지 않음
+				JDBCTemplate.rollback(conn);
+			}
+		} else {
+			//좋아요를 누르지 않은 상태 -> 댓글호감도 테이블에 해당 댓글에 대한 유저의 정보 삽입
+			int insertCmtLikeInfo = dao.insertCmtLikeInfo(conn, userNo, commentId, like);
+			
+			if(insertCmtLikeInfo > 0) {
+				//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 삽입됨 -> 댓글테이블에서 좋아요 +1 진행 == 좋아요
+				int updCmtLike = dao.updateCmtLike(conn, commentId);
+				
+				if(updCmtLike > 0) {
+					//댓글테이블에서 정상적으로 해당 댓글에 대한 좋아요 +1이 진행됨
+					JDBCTemplate.commit(conn);
+				} else {
+					//댓글테이블에서 해당 댓글에 대한 좋아요 +1이 정상적으로 진행되지 않음
+					JDBCTemplate.rollback(conn);
+				}
+			} else {
+				//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 삽입되지 않음.
+				JDBCTemplate.rollback(conn);
+			}
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	//댓글 싫어요에서 tbl_comment_like 확인
+	public int chkTblCmtLike(String postNo, String commentId, String userNo, int like) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.chkTblCmtLike(conn, postNo, commentId, userNo);
+		
+		if(result > 0) {
+			int delCmtLike = dao.delCmtLikeInfo(conn, commentId, userNo);
+			
+			if(delCmtLike > 0) {
+				int minusCmtDislike = dao.minusCmtDisLike(conn, commentId);
+				
+				if(minusCmtDislike > 0) {
+					JDBCTemplate.commit(conn);
+				} else {
+					JDBCTemplate.rollback(conn);
+				}
+			} else {
+				JDBCTemplate.rollback(conn);
+			}
+		} else {
+			int insertCmtDislikeInfo = dao.insertCmtDislikeInfo(conn, userNo, commentId, like);
+			
+			if(insertCmtDislikeInfo > 0) {
+				int updCmtDislike = dao.updateCmtDislike(conn, commentId);
+				
+				if(updCmtDislike > 0) {
+					//댓글테이블에서 정상적으로 해당 댓글에 대한 좋아요 +1이 진행됨
+					JDBCTemplate.commit(conn);
+				} else {
+					//댓글테이블에서 해당 댓글에 대한 좋아요 +1이 정상적으로 진행되지 않음
+					JDBCTemplate.rollback(conn);
+				}
+			} else {
+				//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 삽입되지 않음.
+				JDBCTemplate.rollback(conn);
+			}
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
 
 }
