@@ -74,6 +74,7 @@ button.cancel:hover {
 	<form action="/user/delUser" method="post" id="delUser">
 		<h3>회원 탈퇴</h3>
 		<input type="hidden" name="userNo" value="${loginUser.userNo}">
+		<input type="hidden" name="userType" value="${loginUser.userType}">
 		<c:choose>
 		<c:when test="${loginUser.userType eq 5}">
 	    <table>
@@ -140,8 +141,10 @@ button.cancel:hover {
 						data : {"userNo" : ${loginUser.userNo}, 
 								"pwChk" : $('#pwChk').val()}, 
 						success : function(res){
+							console.log(res);
 							if(res == "1"){
-								console.log("성공");
+								window.self.close(); 
+								window.opener.location.href="/";
 							}else{
 								console.log("실패");
 							}												
@@ -179,10 +182,13 @@ button.cancel:hover {
 					$.ajax ({
 						url : "/user/delUser",
 						type : "post",
-						data : {"userNo" : ${loginUser.userNo}, 
-								"pwChk" : $('#pwChk').val()}, 
+						data : {
+							"userNo" : ${loginUser.userNo}, 
+							"userType" : ${loginUser.userType} 
+							},
 						success : function(savePath){
-							console.log(res);														
+							window.self.close(); 
+							window.opener.location.href="/";												
 						},
 						error : function(){
 							console.log("erererer");

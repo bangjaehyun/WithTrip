@@ -67,17 +67,17 @@ public class DeleteUserServlet extends HttpServlet {
 			UserService service = new UserService();
 			int result = service.deleteUser(userNo);
 			
+			System.out.println(result);
 				if(result > 0) {
 					session = request.getSession(false);
 					
 					if(session != null) {
 						session.invalidate();
 					}
-					response.getWriter().print("1");		
+					response.getWriter().print(1);
 				}else {
-					response.getWriter().print("-1");
+					response.getWriter().print(0);
 				}
-				request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 			}
 		}
 	}

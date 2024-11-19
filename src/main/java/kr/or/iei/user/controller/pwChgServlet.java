@@ -38,41 +38,28 @@ public class pwChgServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userNo = request.getParameter("userNo");
 		String userPw = request.getParameter("userPw");
+		String userPwChk = request.getParameter("userPwChk");
 		String newUserPw = request.getParameter("newUserPw");
+		String newUserPwChk = request.getParameter("newUserPwChk");
 		
-		HttpSession session = request.getSession(false);
-		
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-		
-		if(session != null) {
-			UserSite loginUser = (UserSite)session.getAttribute("loginUser");
-			
-			if(!BCrypt.checkpw(userPw, loginUser.getUserPw())) {
-				request.setAttribute("title", "알림");
-				request.setAttribute("text", "기존 비밀번호가 일치하지 않습니다");
-				request.setAttribute("icon", "error");
-				
-				view.forward(request, response);
+			if(!BCrypt.checkpw(userPwChk, userPw)) {
+				response.getWriter().print(1);
 				return;
-			}
+			}else if(!newUserPw.equals(newUserPwChk)) {
+				response.getWriter().print(2);
+				return;
+			}else {			
 			
-			UserService service = new UserService();
-			int result = service.userPwChg(userNo, newUserPw);
-			
-			if(result > 0) {
-				request.setAttribute("title", "알림");
-				request.setAttribute("text", "비밀번호 변경이 완료되었습니다. 다시 로그인해주세요");
-				request.setAttribute("icon", "success");
-				request.setAttribute("callback", "self.close(); window.opener.location.href=\"/user/loginFrm\";");				
+				HttpSession session = request.getSession(false);
+				UserService service = new UserService();
+				int result = service.userPwChg(userNo, newUserPw);
 				
-				session.invalidate();
-			}else {
-				request.setAttribute("title", "알림");
-				request.setAttribute("text", "비밀번호 변경 중 오류가 발생하였습니다.");
-				request.setAttribute("icon", "error");
-				request.setAttribute("callback", "self.close()");
-			}
-			view.forward(request, response);
+				if(result > 0) {			
+					response.getWriter().print(0);
+					session.invalidate();
+				}else {
+					response.getWriter().print(3);
+				}			
 		}		
 	}
 

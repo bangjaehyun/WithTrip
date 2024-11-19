@@ -78,7 +78,7 @@
     	//비밀번호 변경 팝업
     	function pwChgBtn(){
     		let popupWidth = 600;
-    		let popupHeight = 300;
+    		let popupHeight = 500;
     		
     		let top = (window.innerHeight - popupHeight) / 2 + window.screenY;
     		let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
@@ -89,7 +89,7 @@
     	
     	//유저 삭제 팝업
     	function delUserBtn(){		
-    		let popupWidth = 550;
+    		let popupWidth = 650;
     		let popupHeight = 500;
     		
     		let top = (window.innerHeight - popupHeight) / 2 + window.screenY;

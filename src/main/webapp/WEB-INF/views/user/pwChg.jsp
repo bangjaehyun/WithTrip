@@ -72,12 +72,13 @@ button:hover {
 <body>
 	<jsp:include page="/WEB-INF/views/common/myPageHeader.jsp" />
 	<div class="wrap">
-			<form action="/user/pwChg" id="pwChk" method="post" autocomplete="off" onsubmit="return joinValidate()">
+			<form action="/user/pwChg" id="pwChk" method="post">
 			<input type="hidden" name="userNo" value="${loginUser.userNo}">
+			<input type="hidden" name="userPw" value="${loginUser.userPw}">
 				<table>
 					<tr>
 						<td>기존 비밀번호 입력</td>
-						<td><input type="password" id="userPw" name="userPw"></td>
+						<td><input type="password" id="userPwChk" name="userPwChk"></td>
 					</tr>
 					<tr>
 						<td>새 비밀번호 입력</td>
@@ -94,81 +95,61 @@ button:hover {
 	</div>
 	
 	<script>
-		function closeBtn(){
-			window.self.close();
-		}
-		
-			//결과값 true or false저장용 -> 마지막 submit용도
-		const checkObj = {
-				"newUserPw"		: false,
-				"newUserPwChk"  : false
-		}
-		
-		const newUserPw = $('#newUserPw').val();
-		const newUserPwChk = $('#newUserPwChk').val();
-		
-		//userPwChk.on('input', )
-		
-		const regExp = /^[a-zA-Z0-9!@#$%^&*]{8,16}$/;
-		
-		
-		function chgPwBtn(){				
-			//새로 입력한 비밀번호가 패턴에 일치하는지
-			if(regExp.test(newUserPw)){
-				checkObj.newUserPw = true;
-			}else{
-				checkObj.newUserPw = false;
-			}
-			
-			//새로 입력한 비밀번호와 비밀번호 체크가 일치하는지
-			if(newUserPw == newUserPwChk){
-				checkObj.newUserPwChk = true;
-			}else{
-				checkObj.newUserPwChk = false;
-			}			
-			
-			//비밀번호 변경할 때 입력이 올바르지 않은 경우
-			function joinValidate(){
-				let str = "";
-				
-				for(let key in checkInfo){
-					if(!checkInfo[key]){
-						switch(key){
-						case "newUserPw" 	: str = "비밀번호 형식이 일치하지 않습니다. 영어 소문자, 대문자, 숫자, 특수기호를 포함한 8~16자리"; 	break;
-						case "newUserPwChk" : str = "새로 입력한 비밀번호와 비밀번호 체크가 일치하지 않습니다"; 								break;
-						}
-						msg('알림', str, "error");
-						return false;
-					}
-				}
+    function closeBtn() {
+        window.self.close();
+    }
 
-				//똑띠 입력한 경우
-				swal({
-					title : "알림",
-					text : "비밀번호를 변경하시겠습니까?",
-					icon : "success",
-					buttons : {
-						cancel :{
-							text : "취소",
-							value : false,
-							visible : true,
-							closeModal : true
-						},
-						confirm : {
-							text : "변경",
-							value : true,
-							visible : true,
-							closeModal : true
-						}					
-					}
-				}).then(function(isConfirm){
-					if(isConfirm){
-						$('#pwChg').submit();
-					}
-				});
-			}
-
-		}
-	</script>
+    function chgPwBtn() {
+        swal({
+            title: "알림",
+            text: "비밀번호를 변경하시겠습니까?",
+            icon: "error",
+            buttons: {
+                cancel: {
+                    text: "취소",
+                    value: false,
+                    visible: true,
+                    closeModal: true
+                },
+                confirm: {
+                    text: "변경",
+                    value: true,
+                    visible: true,
+                    closeModal: true
+                }
+            }
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: "/user/pwChg",
+                    type: "POST",
+                    data: {
+                        "userNo": "${loginUser.userNo}",
+                        "userPw": "${loginUser.userPw}",
+                        "userPwChk": $('#userPwChk').val(),
+                        "newUserPw": $('#newUserPw').val(),
+                        "newUserPwChk": $('#newUserPwChk').val()
+                    },
+                    success: function(res) {
+                        if (res == "0") {
+                            msg('알림', '비밀번호가 변경되었습니다. 다시 로그인해주세요', 'success');
+                            window.self.close();
+                            window.opener.location.href = "/";
+                        } else if (res == "1") {
+                            msg('알림', '기존 비밀번호가 일치하지 않습니다', 'error');
+                        } else if (res == "2") {
+                            msg('알림', '새로 입력한 비밀번호가 일치하지 않습니다', 'error');
+                        } else if (res == "3") {
+                            msg('알림', '비밀번호 변경 중 오류가 발생했습니다', 'error');
+                        }
+                    },
+                    error: function() {
+                        console.log("비밀번호 변경에서 ajax 오류");
+                    }
+                });
+            }
+        });
+    }
+</script>
 </body>
 </html>
