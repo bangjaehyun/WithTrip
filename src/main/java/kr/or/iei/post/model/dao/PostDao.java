@@ -297,7 +297,7 @@ public class PostDao {
 				/* c.setCommentRef(rset.getString("post_no")); */
 				c.setCommentDate(rset.getString("comment_date"));
 				c.setCommentLike(rset.getString("comment_like"));
-				c.setCommentDisLike(rset.getString("comment_dislike"));
+				c.setCommentDislike(rset.getString("comment_dislike"));
 				list.add(c);
 				
 				System.out.println("PostDao - 댓글정보 c : " + c);
@@ -656,5 +656,185 @@ public class PostDao {
 	}
 
 
+
+	//댓글 좋아요
+	/*
+	1. tbl_comment_like에 값이 있는지 없는지 확인
+	2-1. 없음 -> 값을 넣어줌
+	3-1. 성공적으로 완료시 tbl_comment을 변경해줌 == 댓글 좋아요 +1
+	
+	1. tbl_comment_like에 값이 있는지 없는지 확인
+	2-2. 있음 -> 값을 변경해줌
+	3-2. 성공적으로 완료시 tbl_comment을 변경해줌 == 댓글 좋아요 -1
+	*/
+//	public int updCmtLike(Connection conn, String postNo, String commentId, String userNo) {
+//		PreparedStatement pstmt = null;
+//		int result = 0;
+//		String query = "update tbl_comment set comment_Like = comment_Like + 1 where comment_id = ?";
+//		
+//		return result;
+//	}
+
+	//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 있는지 확인
+	public int chkTblCmtLike(Connection conn, String postNo, String commentId, String userNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "select * from tbl_comment_like where comment_id  = ? and user_no = ? ";
 		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, commentId);
+			pstmt.setString(2, userNo);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		System.out.println("PostDao 댓글호감도 테이블에 해당댓글에 대한 좋아요 정보 : " + result);
+		return result;
+	}
+
+	//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보 삭제
+	public int delCmtLikeInfo(Connection conn, String commentId, String userNo) {
+		PreparedStatement pstmt = null;
+		int delCmtLike = 0;
+		String query = "delete tbl_comment_like where comment_id = ? and user_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, commentId);
+			pstmt.setString(2, userNo);
+			delCmtLike = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);	
+		}
+		System.out.println("PostDao 댓글호감도 테이블에 해당댓글에 대한 호감도 정보 -1한 결과 : " + delCmtLike);
+		return delCmtLike;
+	}
+
+	//댓글테이블에 해당 댓글에서 좋아요 수 -1
+	public int minusCmtLike(Connection conn, String commentId) {
+		PreparedStatement pstmt = null;
+		int minusCmtLike = 0;
+		String query = "update tbl_comment set comment_like = comment_like - 1 where comment_id = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, commentId);
+			minusCmtLike = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);	
+		}
+		return minusCmtLike;
+	}
+
+	//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보 삽입
+	public int insertCmtLikeInfo(Connection conn, String userNo, String commentId, int like) {
+		PreparedStatement pstmt = null;
+		int insertCmtLikeInfo = 0;
+		String query = "insert into tbl_comment_like values (?, ?, ?)";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			pstmt.setString(2, commentId);
+			pstmt.setInt(3, like);			
+			insertCmtLikeInfo = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return insertCmtLikeInfo;
+	}
+
+	//댓글테이블에서 해당 댓글에 대한 좋아요 +1 진행
+	public int updateCmtLike(Connection conn, String commentId) {
+		PreparedStatement pstmt = null;
+		int updCmtLike = 0;
+		String query = "update tbl_comment set comment_like = comment_like + 1 where comment_id = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, commentId);
+			updCmtLike = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);	
+		}
+		return updCmtLike;
+	}
+
+	//댓글 테이블에서 싫어요 -1 진행 == 싫어요 취소
+	public int minusCmtDisLike(Connection conn, String commentId) {
+		PreparedStatement pstmt = null;
+		int minusCmtDislike = 0;
+		String query = "update tbl_comment set comment_dislike = comment_dislike - 1 where comment_id = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, commentId);
+			minusCmtDislike = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);	
+		}
+		return minusCmtDislike;
+	}
+
+
+	//댓글호감도테이블에 -1
+	public int insertCmtDislikeInfo(Connection conn, String userNo, String commentId, int like) {
+		PreparedStatement pstmt = null;
+		int insertCmtDislikeInfo = 0;
+		String query = "insert into tbl_comment_like values (?, ?, ?)";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			pstmt.setString(2, commentId);
+			pstmt.setInt(3, like);			
+			insertCmtDislikeInfo = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return insertCmtDislikeInfo;
+	}
+
+	//댓글테이블 싫어요 +1
+	public int updateCmtDislike(Connection conn, String commentId) {
+		PreparedStatement pstmt = null;
+		int updCmtDislike = 0;
+		String query = "update tbl_comment set comment_dislike = comment_dislike + 1 where comment_id = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, commentId);
+			updCmtDislike = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);	
+		}
+		return updCmtDislike;
+	}
+
+
 }

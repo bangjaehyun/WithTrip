@@ -16,7 +16,7 @@ public class PostComment {
 	private String commentId;		//댓글 분류번호
 	private String commentVal;		//댓글 내용
 	private String commentLike;		//좋아요
-	private String commentDisLike;	//싫어요
+	private String commentDislike;	//싫어요
 	private String userNo;			//회원번호
 	
 	//private String commentNo;		//댓글 번호

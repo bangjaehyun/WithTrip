@@ -529,7 +529,7 @@ section.section {
 	align-items: center;
 }
 
-/*사이트 이용안내*/
+/*사이트 이용안내 + 파트너신청 페이지*/
 .siteIntro-header {
 	height : 300px;
 	align-content: center;
@@ -755,3 +755,4 @@ a {
 .link-box-btn:hover {
 	font-weight: bolder;
 }
+

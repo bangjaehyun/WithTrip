@@ -72,9 +72,9 @@
 					</div>		
 			        <div class="list-content">
 			            <div class="siteIntro-header">			            	
-				            	<img src="/resources/images/withTrip_logo_v_04.png" id="siteIntro-header">
-				                <h4>여행을 내곁에</h4>
-				                <p></p>
+			            	<img src="/resources/images/withTrip_logo_v_04.png" id="siteIntro-header">
+			                <h4>여행을 내곁에</h4>
+			                <p></p>
 			            </div>
 			            <div class="siteIntro-txt">
 			                <h3>추천여행</h3>
