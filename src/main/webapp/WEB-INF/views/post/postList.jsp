@@ -64,7 +64,7 @@
 						<ul class="side-menu">						
 							<li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1" >공지사항</a></li>                          
 	                        <li><a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3" >FAQ</a></li>
-	                        <li><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4" >Q&A</a></li>
+	                        <li><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4" >1:1 문의</a></li>
 	                        <li><a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5" >사이트 소개</a></li>  
 						</ul>
 					</div>
@@ -81,14 +81,39 @@
 							<c:forEach var="post" items="${postList}">
 							<tr>
 								<td>${post.postNo}</td>
+								
+								<%-- <c:choose>
+		                              <c:when test="${postTypeId eq 2}">
+		                                 <td><a href='/post/trip?postNo=${post.postNo}'>${post.postTitle}</a></td>
+		                              </c:when>
+		                              <c:otherwise>
+		                                 <td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
+		                              </c:otherwise>
+		                        </c:choose>   --%>
+								
 								<c:choose>
 										<c:when test="${postTypeId eq 2}">
 											<td><a href='/post/trip?postNo=${post.postNo}'>${post.postTitle}</a></td>
 										</c:when>
-										<c:otherwise>
+										<c:when test="${postTypeId eq 4}">
+											<c:if test="${empty loginUser}">
+												<td>작성자만 확인 가능합니다</td>
+											</c:if>
+											<c:if test="${not empty loginUser and loginUser.userNo != post.user.userNo and loginUser.userNo ne '2024110916180004'}">
+												<td>작성자만 확인 가능합니다</td>
+											</c:if>
+											
+											<c:if test="${not empty loginUser and loginUser.userNo == post.user.userNo}">
+												<td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
+											</c:if>
+											<c:if test="${not empty loginUser and loginUser.userNo eq '2024110916180004'}">
+												<td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
+											</c:if>
+										</c:when>
+										<c:otherwise>			
 											<td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
 										</c:otherwise>
-								</c:choose>  
+								</c:choose>
 								<td>${post.user.userNickname}</td>
 								<td>${post.postDate}</td>
 								<td>${post.readCount}</td>

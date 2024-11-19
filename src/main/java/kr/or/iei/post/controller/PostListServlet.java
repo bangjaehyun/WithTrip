@@ -56,7 +56,9 @@ public class PostListServlet extends HttpServlet {
 
 		if (postTypeCd.equals("5")) {
 			request.getRequestDispatcher("/WEB-INF/views/post/siteIntro.jsp").forward(request, response);
-		} else {			
+		} else if (postTypeCd.equals("4")){			
+			request.getRequestDispatcher("/WEB-INF/views/post/postList.jsp").forward(request, response);
+		} else {
 			request.getRequestDispatcher("/WEB-INF/views/post/postList.jsp").forward(request, response);
 		}
 	}

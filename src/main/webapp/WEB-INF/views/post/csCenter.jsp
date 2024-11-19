@@ -18,7 +18,7 @@
 		height : 500px;
 		width : 1000px;
 		padding-right : 190px;
-		padding-left : 60px;
+		padding-left : 120px;
 	}
 	.list-header {
 		padding : 20px 0px;
@@ -32,7 +32,8 @@
 	.list-side {
 		height : 200px;
 		position : sticky;
-		top : 80px;
+		top : 225px;
+		left : 300px;
 	}
 	.side-menu-title {
 		width : 180px;
@@ -71,7 +72,7 @@
 		display : flex;
 		height : 50px;
 		width : 300px;
-		line-height : 35px;
+		line-height : 36px;
 		background-color : var(--main2);
 		border-radius : 8px;
 		border: 1px solid var(--main2);
@@ -121,7 +122,7 @@
 						<ul class="side-menu">						
 							<li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1" >공지사항</a></li>                          
 	                        <li><a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3" >FAQ</a></li>
-	                        <li><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4" >Q&A</a></li>
+	                        <li><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4" >1:1 문의</a></li>
 	                        <li><a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5" >사이트 소개</a></li>  
 						</ul>
 					</div>
@@ -153,7 +154,7 @@
 								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
 							</div>		
 							<div class="cs-conList">
-								<p><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4">Q&A 바로가기</a></p>
+								<p><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4">1:1문의 바로가기</a></p>
 								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
 							</div>		
 							<div class="cs-conTxt">

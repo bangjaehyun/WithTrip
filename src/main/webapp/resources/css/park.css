@@ -529,7 +529,7 @@ section.section {
 	align-items: center;
 }
 
-/*사이트 이용안내 + 파트너신청 페이지*/
+/*사이트 이용안내*/
 .siteIntro-header {
 	height : 300px;
 	align-content: center;
@@ -656,7 +656,6 @@ a {
     justify-content: center;
     align-content: center;
     margin: 10px auto;
-    line-height: 30px;
 }
 .siteIntro-txt > h3 {
     color : var(--main2);
@@ -676,7 +675,6 @@ a {
     object-fit: cover;
     border-radius: 8%;
 }
-
 .siteInfoCard {
 	height : 120px;
 	margin: 20px 0px;

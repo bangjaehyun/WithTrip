@@ -10,44 +10,50 @@
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 <style>
-	.post-list-wrap {
-		width : 1200px;
-		margin : 0 auto;
-	}
-	.list-content {
-		width: 1000px;
-		height : 2000px;
-		justify-content: center;
-		padding-right : 20px;
-		/*justify-items : center;
-		align-items : center;
-		align-content : center;*/
-	}
-	.list-side {
-		height : 200px;
-		position : sticky;
-		top : 80px;
-	}
-	.side-menu-title {
-		width : 180px;
-		padding : 7px 0px;
-		text-align : left;
-		font-weight : bold;
-		font-size : 20px;
-		border-bottom: 3px solid var(--main2);
-	}
-	
-	#arrow_outward {
-		width: 17px;
-		height: 17px;
-	}
-	.siteNotice {
-		justify-content: center;
-		align-content: cetner;
-	}
-	.siteNotice > * {
-		font-size : 14px;
-	}
+@media screen and (max-width: 1500px) {
+  .list-side {
+    display: none;
+  }
+}
+.post-list-wrap {
+	width : 1200px;
+	margin : 0 auto;
+}
+.list-content {
+	width: 1000px;
+	height : 2000px;
+	justify-content: center;
+	padding-right : 20px;
+	/*justify-items : center;
+	align-items : center;
+	align-content : center;*/
+}
+.list-side {
+	height : 200px;
+	position : sticky;
+	top : 225px;
+	left : 300px;
+}
+.side-menu-title {
+	width : 180px;
+	padding : 7px 0px;
+	text-align : left;
+	font-weight : bold;
+	font-size : 20px;
+	border-bottom: 3px solid var(--main2);
+}
+
+#arrow_outward {
+	width: 17px;
+	height: 17px;
+}
+.siteNotice {
+	justify-content: center;
+	align-content: cetner;
+}
+.siteNotice > * {
+	font-size : 14px;
+}
 	
 </style>
 </head>
@@ -66,7 +72,7 @@
 						<ul class="side-menu">						
 							<li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1" >공지사항</a></li>                          
 	                        <li><a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3" >FAQ</a></li>
-	                        <li><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4" >Q&A</a></li>
+	                        <li><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4" >1:1 문의</a></li>
 	                        <li><a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5" >사이트 소개</a></li>  
 						</ul>
 					</div>		
@@ -108,7 +114,7 @@
 			                    <div class="flip-card-inner">
 			                        <div class="flip-card-front">
 			                            <h4>테마</h4>		
-			                            <img src="/resources/images/landscape_01.jpg" class="flipCardImg">
+			                            <img src="/resources/images/theme_01.jpg" class="flipCardImg">
 			                        </div>
 			                        <div class="flip-card-back">
 			                            <div class="flip-card-back-title">
@@ -132,7 +138,7 @@
 			                    <div class="flip-card-inner">
 			                        <div class="flip-card-front">
 			                            <h4>계절</h4>
-			                            <img src="/resources/images/landscape_01.jpg" class="flipCardImg">
+			                            <img src="/resources/images/theme_04.jpg" class="flipCardImg">
 			                        </div>
 			                        <div class="flip-card-back">
 			                            <div class="flip-card-back-title">
@@ -184,7 +190,7 @@
 			            </div>
 			               <div class="siteInfoCard">
 				               <div class="link-box">
-					               <a href="#" class="link-box-btn">우리의 여행 바로가기
+					               <a href="/post/list?reqPage=1&postTypeCd=2&postTypeNm=2" class="link-box-btn">우리의 여행 바로가기
 		                           		<img src="/resources/images/arrow_outward_white.png" id="arrow_outward">
 		                           </a>			               
 				               </div>
