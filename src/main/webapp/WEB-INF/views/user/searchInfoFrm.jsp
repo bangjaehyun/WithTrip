@@ -10,18 +10,59 @@
 <script src="/resources/js/sweetalert.min.js"></script>
 
 <style>
+
+.logo1 {
+ 	background-color : #004ca1;
+}
+
+.logocls {	 
+	 margin-top : -10px;
+	 margin-left : -10px;
+	 margin-right : -10px;
+	 	
+	 text-align: center;
+}
 .page-title {
 	font-size:30px;
-	margin-bottom: 10px;
-	
-	
+	margin-bottom: 10px;	
 }
 .input-title {
 	font-size:20px;
+	text-align: center;
 }
-
-
-
+.input-item {
+	margin-bottom : 5px;
+	text-align: center;
+}
+.btn-wrap{
+	text-align: center;
+	
+}
+#userEmail {
+	width : 200px;
+}
+.input-wrap {
+	height : 50px;
+}
+[class^="btn-"].md {
+  	padding: 5px 10px;
+  	font-size: 14px; 
+}
+.input-item1 {
+	height : 20px;
+	text-align : center;
+}
+.btn-wrap {
+	margin-top : 10px;
+}
+.btn-primary {
+	width: 100px;
+	border: none;
+	background-color : #004ca1;
+	border-radius: 4px;
+	color: white;
+	cursor: pointer;
+}
 
 </style>
 </head>
@@ -30,7 +71,7 @@
 		<main class="content srch-Info-container">
 			<section class="section">
 				<div class= "logocls">
-					<div class="logo1"><a href="/"><img src="/resources/images/withTrip_logo_h_02.png" width="200px" height="70px"></a></div>
+					<div class="logo1"><a href="/"><img src="/resources/images/withTrip_logo_08.png" width="200px" height="70px"></a></div>
 				</div>
 				
 				<div class="srch-info-wrap">
@@ -54,7 +95,7 @@
 							<div class="input-title">
 								<label for="userId">아이디 입력</label>
 							</div>
-							<div class="input-item">
+							<div class="input-item1">
 								<input type="text" id="userId" name="userId">
 							</div>
 						</div>
@@ -64,8 +105,7 @@
 						<div>
 							<button type="button" onclick="srchInfo('${gb}')"
 								class="btn-primary md">찾기</button>
-						</div>
-						<div>
+						
 							<button type="button" onclick="closeFn()" class="btn-primary md">닫기</button>
 						</div>
 					</div>
