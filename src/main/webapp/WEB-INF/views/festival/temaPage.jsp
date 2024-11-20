@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,7 +66,7 @@
 	overflow: hidden;
 }
 
-#pagination button {
+button {
 	border: none;
 	outline: none;
 	box-shadow: 1px 1px 3px -1px;
@@ -93,84 +93,95 @@
 	color: white;
 }
 
-.mapOpen{
-	color : white;
-	font-size: 16px;
-	border-radius: 10px;
-	width: 100px;
-	height: 45px;
-	font-weight: bold;
-	border: none;
-	background: linear-gradient(to top, #5882FA, #004CA1);
+tag-div{
+ display: flex;
+ justify-content: center;
 }
 
-body button:hover{
-  transform: scale(1.1,1.1);
-  box-shadow: 0px 5px 5px -2px rgba(0, 0, 0, 0.25);
+.ul-tag{
+margin : 0 auto;
+display: flex;
+justify-content : space-between;
+border-radius: 30px;
+width : 1000px;
+height: 50px;
+gap : 30px;
+background-color: #e2d9fc;
+text-align: center;
+
 }
 
-.map-box{
-	padding-left: 100px;
-	padding-right: 100px;
-	text-align: right;
+.ul-tag li{
+	text-decoration: none;
+	font-size: 20px;
+	margin : auto 0;
+	width : 150px;
+	border-radius: 30px;
+	cursor: pointer;
 }
+
+.ul-tag li:hover{
+	background-color : #bbafdf;
+	color: white;
+}
+
 
 </style>
 </head>
 <body>
-	<div class="wrap">
+<div class="wrap">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 		<main class="content">
 			<section class="section">
-				<div class="festival-title">내주변 관광정보</div>
-				<div class="map-box">
-					<button type="button" class="mapOpen" onclick="openMap()">지도 열기</button>
+				<div class="festival-title">테마</div>
+				<div class="tag-div">
+					<ul class="ul-tag">
+						<li onclick="tagClick('C0112')" id="C0112">가족 코스</li>
+						<li onclick="tagClick('C0113')" id="C0113">나홀로 코스</li>
+						<li onclick="tagClick('C0114')" id="C0114">힐링 코스</li>
+						<li onclick="tagClick('C0115')" id="C0115">도보 코스</li>
+						<li onclick="tagClick('C0116')" id="C0116">캠핑 코스</li>
+						<li onclick="tagClick('C0117')" id="C0117">맛 코스</li>
+					</ul>
 				</div>
+				<c:if test="${not empty list}">
 				<div class="festival-wrap">
-					<c:forEach var="festival" items="${list}" end="11">
-						<c:choose>
-						<c:when test='${not empty festival.festivalType and festival.festivalType eq "15"}'>
-							<div class="festival-box" onClick="location.href ='/festival/subInfo?festivalId=${festival.festivalId}&festivalType=${festival.festivalType}'">
-							<div class="festival-img-box">
-								<img class="festival-img"
-									src="${not empty festival.festivalImage ? festival.festivalImage : '/resources/images/withTrip_logo_v_04.png'}" />
+						<c:forEach var="tema" items="${list}" end="11">
+							<div class="festival-box"
+								onClick="location.href ='/festival/subInfoTema?festivalId=${tema.festivalId}&festivalType=${tema.festivalType}'">
+								<div class="festival-img-box">
+									<img class="festival-img"
+										src="${not empty tema.festivalImage ? tema.festivalImage : '/resources/images/withTrip_logo_v_04.png'}" />
+								</div>
+								<div class="name-box">
+									<strong class="festival-name">${tema.festivalTitle}</strong>
+								</div>
 							</div>
-							<div class="name-box">
-								<strong class="festival-name">${festival.festivalTitle}</strong>
-							</div>
-						</div>
-						</c:when>
-						<c:otherwise>
-							<div class="festival-box" onClick="location.href ='/festival/subInfoType?festivalId=${festival.festivalId}&festivalType=${festival.festivalType}'">
-							<div class="festival-img-box">
-								<img class="festival-img"
-									src="${not empty festival.festivalImage ? festival.festivalImage : '/resources/images/withTrip_logo_v_04.png'}" />
-							</div>
-							<div class="name-box">
-								<strong class="festival-name">${festival.festivalTitle}</strong>
-							</div>
-							</div>
-							</c:otherwise>
-						</c:choose>
-						
-					</c:forEach>
-				</div>
+						</c:forEach>
+					</div>
 				<div class="page-list">
 					<ul id="pagination">
 					</ul>
 				</div>
+				</c:if>
 			</section>
 		</main>
 
 		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</div>
 	<script>
+	function tagClick(temaName){
+		location.href = "/festival/temaPageFrm?pageNo=1&temaName="+temaName;
+	}
 	const loadPages = 10;
 	const itemCount = 12;
 	
 	$(document).ready(function(){
-		createBtn();
+		if(${not empty totalCount and totalCount ne 0}){
+			tagBtnStyle();
+			createBtn();
+		}
 	});
 	
 	function createBtn(){
@@ -217,9 +228,14 @@ body button:hover{
         updateButtonStyles();
 	}
 	
+	function tagBtnStyle(){
+		$('#${temaName}').css("background-color","#bbafdf");
+		$('#${temaName}').css("color","white");
+	}
+	
 	function updateButtonStyles() {
         // 모든 지역 버튼 초기화
-        $("#pagination button").css({
+        $("button").css({
             "background": "#e3e3e3",
             "color": "black"
         });
@@ -275,31 +291,11 @@ body button:hover{
         pageNo = page; // 선택한 페이지 번호를 업데이트
         chgPages(pageNo); // 페이지 데이터 갱신
     }
-
 	
-	// 이전 또는 다음 버튼 클릭 시
+// 	이전 또는 다음 버튼 클릭 시
 	function chgPages(page) {
-		location.href = "/festival/myAroundFrm?lat="+ ${lat} + "&lon=" + ${lon} + "&page="+page;
+		location.href = "/festival/temaPageFrm?pageNo="+page+ "&temaName="+ "${temaName}";
 	}
-	
-	//지도 버튼 가져오기
-	function openMap(){
-		let popupWidth = 1550;
-		let popupHeight = 720;
-		
-		let top = (window.innerHeight - popupHeight) / 2+ window.screenY;
-		let left = (window.innerWidth - popupWidth) / 2+ window.screenX;
-		window.open("/festival/openMap?lat="+${lat}+ "&lon="+ ${lon}  , "map", "width="+popupWidth+", height=" + popupHeight + ", top=" + top + ", left=" + left)
-	}
-	
-	//자식객체에서 호출하여 현재 페이지 리로드
-	function pageReLoad(lat, lon){
-		location.href = "/festival/myAroundFrm?lat="+ lat + "&lon=" + lon + "&page=1";
-	}
-	
-	
-	
-	
 	</script>
 </body>
 </html>
