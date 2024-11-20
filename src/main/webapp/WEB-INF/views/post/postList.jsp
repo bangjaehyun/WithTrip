@@ -21,7 +21,8 @@
 	}
 	.list-header {
 		padding : 20px 0px;
-		text-align : right;
+		 display : flex;
+        justify-content: space-between;
 	}
 	.list-side {
 		height : 200px;
@@ -37,6 +38,10 @@
 		border-bottom: 3px solid var(--main2);
 		position:sticky;
 	}
+	
+	#searchPost{
+        height: 40px;
+    }
 </style>
 
 </head>
@@ -49,12 +54,36 @@
 			<%-- <c:if test="${not empty loginMember}"> --%>
 				<div class="list-header">
 					<%-- <a class="btn-point" id="write-btn" href='/post/writeFrm?postTypeid=${postTypeid}&postTypeNm=${postTypeNm}'>${postTypeNm } 작성</a>--%>
-					<c:if test="${not empty loginUser}">
+						<c:if test="${postTypeId eq 2}">
+							<c:choose>
+							<c:when test="${searchName eq 'read'}">
+							<select name="searchPost" id="searchPost" onchange="search(this.value)">
+								<option value="latest">최신순</option>
+								<option value="read" selected>조회순</option>
+								<option value="like">좋아요순</option>
+							</select>
+							</c:when>
+							<c:when test="${searchName eq 'like'}">
+							<select name="searchPost" id="searchPost" onchange="search(this.value)">
+								<option value="latest">최신순</option>
+								<option value="read">조회순</option>
+								<option value="like" selected>좋아요순</option>
+							</select>
+							</c:when>
+							<c:when test="${searchName eq null}">
+							<select name="searchPost" id="searchPost" onchange="search(this.value)">
+								<option value="latest" selected>최신순</option>
+								<option value="read">조회순</option>
+								<option value="like">좋아요순</option>
+							</select>
+							</c:when>
+							</c:choose>
+						</c:if>
+						<c:if test="${not empty loginUser}">
 						<a class="btn-point" id="write-btn" href='/post/editorWriteFrm?postTypeId=${postTypeId}&postTypeNm=${postTypeNm}'>${postTypeNm} 작성</a>
-					</c:if>					
+						</c:if>					
 				</div>			
 			<%-- </c:if> --%>
-	
 				<div class="list-body">
 					<c:if test="${postTypeId ne 2}">
 					<div class="list-side">
@@ -135,6 +164,10 @@ window.onpageshow = function(event) {
 	if(event.persisted) {
 		document.location.reload();
 	}
+}
+
+function search(choice){
+    location.href = "/post/orderSearch?reqPage=1&postTypeCd=2&postTypeNm=2&searchName="+choice;
 }
 </script>
 </body>

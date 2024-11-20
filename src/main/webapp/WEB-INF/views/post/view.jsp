@@ -435,25 +435,26 @@
 	            "userNo" : "${loginUser.userNo}",
 	            "like" : like
 	            }, 
-	         success : function(res) {
-	            if(res == "1"){
-	               swal({
-	                  title : "알림",
-	                  text : '${postComment.commentId}' + " 댓글 좋아요가 완료 되었습니다.",
-	                  icon : "success"
-	               }).then(function(){
-	                  location.href = "/post/view?postNo=${post.postNo}";
-	               });
-	            }else{
-	               swal({
-	                  title : "알림",
-	                  text : '${postComment.commentId}' + " 댓글 호감도 반영 중 오류가 발생하였습니다.",
-	                  icon : "error"
-	               }).then(function(){
-	                  location.href = "/post/view?postNo=${post.postNo}";
-	               });
-	            }
-	         },
+	            success : function(res) {
+		            if(res != "0"){
+		               swal({
+		                  title : "알림",
+		                  text : '${postComment.commentId}' + res,
+		                  icon : "success"
+		               }).then(function(){
+		                  location.href = "/post/view?postNo=${post.postNo}";
+		               });
+		            }
+		            else{
+		               swal({
+		                  title : "알림",
+		                  text : '${postComment.commentId}' + " 댓글 호감도 반영 중 오류가 발생하였습니다.",
+		                  icon : "error"
+		               }).then(function(){
+		                  location.href = "/post/view?postNo=${post.postNo}";
+		               });
+		            }
+		         },
 	         error : function() {
 	            console.log("ajax 에러 발생");
 	         }
