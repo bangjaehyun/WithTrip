@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import kr.or.iei.post.model.service.PostService;
 
 /**
- * Servlet implementation class PostUpdCmtLike
+ * Servlet implementation class PostLikeServlet
  */
-@WebServlet("/post/updCmtLike")
-public class PostManageCmtLike extends HttpServlet {
+@WebServlet("/post/postLike")
+public class PostLikeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PostManageCmtLike() {
+    public PostLikeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,22 +28,17 @@ public class PostManageCmtLike extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String postNo = request.getParameter("postNo");
-		String commentId = request.getParameter("commentId");
 		String userNo = request.getParameter("userNo");
-		int like = Integer.parseInt(request.getParameter("like"));
-		
 		
 		PostService service = new PostService();
-		String[] result = service.chkCmtLike(postNo, commentId, userNo, like);
+		int result = service.updPostLike(userNo, postNo);
 		
-		if(Integer.parseInt(result[0]) > 0) {
-			response.setCharacterEncoding("utf-8");
-			response.getWriter().print(result[1].toString());
+		if(result != -1) {
+			response.getWriter().print(result);
 		}else {
 			response.getWriter().print("0");
-		}		
+		}
 	}
 
 	/**

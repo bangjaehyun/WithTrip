@@ -322,8 +322,6 @@ public class PostDao {
 		int result = 0;
 		String query = "delete from tbl_comment where comment_id = ?";
 		
-		System.out.println("PostDao 댓글삭제 commentId : " + commentId);
-		
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, commentId);
@@ -334,7 +332,6 @@ public class PostDao {
 		} finally {
 			JDBCTemplate.close(pstmt);
 		}
-		System.out.println("PostDao 댓글삭제 결과 : " + result);
 		
 		return result;
 	}
@@ -803,6 +800,184 @@ public class PostDao {
 	      }
 	      return updCmtDislike;
 	   }
+
+
+	public int selectLoginUserPostLike(Connection conn, String userNo, String postNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		String query = "select * from tbl_post_like where user_no = ? and post_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			pstmt.setString(2, postNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = 1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+
+	public int deletePostLike(Connection conn, String userNo, String postNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from tbl_post_like where user_no = ? and post_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			pstmt.setString(2, postNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+	public int insertPostLike(Connection conn, String userNo, String postNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "insert into tbl_post_like values(?,?)";
+		
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			pstmt.setString(2, postNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+	public int selectPostLikeCount(Connection conn, String postNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int count = 0;
+		String query = "select count(*) as cnt from tbl_post_like where post_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, postNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+			System.out.println("likeCount" + count);
+		}
+		
+		return count;
+	}
+
+
+	public ArrayList<Post> selectPostReadList(Connection conn, String postTypeCd, int start, int end) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Post> list = new ArrayList<Post>();
+		String query = "select * from (select rownum rnum, a.* from (select rownum, a.* from(select a.* from tbl_post a where post_type_id = ? order by read_count desc) a ) a) where rnum between ? and ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, postTypeCd);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Post p = new Post();
+				p.setPostNo(rset.getString("post_no"));
+				p.setPostTypeCd(rset.getString("post_type_id"));
+				p.setPostTitle(rset.getString("post_title"));
+				p.setPostContent(rset.getString("post_content"));
+				p.setUserNo(rset.getString("user_no"));
+				p.setPostDate(rset.getString("post_date"));
+				p.setReadCount(rset.getInt("read_count"));
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+			
+		return list;
+	}
+
+
+	public ArrayList<Post> selectPostLikeList(Connection conn, String postTypeCd, int start, int end) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Post> list = new ArrayList<Post>();
+		String query = "select * from (select rownum rnum, a.* from (select rownum, a.* from(select a.* from tbl_post a where post_type_id = ? order by (select count(*) from tbl_post_like where post_no = a.post_no) desc) a ) a) a where rnum between ? and ?";
+		
+		try {
+			System.out.println("postType : " + postTypeCd);
+			System.out.println("start : " + start);
+			System.out.println("end : " + end);
+			
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, postTypeCd);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Post p = new Post();
+				p.setPostNo(rset.getString("post_no"));
+				p.setPostTypeCd(rset.getString("post_type_id"));
+				p.setPostTitle(rset.getString("post_title"));
+				p.setPostContent(rset.getString("post_content"));
+				p.setUserNo(rset.getString("user_no"));
+				p.setPostDate(rset.getString("post_date"));
+				p.setReadCount(rset.getInt("read_count"));
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+			
+		return list;
+	}
+
+
+	
 
 
 }

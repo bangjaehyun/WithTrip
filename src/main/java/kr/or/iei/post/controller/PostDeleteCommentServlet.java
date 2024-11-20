@@ -34,16 +34,30 @@ public class PostDeleteCommentServlet extends HttpServlet {
 		PostService service = new PostService();
 		int result =  service.deleteComment(commentId);
 		
-		if(result > 0) {
-			request.setAttribute("title", "알림");
-			request.setAttribute("msg", "댓글을 삭제했습니다.");
-			request.setAttribute("icon", "success");
-			request.setAttribute("loc", "/post/view?postNo="+postNo+"&commentChk=chk");
-		} else {
-			request.setAttribute("title", "알림");
-			request.setAttribute("msg", "댓글 삭제중, 오류가 발생했습니다.");
-			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/post/view?postNo="+postNo+"&commentChk=chk");
+		if(request.getParameter("trip") != null) {
+			if (result > 0) {
+				request.setAttribute("title", "알림");
+				request.setAttribute("msg", "댓글을 삭제했습니다.");
+				request.setAttribute("icon", "success");
+				request.setAttribute("loc", "/post/trip?postNo=" + postNo + "&commentChk=chk");
+			} else {
+				request.setAttribute("title", "알림");
+				request.setAttribute("msg", "댓글 삭제중, 오류가 발생했습니다.");
+				request.setAttribute("icon", "error");
+				request.setAttribute("loc", "/post/trip?postNo=" + postNo + "&commentChk=chk");
+			}
+		}else {
+			if (result > 0) {
+				request.setAttribute("title", "알림");
+				request.setAttribute("msg", "댓글을 삭제했습니다.");
+				request.setAttribute("icon", "success");
+				request.setAttribute("loc", "/post/view?postNo=" + postNo + "&commentChk=chk");
+			} else {
+				request.setAttribute("title", "알림");
+				request.setAttribute("msg", "댓글 삭제중, 오류가 발생했습니다.");
+				request.setAttribute("icon", "error");
+				request.setAttribute("loc", "/post/view?postNo=" + postNo + "&commentChk=chk");
+			}
 		}
 		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 	}

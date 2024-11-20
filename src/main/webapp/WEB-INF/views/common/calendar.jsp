@@ -606,7 +606,7 @@ body {
     function calendarInsert(){
 		let days = "";
 		
-    	days = startDay.substring(0,4)+ "년" + startDay.substring(4,6) + '월' + startDay.substring(6,8) + "일" + "~ " + endDay.substring(0,4)+ "년" + endDay.substring(4,6) + '월' + endDay.substring(6,8) + "일";
+    	days = startDay.substring(0,4)+ "년" + startDay.substring(4,6) + '월' + startDay.substring(6,8) + "일" + " ~ " + endDay.substring(0,4)+ "년" + endDay.substring(4,6) + '월' + endDay.substring(6,8) + "일";
     	$(window.opener.document.getElementById("tripDate")).val(days);
     	//자식 요소에서 부모 요소에 summernote값 넣기
 //     	window.opener.$('#postContent').summernote('insertText', days);

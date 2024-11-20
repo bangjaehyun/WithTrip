@@ -34,4 +34,5 @@ public class Post {
 	private ArrayList<PostComment> commentList;		//게시글 댓글 목록
 	private ArrayList<Spot> spotList; //게시글 장소 목록
 	private String tagList; //선택한 태그리스트 json을 string으로저장
+	private int likeCount;			//좋아요 횟수
 }

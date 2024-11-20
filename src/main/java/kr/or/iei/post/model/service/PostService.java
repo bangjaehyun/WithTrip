@@ -371,24 +371,31 @@ public class PostService {
 				result = dao.updateReadCount(conn, postNo);				
 			}
 			
+			//게시글에 지도 관련 정보 있을시 불러옴
 			ArrayList<Spot> spotList = dao.selectPostSpot(conn, postNo);
 			if(spotList.size() > 0) {
 				post.setSpotList(spotList);
 			}
 			
+			//게시글에 파일이 있으면 읽어옴
 			ArrayList<PostFile> fileList = dao.selectPostFileList(conn, postNo);
 			if(fileList.size() > 0) {
 				post.setFileList(fileList);
 			}
 			
 			User user = dao.selectUser(conn, post.getUserNo());
-			post.setUser(user);
+			if(user != null) {
+				post.setUser(user);
+			}
 			
 			if(result > 0 || commentChk != null) {
 				JDBCTemplate.commit(conn);
 				/// 해당 게시글에 대한 댓글정보도 읽어와야 함
 				ArrayList<PostComment> commentList = dao.selectCommentList(conn, postNo);
 				post.setCommentList(commentList);
+				
+				int count = dao.selectPostLikeCount(conn,postNo);
+				post.setLikeCount(count);
 
 				for (int i = 0; i < commentList.size(); i++) {
 					// 유저 정보 조회
@@ -511,11 +518,13 @@ public class PostService {
 //	}
 
 	//댓글호감도 테이블에 해당 댓글에 대한 유저의 정보가 있는지 확인
-	public int chkCmtLike(String postNo, String commentId, String userNo, int like) {
+	public String[] chkCmtLike(String postNo, String commentId, String userNo, int like) {
+		String[] rtndata = new String[2];
 		Connection conn = JDBCTemplate.getConnection();
 		UserLikeComment commentLike = dao.chkTblCmtLike(conn, commentId, userNo);
 		boolean chk = false; //기존 호감도를 해제하는 것인지 변경하는 것인지에 대한 분류
 		int result = 0;
+		String msg = "";
 		if(commentLike != null) {
 			//정보가 있을 경우 사용자가 누른 값이랑 기존값이랑 체크
 			if(commentLike.getUserLike() == like) {
@@ -527,8 +536,10 @@ public class PostService {
 				//댓글에대한 카운트 변경
 					if(like == -1) {
 						result = dao.updateCmtDislike(conn, commentId, -1);
+						msg = "댓글 싫어요가 취소되었습니다.";
 					}else {
 						result = dao.updateCmtLike(conn, commentId, -1);
+						msg = "댓글 좋아요가 취소되었습니다.";
 					}
 				}
 			}else {
@@ -541,20 +552,24 @@ public class PostService {
 					if(oldLike == 0) {
 						if(like == -1) {
 							result = dao.updateCmtDislike(conn, commentId, 1);
+							msg = "댓글 싫어요가 완료되었습니다.";
 						}else {
 							result = dao.updateCmtLike(conn, commentId, 1);
+							msg = "댓글 좋아요가 완료되었습니다.";
 						}
 					}else {
-						if(like == -1) {
+							if(like == -1) {
 								result = dao.updateCmtLike(conn, commentId, -1);
 							if(result > 0) { 
 								result = dao.updateCmtDislike(conn, commentId, 1);
 							}
+							msg = "댓글 싫어요가 완료되었습니다.";
 						}else {
 							result = dao.updateCmtLike(conn, commentId, 1);
 							if(result > 0) { 
 								result = dao.updateCmtDislike(conn, commentId, -1);
 							}
+							msg = "댓글 좋아요가 완료되었습니다.";
 						}
 					}
 					
@@ -563,6 +578,8 @@ public class PostService {
 			
 			if(result > 0) {
 				JDBCTemplate.commit(conn);
+				rtndata[0] = String.valueOf(result);
+				rtndata[1] = msg;
 			}else {
 				JDBCTemplate.rollback(conn);
 			}
@@ -574,11 +591,15 @@ public class PostService {
 				
 				if(like == -1) {
 					result = dao.updateCmtDislike(conn, commentId, 1);
+					msg = "댓글 싫어요가 완료되었습니다.";
 				}else {
 					result = dao.updateCmtLike(conn, commentId, 1);
+					msg = "댓글 좋아요가 완료되었습니다.";
 				}
 				if(result > 0) {
 					JDBCTemplate.commit(conn);
+					rtndata[0] = String.valueOf(result);
+					rtndata[1] = msg;
 				}else {
 					JDBCTemplate.rollback(conn);	
 				}
@@ -588,7 +609,216 @@ public class PostService {
 			}
 		}
 		JDBCTemplate.close(conn);
+		return rtndata;
+	}
+
+	public int selectLoginUserPostLike(String userNo, String postNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int result  = dao.selectLoginUserPostLike(conn,userNo,postNo);
+		
+		JDBCTemplate.close(conn);
+		
 		return result;
+	}
+
+	public int updPostLike(String userNo, String postNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int likeData = -1;
+		int result = dao.selectLoginUserPostLike(conn, userNo, postNo);
+		
+		if(result > 0) {
+			result = dao.deletePostLike(conn,userNo,postNo);
+			if(result > 0) {
+				likeData = 0;
+			}
+			
+		}else {
+			result = dao.insertPostLike(conn,userNo,postNo);
+			if(result > 0) {
+				likeData = 1;
+			}
+		}
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return likeData;
+	}
+
+	public PostPageData selectPostReadList(String postTypeCd, int reqPage, String postTypeNm) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//한 페이지에서 보여줄 게시글의 갯수
+		int viewPostCnt = 10;
+		
+		int end = reqPage * viewPostCnt;
+		int start = end - viewPostCnt + 1;
+		
+		ArrayList<Post> list = dao.selectPostReadList(conn, postTypeCd, start, end);
+		
+		for(Post post : list) {
+			User user = dao.selectUser(conn,post.getUserNo());
+			post.setUser(user);
+		}
+		
+		//전체 게시글의 갯수
+		int totCnt = dao.selectPostCount(conn, postTypeCd);
+		
+		//전체 페이지의 갯수
+		int totPage = 0;
+		
+		if(totCnt % viewPostCnt > 0) {
+			totPage = totCnt / viewPostCnt + 1;
+		} else {
+			totPage = totCnt / viewPostCnt;
+		}
+		
+		//페이지 하단에 보여줄 페이지 네비게이션 사이즈
+		int pageNaviSize = 5;
+		
+		//페이지 시작번호 연산식
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;	
+		
+		
+		//페이지 네비게이션 HTML 태그 생성
+		String pageNavi = "<ul class = 'pagination circle-style'>";
+		
+		//이전버튼 생성
+		if(pageNo != 1) {
+			//6,7,8,9,10 or 11,12,13,14,15 or 16,17,18,19,20 ................
+			pageNavi += "<li>";
+			pageNavi += "<a class = 'page-item' href='/post/list?reqPage=" + (pageNo - 1) + "&postTypeCd=" + postTypeCd + "&postTypeNm=" + postTypeNm+"'>";
+			pageNavi += "<span class='material-icons'>chevron_left</span></a>";
+			pageNavi += "</li>";
+		}
+		
+		//페이지 네비게이션 사이즈만큼 반복하며, 태그 생성
+		for( int i=0; i<pageNaviSize; i++) {
+			pageNavi += "<li>";
+			
+			//선택한 페이지와, 선택하지 않은 페이지를 시각적으로 다르게 표현
+			if(reqPage == pageNo) {
+				pageNavi += "<a class='page-item active-page' href='/post/list?reqPage="+pageNo+"&postTypeCd="+postTypeCd+"&postTypeNm="+postTypeNm+"'>";
+			} else {
+				pageNavi += "<a class='page-item' href='/post/list?reqPage="+pageNo+"&postTypeCd="+postTypeCd+"&postTypeNm="+postTypeNm+"'>";
+			}
+			pageNavi += pageNo + "</a></li>";
+			pageNo++;
+			
+			if(pageNo > totPage) {
+				break;
+			}
+		}
+		
+		//시작번호 <= 전체 페이지 갯수
+		if(pageNo <= totPage) {
+			//6,7,8,9,10 or 11,12,13,14,15 or 16,17,18,19,20 ................
+			pageNavi += "<li>";
+			pageNavi += "<a class = 'page-item' href='/post/list?reqPage=" + pageNo + "&postTypeCd=" + postTypeCd + "&postTypeNm=" + postTypeNm+"'>";
+			pageNavi += "<span class='material-icons'>chevron_right</span></a>";
+			pageNavi += "</li>";
+		}
+		
+		pageNavi += "</ul>";
+		
+		
+		PostPageData pd = new PostPageData();
+		pd.setList(list);
+		pd.setPageNavi(pageNavi);
+		
+		JDBCTemplate.close(conn);		
+		return pd;
+	}
+
+	public PostPageData selectPostlikeList(String postTypeCd, int reqPage, String postTypeNm) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//한 페이지에서 보여줄 게시글의 갯수
+		int viewPostCnt = 10;
+		
+		int end = reqPage * viewPostCnt;
+		int start = end - viewPostCnt + 1;
+		
+		ArrayList<Post> list = dao.selectPostLikeList(conn, postTypeCd, start, end);
+		
+		for(Post post : list) {
+			User user = dao.selectUser(conn,post.getUserNo());
+			post.setUser(user);
+		}
+		
+		//전체 게시글의 갯수
+		int totCnt = dao.selectPostCount(conn, postTypeCd);
+		
+		//전체 페이지의 갯수
+		int totPage = 0;
+		
+		if(totCnt % viewPostCnt > 0) {
+			totPage = totCnt / viewPostCnt + 1;
+		} else {
+			totPage = totCnt / viewPostCnt;
+		}
+		
+		//페이지 하단에 보여줄 페이지 네비게이션 사이즈
+		int pageNaviSize = 5;
+		
+		//페이지 시작번호 연산식
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;	
+		
+		
+		//페이지 네비게이션 HTML 태그 생성
+		String pageNavi = "<ul class = 'pagination circle-style'>";
+		
+		//이전버튼 생성
+		if(pageNo != 1) {
+			//6,7,8,9,10 or 11,12,13,14,15 or 16,17,18,19,20 ................
+			pageNavi += "<li>";
+			pageNavi += "<a class = 'page-item' href='/post/list?reqPage=" + (pageNo - 1) + "&postTypeCd=" + postTypeCd + "&postTypeNm=" + postTypeNm+"'>";
+			pageNavi += "<span class='material-icons'>chevron_left</span></a>";
+			pageNavi += "</li>";
+		}
+		
+		//페이지 네비게이션 사이즈만큼 반복하며, 태그 생성
+		for( int i=0; i<pageNaviSize; i++) {
+			pageNavi += "<li>";
+			
+			//선택한 페이지와, 선택하지 않은 페이지를 시각적으로 다르게 표현
+			if(reqPage == pageNo) {
+				pageNavi += "<a class='page-item active-page' href='/post/list?reqPage="+pageNo+"&postTypeCd="+postTypeCd+"&postTypeNm="+postTypeNm+"'>";
+			} else {
+				pageNavi += "<a class='page-item' href='/post/list?reqPage="+pageNo+"&postTypeCd="+postTypeCd+"&postTypeNm="+postTypeNm+"'>";
+			}
+			pageNavi += pageNo + "</a></li>";
+			pageNo++;
+			
+			if(pageNo > totPage) {
+				break;
+			}
+		}
+		
+		//시작번호 <= 전체 페이지 갯수
+		if(pageNo <= totPage) {
+			//6,7,8,9,10 or 11,12,13,14,15 or 16,17,18,19,20 ................
+			pageNavi += "<li>";
+			pageNavi += "<a class = 'page-item' href='/post/list?reqPage=" + pageNo + "&postTypeCd=" + postTypeCd + "&postTypeNm=" + postTypeNm+"'>";
+			pageNavi += "<span class='material-icons'>chevron_right</span></a>";
+			pageNavi += "</li>";
+		}
+		
+		pageNavi += "</ul>";
+		
+		
+		PostPageData pd = new PostPageData();
+		pd.setList(list);
+		pd.setPageNavi(pageNavi);
+		
+		JDBCTemplate.close(conn);		
+		return pd;
 	}
 
 }

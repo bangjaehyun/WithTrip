@@ -259,7 +259,7 @@ text-align: center;
 		if(removeFileList.length > 0){
 			formData.append("removeFileList", JSON.stringify(removeFileList));
 		}
-		
+		if(checkPost()){
 		swal({
 			title : "알림",
 			text : "수정을 완료하시겠습니까?",
@@ -295,7 +295,11 @@ text-align: center;
 								text : "${postTypeNm}" + " 수정이 완료 되었습니다.",
 								icon : "success"
 							}).then(function(){
-								location.href = "/post/view?postNo="+ ${post.postNo};
+								if(${post.postTypeCd eq 2}){
+									location.href = "/post/trip?postNo="+ ${post.postNo};
+								}else{
+									location.href = "/post/view?postNo="+ ${post.postNo};
+								}
 								
 							});
 						}else{
@@ -304,7 +308,11 @@ text-align: center;
 								text :  "${postTypeNm}" + "수정중 오류가 발생하였습니다.",
 								icon : "error"
 							}).then(function(){
+								if(${post.postTypeCd eq 2}){
+									location.href = "/post/trip?postNo="+ ${post.postNo};
+								}else{
 								location.href = "/post/view?postNo="+ ${post.postNo};
+								}
 							});
 						}
 					},
@@ -314,8 +322,34 @@ text-align: center;
 				});
 			}	
 		});
+		}
 	}
 
+	function checkPost(){
+		if($('#postTitle').val().length < 1){
+			swal({
+				title : "알림",
+				text :  "제목을 입력하여 주시기 바랍니다.",
+				icon : "warning"
+			}).then(function(){
+				$('#postTitle').focus();
+				return false;
+			});
+		}else if($('#postContent').val().length < 1){
+			swal({
+				title : "알림",
+				text :  "내용을 입력하여 주시기 바랍니다.",
+				icon : "warning"
+			}).then(function(){
+				$('#postContent').summernote('focus');
+				return false;
+			});
+		}
+		else{
+			return true;
+		}
+	}
+	
 	function postCancel(){
 		swal({
 			title : "알림",

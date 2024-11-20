@@ -33,10 +33,6 @@ public class PostUpdateCommentServlet extends HttpServlet {
 		String postNo = request.getParameter("postNo");
 		String commentVal = request.getParameter("commentVal");
 		
-		System.out.println("PostUpdateCommentServlet의 commentId : " + commentId);
-		System.out.println("PostUpdateCommentServlet의 postNo : " + postNo);
-		System.out.println("PostUpdateCommentServlet의 commentVal : " + commentVal);
-		
 		PostComment comment = new PostComment();
 		comment.setCommentId(commentId);
 		comment.setCommentRef(postNo);
@@ -44,17 +40,30 @@ public class PostUpdateCommentServlet extends HttpServlet {
 		
 		PostService service = new PostService();
 		int result = service.updateComment(comment);
-		
-		if(result > 0) {
-			request.setAttribute("title", "알림");
-			request.setAttribute("msg", "댓글 수정이 완료되었습니다.");
-			request.setAttribute("icon", "success");
-			request.setAttribute("loc", "/post/view?postNo="+postNo+"&commentChk=chk");
-		} else {
-			request.setAttribute("title", "알림");
-			request.setAttribute("msg", "댓글 수정 중, 오류가 발생했습니다.");
-			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/post/view?postNo="+postNo+"&commentChk=chk");
+		if(request.getParameter("trip") != null) {
+			if(result > 0) {
+				request.setAttribute("title", "알림");
+				request.setAttribute("msg", "댓글 수정이 완료되었습니다.");
+				request.setAttribute("icon", "success");
+				request.setAttribute("loc", "/post/trip?postNo="+postNo+"&commentChk=chk");
+			} else {
+				request.setAttribute("title", "알림");
+				request.setAttribute("msg", "댓글 수정 중, 오류가 발생했습니다.");
+				request.setAttribute("icon", "error");
+				request.setAttribute("loc", "/post/trip?postNo="+postNo+"&commentChk=chk");
+			}	
+		}else {
+			if (result > 0) {
+				request.setAttribute("title", "알림");
+				request.setAttribute("msg", "댓글 수정이 완료되었습니다.");
+				request.setAttribute("icon", "success");
+				request.setAttribute("loc", "/post/view?postNo=" + postNo + "&commentChk=chk");
+			} else {
+				request.setAttribute("title", "알림");
+				request.setAttribute("msg", "댓글 수정 중, 오류가 발생했습니다.");
+				request.setAttribute("icon", "error");
+				request.setAttribute("loc", "/post/view?postNo=" + postNo + "&commentChk=chk");
+			}
 		}
 		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 		
