@@ -24,6 +24,9 @@ public class Post {
 	private String postTypeNm;			//게시글 종류 이름 : 공지사항, 여행정보, FAQ, Q&A, 사이트 이용안내
 	private String postTypeId;
 	
+	private String shortenTitle;
+	private String shortenContent;
+	
 	private User user;
 	
 	private String userType;

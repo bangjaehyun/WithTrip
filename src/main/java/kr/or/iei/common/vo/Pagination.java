@@ -20,5 +20,5 @@ public class Pagination {
 	private ArrayList<?> list;
 	
 	private int totCnt;
-
+	private int pOrC;
 }

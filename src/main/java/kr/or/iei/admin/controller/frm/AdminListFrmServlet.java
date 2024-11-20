@@ -1,4 +1,4 @@
-package kr.or.iei.admin.controller;
+package kr.or.iei.admin.controller.frm;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,37 +7,44 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kr.or.iei.admin.service.AdminService;
-
 /**
- * Servlet implementation class PstAllSelDelServlet
+ * Servlet implementation class AdminPOrCFrm
  */
-@WebServlet("/admin/allPstSelDel")
-public class AdminAllPstSelDelServlet extends HttpServlet {
+@WebServlet("/admin/adminList")
+public class AdminListFrmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminAllPstSelDelServlet() {
+    public AdminListFrmServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//체크박스 선택된 게시글 삭제 메소드
-		String postIdArr = request.getParameter("postIdArr");
-		AdminService service = new AdminService();
-		int result = service.allPostSelDel(postIdArr);
-		response.getWriter().print(result);
+		int pOrC = Integer.parseInt(request.getParameter("pOrC"));
+	
+		int postTypeId = Integer.parseInt(request.getParameter("postTypeId"));
+		String postTypeName = request.getParameter("postTypeName");
+		
+		
+		request.setAttribute("pOrC", pOrC);
+		request.setAttribute("postTypeId", postTypeId);
+		request.setAttribute("postTypeName", postTypeName);
+		
+		request.getRequestDispatcher("/WEB-INF/views/admin/adminListPage.jsp").forward(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

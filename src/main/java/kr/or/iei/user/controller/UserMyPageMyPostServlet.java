@@ -37,6 +37,7 @@ public class UserMyPageMyPostServlet extends HttpServlet {
 		String srchContent = request.getParameter("srchContent");
 		System.out.println(srchContent);
 		int totCnt = 0;
+		int pOrC = Integer.parseInt(request.getParameter("pOrC"));
 		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
 		int pageSize = Integer.parseInt(request.getParameter("pageSize"));
 		
@@ -44,7 +45,7 @@ public class UserMyPageMyPostServlet extends HttpServlet {
 		ArrayList<Post> myPostList = userService.selMyPosts("2", reqPage, pageSize);
 		
 		
-		Pagination pageInfo = new Pagination(mapAddr, "2", "게시글", reqPage, pageSize, myPostList, totCnt);
+		Pagination pageInfo = new Pagination(mapAddr, "2", "게시글", reqPage, pageSize, myPostList, totCnt, pOrC);
 		
 		PageData pd = new PageData();
 		pd= userService.pageList(pageInfo);

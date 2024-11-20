@@ -10,28 +10,39 @@ import javax.servlet.http.HttpServletResponse;
 import kr.or.iei.admin.service.AdminService;
 
 /**
- * Servlet implementation class CommentAllSelDelServlet
+ * Servlet implementation class PstAllSelDelServlet
  */
-@WebServlet("/admin/allCmtSelDel")
-public class AdminCmtAllSelDelServlet extends HttpServlet {
+@WebServlet("/admin/adminSelDel")
+public class AdminSelDelServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminCmtAllSelDelServlet() {
+    public AdminSelDelServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//체크박스 선택된 댓글 삭제 메소드
-		String commentIdArr = request.getParameter("commentIdArr");
+		//체크박스 선택된 게시글 삭제 메소드
+		int pOrC = Integer.parseInt(request.getParameter("pOrC"));
+		String idArr = request.getParameter("idArr");
+		System.out.println("idArr : " + idArr);
 		AdminService service = new AdminService();
-		int result = service.allCmtSelDel(commentIdArr);
+		
+		int result = 0;
+		if(pOrC > 0) {
+			result = service.allPostSelDel(idArr);
+			
+		}else {
+			result = service.allCmtSelDel(idArr);
+		}
+		System.out.println("result : "+result);
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
 		response.getWriter().print(result);
 	}
 
@@ -39,7 +50,6 @@ public class AdminCmtAllSelDelServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

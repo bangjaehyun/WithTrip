@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class User extends UserType{
 	private String userNo;
-	private int userType;
+	//private int userType;
 	private String userNickname;
 	private String userId;
 /*	

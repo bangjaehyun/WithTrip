@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import kr.or.iei.comment.vo.Comment;
 import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.common.model.vo.PageData;
 import kr.or.iei.common.service.CommonService;
@@ -210,7 +211,26 @@ public class UserService {
 			
 			return result;
 		}
+		public ArrayList<Post> selectIndexLikedList(String userNo) {
+			Connection conn = JDBCTemplate.getConnection();
+			ArrayList<Post> list = dao.selectIndexLikedList(conn, userNo);
+			JDBCTemplate.close(conn);
+			return list;
+		}
+		public ArrayList<Post> selectIndexPostList() {
+			Connection conn = JDBCTemplate.getConnection();
+			ArrayList<Post> list = dao.selectIndexPostList(conn);
+			JDBCTemplate.close(conn);
+			return list;
+		}
 
+		public ArrayList<Comment> selectIndexCommentList() {
+			Connection conn = JDBCTemplate.getConnection();
+			ArrayList<Comment> list = dao.selectIndexCommentList(conn);
+			;
+			JDBCTemplate.close(conn);
+			return list;
+		}
 
 		
 }
