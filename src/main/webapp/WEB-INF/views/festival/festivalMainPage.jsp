@@ -12,11 +12,6 @@
 <link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
-.festival-box {
-	display: flex;
-	list-style: none;
-}
-
 .festival-title {
 	font-weight: bold;
 	padding: 40px 30px 30px 30px;
@@ -89,11 +84,30 @@ button {
 	justify-content: center;
 }
 
+.search-box th {
+	height: 50px;
+	width: 80px;
+}
+
 #search-type1 {
 	background: #004ca1;
 	color: white;
 }
 
+#pagination {
+	display: flex;
+	justify-content: center;
+}
+
+#pagination li {
+	text-align: center;
+	width: 60px;
+}
+
+#pagination .active-page {
+	background: #004ca1;
+	color: white;
+}
 </style>
 </head>
 <body>
@@ -153,7 +167,7 @@ button {
 							onClick="location.href ='/festival/subInfo?festivalId=${festival.festivalId}&festivalType=${festival.festivalType}'">
 							<div class="festival-img-box">
 								<img class="festival-img"
-									src="${not empty festival.festivalImage ? festival.festivalImage : '/resources/images/festival_no_image.png'}" />
+									src="${not empty festival.festivalImage ? festival.festivalImage : '/resources/images/withTrip_logo_v_04.png'}" />
 							</div>
 							<div class="name-box">
 								<strong class="festival-name">${festival.festivalTitle}</strong>
@@ -162,7 +176,7 @@ button {
 					</c:forEach>
 				</div>
 				<div class="page-list">
-					<ul class="pagination">
+					<ul id="pagination">
 					</ul>
 				</div>
 			</section>
@@ -181,7 +195,7 @@ button {
 	
 			    let imgSrc = festival.festivalImage && festival.festivalImage.trim() !== "" 
 			        ? festival.festivalImage 
-			        : "/resources/images/festival_no_image.png";
+			        : "/resources/images/withTrip_logo_v_04.png";
 	
 			    let imgBox = $('<div class="festival-img-box">')
 			        .append('<img class="festival-img" src="' + imgSrc + '" />');
@@ -195,6 +209,49 @@ button {
 		}
 		</script>
 	<script>
+		$(document).ready(function () {
+        	updateButtonStyles();
+    	});		
+		
+		function updateButtonStyles() {
+	        // 모든 지역 버튼 초기화
+	        $("button").css({
+	            "background": "#e3e3e3",
+	            "color": "black"
+	        });
+
+	        let areaCode = $('#areaCode').val();
+
+	        // 지역 버튼 강조
+	        if (!areaCode) {
+	            $("button:contains('전국')").css({
+	                "background": "#004ca1",
+	                "color": "white"
+	            });
+	        } else {
+	            $("button").each(function () {
+	                if ($(this).text() == getAreaName(areaCode)) {
+	                    $(this).css({
+	                        "background": "#004ca1",
+	                        "color": "white"
+	                    });
+	                }
+	            });
+	        }
+
+	        // 페이지 버튼 스타일 초기화
+	        $("#pagination button").css({
+	            "background": "#e3e3e3",
+	            "color": "black"
+	        });
+
+	        // 현재 페이지 버튼 강조
+	        $("#pageBtn_" + pageNo).css({
+	            "background": "#004ca1",
+	            "color": "white"
+	        });
+	    }
+		
 			// 검색방법을 표현하기 위한 함수
 			let searchType = "${searchType}";
 			
@@ -212,6 +269,7 @@ button {
 			// 끝 페이지
 			let endPage = Math.floor(((pageNo - 1) / loadPages) + 1) * loadPages;
 	
+			
 			createBtn();
 			function createBtn(list){
 				
@@ -225,30 +283,38 @@ button {
 				
 				// 이전 버튼
 				if (pageNo > 1) {
-					$(".pagination").append(
-							"<li><button onClick='prev(this);'>이전</button></li>");
-				} else {
-					$(".pagination").append("<li><button disabled>이전</button></li>");
-				}
+		            $("#pagination").append(
+		                "<li><button onClick='prev();'>이전</button></li>"
+		            );
+		        } else {
+		            $("#pagination").append(
+		                "<li><button disabled>이전</button></li>"
+		            );
+		        }
+				
 				// 페이지 목록
 				// 전체 페이지 수가 마지막 페이지 보다 작을 경우
 				if (totalPages < endPage) {
 					endPage = totalPages;
 				}
 				for (let i = startPage; i < endPage + 1; i++) {
-					$(".pagination").append(
-							"<li><button id='pageBtn_" + i + "' onClick='select(this);'>" + i
-									+ "</button></li>");
-				}
+					let activeClass = i == pageNo ? "active-page" : "";
+		            $("#pagination").append(
+		            	"<li><button id='pageBtn_" + i + "' class='" + activeClass + "' onClick='selectPage(" + i + ");'>" + i + "</button></li>"
+		            );
+		        }
+				
 				// 다음 버튼
-				if (pageNo < totalPages) {
-					$(".pagination").append(
-							"<li><button onClick='next();'>다음</button></li>");
-				} else {
-					$(".pagination").append("<li><button disabled>다음</button></li>");
-				}
-				
-				
+		        if (pageNo < totalPages) {
+		            $("#pagination").append(
+		                "<li><button onClick='next();'>다음</button></li>"
+		            );
+		        } else {
+		            $("#pagination").append(
+		                "<li><button disabled>다음</button></li>"
+		            );
+		        }
+		        updateButtonStyles();
 			}
 			
 	
@@ -301,63 +367,11 @@ button {
 				updateButtonStyles();
 			}
 			
-				
-			// 페이지 버튼 클릭 시, 실행 할 함수
-			function select(e) {
-				let toDay = null;
-			    let lastDay = null;
-			    let keyword = null;
+			function selectPage(page) {
+		        pageNo = page; // 선택한 페이지 번호를 업데이트
+		        chgPages(pageNo); // 페이지 데이터 갱신
+		    }
 	
-			    if (searchType < 2) {
-			        toDay = $('#startIn').val()?.replaceAll("-", "");
-			        lastDay = $('#endIn').val()?.replaceAll("-", "");
-			        
-			        if (!toDay) {
-				        alert("시작일을 입력해주세요.");
-				        return;
-				    }
-			    } else if (searchType > 1) {
-			        keyword = $('#keywordIn').val();
-			        
-			        if (searchType > 1 && (!keyword || keyword.trim().length < 1)) {
-				        alert("검색어를 입력해주세요.");
-				        return;
-				    }
-			    }
-	
-			    let areaCode = $('#areaCode').val();
-			    let selectPage = $(e).text();
-				
-				$.ajax({
-					url : "/festival/selectPage",
-					method : "GET",
-					data : {
-						"searchType": searchType,
-				        "toDay": toDay,
-				        "lastDay": lastDay,
-				        "keyword": keyword,
-				        "areaCode": areaCode,
-				        "selectPage": selectPage
-					},
-					success : function(jsonStr) {
-						if (jsonStr && jsonStr.length !== 0) {
-							list = jsonStr;
-							re(list);
-							
-			                $(".pagination").empty(); 
-			                createBtn(list);
-						} else {
-							alert("검색 결과가 없습니다.");
-				            return;
-						}
-					},
-					error: function(jqXHR, textStatus, errorThrown) {
-				        console.log("AJAX 요청 실패:", textStatus, errorThrown);
-				        console.log("상태 코드:", jqXHR.status); // HTTP 상태 코드
-				        console.log("응답 텍스트:", jqXHR.responseText); // 서버 오류 메시지
-					}
-				});
-				}
 			
 			// 이전 또는 다음 버튼 클릭 시
 			function chgPages(page) {
@@ -366,45 +380,45 @@ button {
 			    let keyword = null;
 	
 			    if (searchType < 2) {
-			        toDay = $('#startIn').val()?.replaceAll("-", "");
-			        lastDay = $('#endIn').val()?.replaceAll("-", "");
-			        if (!toDay) {
-			            alert("시작일을 입력해주세요.");
-			            return;
-			        }
+		            toDay = $('#startIn').val()?.replaceAll("-", "");
+		            lastDay = $('#endIn').val()?.replaceAll("-", "");
+		            if (!toDay) {
+		                alert("시작일을 입력해주세요.");
+		                return;
+		            }
 			    } else if (searchType > 1) {
-			        keyword = $('#keywordIn').val();
-			        if (!keyword || keyword.trim().length < 1) {
-			            alert("검색어를 입력해주세요.");
-			            return;
-			        }
-			    }
+		            keyword = $('#keywordIn').val();
+		            if (!keyword || keyword.trim().length < 1) {
+		                alert("검색어를 입력해주세요.");
+		                return;
+		            }
+		        }
 	
 			    let areaCode = $('#areaCode').val();
 	
 			    $.ajax({
-			        url: "/festival/selectPage",
-			        method: "GET",
-			        data: {
-			            "searchType": searchType,
-			            "toDay": toDay,
-			            "lastDay": lastDay,
-			            "keyword": keyword,
-			            "areaCode": areaCode,
-			            "selectPage": page
-			        },
-			        success: function (jsonStr) {
-			            if (jsonStr && jsonStr.length !== 0) {
-			                list = jsonStr;
-			                re(list);
-			        		
-			                $(".pagination").empty(); 
-			                createBtn(list);
-			            } else {
-			            	alert("검색 결과가 없습니다.");
-				            return;
-			            }
-			        },
+		            url: "/festival/selectPage",
+		            method: "GET",
+		            data: {
+		                "searchType": searchType,
+		                "toDay": toDay,
+		                "lastDay": lastDay,
+		                "keyword": keyword,
+		                "areaCode": areaCode,
+		                "selectPage": page
+		            },
+		            success: function (jsonStr) {
+		                if (jsonStr && jsonStr.length !== 0) {
+		                    list = jsonStr;
+		                    re(list);
+
+		                    $("#pagination").empty();
+		                    createBtn(list);
+		                } else {
+		                    alert("검색 결과가 없습니다.");
+		                    return;
+		                }
+		            },
 			        error: function (jqXHR, textStatus, errorThrown) {
 			            console.log("AJAX 요청 실패:", textStatus, errorThrown);
 			            console.log("상태 코드:", jqXHR.status);
@@ -412,6 +426,29 @@ button {
 			        }
 			    });
 			}
+			
+			function getAreaName(code) {
+		        const areaMap = {
+		            "1": "서울",
+		            "2": "인천",
+		            "3": "대전",
+		            "4": "대구",
+		            "5": "광주",
+		            "6": "부산",
+		            "7": "울산",
+		            "8": "세종",
+		            "31": "경기",
+		            "32": "강원",
+		            "33": "충북",
+		            "34": "충남",
+		            "35": "경북",
+		            "36": "경남",
+		            "37": "전북",
+		            "38": "전남",
+		            "39": "제주"
+		        };
+		        return areaMap[code] || "전국";
+		    }
 			
 			// 기간으로 검색을 할 시
 			function dateBtn() {
@@ -439,7 +476,7 @@ button {
 							list = jsonStr;
 							re(list);
 							
-							$(".pagination").empty(); 
+							$("#pagination").empty(); 
 			                createBtn(list);
 						} else {
 							alert("검색 결과가 없습니다.");
@@ -479,7 +516,7 @@ button {
 							list = jsonStr;
 							re(list);
 							
-							$(".pagination").empty(); 
+							$("#pagination").empty(); 
 			                createBtn(list);
 						} else {
 							alert("검색 결과가 없습니다.");

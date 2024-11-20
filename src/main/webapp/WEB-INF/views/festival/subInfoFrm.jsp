@@ -111,7 +111,7 @@ td {
 									<img class="subInfo-img" src="${info.festivalImg}" />
 								</c:when>
 								<c:otherwise>
-									<img class="subInfo-img" src="/resources/images/festival_no_image.png" />
+									<img class="subInfo-img" src="/resources/images/withTrip_logo_v_04.png" />
 								</c:otherwise>
 							</c:choose>
 						</div>

@@ -92,7 +92,7 @@
 									<img class="festival-img" src="${festival.festivalImage}" />
 								</c:when>
 								<c:otherwise>
-									<img class="festival-img" src="/resources/images/festival_no_image.png" />
+									<img class="festival-img" src="/resources/images/withTrip_logo_v_04.png" />
 								</c:otherwise>
 							</c:choose>
 							</span> <strong class="festival-name">${festival.festivalTitle}</strong>
