@@ -24,7 +24,7 @@
                    <li><a href="#">추천 여행</a>
                       <ul class="sub-menu">
                            <li><a href="/festival/cityPage">도시</a></li>
-                           <li><a href="#">테마</a></li>
+                           <li><a href="/festival/temaPageFrm?pageNo=1&temaName=C0112">테마</a></li>
                            <li><a href='javascript:void(0)' onclick="myAround()">내주변 관광</a></li>
                            <li><a href="/festival/mainPage?searchType=1">축제</a></li>
                        </ul>
@@ -73,17 +73,14 @@
    function onGeoSuccess(position) {
         const lat = position.coords.latitude; // 위도
         const lon = position.coords.longitude; // 경도
-        
+        console.log(lat);
+        console.log(lon);
         location.href = "/festival/myAroundFrm?lat="+ lat + "&lon=" + lon + "&page=1";
         
     }
 
     function onGeoError() {
-        swal({
-            title : "알림",
-            text : "위치를 허용을 차단하였습니다. 브라우저 설정에서 변경하여 주시기 바랍니다.",
-            icon : "warning"
-        });
+        msg("알림", "위치를 허용을 차단하였습니다. 브라우저 설정에서 변경하여 주시기 바랍니다.", "warning");
     }
    </script>
 
