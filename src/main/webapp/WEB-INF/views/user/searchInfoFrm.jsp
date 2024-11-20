@@ -13,6 +13,7 @@
 
 .logo1 {
  	background-color : #004ca1;
+ 	margin-bottom : 10px;
 }
 
 .logocls {	 
