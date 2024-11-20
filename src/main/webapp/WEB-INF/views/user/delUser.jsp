@@ -47,7 +47,7 @@ input[type="text"], input[type="password"] {
     margin-bottom: 10px;
 }
 button {
-    width: 48%;
+    width: 100%;
     padding: 10px;
     margin-top: 10px;
     font-size: 1em;
