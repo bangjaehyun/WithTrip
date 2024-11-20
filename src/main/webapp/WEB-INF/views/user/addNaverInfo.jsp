@@ -9,82 +9,83 @@
 <script src="/resources/js/sweetalert.min.js"></script>
 <title>추가 정보 입력</title>
 <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f8f8f8;
-        margin: 0;
-    }
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex; /* 수직 및 수평 정렬을 위해 플렉스박스 사용 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    height: 100vh; /* 화면 전체 높이 */
+    margin: 0;
+    background-color: #f8f8f8;
+}
 
-    #wrapper {
-        max-width: 400px;
-        width: 100%;
-        margin: 0px auto;
-        padding: 20px;
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+#wrapper {
+    max-width: 350px; /* 크기를 조정 */
+    width: 100%;
+    margin: 50px auto; /* 중앙 정렬 */
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #000; /* 테두리 추가 */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-    h4 {
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 18px;
-    }
+h4 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
 
-    .join_title {
-        font-size: 14px;
-        margin-bottom: 5px;
-    }
+.join_title {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
 
-    .box {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-    }
+.box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
 
-    .int {
-        width: calc(100% - 90px);
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
+.int {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-    .btn-primary {
-        padding: 8px;
-        background-color: #007bff;
-        border: none;
-        color: #fff;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-left: 8px;
-    }
+.btn-primary {
+    padding: 8px;
+    background-color: #ffffff;
+    border: 1px solid #000; /* 테두리 추가 */
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 8px;
+}
 
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
+.btn-primary:hover {
+    background-color: #e0e0e0;
+}
 
-    .btn_area button {
-        width: 100%;
-        padding: 10px;
-        background-color: #007bff;
-        border: none;
-        color: #fff;
-        border-radius: 4px;
-        font-size: 16px;
-        cursor: pointer;
-    }
+.btn_area button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
 
-    .btn_area button:hover {
-        background-color: #0056b3;
-    }
-    
-    .
+.btn_area button:hover {
+    background-color: #0056b3;
+}
 </style>
 </head>
 <body>
 	<jsp:include page ="/WEB-INF/views/common/myPageHeader.jsp" />
         <div id="wrapper">        
-            <div id="content">
 					<h4>네이버 추가 정보 입력</h4>
                 <input type="hidden" name="userName" id="userName" value="${name}">
                 <input type="hidden" name="userEmail" id="userEmail" value="${email}">
@@ -109,12 +110,10 @@
 -                      </span>
                     <span class="error_next_box"></span>
                 </div>
-
                 <!-- 회원가입 -->
                 <div class="btn_area">
                     <button onclick="joinValidate()">회원가입</button>
                 </div>
-            </div> 
         </div>
 <script>
 //개인정보(닉네임 중복체크, 비밀번호) 번경 + 전화번호 변경
