@@ -144,11 +144,11 @@
 					</div>
 					<div class="proposal_box">
 						<ul class="proposal_process">
-							<li id="pp_txt">1 메일발송 </li>
+							<li id="pp_txt">1. 메일발송 </li>
 							<li> > </li>
-							<li id="pp_txt">2 신청 및 제안 내용 검토</li>
+							<li id="pp_txt">2. 신청 및 제안 내용 검토</li>
 							<li> > </li>
-							<li id="pp_txt">3 신청 및 제휴제안 종료</li>
+							<li id="pp_txt">3. 신청 및 제휴제안 종료</li>
 						</ul>
 					</div>			
 				</div>

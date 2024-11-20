@@ -10,10 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -45,11 +42,10 @@ public class FestivalService {
 			urlBuilder.append("&" + URLEncoder.encode("areaCode", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("sigunguCode", "UTF-8") + "=" + URLEncoder.encode("", "UTF-8"));
 			// 2. 오픈 API의요청 규격에 맞는 파라미터 생성, 발급받은 인증키.
-			urlBuilder.append("&" + URLEncoder.encode("ServiceKey", "UTF-8") + "="
-					+ URLEncoder.encode(
-							//AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==
-							"Q7XR7KpL9lCRXwgKhDK5beloO5bkc+TlyKlSoZgdbv2qt7ZPP1tLQRiy8j2TR7CJIz+rKnxFTR4npHNNT8mEoA==",
-							"UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + URLEncoder.encode(
+					// AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==
+					"Q7XR7KpL9lCRXwgKhDK5beloO5bkc+TlyKlSoZgdbv2qt7ZPP1tLQRiy8j2TR7CJIz+rKnxFTR4npHNNT8mEoA==",
+					"UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("listYN", "UTF-8") + "=" + URLEncoder.encode("Y", "UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("MobileOS", "UTF-8") + "=" + URLEncoder.encode("ETC", "UTF-8"));
 			urlBuilder.append(
@@ -146,11 +142,10 @@ public class FestivalService {
 		HttpURLConnection conn = null;
 		StringBuilder sb = new StringBuilder();
 		try {
-			urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "="
-					+ URLEncoder.encode(
-							//AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==
-							"Q7XR7KpL9lCRXwgKhDK5beloO5bkc+TlyKlSoZgdbv2qt7ZPP1tLQRiy8j2TR7CJIz+rKnxFTR4npHNNT8mEoA==",
-							"UTF-8"));
+			urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + URLEncoder.encode(
+					// AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==
+					"Q7XR7KpL9lCRXwgKhDK5beloO5bkc+TlyKlSoZgdbv2qt7ZPP1tLQRiy8j2TR7CJIz+rKnxFTR4npHNNT8mEoA==",
+					"UTF-8"));
 			urlBuilder.append(
 					"&" + URLEncoder.encode("contentTypeId", "UTF-8") + "=" + URLEncoder.encode(festivalType, "UTF-8"));
 			urlBuilder.append(
@@ -185,13 +180,21 @@ public class FestivalService {
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} // 시작일
-		catch (MalformedURLException e) {
+		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				// 10. 객체 해제.
+				rd.close();
+				conn.disconnect();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		FestivalSubInfo festival = new FestivalSubInfo();
@@ -236,11 +239,10 @@ public class FestivalService {
 		HttpURLConnection conn = null;
 		StringBuilder sb = new StringBuilder();
 		try {
-			urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "="
-					+ URLEncoder.encode(
-							//AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==
-							"Q7XR7KpL9lCRXwgKhDK5beloO5bkc+TlyKlSoZgdbv2qt7ZPP1tLQRiy8j2TR7CJIz+rKnxFTR4npHNNT8mEoA==",
-							"UTF-8"));
+			urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + URLEncoder.encode(
+					// AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==
+					"Q7XR7KpL9lCRXwgKhDK5beloO5bkc+TlyKlSoZgdbv2qt7ZPP1tLQRiy8j2TR7CJIz+rKnxFTR4npHNNT8mEoA==",
+					"UTF-8"));
 			urlBuilder.append(
 					"&" + URLEncoder.encode("contentTypeId", "UTF-8") + "=" + URLEncoder.encode(festivalType, "UTF-8"));
 			urlBuilder.append(
@@ -281,6 +283,15 @@ public class FestivalService {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				// 10. 객체 해제.
+				rd.close();
+				conn.disconnect();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		try {
@@ -322,11 +333,10 @@ public class FestivalService {
 					.append("&" + URLEncoder.encode("areaCode", "UTF-8") + "=" + URLEncoder.encode(areaCode, "UTF-8"));
 			urlBuilder.append("&sigunguCode=");
 			// 2. 오픈 API의요청 규격에 맞는 파라미터 생성, 발급받은 인증키.
-			urlBuilder.append("&" + URLEncoder.encode("ServiceKey", "UTF-8") + "="
-					+ URLEncoder.encode(
-							//AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==
-							"Q7XR7KpL9lCRXwgKhDK5beloO5bkc+TlyKlSoZgdbv2qt7ZPP1tLQRiy8j2TR7CJIz+rKnxFTR4npHNNT8mEoA==",
-							"UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + URLEncoder.encode(
+					// AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==
+					"Q7XR7KpL9lCRXwgKhDK5beloO5bkc+TlyKlSoZgdbv2qt7ZPP1tLQRiy8j2TR7CJIz+rKnxFTR4npHNNT8mEoA==",
+					"UTF-8"));
 			urlBuilder.append("&listYN=Y&MobileOS=ETC&MobileApp=AppTest&arrange=A");
 			urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("12", "UTF-8"));
 			urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(pageNo, "UTF-8"));
@@ -423,11 +433,10 @@ public class FestivalService {
 																														// 넘버
 			urlBuilder.append("&MobileOS=ETC&MobileApp=AppTest");
 			// 2. 오픈 API의요청 규격에 맞는 파라미터 생성, 발급받은 인증키.
-			urlBuilder.append("&" + URLEncoder.encode("ServiceKey", "UTF-8") + "="
-					+ URLEncoder.encode(
-							//AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==
-							"Q7XR7KpL9lCRXwgKhDK5beloO5bkc+TlyKlSoZgdbv2qt7ZPP1tLQRiy8j2TR7CJIz+rKnxFTR4npHNNT8mEoA==",
-							"UTF-8"));
+			urlBuilder.append("&" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + URLEncoder.encode(
+					// AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==
+					"Q7XR7KpL9lCRXwgKhDK5beloO5bkc+TlyKlSoZgdbv2qt7ZPP1tLQRiy8j2TR7CJIz+rKnxFTR4npHNNT8mEoA==",
+					"UTF-8"));
 			urlBuilder.append("&listYN=Y&arrange=A");
 			urlBuilder
 					.append("&" + URLEncoder.encode("areaCode", "UTF-8") + "=" + URLEncoder.encode(areaCode, "UTF-8")); // 지역코드
@@ -497,7 +506,111 @@ public class FestivalService {
 				festival.setFestivalTitle(element.getElementsByTagName("title").item(0).getTextContent());
 				festival.setFestivalPageNo(doc.getElementsByTagName("pageNo").item(0).getTextContent());
 				festival.setFestivalTotalCount(doc.getElementsByTagName("totalCount").item(0).getTextContent());
-				
+
+				list.add(festival);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public ArrayList<FestivalMain> cityInfo(String contentTypeId, String areaCode, String selectPage) {
+
+		// 1. URL을 만들기 위한 StringBuilder.
+		StringBuilder urlBuilder = new StringBuilder(
+				"http://apis.data.go.kr/B551011/KorService1/areaBasedList1"); /* URL */
+
+		BufferedReader rd = null;
+		HttpURLConnection conn = null;
+		StringBuilder sb = new StringBuilder();
+		try {
+			urlBuilder.append("?" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("12", "UTF-8"));
+			urlBuilder
+					.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(selectPage, "UTF-8"));
+
+			urlBuilder.append("&MobileOS=ETC&MobileApp=AppTest");
+			// 2. 오픈 API의요청 규격에 맞는 파라미터 생성, 발급받은 인증키.
+			urlBuilder.append("&" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + URLEncoder.encode(
+					// AfQfhsnbGileldKwUWQ+BO/64/UexpjEbEYOo6OQNcKt8jfPaOeYcnuLn+I44uDmsfXhYgjRlkPAfbIl/suZxw==
+					"Q7XR7KpL9lCRXwgKhDK5beloO5bkc+TlyKlSoZgdbv2qt7ZPP1tLQRiy8j2TR7CJIz+rKnxFTR4npHNNT8mEoA==",
+					"UTF-8"));
+			urlBuilder.append("&listYN=Y&arrange=A");
+			urlBuilder.append("&" + URLEncoder.encode("contentTypeId", "UTF-8") + "="
+					+ URLEncoder.encode(contentTypeId, "UTF-8"));
+			urlBuilder
+					.append("&" + URLEncoder.encode("areaCode", "UTF-8") + "=" + URLEncoder.encode(areaCode, "UTF-8"));
+			urlBuilder.append("&sigunguCode=&cat1=&cat2=&cat3=");
+			// 3. URL 객체 생성.
+			URL url = new URL(urlBuilder.toString());
+			// 4. 요청하고자 하는 URL과 통신하기 위한 Connection 객체 생성.
+			conn = (HttpURLConnection) url.openConnection();
+			// 5. 통신을 위한 메소드 SET.
+			conn.setRequestMethod("GET");
+			// 6. 통신을 위한 Content-type SET.
+			conn.setRequestProperty("Content-type", "application/json");
+			// 7. 통신 응답 코드 확인.
+			System.out.println("Response code: " + conn.getResponseCode());
+			// 8. 전달받은 데이터를 BufferedReader 객체로 저장.
+			if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			} else {
+				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+			}
+			// 9. 저장된 데이터를 라인별로 읽어 StringBuilder 객체로 저장.
+
+			String line;
+			while ((line = rd.readLine()) != null) {
+				sb.append(line);
+			}
+
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		ArrayList<FestivalMain> list = new ArrayList<FestivalMain>();
+
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			System.out.println(sb.toString());
+			InputStream is = new ByteArrayInputStream(sb.toString().getBytes());
+			Document doc = builder.parse(is);
+			NodeList nodes = doc.getElementsByTagName("item");
+
+			for (int i = 0; i < nodes.getLength(); i++) {
+				Node nNode = nodes.item(i);
+				Element element = (Element) nNode;
+
+				FestivalMain festival = new FestivalMain();
+				festival.setFestivalId(element.getElementsByTagName("contentid").item(0).getTextContent());
+				festival.setFestivalType(element.getElementsByTagName("contenttypeid").item(0).getTextContent());
+				festival.setFestivalImage(element.getElementsByTagName("firstimage").item(0).getTextContent());
+				festival.setFestivalTitle(element.getElementsByTagName("title").item(0).getTextContent());
+				festival.setFestivalPageNo(doc.getElementsByTagName("pageNo").item(0).getTextContent());
+				festival.setFestivalTotalCount(doc.getElementsByTagName("totalCount").item(0).getTextContent());
+
 				list.add(festival);
 			}
 

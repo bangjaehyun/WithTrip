@@ -303,6 +303,7 @@ public class PostService {
 		return result;
 	}
 	
+	//게시글 삭제
 	public int deletePost(String postNo, String delRootPath) {
 		Connection conn = JDBCTemplate.getConnection();
 		ArrayList<Spot> spotList = dao.selectPostSpot(conn, postNo);
@@ -357,6 +358,7 @@ public class PostService {
 		return result;
 	}
 	
+	//게시글 수정
 	public Post selectModifyPost(String postNo, String commentChk) {
 		Connection conn = JDBCTemplate.getConnection();
 		Post post = dao.selectOnePost(conn, postNo);
@@ -612,6 +614,7 @@ public class PostService {
 		return rtndata;
 	}
 
+	//로그인한 회원의 게시글 좋아요 여부
 	public int selectLoginUserPostLike(String userNo, String postNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		
@@ -622,6 +625,7 @@ public class PostService {
 		return result;
 	}
 
+	//게시글 좋아요 업데이트
 	public int updPostLike(String userNo, String postNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		int likeData = -1;
@@ -651,6 +655,7 @@ public class PostService {
 		return likeData;
 	}
 
+	//우리의 여행 페이지에서 게시글 조회순으로 정렬
 	public PostPageData selectPostReadList(String postTypeCd, int reqPage, String postTypeNm) {
 		Connection conn = JDBCTemplate.getConnection();
 		
@@ -736,6 +741,7 @@ public class PostService {
 		return pd;
 	}
 
+	//우리의 여행 페이지에서 좋아요 순으로 정렬
 	public PostPageData selectPostlikeList(String postTypeCd, int reqPage, String postTypeNm) {
 		Connection conn = JDBCTemplate.getConnection();
 		

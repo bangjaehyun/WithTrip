@@ -23,10 +23,10 @@
                 <ul class="recommend">
                    <li><a href="#">추천 여행</a>
                       <ul class="sub-menu">
-                           <li><a href="#">도시</a></li>
+                           <li><a href="/festival/cityPage">도시</a></li>
                            <li><a href="#">테마</a></li>
                            <li><a href="#">계절</a></li>
-                           <li><a href="#">축제</a></li>
+                           <li><a href="/festival/mainPage?searchType=1">축제</a></li>
                        </ul>
                    </li>
                    <li><a href="/post/list?reqPage=1&postTypeCd=2&postTypeNm=2"">우리의 여행</a></li>

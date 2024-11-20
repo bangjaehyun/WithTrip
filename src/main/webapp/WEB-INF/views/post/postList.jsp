@@ -11,37 +11,44 @@
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 <style>
-	.post-list-wrap {
-		width : 1200px;
-		margin : 0 auto;
-	}
-	.list-content {
-		height : 500px;
-		width: 1000px;
-	}
-	.list-header {
-		padding : 20px 0px;
-		 display : flex;
-        justify-content: space-between;
-	}
-	.list-side {
-		height : 200px;
-		position : sticky;
-		top : 80px;
-	}
-	.side-menu-title {
-		width : 180px;
-		padding : 7px 0px;
-		text-align : left;
-		font-weight : bold;
-		font-size : 20px;
-		border-bottom: 3px solid var(--main2);
-		position:sticky;
-	}
-	
-	#searchPost{
-        height: 40px;
-    }
+.post-list-wrap {
+	width : 1200px;
+	margin : 0 auto;
+}
+.list-content {
+	height : 500px;
+	width: 1000px;
+}
+.list-header {
+	padding : 20px 0px;
+	/* display : flex;
+    justify-content: space-between; */
+}
+.list-side {
+	height : 200px;
+	position : sticky;
+	top : 80px;
+}
+.side-menu-title {
+	width : 180px;
+	padding : 7px 0px;
+	text-align : left;
+	font-weight : bold;
+	font-size : 20px;
+	border-bottom: 3px solid var(--main2);
+	position:sticky;
+}
+
+#searchPost{
+    height: 40px;
+}
+.postTitle{
+    width : 340px;
+    display : inline-block;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis; 
+}
 </style>
 
 </head>
@@ -52,37 +59,62 @@
 			<section class="section post-list-wrap">
 			<div class="page-title" style="<c:if test='${postTypeId eq 2}'>text-indent : 0px</c:if>">${postTypeNm}</div>
 			<%-- <c:if test="${not empty loginMember}"> --%>
-				<div class="list-header">
-					<%-- <a class="btn-point" id="write-btn" href='/post/writeFrm?postTypeid=${postTypeid}&postTypeNm=${postTypeNm}'>${postTypeNm } 작성</a>--%>
-						<c:if test="${postTypeId eq 2}">
+				<div class="list-header" style="<c:if test='${postTypeId ne 2}'>text-align : right;</c:if><c:if test='${postTypeId eq 2}'>display : flex; justify-content: space-between;</c:if>">
+						<c:choose>
+						<c:when test="${postTypeId eq 1}">
+							<c:if test="${not empty loginUser and loginUser.userId eq 'admin'}">
+								<a class="btn-point" id="write-btn" href='/post/editorWriteFrm?postTypeId=${postTypeId}&postTypeNm=${postTypeNm}'>${postTypeNm} 작성</a>
+							</c:if>
+							<c:if test="${not empty loginUser and loginUser.userId ne 'admin'}">
+								<p></p>
+							</c:if>
+						</c:when>
+						<c:when test="${postTypeId eq 2}">
 							<c:choose>
-							<c:when test="${searchName eq 'read'}">
-							<select name="searchPost" id="searchPost" onchange="search(this.value)">
-								<option value="latest">최신순</option>
-								<option value="read" selected>조회순</option>
-								<option value="like">좋아요순</option>
-							</select>
-							</c:when>
-							<c:when test="${searchName eq 'like'}">
-							<select name="searchPost" id="searchPost" onchange="search(this.value)">
-								<option value="latest">최신순</option>
-								<option value="read">조회순</option>
-								<option value="like" selected>좋아요순</option>
-							</select>
-							</c:when>
-							<c:when test="${searchName eq null}">
-							<select name="searchPost" id="searchPost" onchange="search(this.value)">
-								<option value="latest" selected>최신순</option>
-								<option value="read">조회순</option>
-								<option value="like">좋아요순</option>
-							</select>
-							</c:when>
+								<c:when test="${searchName eq 'read'}">
+								<select name="searchPost" id="searchPost" onchange="search(this.value)">
+									<option value="latest">최신순</option>
+									<option value="read" selected>조회순</option>
+									<option value="like">좋아요순</option>
+								</select>
+								</c:when>
+								<c:when test="${searchName eq 'like'}">
+								<select name="searchPost" id="searchPost" onchange="search(this.value)">
+									<option value="latest">최신순</option>
+									<option value="read">조회순</option>
+									<option value="like" selected>좋아요순</option>
+								</select>
+								</c:when>
+								<c:when test="${searchName eq null}">
+								<select name="searchPost" id="searchPost" onchange="search(this.value)">
+									<option value="latest" selected>최신순</option>
+									<option value="read">조회순</option>
+									<option value="like">좋아요순</option>
+								</select>
+								<c:if test="${not empty loginUser}">
+									<a class="btn-point" id="write-btn" href='/post/editorWriteFrm?postTypeId=${postTypeId}&postTypeNm=${postTypeNm}'>${postTypeNm} 작성</a>
+								</c:if>
+								</c:when>
 							</c:choose>
-						</c:if>
-						<c:if test="${not empty loginUser}">
-						<a class="btn-point" id="write-btn" href='/post/editorWriteFrm?postTypeId=${postTypeId}&postTypeNm=${postTypeNm}'>${postTypeNm} 작성</a>
-						</c:if>					
-				</div>			
+						</c:when>
+						<c:when test="${postTypeId eq 3}">
+							<c:if test="${not empty loginUser and loginUser.userId eq 'admin'}">
+								<a class="btn-point" id="write-btn" href='/post/editorWriteFrm?postTypeId=${postTypeId}&postTypeNm=${postTypeNm}'>${postTypeNm} 작성</a>
+							</c:if>
+							<c:if test="${not empty loginUser and loginUser.userId ne 'admin'}">
+								<p></p>
+							</c:if>
+						</c:when>
+						<c:when test="${postTypeId eq 4}">
+							<c:if test="${not empty loginUser and loginUser.userId ne 'admin'}">
+								<a class="btn-point" id="write-btn" href='/post/editorWriteFrm?postTypeId=${postTypeId}&postTypeNm=${postTypeNm}'>${postTypeNm} 작성</a>
+							</c:if>
+						</c:when>
+						<c:otherwise>
+							<p></p>
+						</c:otherwise>
+					</c:choose>				
+				</div>
 			<%-- </c:if> --%>
 				<div class="list-body">
 					<c:if test="${postTypeId ne 2}">
@@ -128,15 +160,14 @@
 											<c:if test="${empty loginUser}">
 												<td>작성자만 확인 가능합니다</td>
 											</c:if>
-											<c:if test="${not empty loginUser and loginUser.userNo != post.user.userNo and loginUser.userNo ne '2024110916180004'}">
+											<c:if test="${not empty loginUser and loginUser.userNo != post.user.userNo and loginUser.userId ne 'admin'}">
 												<td>작성자만 확인 가능합니다</td>
 											</c:if>
-											
 											<c:if test="${not empty loginUser and loginUser.userNo == post.user.userNo}">
-												<td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
+												<td><a class="postTitle" href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
 											</c:if>
-											<c:if test="${not empty loginUser and loginUser.userNo eq '2024110916180004'}">
-												<td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
+											<c:if test="${not empty loginUser and loginUser.userId eq 'admin'}">
+												<td><a class="postTitle" href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
 											</c:if>
 										</c:when>
 										<c:otherwise>			
