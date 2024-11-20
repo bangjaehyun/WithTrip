@@ -17,7 +17,8 @@
 
     #wrapper {
         max-width: 400px;
-        margin: 50px auto;
+        width: 100%;
+        margin: 0px auto;
         padding: 20px;
         background-color: #ffffff;
         border-radius: 8px;
@@ -76,6 +77,8 @@
     .btn_area button:hover {
         background-color: #0056b3;
     }
+    
+    .
 </style>
 </head>
 <body>
@@ -83,7 +86,6 @@
         <div id="wrapper">        
             <div id="content">
 					<h4>네이버 추가 정보 입력</h4>
-                <form action="/user/naverAddInfo" method="post" autocomplete="off" onsubmit="return joinValidate()">
                 <input type="hidden" name="userName" id="userName" value="${name}">
                 <input type="hidden" name="userEmail" id="userEmail" value="${email}">
                 <input type="hidden" name="userPhone" id="userPhone" value="${phone}">
@@ -110,13 +112,11 @@
 
                 <!-- 회원가입 -->
                 <div class="btn_area">
-                    <button type="submit">회원가입</button>
+                    <button onclick="joinValidate()">회원가입</button>
                 </div>
-			</form>
             </div> 
         </div>
 <script>
-
 //개인정보(닉네임 중복체크, 비밀번호) 번경 + 전화번호 변경
 	const checkInfo = {
 		"id" : false,
@@ -191,41 +191,47 @@
 		let str = "";
 		
 		for(let key in checkInfo){
+			//4번 반복
+			
+			
 			if(!checkInfo[key]){
 				switch(key){
-					case "id" : str = "아이디 형식이 일치하지 않습니다"; break;
+					case "id" : str = "아이디 중복체크를 해주세요"; break;
 					case "idChk" : str = "아이디 중복체크를 해주세요"; break;
 					case "userNickname" : str = "닉네임 형식이 일치하지 않습니다"; break;
 					case "userNicknameChk" : str = "닉네임 중복체크를 해주세요"; break;
 				}
 				msg('알림', str, 'error');
 				return false;
-			}else{
-				$.ajax({
-					url : "/user/naverAddInfo",
-					data : {
-						"userName" : "${name}",
-						"userEmail" : "${email}",
-						"userPhone" : "${phone}",
-						"userId" : $('#userId').val(),
-						"userNickname" : $('#userNickname').val()
-					},
-					type : "POST",
-					success : function(res){
-						if(res == "0"){
-							msg('알림', '추가 정보 입력이 완료되었습니다.', 'success');
-							window.opener.location.href = "/";
-						}else if(res == "1"){
-							msg('알림', '추가 정보 입력 중 오류가 발생했습니다.', 'error');
-						}
-					},
-					error : function(res){
-						console.log("네이버 API 로그인 추가 정보 입력 ajax 오류");
-					}
-				})
 			}
 		}
-		return true;
+		
+		
+		$.ajax({
+				url : "/user/naverAddInfo",
+				type : "POST",
+				data : {
+					"userName" : "${name}",
+					"userEmail" : "${email}",
+					"userPhone" : "${phone}",
+					"userId" : $('#userId').val(),
+					"userNickname" : $('#userNickname').val()
+				},
+				success : function(res){
+					if(res == "0"){
+						msg('알림', '추가 정보 입력이 완료되었습니다.', 'success');
+						location.href = "/";
+					}else if(res == "1"){
+						msg('알림', '추가 정보 입력 중 오류가 발생했습니다.', 'error');
+						
+					}
+					
+				},
+				error : function(res){
+					console.log("네이버 API 로그인 추가 정보 입력 ajax 오류");
+				}
+			});
+		
 	}
 
 </script>
