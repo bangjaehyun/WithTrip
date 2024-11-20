@@ -11,9 +11,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: #97a8bf;
-	background: url(/resources/images/search_bak.jpg);
-	background-size: 272px 300px;
+	background: url(/resources/images/search_back.jpg);
+	background-size: 454px 300px;
 }
 
 .search_map_box {
@@ -22,7 +21,7 @@
 	padding: 30px;
 	position: relative;
 	border-radius: 5px;
-	background: rgba(28, 28, 28, 0.6);
+	background: rgba(28, 28, 28, 0.4);
 }
 
 .input_box {
