@@ -103,7 +103,7 @@ button:hover {
         swal({
             title: "알림",
             text: "비밀번호를 변경하시겠습니까?",
-            icon: "error",
+            icon: "success",
             buttons: {
                 cancel: {
                     text: "취소",

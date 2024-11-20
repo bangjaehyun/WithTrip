@@ -26,10 +26,7 @@ public class UserJoinServlet extends HttpServlet {
     public UserJoinServlet() {
         super();
         // TODO Auto-generated constructor stub
-    }
-
-    
-    
+    }  
     
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
