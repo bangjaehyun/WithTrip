@@ -25,7 +25,7 @@
                       <ul class="sub-menu">
                            <li><a href="/festival/cityPage">도시</a></li>
                            <li><a href="#">테마</a></li>
-                           <li><a href="#">계절</a></li>
+                           <li><a href='javascript:void(0)' onclick="myAround()">내주변 관광</a></li>
                            <li><a href="/festival/mainPage?searchType=1">축제</a></li>
                        </ul>
                    </li>
@@ -65,5 +65,25 @@
          icon : icon
       });
    }
+   function myAround(){
+       navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+       }
+   
+   
+   function onGeoSuccess(position) {
+        const lat = position.coords.latitude; // 위도
+        const lon = position.coords.longitude; // 경도
+        
+        location.href = "/festival/myAroundFrm?lat="+ lat + "&lon=" + lon + "&page=1";
+        
+    }
+
+    function onGeoError() {
+        swal({
+            title : "알림",
+            text : "위치를 허용을 차단하였습니다. 브라우저 설정에서 변경하여 주시기 바랍니다.",
+            icon : "warning"
+        });
+    }
    </script>
 
