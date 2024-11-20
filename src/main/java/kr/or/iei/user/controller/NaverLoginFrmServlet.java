@@ -45,21 +45,24 @@ public class NaverLoginFrmServlet extends HttpServlet {
 		
 		NaverLoginService service = new NaverLoginService();
 		UserNaver n = service.createToken(code, state);//Tlqkf 왜 n이 null인데
-		    
-		HttpSession session = request.getSession();
-		session.setAttribute("loginUser", n);
+		System.out.println(n.getUserName());
 		
 		//UserNaver info = service.loginInfo(state);
 		//일단 네이버 로그인하면 세션에 값 넣어줌
-		if(n != null) {
-			n = (UserNaver) session.getAttribute("loginUser");
+		if(n.getUserNo() == null) {
 			//Member loginMember = (Member) session.getAttribute("loginMember"); <- 태욱형이 준 예시 코드
 			//String memberNo = loginMember.getMemberNo();
 		
 			//세션에서 아이디가 널값이면 추가 정보 입력 페이지로 널값이 아니면 바로 홈페이지로
-			request.getRequestDispatcher("/").forward(request, response);
-		}else {
+			request.setAttribute("email", n.getUserEmail());
+			request.setAttribute("phone", n.getUserPhone());
+			request.setAttribute("name", n.getUserName());
 			request.getRequestDispatcher("/WEB-INF/views/user/addNaverInfo.jsp").forward(request, response);
+		}else {
+			HttpSession session = request.getSession();
+			session.setAttribute("loginUser", n);
+			
+			request.getRequestDispatcher("/").forward(request, response);
 		}
 		//request.getRequestDispatcher("/").forward(request, response);
 	}

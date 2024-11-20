@@ -44,7 +44,7 @@ public class NaverLoginDao {
 	public int addNaverInfo(Connection conn, UserNaver naverLogin) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into tbl_user_naver values (to_char(sysdate,'yymmddhh24mi')||lpad(seq_user_no.nextval,4,'0'),?,?,?,?,?,sysdate)";
+		String query = "insert into tbl_user_naver values (to_char(sysdate,'yyyymmddhh24mi')||lpad(seq_user_no.nextval,4,'0'),?,?,?,?,?,sysdate)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -61,7 +61,7 @@ public class NaverLoginDao {
 		}		
 		return result;
 	}
-
+/*
 	//추가 정보 입력 후 자동 로그아웃 & 로그인해서 값 가져오기
 	public UserNaver naverUserLogin(Connection conn, String userEmail) {
 		PreparedStatement pstmt = null;
@@ -94,7 +94,7 @@ public class NaverLoginDao {
 		}
 		return n;
 	}
-
+*/
 
 
 }

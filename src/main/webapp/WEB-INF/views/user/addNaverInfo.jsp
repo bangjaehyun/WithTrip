@@ -84,9 +84,9 @@
             <div id="content">
 					<h4>네이버 추가 정보 입력</h4>
                 <form action="/user/naverAddInfo" method="post" autocomplete="off" onsubmit="return joinValidate()">
-                <input type="hidden" name="userName" value="${loginUser.userName}">
-                <input type="hidden" name="userEmail" value="${loginUser.userEmail}">
-                <input type="hidden" name="userPhone" value="${loginUser.userPhone}">
+                <input type="hidden" name="userName" id="userName" value="${name}">
+                <input type="hidden" name="userEmail" id="userEmail" value="${email}">
+                <input type="hidden" name="userPhone" id="userPhone" value="${phone}">
                 <div>
                     <h3 class="join_title">
                         <label for="id">아이디</label>
@@ -116,6 +116,7 @@
             </div> 
         </div>
 <script>
+
 //개인정보(닉네임 중복체크, 비밀번호) 번경 + 전화번호 변경
 	const checkInfo = {
 		"id" : false,
@@ -124,7 +125,9 @@
    		"userNicknameChk" : false
    	}
    	
+   	//아이디 조건
    	const regExpId = /^[a-zA-Z0-9_]{6,20}$/;
+   	//닉네임 조건
    	const regExpNickname =  /^[a-z가-힣0-9]{2,8}$/;
    	
    	$('#idChk').on('click', function(){
@@ -195,12 +198,36 @@
 					case "userNickname" : str = "닉네임 형식이 일치하지 않습니다"; break;
 					case "userNicknameChk" : str = "닉네임 중복체크를 해주세요"; break;
 				}
-				msg('알림', str, "error");
+				msg('알림', str, 'error');
 				return false;
+			}else{
+				$.ajax({
+					url : "/user/naverAddInfo",
+					data : {
+						"userName" : "${name}",
+						"userEmail" : "${email}",
+						"userPhone" : "${phone}",
+						"userId" : $('#userId').val(),
+						"userNickname" : $('#userNickname').val()
+					},
+					type : "POST",
+					success : function(res){
+						if(res == "0"){
+							msg('알림', '추가 정보 입력이 완료되었습니다.', 'success');
+							window.opener.location.href = "/";
+						}else if(res == "1"){
+							msg('알림', '추가 정보 입력 중 오류가 발생했습니다.', 'error');
+						}
+					},
+					error : function(res){
+						console.log("네이버 API 로그인 추가 정보 입력 ajax 오류");
+					}
+				})
 			}
 		}
 		return true;
 	}
+
 </script>
 </body>
 </html>

@@ -43,8 +43,6 @@ public class NaverLoginService {
 			apiURL += "&redirect_uri=" + redirectURI;
 			apiURL += "&code=" + code;
 			apiURL += "&state=" + state;
-			String access_token = "";//삭제처리된 접근토큰 = 스타트에서 넘겨줄때 if문 넣고 값이 비어있으면 refresh token???
-			String refresh_token = "";//갱신토큰(접근 토큰 만료되었을 때 사용)
 
 			URL url = new URL(apiURL);//설정한 ApiURL HttpURLConnection으로 전달 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -69,19 +67,16 @@ public class NaverLoginService {
 				UserNaver chkUser = dao.naverLogin(conn, email);
 				
 				if(chkUser != null) {
-					n = chkUser;
-					n.setUserEmail(email);	
-				}
-				
-				if(chkUser != null) {
+					return chkUser;
+				}else {
 					return n;
 				}
-				
 			}
 		} catch (Exception e) {
 			System.out.println(e);
+		}finally {
+			JDBCTemplate.close(conn);
 		}
-		JDBCTemplate.close(conn);
 		return null;
 	}
 	
@@ -156,7 +151,9 @@ public class NaverLoginService {
 		     name = (String) responseObj.get("name");
 		     email = (String) responseObj.get("email");
 		     mobile = (String) responseObj.get("mobile");
-		    
+		     
+		     mobile = mobile.replace("-", "");
+		     
 		     System.out.println("name : " + name);
 		     System.out.println("email : " + email);
 		     System.out.println("mobile : " + mobile);
@@ -188,10 +185,10 @@ public class NaverLoginService {
 		return result;
 	}
 
-	//추가 정보 입력 후 자동 로그아웃 & 로그인해서 값 가져오기
+	//추가 정보 입력 후 로그인해서 값 가져오기
 	public UserNaver naverUserLogin(String userEmail) {
 		Connection conn = JDBCTemplate.getConnection();
-		UserNaver loginUser = dao.naverUserLogin(conn, userEmail);
+		UserNaver loginUser = dao.naverLogin(conn, userEmail);
 		
 		JDBCTemplate.close(conn);
 		

@@ -138,19 +138,20 @@ button.cancel:hover {
 					$.ajax ({
 						url : "/user/delUser",
 						type : "post",
-						data : {"userNo" : ${loginUser.userNo}, 
+						data : {"userNo" : "${loginUser.userNo}", 
 								"pwChk" : $('#pwChk').val()}, 
 						success : function(res){
 							console.log(res);
-							if(res == "1"){
+							if(res == "0"){
+								msg('알림', '회원 탈퇴가 완료되었습니다', 'success');
 								window.self.close(); 
 								window.opener.location.href="/";
 							}else{
-								console.log("실패");
+								msg('알림', '회원 탈퇴중 오류가 발생했습니다', 'error');
 							}												
 						},
 						error : function(){
-							console.log("erererer");
+							console.log("회원 탈퇴 ajax 오류");
 						}
 					});
 				}
@@ -180,18 +181,22 @@ button.cancel:hover {
 			}).then(function(isConfirm){
 				if(isConfirm){
 					$.ajax ({
-						url : "/user/delUser",
+						url : "/user/delApiUser",
 						type : "post",
 						data : {
-							"userNo" : ${loginUser.userNo}, 
-							"userType" : ${loginUser.userType} 
+							"userNo" : "${loginUser.userNo}"
 							},
-						success : function(savePath){
-							window.self.close(); 
-							window.opener.location.href="/";												
+						success : function(res){
+							if(res == "0"){
+								msg('알림', '회원 탈퇴가 완료되었습니다', 'success');
+								window.self.close(); 
+								window.opener.location.href="/";
+							}else{
+								msg('알림', '회원 탈퇴중 오류가 발생했습니다', 'error');
+							}
 						},
 						error : function(){
-							console.log("erererer");
+							console.log("회원 탈퇴 ajax 오류");
 						}
 					});
 				}

@@ -32,6 +32,7 @@ public class NaverAddInfoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//정보 가져와서 DB에 정보 넣기
 		String userName = request.getParameter("userName");
 		String userId = request.getParameter("userId");
 		String userEmail = request.getParameter("userEmail");
@@ -50,24 +51,18 @@ public class NaverAddInfoServlet extends HttpServlet {
 		NaverLoginService service = new NaverLoginService();
 		int result = service.addNaverInfo(joinNaver);
 		
+		//정보 넣기에 성공하면 세션값 초기화 후 email 정보로 다시 세션에 값 넣기
 		if(result > 0) {
-			request.setAttribute("title", "알림");
-			request.setAttribute("msg", "추가정보 입력이 완료되었습니다");
-			request.setAttribute("icon", "success");
-			request.setAttribute("loc", "/");
-			
-			session.invalidate();
-			
 			UserNaver loginUser = service.naverUserLogin(userEmail);			
 			session.setAttribute("loginUser", loginUser);
 			session.setMaxInactiveInterval(3600);//1시간 -> 필터에서 페이지 넘어갈 때 마다 값 초기화
+			
+			//성공시 0 전달
+			response.getWriter().print("0");
 		}else {
-			request.setAttribute("title", "알림");
-			request.setAttribute("msg", "추가정보 입력중 오류가 발생했습니다");
-			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/user/naverLoginFrm");
+			//실패시 1 전달
+			response.getWriter().print("1");
 		}
-		request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 	}
 
 	/**
