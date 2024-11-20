@@ -11,8 +11,9 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: url(/resources/images/search_back.jpg);
-	background-size: 454px 300px;
+	background: url(/resources/images/search_back.jpg) no-repeat;
+	
+	background-size: 100% 550px;
 }
 
 .search_map_box {
