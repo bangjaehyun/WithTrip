@@ -10,87 +10,112 @@
 	href="/resources/images/withTrip_favicon.png" />
 <link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <style>
-.mainOver{
-	margin-top: 40px auto;
+.mainOver {
+	margin-top: 100px;
 }
-.section {
-	margin-top: 40px auto;
-	max-width: 1240px;
+
+.list-content {
 	min-width: 500px;
-	display: flex;
-	justify-content: center;
+    max-width: 1420px;
+    margin: 0 auto;
+}
+
+.wrap.wrapOver {
+	min-height: 50px;
+}
+
+.side-menu-title {
+	width: 180px;
+	padding: 7px 0px;
+	text-align: left;
+	font-weight: bold;
+	font-size: 20px;
+	border-bottom: 3px solid var(--main2);
+	position: sticky;
+}
+
+.list-body-over {
+	margin-top: 50px;
+	width: 100px;
 }
 </style>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
+	<jsp:include page="/WEB-INF/views/common/header.jsp" />
+	
 	<main class="mainOver">
-		<div class="page-title" style="text-align: left;">고객 관리 페이지</div>
-		<ul>
-			<li><a href="/admin/adminPageFrm?pOrC=1">관리자페이지</a></li>
-			<li><a href="/admin/adminUserMng?reqPage=1&pageSize=10">고객
-					관리 페이지</a></li>
-		</ul>
-		<section class="section">
-			<div class="list-content">
-				<div style="display: flex;">
-					<span> 페이지 크기 선택 : </span> <select id="slPgSize"
-						onchange="selPgSize()">
-						<option>선택</option>
-						<option value="5">5</option>
-						<option value="10">10</option>
-						<option value="20">20</option>
-						<option value="40">40</option>
-					</select>
-				</div>
-				<table class="tbl">
-					<tr class="th">
-						<th>회원번호</th>
-						<th>닉네임</th>
-						<th>회원 등급</th>
-						<th>
-							<div>
-								전체 선택 <input type="checkbox" class="chk" value="selectall" onclick="selectAll(this)">
-							</div>
-						</th>
-						<th>개별 삭제</th>
-						<th colspan="2">개별 회원 등급 변경</th>
-					</tr>
-					<c:forEach var="pg" items="${pgList}">
-						<tr>
-							<td class="userNo">${pg.user.userNo}</td>
-							<td class="userNick">${pg.user.userNickname}</td>
-							<td>${pg.user.userType}</td>
-							<td>
-								<div class="input-wrap">
-									<input type="checkbox" class="chk" name="posts">
+		
+		<div class="page-title">고객 관리 페이지</div>
+		<div class="list-body-over">
+			<ul class="side-menu-title">
+				<li>관리자 페이지</li>
+			</ul>
+			<ul class="side-menu">
+				<li><a href="/admin/adminPageFrm?pOrC=1">관리자페이지</a></li>
+				<li><a href="/admin/adminUserMng?reqPage=1&pageSize=10">고객 관리 페이지</a></li>
+			</ul>
+		</div>
+		<div class="list-content">
+			<section class="section">
+				<div class="list-content">
+					<div style="display: flex;">
+						<span> 페이지 크기 선택 : </span> <select id="slPgSize"
+							onchange="selPgSize()">
+							<option>선택</option>
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="40">40</option>
+						</select>
+					</div>
+					<table class="tbl">
+						<tr class="th">
+							<th>회원번호</th>
+							<th>닉네임</th>
+							<th>회원 등급</th>
+							<th>
+								<div>
+									전체 선택 <input type="checkbox" class="chk" value="selectall"
+										onclick="selectAll(this)">
 								</div>
-							</td>
-							<td><button class="btn-primary sm" id="selectDel"
-									onclick="selDel(this)">회원삭제</button></td>
-							<td>
-								<select class="selectUserType">
-									<option>선택</option>
-									<option value="1">관리자</option>
-									<option value="2">파트너</option>
-									<option value="3">사용자</option>
-								</select>
-							</td>
-							<td><button class="btn-primary sm" onclick="updLevel(this)">회원등급변경</button></td>
-						
+							</th>
+							<th>개별 삭제</th>
+							<th colspan="2">개별 회원 등급 변경</th>
 						</tr>
-					</c:forEach>
-					<tr>
-						<td colspan="6">
-							<button class="btn-primary sm" onclick="allSelDel()">선택
-								항목 삭제</button>
-						</td>
-					</tr>
-				</table>
-				<div id="pageNav">${pageNav}</div>
-			</div>
-		</section>
+						<c:forEach var="pg" items="${pgList}">
+							<tr>
+								<td class="userNo">${pg.user.userNo}</td>
+								<td class="userNick">${pg.user.userNickname}</td>
+								<td>${pg.user.userType}</td>
+								<td>
+									<div class="input-wrap">
+										<input type="checkbox" class="chk" name="posts">
+									</div>
+								</td>
+								<td><button class="btn-primary sm" id="selectDel"
+										onclick="selDel(this)">회원삭제</button></td>
+								<td><select class="selectUserType">
+										<option>선택</option>
+										<option value="1">관리자</option>
+										<option value="2">파트너</option>
+										<option value="3">사용자</option>
+								</select></td>
+								<td><button class="btn-primary sm" onclick="updLevel(this)">회원등급변경</button></td>
+
+							</tr>
+						</c:forEach>
+						<tr>
+							<td colspan="6">
+								<button class="btn-primary sm" onclick="allSelDel()">선택
+									항목 삭제</button>
+							</td>
+						</tr>
+					</table>
+					<div id="pageNav">${pageNav}</div>
+				</div>
+			</section>
+		</div>
 	</main>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	<script>

@@ -181,7 +181,7 @@
 											text : '${post.postTypeNm}' + " 삭제가 완료 되었습니다.",
 											icon : "success"
 										}).then(function(){
-											location.href = "/admin/adminList?reqPage=1&pOrC=1postTypeId=" + ${post.postTypeCd} + "&postTypeNm=" + ${post.postTypeCd};
+											location.href = "/admin/adminList?reqPage=1&pOrC=1&postTypeId=" + ${post.postTypeCd} + "&postTypeNm=" + ${post.postTypeCd};
 										});
 									}else{
 										swal({
@@ -189,7 +189,7 @@
 											text : '${post.postTypeNm}' + "삭제중 오류가 발생하였습니다.",
 											icon : "error"
 										}).then(function(){
-											location.href = "/admin/adminList?reqPage=1&pOrC=1postTypeId=" + ${post.postTypeCd} + "&postTypeNm=" + ${post.postTypeCd};
+											location.href = "/admin/adminList?reqPage=1&pOrC=1&postTypeId=" + ${post.postTypeCd} + "&postTypeNm=" + ${post.postTypeCd};
 										});
 									}
 								},

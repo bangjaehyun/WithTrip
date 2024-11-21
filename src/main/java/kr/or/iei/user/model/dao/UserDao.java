@@ -606,7 +606,7 @@ public class UserDao {
 			p.setShortenTitle(title+"...");
 		}
 		if(p.getPostContent().length()>10) {
-			String content = p.getPostContent().substring(0, 10);
+			String content = p.getPostContent().substring(0, 9);
 			p.setShortenContent(content+"...");
 		}
 		return p; 
@@ -614,7 +614,7 @@ public class UserDao {
 	
 	public Comment shortenContent(Comment c){
 		if(c.getCommentVal().length()>10) {
-			String content = c.getCommentVal().substring(0, 10);
+			String content = c.getCommentVal().substring(0, 9);
 			c.setShortenContent(content+"...");
 		}
 		return c; 
@@ -641,8 +641,10 @@ public class UserDao {
 				cmt.setCommentDate(rset.getString("comment_date"));
 				cmt.setCommentLike(rset.getInt("comment_like"));// 변경예정?
 				cmt.setCommentDislike(rset.getInt("comment_dislike"));// 변경예정?
-
-				list.add(cmt);
+				cmt.setShortenContent(query);
+				
+				Comment c = shortenContent(cmt);
+				list.add(c);
 
 			}
 
