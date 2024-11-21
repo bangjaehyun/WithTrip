@@ -46,7 +46,8 @@ public class UserMainPageFrmServlet extends HttpServlet {
 		
 		String mapAddr = "/user/userPageFrm";
 		int pOrC = Integer.parseInt(request.getParameter("pOrC"));// post or comment
-		int page = Integer.parseInt(request.getParameter("page"));// post or comment
+		int pg = Integer.parseInt(request.getParameter("page"));// post or comment
+		String page = request.getParameter("page");
 		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
 		int pageSize = Integer.parseInt(request.getParameter("pageSize"));
 		String userNo = loginUser.getUserNo();
@@ -70,7 +71,7 @@ public class UserMainPageFrmServlet extends HttpServlet {
 		request.setAttribute("pOrC", pOrC);
 		request.setAttribute("loginUser", loginUser);
 
-		if (page == 1) {
+		if (pg == 1) {
 
 			postTypeId = request.getParameter("postTypeId");
 			postTypeName = request.getParameter("postTypeName");
@@ -87,23 +88,25 @@ public class UserMainPageFrmServlet extends HttpServlet {
 			request.setAttribute("pageNavi", pd.getPageNavi());
 
 		}
-		if (page == 2) {
-			postTypeName = request.getParameter("postTypeName");
+		if (pg == 2) {
 			ArrayList<Comment> pgList = service.selectCommentList(userNo, reqPage, pageSize);
+			System.out.println(pgList);
 			pageInfo = service.pagiNationCmt(mapAddr, reqPage, pageSize, pgList, pOrC, userNo);
 			pd = service.pageListCmt(pageInfo, page);
 			request.setAttribute("pOrC", pOrC);
 			request.setAttribute("title", "내가 작성한 댓글");
 			request.setAttribute("pgList", pd.getList());
+			System.out.println(pd.getList());
+			System.out.println(pd.getPageNavi());
 			request.setAttribute("pageNavi", pd.getPageNavi());
 
 		}
-		if (page == 3) {
+		if (pg == 3) {
 			postTypeId = request.getParameter("postTypeId");
 			postTypeName = request.getParameter("postTypeName");
 			ArrayList<Post> pgList = service.selectLikedPostList(userNo, postTypeId, reqPage, pageSize);
 			pageInfo = service.pagiNationPost(mapAddr, postTypeId, reqPage, pageSize, pgList, pOrC, userNo);
-
+			System.out.println(postTypeName);
 			pd = service.pageListPost(pageInfo, page);
 
 			request.setAttribute("pOrC", pOrC);

@@ -553,20 +553,7 @@ public class UserDao {
 		int startPg = endPg - pageSize + 1; // 시작 페이지
 
 		ArrayList<Post> list = new ArrayList<Post>();
-		String query = "select * from "
-				+ "("
-				+ "select rownum as rnum, a.* "
-				+ "from "
-				+ "("
-				+ "select a.*,b.*,c.user_nickname "
-				+ "from tbl_Post a "
-				+ "join tbl_post_like b "
-				+ "on(a.user_no = b.user_no) "
-				+ "join tbl_user c "
-				+ "on(b.user_no = c.user_no) "
-				+ "where b.user_no = ? "
-				+ "order by Post_date desc) a) "
-				+ "where rnum between ? and ?";
+		String query = "select * from (select rownum as rnum, a.*from (select *from tbl_Post a join tbl_post_like b on(a.user_no = b.user_no) join tbl_user c on(b.user_no = c.user_no) where b.user_no = ? order by Post_date desc) a)where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			// PostTypeId : 게시 코드 : 1.공지사항 2.QnA...
@@ -641,10 +628,8 @@ public class UserDao {
 				cmt.setCommentDate(rset.getString("comment_date"));
 				cmt.setCommentLike(rset.getInt("comment_like"));// 변경예정?
 				cmt.setCommentDislike(rset.getInt("comment_dislike"));// 변경예정?
-				cmt.setShortenContent(query);
-				
-				Comment c = shortenContent(cmt);
-				list.add(c);
+				cmt.setShortenContent(cmt.getCommentVal());
+				list.add(cmt);
 
 			}
 

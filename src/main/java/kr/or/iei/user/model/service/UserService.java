@@ -272,7 +272,7 @@ public class UserService {
 		return pgInfo;
 		}
 
-		public PageData pageListPost(Pagination pageInfo, int page) {
+		public PageData pageListPost(Pagination pageInfo, String page) {
 			int totCnt = commonServ.totalPostCnt(pageInfo.getPstTypeId());
 			pageInfo.setTotCnt(totCnt);
 			PageData pd = Pagination(pageInfo, page);
@@ -311,7 +311,7 @@ public class UserService {
 			return pgInfo;
 		}
 
-		public PageData pageListCmt(Pagination pageInfo, int page) {
+		public PageData pageListCmt(Pagination pageInfo, String page) {
 			int totCnt = commonServ.totalCmntCnt();
 			pageInfo.setTotCnt(totCnt);
 			PageData pd = Pagination(pageInfo, page);
@@ -326,7 +326,7 @@ public class UserService {
 			
 		}
 		
-		public PageData Pagination(Pagination pgInfo, int page) {
+		public PageData Pagination(Pagination pgInfo, String page) {
 			Connection conn = JDBCTemplate.getConnection();
 			String mapAddr = pgInfo.getMapAddr();
 			String userNo = pgInfo.getUserNo();
@@ -334,7 +334,6 @@ public class UserService {
 			int pageSize = pgInfo.getPageSize();// 한 페이지당 게시글 수, 매개변수로 받아옴 15, 30, 50
 			int totCnt = pgInfo.getTotCnt();
 			int pOrC = pgInfo.getPOrC();
-			System.out.println("common pOrC : "+pOrC);
 			ArrayList<?> list = pgInfo.getList();
 			int totPage = 0;
 			String pageNavi = null;
@@ -343,7 +342,7 @@ public class UserService {
 			 * 하여 list받아오고, 해당 list를 pagination호출시 매개변수로 넣어줄 것 int endPg = reqPage *
 			 * pageSize; // 끝 페이지 int startPg = endPg-pageSize+1; // 시작 페이지
 			 */
-			if(pOrC>0) {
+			if(pOrC==1) {
 				if (totCnt % pageSize > 0) {
 					totPage = totCnt / pageSize + 1;
 

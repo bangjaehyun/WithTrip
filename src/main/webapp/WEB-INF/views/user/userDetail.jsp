@@ -11,11 +11,12 @@
 	href="/resources/images/withTrip_favicon.png" />
 <link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <style>
-.trip-content{
+.trip-content {
 	width: 100%;
-    border: 1px solid gray;
-    min-height: 300px;
+	border: 1px solid gray;
+	min-height: 300px;
 }
+
 .pstPtcDiv {
 	border: 1px solid black;
 	width: 50%
@@ -72,77 +73,74 @@
 				<li><a href="/">5.사이트 이용안내.</a></li>
 			</ul>
 		</div>
-		<div class="main-body">
-			<div class="page-title">${pstTypeName}관리 페이지</div>
-			<div id="pageNavi" style="margin-top: 20px;">${pageNavi}</div>
-			<main class="trip-main">
-			<section class="section">
-				<div class="trip-wrap">
-					<div class="trip-title">
-						<h1>${post.postTitle}</h1>
-					</div>
-					<div class="trip-user">
-						<span class="name-title">작성자</span> <span>:</span> <span class="tirp-name">${post.user.userNickname}</span>
-					</div>
-					<div>
-						<span>작성일</span> <span>:</span> <span class="trip-date">${post.postDate}</span>
-					</div>
-					<c:if test="${not empty post.tripDate}">
+		<main class="trip-main">
+			<div class="main-body">
+				<div class="page-title">${pstTypeName}관리페이지</div>
+				<div id="pageNavi" style="margin-top: 20px;">${pageNavi}</div>
+
+				<section class="section">
+					<div class="trip-wrap">
+						<div class="trip-title">
+							<h1>${post.postTitle}</h1>
+						</div>
+						<div class="trip-user">
+							<span class="name-title">작성자</span> <span>:</span> <span
+								class="tirp-name">${post.user.userNickname}</span>
+						</div>
 						<div>
+							<span>작성일</span> <span>:</span> <span class="trip-date">${post.postDate}</span>
+						</div>
+						<c:if test="${not empty post.tripDate}">
 							<div>
-								<span>여행일자</span> <span>:</span> <span class="trip-date">${post.tripDate}</span>
+								<div>
+									<span>여행일자</span> <span>:</span> <span class="trip-date">${post.tripDate}</span>
+								</div>
 							</div>
-						</div>
-					</c:if>
-					<c:if test="${not empty post.tagList}">
-						<div class="div-tag">
-							<ul class="ul-tag">
-							</ul>
-						</div>
-					</c:if>
-					<div class="filebox-wrap">
-							<div class="filebox">
+						</c:if>
+						<c:if test="${not empty post.tagList}">
+							<div class="div-tag">
+								<ul class="ul-tag">
+								</ul>
 							</div>
+						</c:if>
+						<div class="filebox-wrap">
+							<div class="filebox"></div>
 						</div>
-					<div class="div-map">
-						<div id="map"></div>
+						<div class="div-map">
+							<div id="map"></div>
+						</div>
+						<div class="trip-content">${post.postContent}</div>
 					</div>
-					<div class="trip-content">${post.postContent}</div>
-				</div>
 					<button class="btn-secondary" onclick="deletePost(${post.postNo})">삭제</button>
-					
-					
-					
-						<div class="commentBox">
+
+
+
+					<div class="commentBox">
 						<c:forEach var="comment" items="${post.commentList}">
 							<ul class="posting-comment">
-								<li>
-									<span class="material-icons">account_box</span>
-								</li> 
+								<li><span class="material-icons">account_box</span></li>
 								<li>
 									<p class="comment-info">
 										<span id="commentUserNickname">${comment.user.userNickname}</span>
 										<span>${comment.commentDate}</span>
 										<%-- 로그인한 회원 아이디 == 현재 댓글을 작성한 아이디 --%>
-										<c:if test="${not empty loginUser and loginUser.userNo eq comment.user.userNo}">
-											<a href='javascript:void(0)' id="delComment" onclick="delComment('${comment.commentId}');">삭제</a>
+										<c:if
+											test="${not empty loginUser and loginUser.userNo eq comment.user.userNo}">
+											<a href='javascript:void(0)' id="delComment"
+												onclick="delComment('${comment.commentId}');">삭제</a>
 										</c:if>
 									</p>
-									<p class="comment-content">
-										${comment.commentVal}
-									</p>
-									<div class="input-item" style="display:none;">
+									<p class="comment-content">${comment.commentVal}</p>
+									<div class="input-item" style="display: none;">
 										<textarea name="commentVal">${comment.commentVal}</textarea>
 									</div>
 								</li>
 							</ul>
 						</c:forEach>
-						</div>
-			</section>
+					</div>
+				</section>
+			</div>
 		</main>
-
-
-		</div>
 	</main>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	<script>
