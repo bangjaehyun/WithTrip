@@ -11,12 +11,15 @@ import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.common.model.vo.PageData;
 import kr.or.iei.common.service.CommonService;
 import kr.or.iei.common.vo.Pagination;
+import kr.or.iei.post.model.dao.PostDao;
 import kr.or.iei.post.model.vo.Post;
+import kr.or.iei.spot.model.vo.Spot;
 import kr.or.iei.user.model.dao.UserDao;
 import kr.or.iei.user.model.vo.UserSite;
 
 public class UserService {
 	UserDao dao;
+	PostDao postDao;
 	CommonService commonServ;
 
 	public UserService(){
@@ -24,14 +27,37 @@ public class UserService {
 		commonServ = new CommonService();
 	}
 	
+	public UserService(boolean chk) {
+		dao = new UserDao();
+		commonServ = new CommonService();
+		postDao = new PostDao();
+	}
+	
+	
 	public int deleteUser(String userNo) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = dao.deleteUser(conn, userNo);
+		int result = 0;
+		ArrayList<Post> postList = postDao.selectAllPost(conn, userNo);
+		boolean spotDelChk = true;
+		for(int i =0; i < postList.size(); i++) {
+			ArrayList<Spot> spotList = postDao.selectPostSpot(conn, postList.get(i).getPostNo());
+			for(int j = 0; j < spotList.size(); j++) {
+				result = postDao.deleteSpot(conn, spotList.get(j).getSpotNo());
+				if(result < 1) {
+					JDBCTemplate.rollback(conn);
+					spotDelChk = false;
+					break;
+				}
+			}
+		}
+		if(spotDelChk) {
+			result = dao.deleteUser(conn, userNo);
 
-		if(result > 0) {
-			JDBCTemplate.commit(conn);
-		}else {
-			JDBCTemplate.rollback(conn);
+			if (result > 0) {
+				JDBCTemplate.commit(conn);
+			} else {
+				JDBCTemplate.rollback(conn);
+			}
 		}
 		JDBCTemplate.close(conn);
 		return result;

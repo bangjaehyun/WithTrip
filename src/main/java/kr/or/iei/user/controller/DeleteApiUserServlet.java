@@ -37,7 +37,7 @@ public class DeleteApiUserServlet extends HttpServlet {
 		HttpSession session = request.getSession();		
 		
 		if(session != null) {
-			UserService service = new UserService();
+			UserService service = new UserService(true);
 			
 			int result = service.deleteUser(userNo);
 			
