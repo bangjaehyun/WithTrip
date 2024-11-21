@@ -359,22 +359,21 @@ public class PostDao {
 
 
    //게시글 작성 시 장소 정보 추가
-   public int insertPostSpot(Connection conn, Spot spot, String postNo) {
+   public int insertPostSpot(Connection conn, Spot spot) {
         PreparedStatement pstmt = null;
         int result = 0;
-        String query = "insert into tbl_spot values(?,?,?,?,?,?,?,?,?)";
+        String query = "insert into tbl_spot values(?,?,?,?,?,?,?,?)";
         
         try {
            pstmt = conn.prepareStatement(query);
             pstmt.setString(1, spot.getSpotNo());
-            pstmt.setString(2, postNo);
-            pstmt.setString(3, spot.getKakaoMapId());
-            pstmt.setString(4, spot.getSpotName());
-            pstmt.setInt(5, spot.getSpotType());
-            pstmt.setString(6, spot.getSpotAddr());
-            pstmt.setString(7, spot.getSpotLat());
-            pstmt.setString(8, spot.getSpotLng());
-            pstmt.setString(9, spot.getSpotPhone());
+            pstmt.setString(2, spot.getKakaoMapId());
+            pstmt.setString(3, spot.getSpotName());
+            pstmt.setInt(4, spot.getSpotType());
+            pstmt.setString(5, spot.getSpotAddr());
+            pstmt.setString(6, spot.getSpotLat());
+            pstmt.setString(7, spot.getSpotLng());
+            pstmt.setString(8, spot.getSpotPhone());
             
             result = pstmt.executeUpdate();
             
@@ -387,6 +386,51 @@ public class PostDao {
         
         return result;
     }
+   
+   //게시글삭제 및 수정 시 장소관리 테이블에서 장소정보 지우기
+   public int deleteSpotManageMent(Connection conn, String spotNo) {
+      PreparedStatement pstmt = null;
+      int result = 0;
+      String query = "delete from tbl_post_spot_management where spot_no = ?";
+   
+      try {
+         pstmt = conn.prepareStatement(query);
+         pstmt.setString(1, spotNo);
+         
+         result = pstmt.executeUpdate();
+      } catch (SQLException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }finally {
+         JDBCTemplate.close(pstmt);
+      }
+      return result;
+   }
+   
+   //장소관리테이블에 정보 입력
+   public int insertPostSpotManageMent(Connection conn, String postNo, String spotNo) {
+      PreparedStatement pstmt = null;
+      int result = 0;
+      String query = "insert into tbl_post_spot_management values(?,?)";
+      
+      
+      try {
+         pstmt = conn.prepareStatement(query);
+         pstmt.setString(1, postNo);
+         pstmt.setString(2, spotNo);
+         
+         result = pstmt.executeUpdate();
+         
+      } catch (SQLException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }finally {
+         JDBCTemplate.close(pstmt);
+      }
+      
+      return result;
+   }
+   
 
    //작성한 댓글 댓글관리테이블에 넣어주기
    public int insertCmtManagement(Connection conn, PostComment comment) {
@@ -565,7 +609,7 @@ public class PostDao {
    public ArrayList<Spot> selectPostSpot(Connection conn, String postNo) {
       PreparedStatement pstmt = null;
       ResultSet rset = null;
-      String query = "select * from tbl_spot where post_no = ?";
+      String query = "select * from tbl_spot where spot_no in (select spot_no from tbl_post_spot_management where post_no = ?)";
       ArrayList<Spot> spotList = new ArrayList<Spot>();
       try {
          pstmt = conn.prepareStatement(query);
@@ -576,7 +620,6 @@ public class PostDao {
          while(rset.next()) {
             Spot spot = new Spot();
             spot.setSpotNo(rset.getString("spot_no"));
-            spot.setPostNo(rset.getString("post_no"));
             spot.setKakaoMapId(rset.getString("kakao_spot_id"));
             spot.setSpotName(rset.getString("spot_name"));
             spot.setSpotType(rset.getInt("spot_type"));
