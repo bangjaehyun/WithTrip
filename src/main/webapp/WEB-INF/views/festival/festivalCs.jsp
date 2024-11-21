@@ -9,11 +9,6 @@
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 <style>
-@media screen and (max-width: 1500px) {
-  .list-side {
-    display: none;
-  }
-}
 .post-list-wrap {
 	width : 1400px;
 	margin : 0 auto;
@@ -23,16 +18,11 @@
 	height : 800px;
 	justify-content: center;
 	padding-right : 20px;
-	/*justify-items : center;
-	align-items : center;
-	align-content : center;*/
+ 	justify-items : center; 
+ 	align-items : center; 
+ 	align-content : center;
 }
-.list-side {
-	height : 200px;
-	position : sticky;
-	top : 225px;
-	left : 100px;
-}
+
 .side-menu-title {
 	width : 180px;
 	padding : 7px 0px;
@@ -64,17 +54,6 @@
 			<div class="page-title"></div>
 			
 				<div class="list-body">
-					<div class="list-side">
-						<ul class="side-menu-title">
-							<li>고객센터</li>						
-						</ul>
-						<ul class="side-menu">						
-							<li><a href="/festival/cityPage" >도시</a></li>                          
-	                        <li><a href="/festival/temaPageFrm?pageNo=1&temaName=C0112"" >테마</a></li>
-	                        <li><a href='javascript:void(0)' onclick="myAround()" >내주변 관광</a></li>
-	                        <li><a href="/festival/mainPage?searchType=1" >축제</a></li>  
-						</ul>
-					</div>		
 			        <div class="list-content">
 			            <div class="siteIntro-header">			            	
 			            	<img src="/resources/images/withTrip_logo_v_04.png" id="siteIntro-header">
@@ -136,7 +115,7 @@
 			                 <div class="siteInfoFlipCard">
 			                    <div class="flip-card-inner">
 			                        <div class="flip-card-front">
-			                            <h4>축제</h4>
+			                            <h4>내주변 관광정보</h4>
 			                            <img src="/resources/images/myAround.png" class="flipCardImg">
 			                        </div>
 			                        <div class="flip-card-back">
