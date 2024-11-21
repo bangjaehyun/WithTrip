@@ -13,7 +13,7 @@ import kr.or.iei.admin.service.AdminService;
 /**
  * Servlet implementation class AdminUserUpdServlet
  */
-@WebServlet("/AdminUserUpdServlet")
+@WebServlet("/admin/userUpd")
 public class AdminUserUpdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

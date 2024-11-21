@@ -654,6 +654,37 @@ public class UserDao {
 		}
 		return list;
 	}
+
+	public Post selectLikedPost(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Post pst = new Post();
+		String query = "select * from tbl_post a join tbl_post_like b on(a.user_no = b.user_no) where user_no=?";
+//		String query  = "select * from tbl_notice";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				pst.setPostNo(rset.getString("Post_no"));
+				pst.setUserNo(rset.getString("user_no"));
+				pst.setPostTypeId(rset.getString("Post_type_id"));
+				pst.setPostDate(rset.getString("Post_date"));
+				pst.setPostTitle(rset.getString("Post_title"));
+				pst.setPostContent(rset.getString("Post_content"));
+
+				pst.setUserNickName(rset.getString("user_nickname"));
+				pst.setUserType(rset.getString("user_type"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+
+		return pst;
+	}
 	 
 	}
 

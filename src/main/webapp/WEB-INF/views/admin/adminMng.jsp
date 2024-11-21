@@ -145,11 +145,11 @@
 						"userType": userType
 					},
 					success: function (res) {
-						location.reload(true);
+						//location.reload(true);
 					},
 					error: function () {
 						console.log("ajax 에러 발생");
-						location.reload(true);
+						//location.reload(true);
 					}
 				});
 

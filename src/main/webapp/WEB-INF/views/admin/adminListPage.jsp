@@ -114,7 +114,7 @@
 							<%--닉네임--%>
 							<td style="width: 10%;"> </td>
 							<%--게시물 제목--%>
-							<td style="width: 60%;"><a href="/admin/adminDetail?pOrC=${pOrC}&userNo=${pg.userNo}&postNo=${pg.postNo}">${pg.commentVal}</a>
+							<td style="width: 60%;"><a href="/admin/adminDetail?pOrC=${pOrC}&userNo=${pg.userNo}&commentId=${pg.commentId}">${pg.commentVal}</a>
 							</td>
 							<%--작성일--%>
 							<td style="width: 10%;">${pg.commentDate}</td>
