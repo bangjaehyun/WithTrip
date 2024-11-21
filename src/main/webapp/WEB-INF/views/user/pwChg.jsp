@@ -124,61 +124,72 @@ button.cancel:hover {
 </div>
 	
 	<script>
-    function closeBtn() {
-        window.self.close();
-    }
+	function closeBtn() {
+	    window.self.close();
+	}
 
-    function chgPwBtn() {
-        swal({
-            title: "알림",
-            text: "비밀번호를 변경하시겠습니까?",
-            icon: "success",
-            buttons: {
-                cancel: {
-                    text: "취소",
-                    value: false,
-                    visible: true,
-                    closeModal: true
-                },
-                confirm: {
-                    text: "변경",
-                    value: true,
-                    visible: true,
-                    closeModal: true
-                }
-            }
-        }).then(function(isConfirm) {
-            if (isConfirm) {
-                $.ajax({
-                    url: "/user/pwChg",
-                    type: "POST",
-                    data: {
-                        "userNo": "${loginUser.userNo}",
-                        "userPw": "${loginUser.userPw}",
-                        "userPwChk": $('#userPwChk').val(),
-                        "newUserPw": $('#newUserPw').val(),
-                        "newUserPwChk": $('#newUserPwChk').val()
-                    },
-                    success: function(res) {
-                        if (res == "0") {
-                            msg('알림', '비밀번호가 변경되었습니다. 다시 로그인해주세요', 'success');
-                            window.self.close();
-                            window.opener.location.href = "/";
-                        } else if (res == "1") {
-                            msg('알림', '기존 비밀번호가 일치하지 않습니다', 'error');
-                        } else if (res == "2") {
-                            msg('알림', '새로 입력한 비밀번호가 일치하지 않습니다', 'error');
-                        } else if (res == "3") {
-                            msg('알림', '비밀번호 변경 중 오류가 발생했습니다', 'error');
-                        }
-                    },
-                    error: function() {
-                        console.log("비밀번호 변경에서 ajax 오류");
-                    }
-                });
-            }
-        });
-    }
+	function chgPwBtn() {
+	    swal({
+	        title: "알림",
+	        text: "비밀번호를 변경하시겠습니까?",
+	        icon: "success",
+	        buttons: {
+	            cancel: {
+	                text: "취소",
+	                value: false,
+	                visible: true,
+	                closeModal: true
+	            },
+	            confirm: {
+	                text: "변경",
+	                value: true,
+	                visible: true,
+	                closeModal: true
+	            }
+	        }
+	    }).then(function(isConfirm) {
+	        if (isConfirm) {
+	            const regExp = /^[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+	            const newUserPw = $('#newUserPw').val();
+	            const newUserPwChk = $('#newUserPwChk').val();
+	            
+	            if (!regExp.test(newUserPw)) {
+	                msg('알림', '비밀번호 형식이 일치하지 않습니다', 'error');
+	                return false;
+	            } else {
+	                $.ajax({
+	                    url: "/user/pwChg",
+	                    type: "POST",
+	                    data: {
+	                        "userNo": "${loginUser.userNo}",
+	                        "userPw": "${loginUser.userPw}",
+	                        "userPwChk": $('#userPwChk').val(),
+	                        "newUserPw": newUserPw,
+	                        "newUserPwChk": newUserPwChk
+	                    },
+	                    success: function(res) {
+	                        if (res == "0") {
+	                            msg('알림', '비밀번호가 변경되었습니다. 다시 로그인해주세요', 'success', 'window.self.close();window.opener.location.href = "/";')
+	                            	
+		                            
+		                                
+	                            
+	                        } else if (res == "1") {
+	                            msg('알림', '기존 비밀번호가 일치하지 않습니다', 'error');
+	                        } else if (res == "2") {
+	                            msg('알림', '새로 입력한 비밀번호가 일치하지 않습니다', 'error');
+	                        } else if (res == "3") {
+	                            msg('알림', '비밀번호 변경 중 오류가 발생했습니다', 'error');
+	                        }
+	                    },
+	                    error: function() {
+	                        console.error("비밀번호 변경에서 ajax 오류");
+	                    }
+	                });
+	            }
+	        }
+	    });
+	}
 </script>
 </body>
 </html>
