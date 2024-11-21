@@ -165,7 +165,7 @@ public class PostDao {
          JDBCTemplate.close(rset);
          JDBCTemplate.close(pstmt);
       }
-      System.out.println("PostDao : " + p);
+//      System.out.println("PostDao : " + p);
       return p;
    }
 
@@ -237,7 +237,7 @@ public class PostDao {
             user.setUserNickname(rset.getString("user_nickname"));
             user.setUserType(rset.getInt("user_type"));
             
-            System.out.println("PostDao 게시글 작성자" + user);
+//            System.out.println("PostDao 게시글 작성자" + user);
          }
          
       } catch (SQLException e) {
@@ -285,7 +285,7 @@ public class PostDao {
       ArrayList<PostComment> list = new ArrayList<PostComment>();
       String query = "select * from tbl_comment where comment_id in (select comment_id from tbl_post_comment_management where post_no = ?) order by comment_date desc";   ///최신순으로 댓글 가져오기
    
-      System.out.println("PostDao - 댓글정보 comment_ref : " + postNo);
+//      System.out.println("PostDao - 댓글정보 comment_ref : " + postNo);
       
       try {
          pstmt = conn.prepareStatement(query);
@@ -302,7 +302,7 @@ public class PostDao {
             c.setCommentDislike(rset.getString("comment_dislike"));
             list.add(c);
             
-            System.out.println("PostDao - 댓글정보 c : " + c);
+//            System.out.println("PostDao - 댓글정보 c : " + c);
             
          }
       } catch (SQLException e) {
@@ -312,7 +312,7 @@ public class PostDao {
          JDBCTemplate.close(rset);
          JDBCTemplate.close(pstmt);
       }
-      System.out.println("PostDao CommentList : " +list);
+//      System.out.println("PostDao CommentList : " +list);
       
       return list;
    }
@@ -461,7 +461,7 @@ public class PostDao {
       } finally {
          JDBCTemplate.close(pstmt);
       }
-      System.out.println("PostDao의 게시글 조회수+1 결과 : " + result);
+//      System.out.println("PostDao의 게시글 조회수+1 결과 : " + result);
       return result;
    }
    

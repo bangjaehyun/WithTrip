@@ -21,7 +21,7 @@
             <div class="logo"><a href="/"><img src="/resources/images/withTrip_logo_h_03.png" width="150px" height="60px"></a></div>
             <nav class="nav">
                 <ul class="recommend">
-                   <li><a href="#">추천 여행</a>
+                   <li><a href="/festival/CS">추천 여행</a>
                       <ul class="sub-menu">
                            <li><a href="/festival/cityPage">도시</a></li>
                            <li><a href="/festival/temaPageFrm?pageNo=1&temaName=C0112">테마</a></li>

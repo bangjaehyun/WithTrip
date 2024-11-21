@@ -118,30 +118,42 @@ td {
 						<div class="map-box" id="map-box"></div>
 						<div class="info-box">
 							<table>
+								<c:if test="${not empty info.festivalTitle}">
 								<tr>
 									<th>이름</th>
 									<td>${info.festivalTitle}</td>
 								</tr>
+								</c:if>
+								<c:if test="${not empty info.festivalStartDay}">
 								<tr>
 									<th>행사일</th>
 									<td>${info.festivalStartDay}~${info.festivalEndDay}</td>
 								</tr>
+								</c:if>
+								<c:if test="${not empty info.festivalTime}">
 								<tr>
 									<th>공연시간</th>
 									<td>${info.festivalTime}</td>
 								</tr>
+								</c:if>
+								<c:if test="${not empty info.festivalTel}">
 								<tr>
 									<th>전화번호</th>
 									<td>${info.festivalTel}</td>
 								</tr>
+								</c:if>
+								<c:if test="${not empty info.festivalHomepage}">
 								<tr>
 									<th>홈페이지</th>
 									<td>${info.festivalHomepage}</td>
 								</tr>
+								</c:if>
+								<c:if test="${not empty info.festivalAddr}">
 								<tr>
 									<th>주소</th>
 									<td>${info.festivalAddr}</td>
 								</tr>
+								</c:if>
 							</table>
 						</div>
 						<div class="description-box">${info.festivalContent}</div>

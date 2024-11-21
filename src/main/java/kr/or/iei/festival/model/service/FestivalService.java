@@ -94,8 +94,12 @@ public class FestivalService {
 		} finally {
 			try {
 				// 10. 객체 해제.
-				rd.close();
-				conn.disconnect();
+				if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -199,8 +203,12 @@ public class FestivalService {
 		} finally {
 			try {
 				// 10. 객체 해제.
-				rd.close();
-				conn.disconnect();
+				if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -303,8 +311,12 @@ public class FestivalService {
 		} finally {
 			try {
 				// 10. 객체 해제.
-				rd.close();
-				conn.disconnect();
+				if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -322,9 +334,15 @@ public class FestivalService {
 			Node nNode = nodes.item(0);
 			Element element = (Element) nNode;
 
-			festival.setFestivalStartDay(element.getElementsByTagName("eventstartdate").item(0).getTextContent());
-			festival.setFestivalEndDay(element.getElementsByTagName("eventenddate").item(0).getTextContent());
-			festival.setFestivalTime(element.getElementsByTagName("playtime").item(0).getTextContent());
+			if(element.getElementsByTagName("eventstartdate").item(0) != null) {
+				festival.setFestivalStartDay(element.getElementsByTagName("eventstartdate").item(0).getTextContent());
+			}
+			if(element.getElementsByTagName("eventenddate").item(0) != null) {
+				festival.setFestivalEndDay(element.getElementsByTagName("eventenddate").item(0).getTextContent());
+			}
+			if(element.getElementsByTagName("playtime").item(0) != null) {
+				festival.setFestivalTime(element.getElementsByTagName("playtime").item(0).getTextContent());
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -401,8 +419,12 @@ public class FestivalService {
 		} finally {
 			try {
 				// 10. 객체 해제.
-				rd.close();
-				conn.disconnect();
+				if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -507,8 +529,12 @@ public class FestivalService {
 		} finally {
 			try {
 				// 10. 객체 해제.
-				rd.close();
-				conn.disconnect();
+				if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -725,8 +751,12 @@ public MyAroundSubInfo myAroundsubInfo(String festivalId, String festivalType) {
 			e.printStackTrace();
 		}finally{
 			try {
-				rd.close();
-				conn.disconnect();
+				if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -824,8 +854,12 @@ public MyAroundSubInfo myAroundsubInfo(String festivalId, String festivalType) {
 			e.printStackTrace();
 		}finally {
 			try {
-				rd.close();
-				conn.disconnect();
+				if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -921,8 +955,12 @@ public MyAroundSubInfo myAroundsubInfo(String festivalId, String festivalType) {
         } finally {
             try {
                 // 10. 객체 해제.
-                rd.close();
-                conn.disconnect();
+            	if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -1025,10 +1063,12 @@ public MyAroundSubInfo myAroundsubInfo(String festivalId, String festivalType) {
         } finally {
             try {
                 // 10. 객체 해제.
-            	if(rd != null || conn != null) {
-            		rd.close();
-            		conn.disconnect();
-            	}
+            	if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -1132,10 +1172,12 @@ public MyAroundSubInfo myAroundsubInfo(String festivalId, String festivalType) {
 			e.printStackTrace();
 		}finally{
 			try {
-				if(rd != null || conn != null) {
-				rd.close();
-				conn.disconnect();
-			}
+				if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1233,8 +1275,10 @@ public MyAroundSubInfo myAroundsubInfo(String festivalId, String festivalType) {
 					e.printStackTrace();
 				}finally {
 					try {
-						if(rd != null || conn != null) {
+						if (rd != null) {
 							rd.close();
+						}
+						if (conn != null) {
 							conn.disconnect();
 						}
 					} catch (IOException e) {
@@ -1330,8 +1374,12 @@ public MyAroundSubInfo myAroundsubInfo(String festivalId, String festivalType) {
 			e.printStackTrace();
 		}finally {
 			try {
-				rd.close();
-				conn.disconnect();
+				if (rd != null) {
+					rd.close();
+				}
+				if (conn != null) {
+					conn.disconnect();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1374,7 +1422,6 @@ public MyAroundSubInfo myAroundsubInfo(String festivalId, String festivalType) {
 				e.printStackTrace();
 			}
 		}
-
 		return temaInfo;
 		
 	}
