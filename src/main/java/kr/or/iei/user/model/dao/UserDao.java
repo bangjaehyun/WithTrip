@@ -138,7 +138,8 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		UserSite u = null;
-		int userType = 5;
+		int userType;
+		
 		String query = "select * from tbl_user_withtrip where user_id = ? ";
 		
 		try {
@@ -157,7 +158,13 @@ public class UserDao {
 				u.setUserPhone(rset.getString("user_phone"));
 				u.setUserNickname(rset.getString("user_nickname"));
 				u.setEnrollDate(rset.getDate("enroll_date"));
-				u.setUserType(userType);
+				if(loginId.equals("admin")) {
+					userType = 1;
+					u.setUserType(userType);
+				}else {
+					userType = 5;
+					u.setUserType(userType);
+				}
 			}
 			
 		} catch (SQLException e) {
@@ -546,7 +553,20 @@ public class UserDao {
 		int startPg = endPg - pageSize + 1; // 시작 페이지
 
 		ArrayList<Post> list = new ArrayList<Post>();
-		String query = "select * from (select rownum as rnum, a.* from (select * from tbl_Post a join tbl_post_like b on(a.user_no = b.user_no) join tbl_user c on(b.user_no = c.user_no) where user_no = ? order by Post_date desc) a) where rnum between ? and ?";
+		String query = "select * from "
+				+ "("
+				+ "select rownum as rnum, a.* "
+				+ "from "
+				+ "("
+				+ "select a.*,b.*,c.user_nickname "
+				+ "from tbl_Post a "
+				+ "join tbl_post_like b "
+				+ "on(a.user_no = b.user_no) "
+				+ "join tbl_user c "
+				+ "on(b.user_no = c.user_no) "
+				+ "where b.user_no = ? "
+				+ "order by Post_date desc) a) "
+				+ "where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			// PostTypeId : 게시 코드 : 1.공지사항 2.QnA...
@@ -586,7 +606,7 @@ public class UserDao {
 			p.setShortenTitle(title+"...");
 		}
 		if(p.getPostContent().length()>10) {
-			String content = p.getPostContent().substring(0, 10);
+			String content = p.getPostContent().substring(0, 9);
 			p.setShortenContent(content+"...");
 		}
 		return p; 
@@ -594,7 +614,7 @@ public class UserDao {
 	
 	public Comment shortenContent(Comment c){
 		if(c.getCommentVal().length()>10) {
-			String content = c.getCommentVal().substring(0, 10);
+			String content = c.getCommentVal().substring(0, 9);
 			c.setShortenContent(content+"...");
 		}
 		return c; 
@@ -621,8 +641,10 @@ public class UserDao {
 				cmt.setCommentDate(rset.getString("comment_date"));
 				cmt.setCommentLike(rset.getInt("comment_like"));// 변경예정?
 				cmt.setCommentDislike(rset.getInt("comment_dislike"));// 변경예정?
-
-				list.add(cmt);
+				cmt.setShortenContent(query);
+				
+				Comment c = shortenContent(cmt);
+				list.add(c);
 
 			}
 
@@ -633,6 +655,37 @@ public class UserDao {
 			JDBCTemplate.close(pstmt);
 		}
 		return list;
+	}
+
+	public Post selectLikedPost(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Post pst = new Post();
+		String query = "select * from tbl_post a join tbl_post_like b on(a.user_no = b.user_no) where user_no=?";
+//		String query  = "select * from tbl_notice";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				pst.setPostNo(rset.getString("Post_no"));
+				pst.setUserNo(rset.getString("user_no"));
+				pst.setPostTypeId(rset.getString("Post_type_id"));
+				pst.setPostDate(rset.getString("Post_date"));
+				pst.setPostTitle(rset.getString("Post_title"));
+				pst.setPostContent(rset.getString("Post_content"));
+
+				pst.setUserNickName(rset.getString("user_nickname"));
+				pst.setUserType(rset.getString("user_type"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+
+		return pst;
 	}
 	 
 	}

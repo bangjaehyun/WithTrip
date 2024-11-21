@@ -67,7 +67,11 @@ public class AdminService {
 		PageData pd = commnServ.Pagination(pageInfo);
 		return pd;
 	}
-
+	public PageData pageListUser(String mapAddr, int reqPage, int pageSize, ArrayList<Post> pgList) {
+		int totCnt = commnServ.totalUserCnt();
+		PageData pd = Pagination(mapAddr,reqPage,pageSize,totCnt,pgList);
+		return pd;
+	}
 	public ArrayList<Post> selectIndexPostList() {
 		Connection conn = JDBCTemplate.getConnection();
 		ArrayList<Post> list = dao.selectIndexPostList(conn);
@@ -182,5 +186,116 @@ public class AdminService {
 		Comment content = dao.selectComment(conn, userNo, commentId);
 		JDBCTemplate.close(conn);
 		return content;
+	}
+
+
+	public ArrayList<Post> selectUserList() {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Post> list = dao.selectUserList(conn);
+		return list;
+		
+	}
+	public PageData Pagination(String mpAddr, int reqPg,int pageSz, int ttCnt, ArrayList<?> ulist) {
+		Connection conn = JDBCTemplate.getConnection();
+		String mapAddr = mpAddr;
+		int reqPage = reqPg;
+		int pageSize = pageSz;
+		int totCnt = ttCnt;
+		ArrayList<?> list = ulist;;
+		int totPage = 0;
+		String pageNavi = null;
+		/*
+		 * **README** Service.java내 ArrayList<vo객체명> list = dao.객체명List(conn, postType);
+		 * 하여 list받아오고, 해당 list를 pagination호출시 매개변수로 넣어줄 것 int endPg = reqPage *
+		 * pageSize; // 끝 페이지 int startPg = endPg-pageSize+1; // 시작 페이지
+		 */
+			if (totCnt % pageSize > 0) {
+				totPage = totCnt / pageSize + 1;
+
+			} else {
+				totPage = totCnt / pageSize;
+			}
+			// 페이지 하단에 보여질 페이지 네비게이션 사이즈[1,2,3] or [1,2,3,4,5]
+			int pageNavSize = 5;
+
+			int pageNo = ((reqPage - 1) / pageNavSize) * pageNavSize + 1;// 페이지번호 연산식
+			pageNavi = "<ul class='pagination cirtle-style'>";
+
+			if (pageNo != 1) {
+				pageNavi += "<li>";
+				pageNavi += "<a class='page-item' href='" + mapAddr + "?reqPage=" + (pageNo - 1) + "&pageSize=" + pageSize + "'>";
+				pageNavi += "<span class='material-icons'>chevron_left</span>";
+				pageNavi += "</li>";
+			}
+
+			for (int i = 0; i < pageNavSize; i++) {
+				pageNavi += "<li>";
+				// 선택한 페이지와 선택하지 않은 페이지를 시각적으로 다르게 표현
+				if (reqPage == pageNo) {
+					pageNavi +="<a class='page-item' href='" + mapAddr + "?reqPage=" + (pageNo - 1) + "&pageSize=" + pageSize + "'>";
+				} else {
+					pageNavi += "<a class='page-item' href='" + mapAddr + "?reqPage=" + (pageNo - 1) + "&pageSize=" + pageSize + "'>";
+				}
+
+				pageNavi += pageNo + "</a></li>";
+				pageNo++;
+
+				if (pageNo > totPage) {
+					break;
+				}
+			}
+			if (pageNo <= totPage) {
+				pageNavi += "<li>";
+				pageNavi += "<a class='page-item' href='" + mapAddr + "?reqPage=" + (pageNo - 1) + "&pageSize=" + pageSize + "'>";
+				pageNavi += "<span class='material-icons'>chevron_right</span>";
+				pageNavi += "</li>";
+			}
+			pageNavi += "</ul>";
+			
+		
+		PageData pd = new PageData();
+		pd.setList(list);//
+		pd.setPageNavi(pageNavi);
+		JDBCTemplate.close(conn);
+
+		return pd;
+
+	}
+
+
+	public int delUser(String id) {
+		Connection conn = JDBCTemplate.getConnection();
+		boolean rsltChk = true;
+			int result = dao.delUser(conn, id);
+			if (result < 1) {
+				rsltChk = false;
+			}
+		if (rsltChk) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		if (rsltChk) {
+			return 1;
+		} else {
+			return 0;
+		}
+
+	}
+
+
+	public int updUserAdmin(String id, String userType) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.updUserAdmin(conn, id, userType);
+		
+		if(result > 0){
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		
+		return result;
 	}
 }

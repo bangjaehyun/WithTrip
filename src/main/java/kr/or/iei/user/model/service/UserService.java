@@ -317,6 +317,14 @@ public class UserService {
 			PageData pd = Pagination(pageInfo, page);
 			return pd;
 		}
+		public Post selectLikedPost(String userNo) {
+			Connection conn = JDBCTemplate.getConnection();
+			Post post = null;
+			post = dao.selectLikedPost(conn, userNo);
+			JDBCTemplate.close(conn);
+			return post;
+			
+		}
 		
 		public PageData Pagination(Pagination pgInfo, int page) {
 			Connection conn = JDBCTemplate.getConnection();
@@ -435,5 +443,6 @@ public class UserService {
 
 			return pd;
 		}
+
 		
 }

@@ -58,7 +58,6 @@ public class AdminMainPageServlet extends HttpServlet {
 			
 		}else if(comment == 0){
 			cList =  service.selectIndexCommentList();
-			System.out.println("2 pOrC = "+pOrC);
 			jsonStr = gson.toJson(cList);
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json");

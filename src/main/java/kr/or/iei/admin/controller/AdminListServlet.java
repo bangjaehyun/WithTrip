@@ -70,7 +70,6 @@ public class AdminListServlet extends HttpServlet {
 			ArrayList<Comment> pgList = service.selectCommentList(reqPage, pageSize);
 			pageInfo = service.pagiNationCmt(mapAddr, reqPage, pageSize, pgList, pOrC);
 			pd = service.pageListCmt(pageInfo);
-			System.out.println("asdasd : " +pd.getList());
 			request.setAttribute("pOrC", pOrC);
 			request.setAttribute("postTypeName", "댓글");
 			request.setAttribute("pgList", pd.getList());
