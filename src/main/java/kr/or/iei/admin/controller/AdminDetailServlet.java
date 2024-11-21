@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -17,6 +18,7 @@ import kr.or.iei.common.model.vo.PageData;
 import kr.or.iei.common.vo.Pagination;
 import kr.or.iei.post.model.service.PostService;
 import kr.or.iei.post.model.vo.Post;
+import kr.or.iei.user.model.vo.User;
 
 /**
  * Servlet implementation class AdminDetail
@@ -38,39 +40,34 @@ public class AdminDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		int pOrC = Integer.parseInt(request.getParameter("pOrC"));
-
-		int postTypeId = Integer.parseInt(request.getParameter("postTypeId"));
-		String postTypeName = request.getParameter("postTypeName");
-		String userNo = request.getParameter("userNo");
 		String postNo = request.getParameter("postNo");
 		String commentId = request.getParameter("commentId");
-		String commentChk = request.getParameter("commentChk");
-
+		String userNo = request.getParameter("userNo");//userNo?
+		System.out.println("userNo : " + userNo);
+		String commentChk = request.getParameter("commentChk");//chk
+		String pstTypeName = request.getParameter("webName");
 		AdminService adService = new AdminService();
+		
+		HttpSession session = request.getSession(false);
+		User loginUser = (User)session.getAttribute("loginUser");
+		
 		Comment commentContent = adService.selectComment(userNo, commentId);
-
-		request.setAttribute("postTypeName", "게시글");
-		request.setAttribute("postTypeName", "댓글");
-		request.setAttribute("pOrC", pOrC);
-		request.setAttribute("postTypeId", postTypeId);
-		request.setAttribute("postTypeName", postTypeName);
-		request.setAttribute("comment", commentContent);
-
-
+		
 		// 3. 로직
 		PostService service = new PostService();
 		Post post = service.selectModifyPost(postNo, commentChk);
+		System.out.println("post : "+post);
 		if (post != null) {
 			Gson gson = new Gson();
 			String spotList = gson.toJson(post.getSpotList());
 			String fileList = gson.toJson(post.getFileList());
 			String tagList = gson.toJson(post.getTagList());
 			request.setAttribute("post", post);
+			request.setAttribute("loginUser", loginUser);
 			request.setAttribute("spotList", spotList);
 			request.setAttribute("fileList", fileList);
 			request.setAttribute("tagList", tagList);
-
+			request.setAttribute("comment", commentContent);
 			request.getRequestDispatcher("/WEB-INF/views/admin/adminDetail.jsp").forward(request, response);
 		}
 

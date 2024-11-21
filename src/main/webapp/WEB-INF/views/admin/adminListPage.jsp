@@ -5,7 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${postTypeName}</title>
+<title>With Trip</title>
+<link rel="apple-touch-icon"
+	href="/resources/images/withTrip_favicon.png" />
+<link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <style>
 .content {
 	margin-left: 20%;
@@ -70,7 +73,7 @@
 							<%--닉네임--%>
 							<td style="width: 10%;" rowspan="2">${pg.userNickName}</td>
 							<%--게시물 제목--%>
-							<td style="width: 60%;"><a href="/admin/adminDetail?pOrC=${pOrC}&postTypeId=${postTypeId}&userNo=${userNo}&postNo=${postNo}">
+							<td style="width: 60%;"><a href="/admin/adminDetail?pOrC=${pOrC}&userNo=${pg.userNo}&postNo=${pg.postNo}&commentChk=chk&webName=${pg.postTypeNm}">
 							${pg.postTitle}</a>
 							</td>
 							<%--작성일--%>
@@ -111,7 +114,7 @@
 							<%--닉네임--%>
 							<td style="width: 10%;"> </td>
 							<%--게시물 제목--%>
-							<td style="width: 60%;"><a href="/admin/list">${pg.commentVal}</a>
+							<td style="width: 60%;"><a href="/admin/adminDetail?pOrC=${pOrC}&userNo=${pg.userNo}&postNo=${pg.postNo}">${pg.commentVal}</a>
 							</td>
 							<%--작성일--%>
 							<td style="width: 10%;">${pg.commentDate}</td>

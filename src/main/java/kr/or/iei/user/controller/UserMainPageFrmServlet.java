@@ -92,7 +92,6 @@ public class UserMainPageFrmServlet extends HttpServlet {
 			ArrayList<Comment> pgList = service.selectCommentList(userNo, reqPage, pageSize);
 			pageInfo = service.pagiNationCmt(mapAddr, reqPage, pageSize, pgList, pOrC, userNo);
 			pd = service.pageListCmt(pageInfo, page);
-			System.out.println("asdasd : " + pd.getList());
 			request.setAttribute("pOrC", pOrC);
 			request.setAttribute("title", "내가 작성한 댓글");
 			request.setAttribute("pgList", pd.getList());
