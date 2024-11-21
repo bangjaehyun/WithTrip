@@ -5,138 +5,141 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${postTypeName}</title>
+<title>With Trip</title>
+<link rel="apple-touch-icon"
+	href="/resources/images/withTrip_favicon.png" />
+<link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <style>
-.content {
-	margin-left: 20%;
-	margin-right: 20%;
-	width: 60%;
+.list-header {
+    padding: 20px 0px;
+    text-align: right;
 }
-.section{
+.section {
 	
 }
 </style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-
-	<main class="content contentOver">
-		<section class="section">
-				
-
-			<div class="page-title" style="text-align: left;">
-				${postTypeName} 관리 페이지</div>
+	<main class="content">
+		
+		<section class="section post-list-wrap">
+			<div class="page-title" style="text-align: left;"> ${postTypeName} 관리 페이지</div>
 			<div class="list-content">
-			<div style="display: flex;">
-					<span> 페이지 크기 선택 : </span> <select id="slPgSize" onchange="selPgSize()">
-						<option >선택</option>
+				<div class="list-header">
+					<span> 페이지 크기 선택 : </span> <select id="slPgSize"
+						onchange="selPgSize()">
+						<option>선택</option>
 						<option value="5">5</option>
 						<option value="10">10</option>
 						<option value="20">20</option>
 						<option value="40">40</option>
 					</select>
 				</div>
-				<table class="tbl">
-					<tr class="th">
+				<div >
+					<table class="tbl">
+						<tr class="th">
+							<th style="text-align: center;">게시아이디</th>
+							<th style="text-align: center;">회원번호</th>
+							<th style="text-align: center;">닉네임</th>
+							<c:if test="${pOrC eq 1}">
+								<th style="text-align: center;">제목</th>
+							</c:if>
+							<c:if test="${pOrC eq 0}">
+								<th style="text-align: center;">내용</th>
+							</c:if>
+							<th style="text-align: center;">게시일</th>
+							<th style="text-align: center;">
+								<div style="width: 100%;">
+									전체 선택 <input type="checkbox" class="chk" value="selectall"
+										onclick="selectAll(this)">
+								</div>
+							</th>
+						</tr>
+						<c:if test="${pOrC ne 0}">
+							<c:forEach var="pg" items="${pgList}">
+								<%--서블릿에서 반환 ArrayList list--%>
 
-						<th style="width: 10%; text-align: center;">게시아이디</th>
-						<th style="width: 10%; text-align: center;">회원번호</th>
-						<th style="width: 10%; text-align: center;">닉네임</th>
-						<c:if test="${pOrC eq 1}">
-							<th style="width: 50%; text-align: center;">제목</th>
+								<%--게시글 확인용 페이지로 전환. 해당 페이지에서 삭제 메소드 호출--%>
+								<tr>
+									<%-- tr공간 클릭 후 상세확인 메소드 필요 --%>
+									<%--게시 아이디--%>
+									<td class="number" rowspan="2">${pg.postNo}</td>
+
+									<%--회원 번호--%>
+									<td rowspan="2">${pg.userNo}</td>
+									<%--닉네임--%>
+									<td rowspan="2">${pg.userNickName}</td>
+									<%--게시물 제목--%>
+									<td><a
+										href="/admin/adminDetail?pOrC=${pOrC}&userNo=${pg.userNo}&postNo=${pg.postNo}&commentChk=chk&webName=${pg.postTypeNm}">
+											${pg.postTitle}</a></td>
+									<%--작성일--%>
+									<td rowspan="2">${pg.postDate}</td>
+									<%-- 선택 태그 --%>
+									<td rowspan="2">
+										<div class="input-wrap">
+											<label> <input type="checkbox" class="chk"
+												name="posts">
+											</label>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>${pg.shortenContent}</td>
+								</tr>
+
+							</c:forEach>
+							<tr>
+								<td colspan="6">
+									<button class="btn-primary sm" onclick="allSelDel()">선택
+										항목 삭제</button>
+								</td>
+							</tr>
 						</c:if>
 						<c:if test="${pOrC eq 0}">
-							<th style="width: 50%; text-align: center;">내용</th>
+							<c:forEach var="pg" items="${pgList}">
+								<%--서블릿에서 반환 ArrayList list--%>
+
+								<%--게시글 확인용 페이지로 전환. 해당 페이지에서 삭제 메소드 호출--%>
+								<tr>
+									<%-- tr공간 클릭 후 상세확인 메소드 필요 --%>
+									<%--게시 아이디--%>
+									<td style="width: 10%;" class="number">${pg.commentId}</td>
+
+									<%--회원 번호--%>
+									<td style="width: 10%;">${pg.userNo}</td>
+									<%--닉네임--%>
+									<td style="width: 10%;"></td>
+									<%--게시물 제목--%>
+									<td style="width: 60%;"><a
+										href="/admin/adminDetail?pOrC=${pOrC}&userNo=${pg.userNo}&commentId=${pg.commentId}">${pg.commentVal}</a>
+									</td>
+									<%--작성일--%>
+									<td style="width: 10%;">${pg.commentDate}</td>
+									<%-- 선택 태그 --%>
+									<td style="width: 10%;">
+										<div class="input-wrap">
+											<label onclick="chkLavel(this)"> <input
+												type="checkbox" class="chk" name="posts">
+											</label>
+										</div>
+									</td>
+								</tr>
+
+							</c:forEach>
+							<tr>
+								<td colspan="6">
+									<button class="btn-primary sm" onclick="allSelDel()">선택
+										항목 삭제</button>
+								</td>
+							</tr>
+
 						</c:if>
-						<th style="width: 10%; text-align: center;">게시일</th>
-						<th style="width: 10%; text-align: center;">
-							<div style="width: 100%;">
-								전체 선택 <input type="checkbox" class="chk" value="selectall" onclick="selectAll(this)">
-							</div>
-						</th>					
-					</tr>
-					<c:if test="${pOrC ne 0}">
-					<c:forEach var="pg" items="${pgList}">
-						<%--서블릿에서 반환 ArrayList list--%>
-
-						<%--게시글 확인용 페이지로 전환. 해당 페이지에서 삭제 메소드 호출--%>
-						<tr>
-							<%-- tr공간 클릭 후 상세확인 메소드 필요 --%>
-							<%--게시 아이디--%>
-							<td style="width: 10%;" class="number" rowspan="2">${pg.postNo}</td>
-
-							<%--회원 번호--%>
-							<td style="width: 10%;" rowspan="2">${pg.userNo}</td>
-							<%--닉네임--%>
-							<td style="width: 10%;" rowspan="2">${pg.userNickName}</td>
-							<%--게시물 제목--%>
-							<td style="width: 60%;"><a href="/admin/adminDetail?pOrC=${pOrC}&postTypeId=${postTypeId}&userNo=${userNo}&postNo=${postNo}">
-							${pg.postTitle}</a>
-							</td>
-							<%--작성일--%>
-							<td style="width: 10%;" rowspan="2">${pg.postDate}</td>
-							<%-- 선택 태그 --%>
-							<td style="width: 10%;" rowspan="2">
-								<div class="input-wrap">
-									<label> 
-										<input type="checkbox" class="chk" name="posts">
-									</label>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>${pg.shortenContent}</td>
-						</tr>
-
-					</c:forEach>
-					<tr>
-						<td colspan="6">
-							<button class="btn-primary sm" onclick="allSelDel()">선택
-								항목 삭제</button>
-						</td>
-					</tr>	
-				</c:if>
-				<c:if test="${pOrC eq 0}">
-					<c:forEach var="pg" items="${pgList}">
-						<%--서블릿에서 반환 ArrayList list--%>
-
-						<%--게시글 확인용 페이지로 전환. 해당 페이지에서 삭제 메소드 호출--%>
-						<tr>
-							<%-- tr공간 클릭 후 상세확인 메소드 필요 --%>
-							<%--게시 아이디--%>
-							<td style="width: 10%;" class="number">${pg.commentId}</td>
-
-							<%--회원 번호--%>
-							<td style="width: 10%;">${pg.userNo}</td>
-							<%--닉네임--%>
-							<td style="width: 10%;"> </td>
-							<%--게시물 제목--%>
-							<td style="width: 60%;"><a href="/admin/list">${pg.commentVal}</a>
-							</td>
-							<%--작성일--%>
-							<td style="width: 10%;">${pg.commentDate}</td>
-							<%-- 선택 태그 --%>
-							<td style="width: 10%;">
-								<div class="input-wrap">
-									<label onclick="chkLavel(this)"> <input type="checkbox"
-										class="chk" name="posts">
-									</label>
-								</div>
-							</td>
-						</tr>
-
-					</c:forEach>
-					<tr>
-						<td colspan="6">
-							<button class="btn-primary sm" onclick="allSelDel()">선택
-								항목 삭제</button>
-						</td>
-					</tr>
-						
-				</c:if>
-				</table>
-				<div id="pageNav">${pageNavi}
+					</table>
+					<div id="pageNav">${pageNavi}</div>
 				</div>
+
 			</div>
 		</section>
 	</main>

@@ -1,23 +1,26 @@
-package kr.or.iei.user.controller;
+package kr.or.iei.admin.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.or.iei.admin.service.AdminService;
+
 /**
- * Servlet implementation class AdminPOrCFrm
+ * Servlet implementation class AdminUserUpdServlet
  */
-@WebServlet("/user/userListFrm")
-public class UserListFrmServlet extends HttpServlet {
+@WebServlet("/admin/userUpd")
+public class AdminUserUpdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserListFrmServlet() {
+    public AdminUserUpdServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,24 +29,16 @@ public class UserListFrmServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		int pOrC = Integer.parseInt(request.getParameter("pOrC"));
-	
-		int postTypeId = Integer.parseInt(request.getParameter("postTypeId"));
-		String postTypeName = request.getParameter("postTypeName");
-		
-		
-		request.setAttribute("pOrC", pOrC);
-		if(pOrC == 1) {
-			request.setAttribute("postorcomment", "게시글");
-		}else if(pOrC == 0) {
-			request.setAttribute("postorcomment", "댓글");
-		}
-		request.setAttribute("postTypeId", postTypeId);
-		request.setAttribute("postTypeName", postTypeName);
-		
-		request.getRequestDispatcher("/WEB-INF/views//user/userListPage.jsp").forward(request, response);
-		
+		String id = request.getParameter("id");
+		String userType = request.getParameter("userType");
+		System.out.println("id : " + id);
+		System.out.println("userType : "+userType);
+		AdminService service = new AdminService();
+		int result = service.updUserAdmin(id, userType);
+		System.out.println("result : "+result);
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		response.getWriter().print(result);
 	}
 
 	/**

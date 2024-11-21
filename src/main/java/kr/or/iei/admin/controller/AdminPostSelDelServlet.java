@@ -13,13 +13,13 @@ import kr.or.iei.admin.service.AdminService;
  * Servlet implementation class PstAllSelDelServlet
  */
 @WebServlet("/admin/adminSelDel")
-public class AdminSelDelServlet extends HttpServlet {
+public class AdminPostSelDelServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminSelDelServlet() {
+    public AdminPostSelDelServlet() {
         super();
     }
 
