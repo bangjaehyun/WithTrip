@@ -314,7 +314,8 @@
 	}
 	//뒤로가기
 	function backward() {
-		window.history.back();
+// 		window.history.back();
+		location.href = "/post/list?reqPage=1&postTypeCd=${post.postTypeCd}&postTypeNm=${post.postTypeCd}"
 	}
 	
 	///파일 다운로드

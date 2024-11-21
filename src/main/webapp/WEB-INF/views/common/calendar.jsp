@@ -368,13 +368,12 @@ body {
 	   				}
 	   				let nextObj = prevStartObj.next();
 	   				while(true){
-	   					if(nextObj.get(0) == prevEndObj.get(0)){
+	   					if(nextObj.attr('id') == prevEndObj.attr('id')){
 	   						break;
 	   					}
 	   					nextObj.addClass("middle");
 	   					
 	   					nextObj = nextObj.next();
-	   				
 	   				}
 	   			}   				
    			}else if(icon =='right'){
@@ -387,7 +386,7 @@ body {
    					
 	   				
 	   				//마지막 요소와 첫번쨰 요소가 같으면 endDay클래스만 추가
-	   				if(nextEndObj.get(0) == nextStartObj.get(0)){
+	   				if(nextEndObj.attr('id') == nextStartObj.attr('id')){
 	   					nextEndObj.addClass("endDay");
 	   					return;
 	   				}
@@ -396,10 +395,9 @@ body {
 	   				let prevObj = nextEndObj.prev();
 	   				while(true){
 	   					prevObj.addClass("middle");
-	   					if(prevObj.get(0) == nextStartObj.get(0)){
+	   					if(prevObj.attr('id') == nextStartObj.attr('id')){
 	   						break;
 	   					}
-	   					
 	   					prevObj = prevObj.prev();
 	   				}
 	   			}
@@ -415,11 +413,14 @@ body {
    				
    				let chkStartMonth = startMonth;
    				let chkEndMonth = endMonth;
+   				
    				while(chkStartMonth != chkEndMonth){
    					$('.calendar>ul[class="days"]').map(function(index,ulItem){
    						if($(ulItem).attr('id') == chkStartMonth){
    							$(ulItem).children().map(function(index,liItem){
-   								$(liItem).addClass("middle");
+   								if(startObj.attr('id') < $(liItem).attr('id')){
+   									$(liItem).addClass("middle");
+   								}
    							})
    						}
    					});
