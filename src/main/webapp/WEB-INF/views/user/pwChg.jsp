@@ -10,89 +10,115 @@
 <script src="/resources/js/sweetalert.min.js"></script>
 <title>비밀번호 변경</title>
 <style>
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f9f9f9;
 }
-.header {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 74px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 10;
+
+.popup-container {
+    width: 350px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+    border-radius: 8px;
 }
-html, body {
-	width: 100vw;
-	height: 100vh;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+
+h3 {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 20px;
 }
-.wrap {
-	margin-top: 74px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	height: 200px;
+
+table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-spacing: 0;
+    border-collapse: collapse;
 }
-.item-wrap {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
-}
-.item-wrap > input:first-of-type {
-	margin-top: 20px;
-}
-.item-wrap > input {
-	margin: 10px 0;
-}
-button {
-    padding: 8px 16px;
-    margin: 5px;
+
+td {
+    padding: 10px 0;
+    text-align: left;
     font-size: 1em;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+    font-size: 0.95em;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 1em;
+    font-weight: bold;
     cursor: pointer;
     border: 1px solid #ccc;
-    background-color: #fff;
+    background-color: #0073e6;
+    color: white;
+    border-radius: 4px;
 }
+
 button:hover {
-    background-color: #f0f0f0;
+    background-color: #005bb5;
 }
-</style>
+
+button.cancel {
+    background-color: #ccc;
+    color: #333;
+}
+
+button.cancel:hover {
+    background-color: #999;
+}
+</style>	
 
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/myPageHeader.jsp" />
-	<div class="wrap">
-			<form action="/user/pwChg" id="pwChk" method="post">
-			<input type="hidden" name="userNo" value="${loginUser.userNo}">
-			<input type="hidden" name="userPw" value="${loginUser.userPw}">
-				<table>
-					<tr>
-						<td>기존 비밀번호 입력</td>
-						<td><input type="password" id="userPwChk" name="userPwChk"></td>
-					</tr>
-					<tr>
-						<td>새 비밀번호 입력</td>
-						<td><input type="password" id="newUserPw" name="newUserPw"></td>
-					</tr>
-					<tr>
-						<td>비밀번호 확인</td>
-						<td><input type="password" id="newUserPwChk" name="newUserPwChk"></td>
-
-				</table>
-				<button type="button" onclick="chgPwBtn()" style="margin-left:30px;">변경</button>
-				<button type="button" onclick="closeBtn()" style="margin-left:50px;">닫기</button>
-			</form>
-	</div>
+    <div class="popup-container">
+    <h3>비밀번호 변경</h3>
+    <form action="/user/pwChg" id="pwChk" method="post">
+    	<input type="hidden" name="userNo" value="${loginUser.userNo}">
+		<input type="hidden" name="userPw" value="${loginUser.userPw}">
+        <table>
+            <tr>
+                <td>기존 비밀번호 입력</td>
+            </tr>
+            <tr>
+                <td><input type="password" id="userPwChk" name="userPwChk"></td>
+            </tr>
+            <tr>
+                <td>새 비밀번호 입력</td>
+            </tr>
+            <tr>
+                <td><input type="password" id="newUserPw" name="newUserPw"></td>
+            </tr>
+            <tr>
+                <td>비밀번호 확인</td>
+            </tr>
+            <tr>
+                <td><input type="password" id="newUserPwChk" name="newUserPwChk"></td>
+            </tr>
+        </table>
+        <button type="button" onclick="chgPwBtn()">변경</button>
+        <button type="button" class="cancel" onclick="closeBtn()">닫기</button>
+    </form>
+</div>
 	
 	<script>
     function closeBtn() {
