@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import kr.or.iei.user.model.service.UserService;
 import kr.or.iei.user.model.vo.User;
-import kr.or.iei.user.model.vo.UserKakao;
+import kr.or.iei.user.model.vo.UserGoogle;
 import kr.or.iei.user.model.vo.UserNaver;
 import kr.or.iei.user.model.vo.UserSite;
 
@@ -57,9 +57,9 @@ public class UserUpdateInfoServlet extends HttpServlet {
 				sessionNaver.setUserNickname(updNickname);
 				sessionNaver.setUserPhone(updUserPhone);
 			}else if(type == 4) {
-				UserKakao sessionKakao = (UserKakao) session.getAttribute("loginUser");
-				sessionKakao.setUserNickname(updNickname);
-				sessionKakao.setUserPhone(updUserPhone);
+				UserGoogle sessionGoogle = (UserGoogle) session.getAttribute("loginUser");
+				sessionGoogle.setUserNickname(updNickname);
+				sessionGoogle.setUserPhone(updUserPhone);
 			}else if(type == 5) {
 				UserSite sessionSite = (UserSite) session.getAttribute("loginUser");
 				sessionSite.setUserNickname(updNickname);

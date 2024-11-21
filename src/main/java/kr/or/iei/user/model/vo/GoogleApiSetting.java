@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 public class GoogleApiSetting {
-	public static final String googleClientId = "";
-	public static final String googleRedirectUrl = "http://localhost/user/loginFrm";
+	public static final String googleClientId = "383628200526-bmlq8g7hto7kv1bsvj9ffnnbe9e5oji0.apps.googleusercontent.com";
+	public static final String googleRedirectUrl = "http://localhost:80";
 	public static final String googleLoginUrl = "https://accounts.google.com";
-	public static final String googleClientSecret = "";
+	public static final String googleClientSecret = "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";
 	public static final String googleProjectId = "withtrip";
 	public static final String googleAuthId = "https://accounts.google.com/o/oauth2/auth";
 /*	
