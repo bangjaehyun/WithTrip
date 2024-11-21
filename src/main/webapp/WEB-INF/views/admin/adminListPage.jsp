@@ -7,9 +7,6 @@
 <meta charset="UTF-8">
 <title>${postTypeName}</title>
 <style>
-#pageNav{
-	
-}
 .content {
 	margin-left: 20%;
 	margin-right: 20%;
@@ -17,10 +14,6 @@
 }
 .section{
 	
-}
-.tbl {
-	width: 250px;
-	height: 250px;
 }
 </style>
 </head>

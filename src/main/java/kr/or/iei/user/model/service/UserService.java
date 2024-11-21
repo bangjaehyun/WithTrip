@@ -233,4 +233,181 @@ public class UserService {
 		}
 
 		
+
+		public Pagination pagiNationPost(String mapAddr, String pstTypeId, int reqPage, int pageSize,
+			ArrayList<?> list, int pOrC, String userNo) {
+		Pagination pgInfo = new Pagination();
+		pgInfo.setMapAddr(mapAddr);
+		pgInfo.setPstTypeId(pstTypeId);
+		pgInfo.setReqPage(reqPage);
+		pgInfo.setPageSize(pageSize);
+		pgInfo.setList(list);
+		pgInfo.setPOrC(pOrC);
+		return pgInfo;
+		}
+
+		public PageData pageListPost(Pagination pageInfo, int page) {
+			int totCnt = commonServ.totalPostCnt(pageInfo.getPstTypeId());
+			pageInfo.setTotCnt(totCnt);
+			PageData pd = Pagination(pageInfo, page);
+			return pd;
+		}
+
+		public ArrayList<Comment> selectCommentList(String userNo, int reqPage, int pageSize) {
+			Connection conn = JDBCTemplate.getConnection();
+			ArrayList<Comment> cList = dao.selectCommentList(conn,userNo, reqPage, pageSize);
+			JDBCTemplate.close(conn);
+			return cList;
+		}
+		public ArrayList<Post> selectPostList(String userNo, String postTypeId, int reqPage, int pageSize) {
+			Connection conn = JDBCTemplate.getConnection();
+			ArrayList<Post> pList = null;
+			pList = dao.selectPostList(conn, userNo, postTypeId, reqPage, pageSize);
+			JDBCTemplate.close(conn);
+			return pList;
+		}
+		public ArrayList<Post> selectLikedPostList(String userNo, String postTypeId, int reqPage, int pageSize) {
+			Connection conn = JDBCTemplate.getConnection();
+			ArrayList<Post> pList = null;
+			pList = dao.selectLikedPostList(conn,userNo, reqPage, pageSize);
+			JDBCTemplate.close(conn);
+			return pList;
+		}
+
+		public Pagination pagiNationCmt(String mapAddr, int reqPage, int pageSize, ArrayList<Comment> pgList,
+				int pOrC, String userNo) {
+			Pagination pgInfo = new Pagination();
+			pgInfo.setMapAddr(mapAddr);
+			pgInfo.setReqPage(reqPage);
+			pgInfo.setPageSize(pageSize);
+			pgInfo.setList(pgList);
+			pgInfo.setPOrC(pOrC);
+			return pgInfo;
+		}
+
+		public PageData pageListCmt(Pagination pageInfo, int page) {
+			int totCnt = commonServ.totalCmntCnt();
+			pageInfo.setTotCnt(totCnt);
+			PageData pd = Pagination(pageInfo, page);
+			return pd;
+		}
+		
+		public PageData Pagination(Pagination pgInfo, int page) {
+			Connection conn = JDBCTemplate.getConnection();
+			String mapAddr = pgInfo.getMapAddr();
+			String userNo = pgInfo.getUserNo();
+			int reqPage = pgInfo.getReqPage(); // 현재 페이지, 매개변수로 받아옴
+			int pageSize = pgInfo.getPageSize();// 한 페이지당 게시글 수, 매개변수로 받아옴 15, 30, 50
+			int totCnt = pgInfo.getTotCnt();
+			int pOrC = pgInfo.getPOrC();
+			System.out.println("common pOrC : "+pOrC);
+			ArrayList<?> list = pgInfo.getList();
+			int totPage = 0;
+			String pageNavi = null;
+			/*
+			 * **README** Service.java내 ArrayList<vo객체명> list = dao.객체명List(conn, postType);
+			 * 하여 list받아오고, 해당 list를 pagination호출시 매개변수로 넣어줄 것 int endPg = reqPage *
+			 * pageSize; // 끝 페이지 int startPg = endPg-pageSize+1; // 시작 페이지
+			 */
+			if(pOrC>0) {
+				if (totCnt % pageSize > 0) {
+					totPage = totCnt / pageSize + 1;
+
+				} else {
+					totPage = totCnt / pageSize;
+				}
+				// 페이지 하단에 보여질 페이지 네비게이션 사이즈[1,2,3] or [1,2,3,4,5]
+				int pageNavSize = 5;
+
+				int pageNo = ((reqPage - 1) / pageNavSize) * pageNavSize + 1;// 페이지번호 연산식
+				pageNavi = "<ul class='pagination cirtle-style'>";
+
+				if (pageNo != 1) {
+					pageNavi += "<li>";
+					pageNavi += "<a class='page-item' href='" + mapAddr + "?page="+page+"&pOrC="+pOrC+"&reqPage=" + (pageNo - 1) + "&pageSize=" + pageSize +"&userNo="+userNo+ "'>";
+					pageNavi += "<span class='material-icons'>chevron_left</span>";
+					pageNavi += "</li>";
+				}
+
+				for (int i = 0; i < pageNavSize; i++) {
+					pageNavi += "<li>";
+					// 선택한 페이지와 선택하지 않은 페이지를 시각적으로 다르게 표현
+					if (reqPage == pageNo) {
+						pageNavi += "<a class='page-item active-page' href='" + mapAddr + "?page="+page+"&pOrC="+pOrC+"&reqPage=" + pageNo
+								+ "&pageSize=" + pageSize+"&userNo="+userNo
+								+ "'>";
+					} else {
+						pageNavi += "<a class='page-item' href='" + mapAddr + "?page="+page+"&pOrC="+pOrC+"&reqPage=" + pageNo + "&pageSize=" + pageSize+"&userNo="+userNo + "'>";
+					}
+
+					pageNavi += pageNo + "</a></li>";
+					pageNo++;
+
+					if (pageNo > totPage) {
+						break;
+					}
+				}
+				if (pageNo <= totPage) {
+					pageNavi += "<li>";
+					pageNavi += "<a class='page-item' href='" + mapAddr + "?page="+page+"&pOrC="+pOrC+"&reqPage=" + pageNo +"&pageSize=" + pageSize+"&userNo="+userNo + "'>";
+					pageNavi += "<span class='material-icons'>chevron_right</span>";
+					pageNavi += "</li>";
+				}
+				pageNavi += "</ul>";
+				
+			}else if(pOrC == 0) {
+				if (totCnt % pageSize > 0) {
+					totPage = totCnt / pageSize + 1;
+
+				} else {
+					totPage = totCnt / pageSize;
+				}
+				// 페이지 하단에 보여질 페이지 네비게이션 사이즈[1,2,3] or [1,2,3,4,5]
+				int pageNavSize = 5;
+
+				int pageNo = ((reqPage - 1) / pageNavSize) * pageNavSize + 1;// 페이지번호 연산식
+				pageNavi = "<ul class='pagination cirtle-style'>";
+
+				if (pageNo != 1) {
+					pageNavi += "<li>";
+					pageNavi += "<a class='page-item' href='" + mapAddr + "?page="+page+"&pOrC="+pOrC+"&reqPage=" + (pageNo - 1) +"&pageSize=" + pageSize+"&userNo="+userNo + "'>";
+					pageNavi += "<span class='material-icons'>chevron_left</span>";
+					pageNavi += "</li>";
+				}
+
+				for (int i = 0; i < pageNavSize; i++) {
+					pageNavi += "<li>";
+					// 선택한 페이지와 선택하지 않은 페이지를 시각적으로 다르게 표현
+					if (reqPage == pageNo) {
+						pageNavi += "<a class='page-item active-page' href='" + mapAddr + "?page="+page+"&pOrC="+pOrC+"&reqPage=" + pageNo
+								+ "&pageSize=" + pageSize+"&userNo="+userNo+"&userNo="+userNo
+								+ "'>";
+					} else {
+						pageNavi += "<a class='page-item' href='" + mapAddr + "?page="+page+"&pOrC="+pOrC+"&reqPage=" + pageNo+ "&pageSize=" + pageSize+"&userNo="+userNo + "'>";
+					}
+
+					pageNavi += pageNo + "</a></li>";
+					pageNo++;
+
+					if (pageNo > totPage) {
+						break;
+					}
+				}
+				if (pageNo <= totPage) {
+					pageNavi += "<li>";
+					pageNavi += "<a class='page-item' href='" + mapAddr + "?page="+page+"&pOrC="+pOrC+"&reqPage=" + pageNo +"&pageSize=" + pageSize + "'>";
+					pageNavi += "<span class='material-icons'>chevron_right</span>";
+					pageNavi += "</li>";
+				}
+				pageNavi += "</ul>";
+				
+			}
+			PageData pd = new PageData();
+			pd.setList(list);//
+			pd.setPageNavi(pageNavi);
+			JDBCTemplate.close(conn);
+
+			return pd;
+		}
+		
 }

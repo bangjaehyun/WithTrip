@@ -20,4 +20,6 @@ public class Comment {
 	private int userType;
 	private String userNickname;
 	
+	private String shortenContent;
+	
 }

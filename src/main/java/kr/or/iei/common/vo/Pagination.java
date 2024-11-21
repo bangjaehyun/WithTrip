@@ -18,7 +18,7 @@ public class Pagination {
 	private int reqPage;
 	private int pageSize;
 	private ArrayList<?> list;
-	
+	private String userNo;
 	private int totCnt;
 	private int pOrC;
 }

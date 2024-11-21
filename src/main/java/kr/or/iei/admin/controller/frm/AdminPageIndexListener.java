@@ -7,7 +7,6 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import kr.or.iei.admin.service.AdminService;
-import kr.or.iei.comment.vo.Comment;
 import kr.or.iei.post.model.vo.Post;
 
 /**

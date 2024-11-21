@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import kr.or.iei.comment.vo.Comment;
 import kr.or.iei.common.JDBCTemplate;
 import kr.or.iei.post.model.vo.Post;
+import kr.or.iei.user.model.vo.User;
 import kr.or.iei.user.model.vo.UserSite;
 
 public class UserDao {
@@ -494,7 +495,145 @@ public class UserDao {
 
 		return list;
 	}
-	 
+
+	public ArrayList<Post> selectPostList(Connection conn, String userNo, String postTypeId, int reqPage, int pageSize) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int endPg = reqPage * pageSize; // 끝 페이지
+		System.out.println(endPg);
+		int startPg = endPg - pageSize + 1; // 시작 페이지
+		System.out.println(startPg);
+		ArrayList<Post> list = new ArrayList<Post>();
+		String query = "select * from (select rownum as rnum, a.* from (select * from tbl_Post a join tbl_user b on(a.user_no = b.user_no)where Post_type_id = 2 and a.user_no=? order by Post_date desc) a) where rnum between ? and ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			// PostTypeId : 게시 코드 : 1.공지사항 2.QnA...
+			pstmt.setString(1, userNo);
+			pstmt.setInt(2, startPg);
+			pstmt.setInt(3, endPg);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				Post pst = new Post();
+				User user = new User();
+				user.setUserType(rset.getInt("user_type"));
+				pst.setUser(user);
+				pst.setPostNo(rset.getString("Post_no"));
+				pst.setUserNo(rset.getString("user_no"));
+				pst.setPostTypeId(rset.getString("Post_type_id"));
+				pst.setPostDate(rset.getString("Post_date"));
+				pst.setPostTitle(rset.getString("Post_title"));
+				pst.setPostContent(rset.getString("Post_content"));
+
+				pst.setUserNickName(rset.getString("user_nickname"));
+				Post p = shortenContentTitle(pst);
+				list.add(p);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+	public ArrayList<Post> selectLikedPostList(Connection conn, String userNo, int reqPage, int pageSize) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int endPg = reqPage * pageSize; // 끝 페이지
+
+		int startPg = endPg - pageSize + 1; // 시작 페이지
+
+		ArrayList<Post> list = new ArrayList<Post>();
+		String query = "select * from (select rownum as rnum, a.* from (select * from tbl_Post a join tbl_post_like b on(a.user_no = b.user_no) join tbl_user c on(b.user_no = c.user_no) where user_no = ? order by Post_date desc) a) where rnum between ? and ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			// PostTypeId : 게시 코드 : 1.공지사항 2.QnA...
+			pstmt.setString(1, userNo);
+			pstmt.setInt(2, startPg);
+			pstmt.setInt(3, endPg);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				Post pst = new Post();
+				User user = new User();
+				user.setUserType(rset.getInt("user_type"));
+				pst.setUser(user);
+				pst.setPostNo(rset.getString("Post_no"));
+				pst.setUserNo(rset.getString("user_no"));
+				pst.setPostTypeId(rset.getString("Post_type_id"));
+				pst.setPostDate(rset.getString("Post_date"));
+				pst.setPostTitle(rset.getString("Post_title"));
+				pst.setPostContent(rset.getString("Post_content"));
+
+				pst.setUserNickName(rset.getString("user_nickname"));
+				Post p = shortenContentTitle(pst);
+				list.add(p);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+	}
+	public Post shortenContentTitle(Post p){
+		if(p.getPostTitle().length()>10) {
+			String title = p.getPostTitle().substring(0, 9);
+			p.setShortenTitle(title+"...");
+		}
+		if(p.getPostContent().length()>10) {
+			String content = p.getPostContent().substring(0, 10);
+			p.setShortenContent(content+"...");
+		}
+		return p; 
+	}
+	
+	public Comment shortenContent(Comment c){
+		if(c.getCommentVal().length()>10) {
+			String content = c.getCommentVal().substring(0, 10);
+			c.setShortenContent(content+"...");
+		}
+		return c; 
+	}
+
+	public ArrayList<Comment> selectCommentList(Connection conn,String userNo, int reqPage, int pageSize) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int endPg = reqPage * pageSize; // 끝 페이지
+		int startPg = endPg - pageSize + 1; // 시작 페이지
+		ArrayList<Comment> list = new ArrayList<Comment>();
+		String query = "select * from (select rownum as rnum, a.* from (select a.* from tbl_comment a order by comment_date desc) a) where user_no= ? and rnum between ? and ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			pstmt.setInt(2, startPg);
+			pstmt.setInt(3, endPg);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				Comment cmt = new Comment();
+				cmt.setCommentId(rset.getString("comment_id"));
+				cmt.setUserNo(rset.getString("user_no"));
+				cmt.setCommentVal(rset.getString("comment_val"));
+				cmt.setCommentDate(rset.getString("comment_date"));
+				cmt.setCommentLike(rset.getInt("comment_like"));// 변경예정?
+				cmt.setCommentDislike(rset.getInt("comment_dislike"));// 변경예정?
+
+				list.add(cmt);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
 	 
 	}
 
