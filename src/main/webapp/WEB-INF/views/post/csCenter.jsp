@@ -172,7 +172,7 @@
 	<script>
 	function openFind(){
 		let popupWidth = 500;
-		let popupHeight = 300;
+		let popupHeight = 200;
 		
 		let top = (window.innerHeight - popupHeight) /3 + window.screenY;
 		let left = (window.innerWidth - popupWidth) / 3 + window.screenX;

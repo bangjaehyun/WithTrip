@@ -218,18 +218,11 @@ public class PostService {
 	                for(int i =0; i < spotList.size(); i++) {
 	                	String spotNo = dao.selectSpotNo(conn);
 	                	spotList.get(i).setSpotNo(spotNo);
-	                    result = dao.insertPostSpot(conn, spotList.get(i));
+	                    result = dao.insertPostSpot(conn, spotList.get(i), postNo);
 	                    if(result < 1) {
 	                        JDBCTemplate.rollback(conn);
 	                        soptChk = false;
 	                        break;
-	                    }
-	                    result = dao.insertPostSpotManageMent(conn,postNo,spotNo);
-	                    	
-	                    if(result < 1) {
-	                    JDBCTemplate.rollback(conn);
-	                    soptChk = false;
-	                     break;
 	                    }
 	                }
 	                
@@ -306,25 +299,13 @@ public class PostService {
 	//게시글 삭제
 	public int deletePost(String postNo, String delRootPath) {
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Spot> spotList = dao.selectPostSpot(conn, postNo);
 		ArrayList<PostComment> commentList = dao.selectCommentList(conn, postNo);
 		ArrayList<PostFile> fileList = dao.selectPostFileList(conn, postNo);
 		
 		int result = dao.deletePost(conn, postNo);
 		System.out.println(result);
 		if(result > 0) {
-			boolean chk = true;
-			for(Spot spot : spotList) {
-				
-				result = dao.deleteSpot(conn, spot.getSpotNo());
-				if(result < 1) {
-					JDBCTemplate.rollback(conn);
-					chk = false;
-					break;
-				}
-			}
 			
-			if(chk) {
 				boolean commentChk = true;
 				for(PostComment comment : commentList) {
 					result = dao.deleteComment(conn, comment.getCommentId());
@@ -345,10 +326,8 @@ public class PostService {
 							delfile.delete();
 						}
 					}
-					
 					JDBCTemplate.commit(conn);
 				}
-			}
 		}else {
 			JDBCTemplate.rollback(conn);
 		}
@@ -439,22 +418,14 @@ public class PostService {
 				ArrayList<Spot> list = dao.selectPostSpot(conn, post.getPostNo());
 				boolean spotdelChk = true;
 				for (Spot spot : list) {
-					result = dao.deleteSpotManageMent(conn, spot.getSpotNo());
-					if (result < 1) {
-
-						JDBCTemplate.rollback(conn);
-						spotdelChk = false;
-						break;
-					}
-
 					result = dao.deleteSpot(conn, spot.getSpotNo());
-
 					if (result < 1) {
 
 						JDBCTemplate.rollback(conn);
 						spotdelChk = false;
 						break;
 					}
+					
 				}
 
 				if (spotdelChk) {
@@ -462,14 +433,7 @@ public class PostService {
 					for (Spot spot : spotList) {
 						String spotNo = dao.selectSpotNo(conn);
 						spot.setSpotNo(spotNo);
-						result = dao.insertPostSpot(conn, spot);
-						if (result < 1) {
-							JDBCTemplate.rollback(conn);
-							soptChk = false;
-							break;
-						}
-						result = dao.insertPostSpotManageMent(conn, post.getPostNo(), spotNo);
-
+						result = dao.insertPostSpot(conn, spot, post.getPostNo());
 						if (result < 1) {
 							JDBCTemplate.rollback(conn);
 							soptChk = false;
