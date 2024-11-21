@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>WithTrip</title>
+<title>With Trip</title>
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 
@@ -314,7 +314,8 @@
 	}
 	//뒤로가기
 	function backward() {
-		window.history.back();
+// 		window.history.back();
+		location.href = "/post/list?reqPage=1&postTypeCd=${post.postTypeCd}&postTypeNm=${post.postTypeCd}"
 	}
 	
 	///파일 다운로드

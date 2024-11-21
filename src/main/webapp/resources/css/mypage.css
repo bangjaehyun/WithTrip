@@ -7,27 +7,27 @@ body {
     padding: 0;
     background-color: #f9f9f9;
 }
-.header {
-     background-color: #004a99;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative; /* 헤더를 기준으로 서브메뉴 배치 */
-    z-index: 1000; /* 헤더의 우선순위 지정 */
-}
-.header .logo img {
-    height: 50px;
-}
-.header .nav-links {
-    font-size: 0.9em;
-}
-.header .nav-links a {
-    color: white;
-    margin-left: 15px;
-    text-decoration: none;
-}
+/* .header { */
+/*     background-color: #004a99; */
+/*     color: white; */
+/*     padding: 10px 20px; */
+/*     display: flex; */
+/*     justify-content: space-between; */
+/*     align-items: center; */
+/*     position: relative; 헤더를 기준으로 서브메뉴 배치 */
+/*     z-index: 1000; 헤더의 우선순위 지정 */
+/* } */
+/* .header .logo img { */
+/*     height: 50px; */
+/* } */
+/* .header .nav-links { */
+/*     font-size: 0.9em; */
+/* } */
+/* .header .nav-links a { */
+/*     color: white; */
+/*     margin-left: 15px; */
+/*     text-decoration: none; */
+/* } */
 .container {
     display: flex;
     padding: 100px;

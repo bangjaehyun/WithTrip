@@ -10,14 +10,21 @@
 .fixedMenu .logo img {
    float: left; /* 이미지를 왼쪽으로 배치 */
    display: block; /* 레이아웃을 명확히 하기 위해 추가 */
-   margin: 0; /* 필요 시 여백 조정 */
+   width: 100%; /* 필요 시 여백 조정 */
    position: relative; /* 다른 요소와 겹치는 문제 해결 */
 }
+
+.fixedMenu{
+	justify-content: center;
+}
+
 </style>
 
 <header class="header">   
    <div class="fixedMenu">
-      <div class="logo"><img src="/resources/images/withTrip_logo_h_03.png" width="100%" height="74px"></div>
+      <div class="logo">
+      	<img src="/resources/images/withTrip_logo_h_03.png" width="100%" height="74px">
+      </div>
    </div>
 </header>
 

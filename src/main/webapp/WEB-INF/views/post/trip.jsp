@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>WithTrip</title>
+<title>With Trip</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link rel="apple-touch-icon"
 	href="/resources/images/withTrip_favicon.png" />
@@ -320,6 +320,7 @@
 								</li>
 							</ul>
 						</c:forEach>
+						<input type=button value="목록으로 돌아가기" onclick="backward()" id="backWardBtn">
 						</div>
 			</section>
 		</main>
@@ -327,6 +328,11 @@
 	</div>
 
 	<script>
+	//목록으로 돌아가기
+	function backward(){
+		location.href = "/post/list?reqPage=1&postTypeCd=${post.postTypeCd}&postTypeNm=${post.postTypeCd}"
+	}
+	
 	//좋아요 버튼 클릭
 	function postLike(){
 		 if(chkLogin()){

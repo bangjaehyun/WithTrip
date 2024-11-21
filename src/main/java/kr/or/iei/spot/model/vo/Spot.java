@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Spot {
 	private String spotNo;
+	private String postNo;		//게시글 번호
 	private String kakaoMapId;	//카카오 맵 아이디;
 	private String spotName;
 	private int spotType;

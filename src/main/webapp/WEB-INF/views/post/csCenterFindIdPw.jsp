@@ -5,16 +5,19 @@
 <head>
 <meta charset="UTF-8">
 <title>WithTrip</title>
+<link rel="apple-touch-icon"
+	href="/resources/images/withTrip_favicon.png" />
+<link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <link rel="stylesheet" href="/resources/css/park.css" />
 <style>
 body{
 	margin :0px;
 	padding : 0px;
+	background-color: #004ca1;
 }
 
 .logo-wrap {
 	width : 480px;
-	background-color: #004ca1;
 }
 
 .box{
@@ -22,36 +25,29 @@ body{
 }
 
 .logo-wrap{
+	text-align : center;
 	width: 100%;
 }
 
 .logo-wrap > img{
-	margin-left : 10px;
-	width: 150px;
+	width: 200px;
 }
 
 .srch-info-wrap{
-		height : 230px;
+		height : 100px;
 		display : flex;
 		justify-content : center;
-		align-content: center;
 		gap : 20px;
 }
 
-.srch-info-wrap > div{
-	display : flex;
-	justify-content : center;
-	height : 50px;
+.srch-info-wrap > a{
+	align-content : center;
+	text-align : center;
+	height : 40px;
 	width : 180px;
-	background-color : var(--main2);
+	background-color : white;
 	border-radius : 10px;
-	border: 1px solid var(--main2);
 	margin : auto 0;
-}
-
-.srch-info-wrap > div a{
-	margin : auto 0;
-	color : white;
 }
 
 
@@ -65,12 +61,8 @@ body{
 			</div>
 		</div>
 		<div class="srch-info-wrap">
-			<div class="findId">
-				<a  href="javascript:void(0)" onclick="searchInfo('id')">아이디 찾기</a>
-			</div>
-			<div class="findPw">
-				<a  href="javascript:void(0)" onclick="searchInfo('pw')">비밀번호 찾기</a>
-			</div>
+				<a class="findId" href="javascript:void(0)" onclick="searchInfo('id')">아이디 찾기</a>
+				<a class="findPw"  href="javascript:void(0)" onclick="searchInfo('pw')">비밀번호 찾기</a>
 		</div>
 	</div>
 	<script>

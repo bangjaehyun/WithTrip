@@ -5,9 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="apple-touch-icon"
+	href="/resources/images/withTrip_favicon.png" />
+<link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="/resources/js/sweetalert.min.js"></script>
-<title>추가 정보 입력</title>
+<title>With Trip</title>
 <style>
 body {
     font-family: 'Arial', sans-serif;

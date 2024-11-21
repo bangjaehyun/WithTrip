@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>WithTrip</title>
+<title>With Trip</title>
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 <style>
@@ -135,16 +135,19 @@
 						</div>
 
 						<div class="cs-content">
+							<c:if test="${empty loginUser}">
 							<a class="cs-conList" href="javascript:void(0)" onclick="openFind()">ID / 비밀번호 찾기 <img
 								id="direct-arrow"
 								src="/resources/images/arrow_outward_white.png">
 							</a> 
+							<a class="cs-conList" href="/user/joinFrm">회원가입 <img
+								id="direct-arrow"
+								src="/resources/images/arrow_outward_white.png">
+							</a>
+							</c:if>
 							<a class="cs-conList"
 								href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항
 								바로가기 <img id="direct-arrow"
-								src="/resources/images/arrow_outward_white.png">
-							</a> <a class="cs-conList" href="/user/joinFrm">회원가입 <img
-								id="direct-arrow"
 								src="/resources/images/arrow_outward_white.png">
 							</a> <a class="cs-conList"
 								href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3">자주 묻는
@@ -172,10 +175,10 @@
 	<script>
 	function openFind(){
 		let popupWidth = 500;
-		let popupHeight = 300;
+		let popupHeight = 200;
 		
-		let top = (window.innerHeight - popupHeight) /3 + window.screenY;
-		let left = (window.innerWidth - popupWidth) / 3 + window.screenX;
+		let top = (window.innerHeight - popupHeight) /2 + window.screenY;
+		let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
 		
 		window.open("/csCenter/findIdPw", "openFind", "width=" + popupWidth +", height=" + popupHeight + ", top="+top+", left=" + left);
 	}
