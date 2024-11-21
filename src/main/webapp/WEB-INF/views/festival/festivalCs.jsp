@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>WithTrip</title>
+<title>Insert title here</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" type="text/css;" />
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
@@ -16,12 +15,12 @@
   }
 }
 .post-list-wrap {
-	width : 1200px;
+	width : 1400px;
 	margin : 0 auto;
 }
 .list-content {
-	width: 1000px;
-	height : 2000px;
+	width: 1400px;
+	height : 800px;
 	justify-content: center;
 	padding-right : 20px;
 	/*justify-items : center;
@@ -32,7 +31,7 @@
 	height : 200px;
 	position : sticky;
 	top : 225px;
-	left : 300px;
+	left : 100px;
 }
 .side-menu-title {
 	width : 180px;
@@ -70,10 +69,10 @@
 							<li>고객센터</li>						
 						</ul>
 						<ul class="side-menu">						
-							<li><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1" >공지사항</a></li>                          
-	                        <li><a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3" >FAQ</a></li>
-	                        <li><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4" >1:1 문의</a></li>
-	                        <li><a href="/post/list?reqPage=1&postTypeCd=5&postTypeNm=5" >사이트 소개</a></li>  
+							<li><a href="/festival/cityPage" >도시</a></li>                          
+	                        <li><a href="/festival/temaPageFrm?pageNo=1&temaName=C0112"" >테마</a></li>
+	                        <li><a href='javascript:void(0)' onclick="myAround()" >내주변 관광</a></li>
+	                        <li><a href="/festival/mainPage?searchType=1" >축제</a></li>  
 						</ul>
 					</div>		
 			        <div class="list-content">
@@ -134,10 +133,10 @@
 			                        </div>
 			                    </div>
 			                </div>
-			                <div class="siteInfoFlipCard">
+			                 <div class="siteInfoFlipCard">
 			                    <div class="flip-card-inner">
 			                        <div class="flip-card-front">
-			                            <h4>내주변 관광정보</h4>
+			                            <h4>축제</h4>
 			                            <img src="/resources/images/myAround.png" class="flipCardImg">
 			                        </div>
 			                        <div class="flip-card-back">
@@ -157,82 +156,32 @@
 			                        </div>
 			                    </div>
 			                </div>
+			                <div class="siteInfoFlipCard">
+			                    <div class="flip-card-inner">
+			                        <div class="flip-card-front">
+			                            <h4>축제</h4>
+			                            <img src="/resources/images/festival.jpg" class="flipCardImg">
+			                        </div>
+			                        <div class="flip-card-back">
+			                            <div class="flip-card-back-title">
+			                                <h4>축제</h4>
+			                            </div>
+			                            <div class="flip-card-back-body">
+			                                <p>전국 방방곡곡에서 열리는</p>
+			                                <p>축제 정보를 소개합니다.</p>
+			                                <p>전국의 다채로운 축제와 함께</p>
+			                                <p>행복하고 즐거운 여행 되세요!</p>
+			                            </div>
+			                            <div class="flip-card-back-bottom">
+			                                <a href='/festival/mainPage?searchType=1'>바로가기
+			                                	<img src="/resources/images/arrow_outward_black.png" id="arrow_outward">
+			                                </a>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
 			            </div>
-			            <div class="siteIntro-txt">
-			                <h3>이달의 축제</h3>
-			                <p>매달 새로운 축제와 이벤트를 발견하고, 특별한 여행을 계획할 수 있습니다.</p>
-			                <p>오늘은 어떤 축제가 열리고 있을까요? 이번에는 어떤 이벤트에 참여해볼까요?</p>
-			            </div>
-		                <div class="siteInfoCard">
-							<div class="site-card-inner">
-								<div class="site-card">
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=0">1월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=1">2월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=2">3월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=3">4월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=4">5월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=5">6월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=6">7월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=7">8월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=8">9월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=9">10월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=10">11월</a></div>
-										<div class="move-monthly-trip"><a href="/festival/mainPage?searchType=1&month=11">12월</a></div>
-								</div>
-		                 	</div>
-		                </div>
-			            <div class="siteIntro-txt">
-			               <h3>우리의 여행</h3>
-			               <p>어떤 여행을 다녀오셨나요? 다른 사람들은 어떤 여행을 보내고 왔을까요?</p>
-			               <p>내가 다녀온 여행을 남기고, 다른사람들의 여행정보도 확인해보세요.</p>
-			               <p>다음여행은 더 새로운 여행이 될거에요!</p>
-			            </div>
-			               <div class="siteInfoCard">
-				               <div class="link-box">
-					               <a href="/post/list?reqPage=1&postTypeCd=2&postTypeNm=2" class="link-box-btn">우리의 여행 바로가기
-		                           		<img src="/resources/images/arrow_outward_white.png" id="arrow_outward">
-		                           </a>			               
-				               </div>
-			               </div>
-			            <div class="siteIntro-txt">
-			               <h3>MAP</h3>
-			               <p>어디로 떠나 볼까요? 그곳에는 어떤 경험이 기다리고 있을까요?</p>
-			               <p>다음 여행지에 대한 정보를 찾아보세요!</p>
-			            </div>
-			               <div class="siteInfoCard">
-				               <div class="link-box">
-					               <a href="/spot/mainMap" class="link-box-btn">MAP 바로가기
-		                           		<img src="/resources/images/arrow_outward_white.png" id="arrow_outward">
-		                           </a>			               
-				               </div>
-				           </div>
-			            <div class="siteIntro-txt">
-			               <h3>고객센터</h3>
-			               <p>사이트 이용에 불편하신 점이 있으시다면 편하게 말씀해주세요!</p>
-			               <p>이용자 여러분의 의견을 수용해 항상 노력하는 withTrip이 되겠습니다.</p>
-			            </div>
-			               <div class="siteInfoCard">
-				               <div class="link-box-cs">
-				               	   <a href="/post/CS" class="link-box-btn">고객센터 바로가기 
-		                           		<img src="/resources/images/arrow_outward_white.png" id="arrow_outward">
-		                           </a>
-					               <a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1" class="link-box-btn">공지사항 바로가기 
-		                           		<img src="/resources/images/arrow_outward_white.png" id="arrow_outward">
-		                           </a>
-		                           <a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3" class="link-box-btn">자주 물어보는 질문 바로가기 
-		                           		<img src="/resources/images/arrow_outward_white.png" id="arrow_outward">
-		                           </a>
-		                           <a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4" class="link-box-btn">Q&A 바로가기 
-		                           		<img src="/resources/images/arrow_outward_white.png" id="arrow_outward">
-		                           </a>          
-				               </div>
-			               </div>
-			               <div class="siteNotice">				               
-				               <p>withTrip의 대부분의 서비스는 회원가입이 필요하지 않지만</p>
-				               <p><b>우리의 여행</b>과 <b>1:1문의</b> 작성은 <b>회원가입 후 로그인을 하셔야 가능합니다.</b></p>
-				               <p>withTrip에 가입해보세요. 더 많은 여행이 한 걸음 더 가까워 질거에요!</p>
-			               </div>
-   					</div>
+			        </div>
 				</div>
 			</section>
 		</main>

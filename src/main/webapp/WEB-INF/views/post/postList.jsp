@@ -91,11 +91,11 @@
 									<option value="read">조회순</option>
 									<option value="like">좋아요순</option>
 								</select>
-								<c:if test="${not empty loginUser}">
-									<a class="btn-point" id="write-btn" href='/post/editorWriteFrm?postTypeId=${postTypeId}&postTypeNm=${postTypeNm}'>${postTypeNm} 작성</a>
-								</c:if>
 								</c:when>
 							</c:choose>
+							<c:if test="${not empty loginUser}">
+									<a class="btn-point" id="write-btn" href='/post/editorWriteFrm?postTypeId=${postTypeId}&postTypeNm=${postTypeNm}'>${postTypeNm} 작성</a>
+							</c:if>
 						</c:when>
 						<c:when test="${postTypeId eq 3}">
 							<c:if test="${not empty loginUser and loginUser.userId eq 'admin'}">

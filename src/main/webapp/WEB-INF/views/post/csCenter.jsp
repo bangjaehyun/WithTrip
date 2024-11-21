@@ -10,6 +10,11 @@
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
 <style>
+	@media screen and (max-width: 1400px) {
+	  .list-side {
+	    display: none;
+	  }
+	}
 	.post-list-wrap {
 		width : 1200px;
 		margin : 0 auto;
@@ -17,8 +22,8 @@
 	.list-content {
 		height : 500px;
 		width : 1000px;
-		padding-right : 190px;
-		padding-left : 120px;
+		padding-right : 150px;
+		padding-left : 150px;
 	}
 	.list-header {
 		padding : 20px 0px;
@@ -83,12 +88,9 @@
 	.cs-conList:hover {
 		font-weight: bolder;
 	}
-	.cs-conList > p {
-		padding-top : 5px;
-	}
-	.cs-conList > p > a {	
+	.cs-conList {	
 		color : var(--gray8);
-		padding-top : 5px;
+		padding-top : 10px;
 		font-size: 17px;
 	}
 	.cs-content-header {
@@ -100,7 +102,7 @@
 		margin-bottom : 80px;
 	}
 	#direct-arrow{
-		padding-top : 11px;
+		padding-top : 6px;
 		width: 25px;
 		height: 25px;
 	}
@@ -130,43 +132,53 @@
 						<div class="cs-content-header">
 							<img src="/resources/images/withTrip_logo_h_04.png" id="siteIntro-header">
 			                <h4>여행을 내곁에, withTrip입니다. 무엇을 도와드릴까요?</h4>
-						</div>						
-						
+						</div>
+
 						<div class="cs-content">
-							<div class="cs-conList">
-								<p><a href="#">ID / 비밀번호 찾기</a></p>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">							
-							</div>
-							<div class="cs-conList">
-								<p><a href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항 바로가기</a></p>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
-							</div>	
-							<div class="cs-conList">
-								<p><a href="/user/joinFrm">회원가입</a></p>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">							
-							</div>
-							<div class="cs-conList">
-								<p><a href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3">자주 묻는 질문 바로가기</a></p>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
-							</div>
-							<div class="cs-conList">
-								<p><a href="/cs/joinPartner">파트너 신청</a></p>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
-							</div>		
-							<div class="cs-conList">
-								<p><a href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4">1:1문의 바로가기</a></p>
-								<img id="direct-arrow" src="/resources/images/arrow_outward_white.png">
-							</div>		
+							<a class="cs-conList" href="javascript:void(0)" onclick="openFind()">ID / 비밀번호 찾기 <img
+								id="direct-arrow"
+								src="/resources/images/arrow_outward_white.png">
+							</a> 
+							<a class="cs-conList"
+								href="/post/list?reqPage=1&postTypeCd=1&postTypeNm=1">공지사항
+								바로가기 <img id="direct-arrow"
+								src="/resources/images/arrow_outward_white.png">
+							</a> <a class="cs-conList" href="/user/joinFrm">회원가입 <img
+								id="direct-arrow"
+								src="/resources/images/arrow_outward_white.png">
+							</a> <a class="cs-conList"
+								href="/post/list?reqPage=1&postTypeCd=3&postTypeNm=3">자주 묻는
+								질문 바로가기 <img id="direct-arrow"
+								src="/resources/images/arrow_outward_white.png">
+							</a> <a class="cs-conList" href="/cs/joinPartner">파트너 신청 <img
+								id="direct-arrow"
+								src="/resources/images/arrow_outward_white.png">
+							</a> <a class="cs-conList"
+								href="/post/list?reqPage=1&postTypeCd=4&postTypeNm=4">1:1문의
+								바로가기 <img id="direct-arrow"
+								src="/resources/images/arrow_outward_white.png">
+							</a>
 							<div class="cs-conTxt">
 								<p></p>
-								<p>1:1문의 작성은 로그인을 하셔야 가능합니다. </p>
+								<p>1:1문의 작성은 로그인을 하셔야 가능합니다.</p>
 							</div>
-						</div>					
+						</div>
 					</div>						
 				</div>
 			</section>
 		</main>
 		<jsp:include page = "/WEB-INF/views/common/footer.jsp" />
 	</div>
+	<script>
+	function openFind(){
+		let popupWidth = 500;
+		let popupHeight = 300;
+		
+		let top = (window.innerHeight - popupHeight) /3 + window.screenY;
+		let left = (window.innerWidth - popupWidth) / 3 + window.screenX;
+		
+		window.open("/csCenter/findIdPw", "openFind", "width=" + popupWidth +", height=" + popupHeight + ", top="+top+", left=" + left);
+	}
+	</script>
 </body>
 </html>
