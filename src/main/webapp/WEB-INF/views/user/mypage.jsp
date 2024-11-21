@@ -15,7 +15,7 @@
 	<div class="container">
 		<div class="sidebar">
 	        <ul>
-				<li><a href="/views/mypage.jsp">회원정보수정</a></li>
+				<li><a href="/user/mypageFrm">회원정보수정</a></li>
 	            <li><a href="#">작성한게시글확인</a></li>
 	            <li><a href="#">작성한댓글관리</a></li>
 	            <li><a href="#">좋아요누른여행정보</a></li>
