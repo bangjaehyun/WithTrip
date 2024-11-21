@@ -518,6 +518,23 @@ public class AdminDao {
 		return result;
 	}
 
+	public int allUserSelDel(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from tbl_user where user_no = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
 
 	
 

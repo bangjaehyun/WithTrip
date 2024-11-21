@@ -10,18 +10,56 @@
 	href="/resources/images/withTrip_favicon.png" />
 <link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <style>
-.mainOver {
+main {
+	display: grid;
+	grid-template-columns: 200px auto;
+	max-width: 1400px;
+	margin: 0 auto 3rem;
+	grid-column-gap: 2rem;
+}
+.page-title {
+	grid-column: 1 / 3;
 	margin-top: 100px;
 }
-
 .list-content {
 	min-width: 500px;
-    max-width: 1420px;
-    margin: 0 auto;
+	max-width: 1420px;
+	margin: 0;
+}
+.list-header {
+	display: inline-block;
+	float: left;
+	font-weight: bold;
+	font-size: 1.25rem;
+}
+.list-header:nth-child(2n) {
+	float: right;
+}
+a {
+	color: var(--main2);
+}
+section.section {
+	border-left: 2px solid var(--main2);
+}
+a:hover {
+	text-decoration: underline;
+}
+section.section6 {
+	padding-top: 0;
+}
+
+.tbl {
+	padding-top: 10px;
 }
 
 .wrap.wrapOver {
 	min-height: 50px;
+}
+.side-menu a {
+	background-color: var(--gray8);
+	color: #000;
+	display: block;
+	padding: 10px 10px 0 10px;
 }
 
 .side-menu-title {
@@ -35,8 +73,13 @@
 }
 
 .list-body-over {
-	margin-top: 50px;
-	width: 100px;
+	position: sticky;
+	top: 80px;
+	bottom: 80px;
+	align-self: start;
+	grid-column: 1;
+	min-width: 200px;
+	margin: 0 1rem;
 }
 </style>
 </head>
@@ -90,7 +133,7 @@
 								<td>${pg.user.userType}</td>
 								<td>
 									<div class="input-wrap">
-										<input type="checkbox" class="chk" name="posts">
+										<input type="checkbox" class="chk" name="selectChk">
 									</div>
 								</td>
 								<td><button class="btn-primary sm" id="selectDel"
@@ -127,7 +170,7 @@
 		location.href = "/admin/adminUserMng?reqPage=1&pageSize="+pageSize;
 	}
 	function selectAll(selectAll) {
-		let checkboxes = document.getElementsByName('posts');
+		let checkboxes = document.getElementsByName('selectChk');
 
 		checkboxes.forEach((checkbox) => {
 			checkbox.checked = selectAll.checked;
@@ -142,7 +185,7 @@
 		console.log(nickname);
 		swal({
 			title: "알림",
-			text: "사용자"+nickname+"님의 등급을 변경하시겠습니까?",
+			text: '사용자 \"'+nickname+'\"님의 등급을 변경하시겠습니까?',
 			icon: "warning",
 			buttons: {
 				cancle: {
@@ -246,7 +289,7 @@
 		let idArr = [];
 
 		$.each(checkBoxes, function (index, item) {
-			idArr.push($(item).parents('tr').find('.number').html());
+			idArr.push($(item).parents('tr').find('.userNo').html());
 			console.log(idArr);
 
 		});
@@ -277,7 +320,7 @@
 					type: "GET",
 					dataType : "json",
 					data: {
-						"pOrC": `${pOrC}`,
+						"pOrC": "2",
 						"idArr": idArr.join("/")
 					},
 					success: function (res) {

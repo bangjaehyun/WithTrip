@@ -10,21 +10,56 @@
 	href="/resources/images/withTrip_favicon.png" />
 <link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <style>
+main {
+	display: grid;
+	grid-template-columns: 200px auto;
+	max-width: 1400px;
+	margin: 0 auto 3rem;
+	grid-column-gap: 2rem;
+}
+.page-title {
+	grid-column: 1 / 3;
+	margin-top: 100px;
+}
 .list-content {
 	min-width: 500px;
-    max-width: 1420px;
-    margin: 0 auto;
+	max-width: 1420px;
+	margin: 0;
+}
+.list-header {
+	display: inline-block;
+	float: left;
+	font-weight: bold;
+	font-size: 1.25rem;
+}
+.list-header:nth-child(2n) {
+	float: right;
+}
+a {
+	color: var(--main2);
+}
+section.section {
+	border-left: 2px solid var(--main2);
+}
+a:hover {
+	text-decoration: underline;
+}
+section.section6 {
+	padding-top: 0;
+}
+
+.tbl {
+	padding-top: 10px;
 }
 
 .wrap.wrapOver {
 	min-height: 50px;
 }
-
 .side-menu a {
 	background-color: var(--gray8);
 	color: #000;
 	display: block;
-	padding: 10px;
+	padding: 10px 10px 0 10px;
 }
 
 .side-menu-title {
@@ -38,74 +73,70 @@
 }
 
 .list-body-over {
-	
-	width: 100px;
-}
-.page-title{
-	margin-top: 100px;
+	position: sticky;
+	top: 80px;
+	bottom: 80px;
+	align-self: start;
+	grid-column: 1;
+	min-width: 200px;
+	margin: 0 1rem;
 }
 </style>
 </head>
 <body>
-		<jsp:include page="/WEB-INF/views/common/header.jsp" />
+	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<main>
-
 		<div class="page-title">관리자 페이지</div>
-
 		<div class="list-body-over">
 			<ul class="side-menu-title">
 				<li>관리자 페이지</li>
 			</ul>
 			<ul class="side-menu">
 				<li><a href="/admin/adminPageFrm?pOrC=1">관리자페이지</a></li>
-				<li><a href="/admin/adminUserMng?reqPage=1&pageSize=10">고객
-						관리 페이지</a></li>
+				<li><a href="/admin/adminUserMng?pOrC=2&reqPage=1&pageSize=10">고객 관리 페이지</a></li>
 			</ul>
 		</div>
 		<div class="list-content">
 			<section class="section section6">
-					<div class="list-header">
-					댓글
-					</div>
-					<div class="list-header">
-						<a href="/admin/adminListFrm?pOrC=0&reqPage=1&pageSize=5&postTypeId=6&postTypeName=댓글">더보기..</a>
-					</div>
-					<table class="tbl">
-						<tr class="th">
-							<th>작성번호</th>
-							<th>작성자</th>
-							<th>내용</th>
-							<th>작성일</th>
-						</tr>
-						<tbody class="tbody">
+				<div class="list-header">댓글</div>
+				<div class="list-header">
+					<a href="/admin/adminListFrm?pOrC=0&reqPage=1&pageSize=5&postTypeId=6&postTypeName=댓글">더보기..</a>
+				</div>
+				<table class="tbl">
+					<tr class="th">
+						<th>작성번호</th>
+						<th>작성자</th>
+						<th>내용</th>
+						<th>작성일</th>
+					</tr>
+					<tbody class="tbody">
 
-						</tbody>
-					</table>
+					</tbody>
+				</table>
 			</section>
 
 
 			<c:forEach var="list" items="${pList}">
 
 				<section class="section section${list.postTypeId}">
-					<div>
-						${list.postTypeNm}
-						<div class="list-header">
-							<a
-								href="/admin/adminListFrm?pOrC=1&reqPage=1&postTypeId=${list.postTypeId}&postTypeName=${list.postTypeNm}&pageSize=5">더보기..</a>
-						</div>
-						<div class="list-content">
-							<table class="tbl">
-								<tr class="th">
-									<th>작성번호</th>
-									<th>작성자</th>
-									<th>제목</th>
-									<th>작성일</th>
-								</tr>
-								<tbody class="tbody">
-								</tbody>
-							</table>
-						</div>
+					<div class="list-header">${list.postTypeNm}</div>
+					<div class="list-header">
+						<a
+							href="/admin/adminListFrm?pOrC=1&reqPage=1&postTypeId=${list.postTypeId}&postTypeName=${list.postTypeNm}&pageSize=5">더보기..</a>
 					</div>
+					<div class="list-content">
+						<table class="tbl">
+							<tr class="th">
+								<th>작성번호</th>
+								<th>작성자</th>
+								<th>제목</th>
+								<th>작성일</th>
+							</tr>
+							<tbody class="tbody">
+							</tbody>
+						</table>
+					</div>
+
 				</section>
 			</c:forEach>
 		</div>

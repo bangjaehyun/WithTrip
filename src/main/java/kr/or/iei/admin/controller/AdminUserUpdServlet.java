@@ -31,11 +31,8 @@ public class AdminUserUpdServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String id = request.getParameter("id");
 		String userType = request.getParameter("userType");
-		System.out.println("id : " + id);
-		System.out.println("userType : "+userType);
 		AdminService service = new AdminService();
 		int result = service.updUserAdmin(id, userType);
-		System.out.println("result : "+result);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		response.getWriter().print(result);

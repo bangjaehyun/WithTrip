@@ -288,7 +288,6 @@ public class AdminService {
 	public int updUserAdmin(String id, String userType) {
 		Connection conn = JDBCTemplate.getConnection();
 		int result = dao.updUserAdmin(conn, id, userType);
-		
 		if(result > 0){
 			JDBCTemplate.commit(conn);
 		}else {
@@ -297,5 +296,31 @@ public class AdminService {
 		JDBCTemplate.close(conn);
 		
 		return result;
+	}
+
+
+	public int allUserSelDel(String idArr) {
+		Connection conn = JDBCTemplate.getConnection();
+		StringTokenizer st = new StringTokenizer(idArr, "/");
+		boolean rsltChk = true;
+		while (st.hasMoreTokens()) {
+			String userNo = st.nextToken();
+			int result = dao.allUserSelDel(conn, userNo);
+			if (result < 1) {
+				rsltChk = false;
+				break;
+			}
+		}
+		if (rsltChk) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		if (rsltChk) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 }

@@ -43,6 +43,7 @@ public class AdminMngServlet extends HttpServlet {
 		PageData pd = new PageData();
 		AdminService service = new AdminService();
 		ArrayList<Post> pgList = service.selectUserList();
+		System.out.println(pgList);
 		pd = service.pageListUser(mapAddr,reqPage,pageSize,pgList);
 
 		request.setAttribute("loginUser", loginUser);
