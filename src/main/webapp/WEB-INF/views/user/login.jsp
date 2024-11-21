@@ -35,7 +35,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>WithTrip</title>
+<title>With Trip</title>
 <script src="/resources/js/sweetalert.min.js"></script>
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>

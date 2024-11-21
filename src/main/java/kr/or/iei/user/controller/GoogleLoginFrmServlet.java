@@ -39,8 +39,6 @@ public class GoogleLoginFrmServlet extends HttpServlet {
 		String code = request.getParameter("code");
 	    String state = request.getParameter("state");
 	    
-		System.out.println(code);
-		System.out.println(state);
 		GoogleLoginService service = new GoogleLoginService();
 		UserGoogle g = service.createToken(code, state);
 		    

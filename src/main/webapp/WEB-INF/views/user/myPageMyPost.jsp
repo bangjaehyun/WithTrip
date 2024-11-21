@@ -6,7 +6,10 @@
 
 <head>
 <meta charset="UTF-8">
-<title>내가 작성한 여행 일지</title>
+<title>With Trip</title>
+<link rel="apple-touch-icon"
+	href="/resources/images/withTrip_favicon.png" />
+<link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <style>
 .pstPtcDiv {
 	border: 1px solid black;

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>WithTrip</title>
+<title>With Trip</title>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link rel="apple-touch-icon"
 	href="/resources/images/withTrip_favicon.png" />

@@ -4,7 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>With Trip</title>
+<link rel="apple-touch-icon"
+	href="/resources/images/withTrip_favicon.png" />
+<link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4ded6a823694c477130258746c1c95cf&libraries=services"></script>

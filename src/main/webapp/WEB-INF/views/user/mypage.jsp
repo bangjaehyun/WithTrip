@@ -5,10 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="apple-touch-icon"
+	href="/resources/images/withTrip_favicon.png" />
+<link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="/resources/js/sweetalert.min.js"></script>
 <link rel="stylesheet" href="/resources/css/mypage.css" />
-<title>withTrip myPage</title>
+<title>With Trip</title>
 </head>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 <body>

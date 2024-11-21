@@ -5,7 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>With Trip</title>
+<link rel="apple-touch-icon"
+	href="/resources/images/withTrip_favicon.png" />
+<link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="/resources/summernote/summernote-lite.js"></script>
 <script src="/resources/summernote/lang/summernote-ko-KR.js"></script>

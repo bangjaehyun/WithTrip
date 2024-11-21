@@ -34,7 +34,6 @@ public class GoogleLoginService {
     // 인증 코드를 받아서 Access Token을 생성하고 사용자 정보를 반환하는 메서드
     public UserGoogle createToken(String code, String state) {
         Connection conn = JDBCTemplate.getConnection(); // 데이터베이스 연결 객체 생성
-        System.out.println("!1111111111111111111111");
         try {
             // Google API로 요청할 URL 및 파라미터 설정
             String apiURL = tokenEnd;
@@ -46,18 +45,15 @@ public class GoogleLoginService {
 
             // URL 객체 생성 및 HTTP 연결 설정
             URL url = new URL(apiURL);
-            System.out.println("2222222222222222222222222222222222");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST"); // POST 요청 설정
             con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); // 요청 헤더 설정
             con.setDoOutput(true); // 출력 스트림을 사용하도록 설정
-            System.out.println("333333333333333333333333333333333333");
             // 요청 본문 작성
             try (OutputStream os = con.getOutputStream()) {
                 os.write(params.getBytes());
                 os.flush();
             }
-            System.out.println("4444444444444444444444444444444444444444444");
             // 응답 코드 확인
             int responseCode = con.getResponseCode();
             BufferedReader br;
@@ -66,22 +62,18 @@ public class GoogleLoginService {
             } else { // 오류 발생 시
                 br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
             }
-            System.out.println("5555555555555555555555555555555555");
             // 응답 내용을 읽어오기
             StringBuilder response = new StringBuilder();
             String inputLine;
             while ((inputLine = br.readLine()) != null) {
                 response.append(inputLine);
             }
-            System.out.println("66666666666666666666666666666666");
             br.close(); // BufferedReader 닫기
 
             // 응답 코드가 200이면 액세스 토큰 파싱
             if (responseCode == HttpURLConnection.HTTP_OK) {
-            	System.out.println("7777777777777777777777777777777777777777777");
                 return parseAccessToken(response.toString(), conn);
             }else {
-            	System.out.println("888888888888888888888888888888888888888888888888");
             }
         } catch (Exception e) {
             e.printStackTrace(); // 예외 발생 시 스택 트레이스 출력

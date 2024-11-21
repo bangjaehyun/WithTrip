@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>WithTrip</title>
+<title>With Trip</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" type="text/css;" />
 <link rel="apple-touch-icon" href="/resources/images/withTrip_favicon.png"/>
 <link rel="icon" href="/resources/images/withTrip_favicon.png"/>
