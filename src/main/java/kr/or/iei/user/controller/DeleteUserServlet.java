@@ -46,7 +46,7 @@ public class DeleteUserServlet extends HttpServlet {
 			
 			//비크립트로 비교한 pw값이 true
 		if(BCrypt.checkpw(pwChk, loginUser.getUserPw()) == true) {
-			UserService service = new UserService();
+			UserService service = new UserService(true);
 			int result = service.deleteUser(userNo);
 			
 			System.out.println(result);

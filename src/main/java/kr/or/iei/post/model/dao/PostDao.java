@@ -986,4 +986,31 @@ public class PostDao {
       return list;
    }
 
+
+public ArrayList<Post> selectAllPost(Connection conn, String userNo) {
+	PreparedStatement pstmt = null;
+	ResultSet rset = null;
+	String query = "select post_no from tbl_post where user_no =?";
+	ArrayList<Post> list = new ArrayList<Post>();
+	try {
+		pstmt = conn.prepareStatement(query);
+		pstmt.setString(1, userNo);
+		
+		rset = pstmt.executeQuery();
+		
+		while(rset.next()) {
+			Post post = new Post();
+			post.setPostNo(rset.getString("post_no"));
+			
+			list.add(post);
+		}
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	return list;
+}
+
 }

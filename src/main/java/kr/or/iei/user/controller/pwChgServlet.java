@@ -42,25 +42,32 @@ public class pwChgServlet extends HttpServlet {
 		String newUserPw = request.getParameter("newUserPw");
 		String newUserPwChk = request.getParameter("newUserPwChk");
 		
-			if(!BCrypt.checkpw(userPwChk, userPw)) {
-				response.getWriter().print(1);
-				return;
-			}else if(!newUserPw.equals(newUserPwChk)) {
-				response.getWriter().print(2);
-				return;
-			}else {			
+		//기존 비밀번호와 입력한 비밀번호가 일치하지 않을때
+		if(!BCrypt.checkpw(userPwChk, userPw)) {
+			response.getWriter().print(1);
+			return;
+		}else if(!newUserPw.equals(newUserPwChk)) {
+			//새로운 비밀번호와 새로운 비밀번호 체크가 일치하지 않을 때
+			response.getWriter().print(2);
+			return;
+		}else {			
+		
+			HttpSession session = request.getSession(false);
+			UserService service = new UserService();
+			int result = service.userPwChg(userNo, newUserPw);
 			
-				HttpSession session = request.getSession(false);
-				UserService service = new UserService();
-				int result = service.userPwChg(userNo, newUserPw);
-				
-				if(result > 0) {			
-					response.getWriter().print(0);
-					session.invalidate();
-				}else {
-					response.getWriter().print(3);
-				}			
-		}		
+			//비밀번호 변경 성공 시
+			if(result > 0) {			
+				response.getWriter().print(0);
+				session.invalidate();
+				return;
+			}else {
+				//비밀번호 변경 중 오류 발생 시
+				response.getWriter().print(3);
+				return;
+			}			
+		}
+			
 	}
 
 	/**

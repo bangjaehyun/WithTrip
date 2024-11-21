@@ -437,13 +437,13 @@ public class PostService {
 				ArrayList<Spot> list = dao.selectPostSpot(conn, post.getPostNo());
 				boolean spotdelChk = true;
 				for (Spot spot : list) {
-                    result = dao.deleteSpotManageMent(conn, spot.getSpotNo());
-                    if (result < 1) {
+					result = dao.deleteSpotManageMent(conn, spot.getSpotNo());
+					if (result < 1) {
 
-                        JDBCTemplate.rollback(conn);
-                        spotdelChk = false;
-                        break;
-                    }
+						JDBCTemplate.rollback(conn);
+						spotdelChk = false;
+						break;
+					}
 					
 					result = dao.deleteSpot(conn, spot.getSpotNo());
 					if (result < 1) {

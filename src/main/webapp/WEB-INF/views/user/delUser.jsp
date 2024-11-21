@@ -146,9 +146,7 @@ button.cancel:hover {
 						success : function(res){
 							console.log(res);
 							if(res == "0"){
-								msg('알림', '회원 탈퇴가 완료되었습니다', 'success');
-								window.self.close(); 
-								window.opener.location.href="/";
+								msg('알림', '회원 탈퇴가 완료되었습니다', 'success', 'window.self.close();window.opener.location.href = "/";');
 							}else{
 								msg('알림', '회원 탈퇴중 오류가 발생했습니다', 'error');
 							}												
