@@ -11,16 +11,8 @@
 
 <style>
 
-
-
-.section{
-left : 120px;
-width:400px;
-position: relative;
-border-radius: 15px;
-border: 1px solid #d6d6d6;
-top:10px;
-height: 250px;
+body{
+background-color : #004ca1;
 }
 
 .logo1 {
@@ -30,25 +22,20 @@ height: 250px;
 
 .logocls {	 
 	 margin-top : -10px;
-	 margin-left : -10px;
-	 margin-right : -10px;
-	 	
 	 text-align: center;
 }
 .page-title {
-	
 	font-size:30px;
 	margin-bottom: 10px;
 	text-align: center;	
+	color : white;
 }
 .input-title {
 	font-size:20px;
 	text-align: center;
-	margin-top : 20px;
+	color : white;
 }
 .input-item {
-	margin-top : 10px;
-	margin-bottom : 5px;
 	text-align: center;
 	height: 40px;
 }
@@ -63,7 +50,11 @@ height: 250px;
 	width : 200px;
 }
 .input-wrap {
-	height : 50px;
+	display : flex;
+	justify-content : center;
+	height : 40px;
+	gap : 20px;
+	margin-top: 20px;
 }
 [class^="btn-"].md {
   	padding: 5px 10px;
@@ -71,18 +62,14 @@ height: 250px;
   	margin-top : 10px;
 }
 .input-item1 {
-	height : 20px;
 	text-align : center;
 }
-.btn-wrap {
-	margin-top : 10px;
-}
+
 .btn-primary {
 	width: 100px;
 	border: none;
-	background-color : #004ca1;
+	background-color : white;
 	border-radius: 4px;
-	color: white;
 	cursor: pointer;
 }
 
@@ -99,12 +86,9 @@ height: 250px;
 				<div class="srch-info-wrap">
 					<c:if test="${gb eq 'id'}">
 						<div class="page-title">아이디 찾기</div>
-						<hr>
-						
 					</c:if>
 					<c:if test="${gb eq 'pw'}">
 						<div class="page-title">비밀번호 찾기</div>
-						<hr>
 					</c:if>
 
 					<div class="input-wrap">

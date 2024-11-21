@@ -304,14 +304,14 @@ background-color :  #90cbfb;
 	//아이디 비번 찾기
 	function searchInfo(gb) {
 		let popupWidth = 500;
-		let popupHeight = 330;
+		let popupHeight = 280;
 		
 		if(gb == 'pw'){
-			popuHeight = 400;
+			popupHeight = 330;
 		}
 		
-		let top = (window.innerHeight - popupHeight) /3 + window.screenY;
-		let left = (window.innerWidth - popupWidth) / 3 + window.screenX;
+		let top = (window.innerHeight - popupHeight) /2 + window.screenY;
+		let left = (window.innerWidth - popupWidth) / 2 + window.screenX;
 		
 		window.open("/user/searchInfoFrm?gb=" + gb, "searchInfo", "width=" + popupWidth +", height=" + popupHeight + ", top="+top+", left=" + left);
 	}
