@@ -28,6 +28,7 @@ public class AdminDao {
 	public Comment shortenContent(Comment c){
 		if(c.getCommentVal().length()>10) {
 			String content = c.getCommentVal().substring(0, 10);
+			c.setShortenContent(content+"...");
 		}
 		return c; 
 	}
@@ -303,8 +304,10 @@ public class AdminDao {
 				cmt.setCommentDate(rset.getString("comment_date"));
 				cmt.setCommentLike(rset.getInt("comment_like"));// 변경예정?
 				cmt.setCommentDislike(rset.getInt("comment_dislike"));// 변경예정?
-
-				list.add(cmt);
+				cmt.setUserNickname(rset.getString("user_nickname"));
+				Comment c = shortenContent(cmt);
+				
+				list.add(c);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -442,6 +445,77 @@ public class AdminDao {
 			JDBCTemplate.close(pstmt);
 		}
 		return content;
+	}
+
+	public ArrayList<Post> selectUserList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		ArrayList<Post> list = new ArrayList<Post>();
+		String query = "select * from tbl_user";
+		try {
+			pstmt = conn.prepareStatement(query);
+			// PostTypeId : 게시 코드 : 1.공지사항 2.QnA...
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				Post pst = new Post();
+				User user = new User();
+				user.setUserNo(rset.getString("user_no"));
+				user.setUserType(rset.getInt("user_type"));
+				user.setUserNickname(rset.getString("user_nickname"));
+				pst.setUser(user);
+				list.add(pst);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return list;
+		
+		
+	}
+
+	public int delUser(Connection conn, String id) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from tbl_user where user_no = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, id);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int updUserAdmin(Connection conn,String userType, String id) {
+		PreparedStatement pstmt = null;
+
+		int result = 0;
+
+		String query = "update tbl_user set user_type= ? where user_no = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userType);
+			pstmt.setString(2, id);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+
+		return result;
 	}
 
 

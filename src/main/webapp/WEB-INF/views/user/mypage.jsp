@@ -16,9 +16,12 @@
 		<div class="sidebar">
 	        <ul>
 				<li><a href="/user/mypageFrm">회원정보수정</a></li>
-	            <li><a href="#">작성한게시글확인</a></li>
-	            <li><a href="#">작성한댓글관리</a></li>
-	            <li><a href="#">좋아요누른여행정보</a></li>
+	            <li><a href="/user/userPageFrm?pOrC=1&page=1&reqPage=1&pageSize=5">작성한게시글확인</a></li>
+	            <li><a href="/user/userPageFrm?pOrC=1&page=2&reqPage=1&pageSize=5">작성한댓글관리</a></li>
+	            <li><a href="/user/userPageFrm?pOrC=1&page=3&reqPage=1&pageSize=5">좋아요누른여행정보</a></li>
+	            <c:if test="${loginUser.getUserType() eq 1}">
+	             	<li><a href="/admin/adminPageFrm?pOrC=1">관리자페이지</a></li>
+	            </c:if>
 	            <li><a href="#" onclick="delUserBtn()">회원탈퇴</a></li>
 	        </ul>
         </div>

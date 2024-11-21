@@ -8,12 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.or.iei.comment.vo.Comment;
 import kr.or.iei.common.model.vo.PageData;
 import kr.or.iei.common.vo.Pagination;
 import kr.or.iei.post.model.vo.Post;
 import kr.or.iei.user.model.service.UserService;
+import kr.or.iei.user.model.vo.User;
 
 /**
  * Servlet implementation class AdminMainPageFrmServlet
@@ -36,38 +38,19 @@ public class UserMainPageFrmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		디벨롶 편의상 주석처리		
-//		로그인 후 해당 페이지 접속시 세션값==관리자 확인
-		/*
+
 		HttpSession session = request.getSession(false);
-		if (session != null) {
-			User loginUser = (User) session.getAttribute("userNo");
-
-			if (loginUser.getUserType() != 2) {
-				request.setAttribute("title", "알림");
-				request.setAttribute("msg", "해당 메뉴에 대한 접속 권한이 없습니다");
-				request.setAttribute("icon", "error");
-				request.setAttribute("loc", "/user/mypage");
-
-				request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
-				return;
-
-			}
-		}
-		*/
+		User loginUser = (User) session.getAttribute("loginUser");
+		
+		System.out.println(loginUser);
+		
 		String mapAddr = "/user/userPageFrm";
 		int pOrC = Integer.parseInt(request.getParameter("pOrC"));// post or comment
 		int page = Integer.parseInt(request.getParameter("page"));// post or comment
 		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
 		int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-		String userNo = request.getParameter("userNo");
-		
-		request.setAttribute("page", page);
-		request.setAttribute("pOrC", pOrC);
-		request.setAttribute("title1", "작성");
-		request.setAttribute("title2", "좋아요");
-		request.setAttribute("userNo", userNo);
-		
+		String userNo = loginUser.getUserNo();
+
 		String postTypeId = null;
 		String postTypeName = null;
 
@@ -75,50 +58,65 @@ public class UserMainPageFrmServlet extends HttpServlet {
 		Pagination pageInfo = null;
 		PageData pd = new PageData();
 		
-		if (page == 1) {
+		if (session == null) {
+			request.setAttribute("title", "알림");
+			request.setAttribute("msg", "로그인을 먼저 해 주십시오");
+			request.setAttribute("icon", "error");
+			request.setAttribute("loc", "/");
 			
+			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
+		}else {
+		request.setAttribute("page", page);
+		request.setAttribute("pOrC", pOrC);
+		request.setAttribute("loginUser", loginUser);
+
+		if (page == 1) {
+
 			postTypeId = request.getParameter("postTypeId");
 			postTypeName = request.getParameter("postTypeName");
 			ArrayList<Post> pgList = service.selectPostList(userNo, postTypeId, reqPage, pageSize);
 			pageInfo = service.pagiNationPost(mapAddr, postTypeId, reqPage, pageSize, pgList, pOrC, userNo);
 
 			pd = service.pageListPost(pageInfo, page);
-			
+
 			request.setAttribute("pOrC", pOrC);
 			request.setAttribute("postTypeId", postTypeId);
 			request.setAttribute("postTypeName", postTypeName);
-			request.setAttribute("pgList", pd.getList());
-			request.setAttribute("pageNavi", pd.getPageNavi());
-
-		} 
-		if(page == 2){
-			postTypeName = request.getParameter("postTypeName");
-			ArrayList<Comment> pgList = service.selectCommentList(userNo, reqPage, pageSize);
-			pageInfo = service.pagiNationCmt(mapAddr, reqPage, pageSize, pgList, pOrC, userNo);
-			pd = service.pageListCmt(pageInfo, page);
-			System.out.println("asdasd : " +pd.getList());
-			request.setAttribute("pOrC", pOrC);
-			request.setAttribute("postTypeName", "댓글");
+			request.setAttribute("title", "내가 작성한 게시글");
 			request.setAttribute("pgList", pd.getList());
 			request.setAttribute("pageNavi", pd.getPageNavi());
 
 		}
-		if(page == 3){
+		if (page == 2) {
+			postTypeName = request.getParameter("postTypeName");
+			ArrayList<Comment> pgList = service.selectCommentList(userNo, reqPage, pageSize);
+			pageInfo = service.pagiNationCmt(mapAddr, reqPage, pageSize, pgList, pOrC, userNo);
+			pd = service.pageListCmt(pageInfo, page);
+			System.out.println("asdasd : " + pd.getList());
+			request.setAttribute("pOrC", pOrC);
+			request.setAttribute("title", "내가 작성한 댓글");
+			request.setAttribute("pgList", pd.getList());
+			request.setAttribute("pageNavi", pd.getPageNavi());
+
+		}
+		if (page == 3) {
 			postTypeId = request.getParameter("postTypeId");
 			postTypeName = request.getParameter("postTypeName");
 			ArrayList<Post> pgList = service.selectLikedPostList(userNo, postTypeId, reqPage, pageSize);
 			pageInfo = service.pagiNationPost(mapAddr, postTypeId, reqPage, pageSize, pgList, pOrC, userNo);
 
 			pd = service.pageListPost(pageInfo, page);
-			
+
 			request.setAttribute("pOrC", pOrC);
 			request.setAttribute("postTypeId", postTypeId);
 			request.setAttribute("postTypeName", postTypeName);
+			request.setAttribute("title", "내가 좋아요 한 게시글");
 			request.setAttribute("pgList", pd.getList());
 			request.setAttribute("pageNavi", pd.getPageNavi());
 
 		}
 		request.getRequestDispatcher("/WEB-INF/views/user/userPage.jsp").forward(request, response);
+		}
 	}
 
 	/**

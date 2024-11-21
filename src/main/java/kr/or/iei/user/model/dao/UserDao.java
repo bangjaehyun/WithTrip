@@ -138,7 +138,8 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		UserSite u = null;
-		int userType = 5;
+		int userType;
+		
 		String query = "select * from tbl_user_withtrip where user_id = ? ";
 		
 		try {
@@ -157,7 +158,13 @@ public class UserDao {
 				u.setUserPhone(rset.getString("user_phone"));
 				u.setUserNickname(rset.getString("user_nickname"));
 				u.setEnrollDate(rset.getDate("enroll_date"));
-				u.setUserType(userType);
+				if(loginId.equals("admin")) {
+					userType = 1;
+					u.setUserType(userType);
+				}else {
+					userType = 5;
+					u.setUserType(userType);
+				}
 			}
 			
 		} catch (SQLException e) {
@@ -546,7 +553,20 @@ public class UserDao {
 		int startPg = endPg - pageSize + 1; // 시작 페이지
 
 		ArrayList<Post> list = new ArrayList<Post>();
-		String query = "select * from (select rownum as rnum, a.* from (select * from tbl_Post a join tbl_post_like b on(a.user_no = b.user_no) join tbl_user c on(b.user_no = c.user_no) where user_no = ? order by Post_date desc) a) where rnum between ? and ?";
+		String query = "select * from "
+				+ "("
+				+ "select rownum as rnum, a.* "
+				+ "from "
+				+ "("
+				+ "select a.*,b.*,c.user_nickname "
+				+ "from tbl_Post a "
+				+ "join tbl_post_like b "
+				+ "on(a.user_no = b.user_no) "
+				+ "join tbl_user c "
+				+ "on(b.user_no = c.user_no) "
+				+ "where b.user_no = ? "
+				+ "order by Post_date desc) a) "
+				+ "where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			// PostTypeId : 게시 코드 : 1.공지사항 2.QnA...

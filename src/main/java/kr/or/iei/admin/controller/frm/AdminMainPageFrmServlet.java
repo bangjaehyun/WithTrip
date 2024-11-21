@@ -33,27 +33,27 @@ public class AdminMainPageFrmServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		/*
+		
 		HttpSession session = request.getSession(false);
+		User loginUser = (User)session.getAttribute("loginUser");
 		if (session != null) {
-			User loginUser = (User)session.getAttribute("userNo");
-			System.out.println(loginUser.getUserType());
-		}
+			
 			if (loginUser.getUserType() != 1) {
 				request.setAttribute("title", "알림");
 				request.setAttribute("msg", "해당 메뉴에 대한 접속 권한이 없습니다");
 				request.setAttribute("icon", "error");
-				request.setAttribute("loc", "/user/mypage");
-
+				request.setAttribute("loc", "/user/mypageFrm");
+				
 				request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
-				return;*/
+				return;
+				}
+			int pOrC = Integer.parseInt(request.getParameter("pOrC"));// post or comment
+			request.setAttribute("loginUser", loginUser);
+			request.setAttribute("pOrC", pOrC);
+			request.setAttribute("loc", "1");
+			request.getRequestDispatcher("/WEB-INF/views/admin/adminMainPage.jsp").forward(request, response);
+		}
 
-		
-		System.out.println("asdasda");
-		int pOrC = Integer.parseInt(request.getParameter("pOrC"));// post or comment
-
-		request.setAttribute("pOrC", pOrC);
-		request.getRequestDispatcher("/WEB-INF/views/admin/adminMainPage.jsp").forward(request, response);
 	}
 
 	/**
