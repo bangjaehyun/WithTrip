@@ -64,6 +64,7 @@ background-color :  #90cbfb;
     color: #004ca1;
     position : relative;
     top : 40px;
+    left : 35px;
 }
 
 #joinfm {

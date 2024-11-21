@@ -11,6 +11,18 @@
 
 <style>
 
+
+
+.section{
+left : 120px;
+width:400px;
+position: relative;
+border-radius: 15px;
+border: 1px solid #d6d6d6;
+top:10px;
+height: 250px;
+}
+
 .logo1 {
  	background-color : #004ca1;
  	margin-bottom : 10px;
@@ -24,16 +36,21 @@
 	 text-align: center;
 }
 .page-title {
+	
 	font-size:30px;
-	margin-bottom: 10px;	
+	margin-bottom: 10px;
+	text-align: center;	
 }
 .input-title {
 	font-size:20px;
 	text-align: center;
+	margin-top : 20px;
 }
 .input-item {
+	margin-top : 10px;
 	margin-bottom : 5px;
 	text-align: center;
+	height: 40px;
 }
 .btn-wrap{
 	text-align: center;
@@ -51,6 +68,7 @@
 [class^="btn-"].md {
   	padding: 5px 10px;
   	font-size: 14px; 
+  	margin-top : 10px;
 }
 .input-item1 {
 	height : 20px;
@@ -73,17 +91,20 @@
 <body>
 	<div class="wrap">
 		<main class="content srch-Info-container">
-			<section class="section">
+			
 				<div class= "logocls">
 					<div class="logo1"><a href="/"><img src="/resources/images/withTrip_logo_08.png" width="200px" height="70px"></a></div>
-				</div>
-				
+				</div>			
+				<section class="section">
 				<div class="srch-info-wrap">
 					<c:if test="${gb eq 'id'}">
 						<div class="page-title">아이디 찾기</div>
+						<hr>
+						
 					</c:if>
 					<c:if test="${gb eq 'pw'}">
 						<div class="page-title">비밀번호 찾기</div>
+						<hr>
 					</c:if>
 
 					<div class="input-wrap">
