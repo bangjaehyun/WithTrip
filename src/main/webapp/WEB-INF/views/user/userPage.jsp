@@ -154,8 +154,8 @@
 									</c:forEach>
 								</tbody>
 							</table>
+							<div>${pageNavi}</div>
 						</div>
-						<div>${pageNavi}</div>
 					</section>
 				</c:if>
 			</div>
