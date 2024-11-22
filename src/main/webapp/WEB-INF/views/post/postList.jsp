@@ -154,7 +154,7 @@
 								
 								<c:choose>
 										<c:when test="${postTypeId eq 2}">
-											<td><a href='/post/trip?postNo=${post.postNo}'>${post.postTitle}</a></td>
+											<td><a class="postTitle" href='/post/trip?postNo=${post.postNo}'>${post.postTitle}</a></td>
 										</c:when>
 										<c:when test="${postTypeId eq 4}">
 											<c:if test="${empty loginUser}">
@@ -171,7 +171,7 @@
 											</c:if>
 										</c:when>
 										<c:otherwise>			
-											<td><a href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
+											<td><a class="postTitle" href='/post/view?postNo=${post.postNo}'>${post.postTitle}</a></td>
 										</c:otherwise>
 								</c:choose>
 								<td>${post.user.userNickname}</td>

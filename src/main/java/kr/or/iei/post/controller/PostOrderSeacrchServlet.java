@@ -40,21 +40,17 @@ public class PostOrderSeacrchServlet extends HttpServlet {
 		String searchName = request.getParameter("searchName");
 		int typeName = Integer.parseInt(postTypeNm) - 1;
 		int reqPage = request.getParameter("reqPage") == null ? 1 : Integer.parseInt(request.getParameter("reqPage")); // 사용자
-		System.out.println("1111111111111"+searchName);
 
 		// 3. 로직 - 공지사항 리스트 불러오기
 		PostService service = new PostService();
 		PostPageData pd = null;
 		if(searchName.equals("latest")) {
-			System.out.println("111111111111111111");
-			 pd = service.selectPostList(postTypeCd, reqPage, postTypeNm);
+			 pd = service.selectPostLatestList(postTypeCd, reqPage, postTypeNm,searchName);
 		}else if(searchName.equals("read")) {
-			System.out.println("2222222222222222222222");
-			 pd = service.selectPostReadList(postTypeCd, reqPage, postTypeNm);
+			 pd = service.selectPostReadList(postTypeCd, reqPage, postTypeNm,searchName);
 			 request.setAttribute("searchName", searchName);
 		}else if(searchName.equals("like")){
-			System.out.println("3333333333333333333333333333");
-			 pd = service.selectPostlikeList(postTypeCd, reqPage, postTypeNm);
+			 pd = service.selectPostlikeList(postTypeCd, reqPage, postTypeNm,searchName);
 			 request.setAttribute("searchName", searchName);
 		}
 

@@ -10,9 +10,14 @@
 	href="/resources/images/withTrip_favicon.png" />
 <link rel="icon" href="/resources/images/withTrip_favicon.png" />
 <style>
+
+.post-list-wrap {
+	width : 1200px;
+	margin : 0 auto;
+}
+
 .list-content {
 	width: 1000px;
-	margin: 0 auto;
 	height: 1000px;
 }
 
@@ -44,14 +49,17 @@
 }
 
 .list-body-over {
-	width: 200px;
+	height : 200px;
+	position : sticky;
+	top : 80px;
+
 }
 </style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-
-	<main>
+	<main class="content">
+		<section class="section post-list-wrap">
 		<div class="list-body">
 			<div class="list-body-over">
 				<ul class="side-menu-title">
@@ -152,6 +160,7 @@
 				</c:if>
 			</div>
 		</div>
+		</section>
 	</main>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	<script>
