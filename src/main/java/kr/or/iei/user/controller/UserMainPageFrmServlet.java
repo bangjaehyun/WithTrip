@@ -42,7 +42,7 @@ public class UserMainPageFrmServlet extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		User loginUser = (User) session.getAttribute("loginUser");
 		
-		System.out.println(loginUser);
+		System.out.println("loginUser : "+loginUser);
 		
 		String mapAddr = "/user/userPageFrm";
 		int pOrC = Integer.parseInt(request.getParameter("pOrC"));// post or comment
@@ -92,21 +92,20 @@ public class UserMainPageFrmServlet extends HttpServlet {
 			ArrayList<Comment> pgList = service.selectCommentList(userNo, reqPage, pageSize);
 			System.out.println(pgList);
 			pageInfo = service.pagiNationCmt(mapAddr, reqPage, pageSize, pgList, pOrC, userNo);
-			pd = service.pageListCmt(pageInfo, page);
+			pd = service.pageListCmt(pageInfo, page, userNo);
 			request.setAttribute("pOrC", pOrC);
 			request.setAttribute("title", "내가 작성한 댓글");
 			request.setAttribute("pgList", pd.getList());
-			System.out.println(pd.getList());
-			System.out.println(pd.getPageNavi());
+			System.out.println("list : " + pd.getList());
 			request.setAttribute("pageNavi", pd.getPageNavi());
 
 		}
 		if (pg == 3) {
 			postTypeId = request.getParameter("postTypeId");
 			postTypeName = request.getParameter("postTypeName");
-			ArrayList<Post> pgList = service.selectLikedPostList(userNo, postTypeId, reqPage, pageSize);
+			ArrayList<Post> pgList = service.selectLikedPostList(userNo, reqPage, pageSize);
+			System.out.println("pgList : "+pgList);
 			pageInfo = service.pagiNationPost(mapAddr, postTypeId, reqPage, pageSize, pgList, pOrC, userNo);
-			System.out.println(postTypeName);
 			pd = service.pageListPost(pageInfo, page);
 
 			request.setAttribute("pOrC", pOrC);

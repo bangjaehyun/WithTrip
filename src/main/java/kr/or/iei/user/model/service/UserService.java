@@ -292,7 +292,7 @@ public class UserService {
 			JDBCTemplate.close(conn);
 			return pList;
 		}
-		public ArrayList<Post> selectLikedPostList(String userNo, String postTypeId, int reqPage, int pageSize) {
+		public ArrayList<Post> selectLikedPostList(String userNo, int reqPage, int pageSize) {
 			Connection conn = JDBCTemplate.getConnection();
 			ArrayList<Post> pList = null;
 			pList = dao.selectLikedPostList(conn,userNo, reqPage, pageSize);
@@ -311,9 +311,10 @@ public class UserService {
 			return pgInfo;
 		}
 
-		public PageData pageListCmt(Pagination pageInfo, String page) {
-			int totCnt = commonServ.totalCmntCnt();
+		public PageData pageListCmt(Pagination pageInfo,String userNo, String page) {
+			int totCnt = commonServ.totalCmntCnt(userNo);
 			pageInfo.setTotCnt(totCnt);
+			System.out.println("totCnt " + totCnt);
 			PageData pd = Pagination(pageInfo, page);
 			return pd;
 		}

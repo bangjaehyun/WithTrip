@@ -27,9 +27,15 @@ public class CommonService {
 		JDBCTemplate.close(conn);
 		return totCnt;
 	}
-	public int totalCmntCnt() {
+	public int totalCmntCntAdmin() {
 		Connection conn = JDBCTemplate.getConnection();
-		int totCnt = dao.selectCmntCount(conn);
+		int totCnt = dao.selectCmntCountAdmin(conn);
+		JDBCTemplate.close(conn);
+		return totCnt;
+	}
+	public int totalCmntCnt(String userNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int totCnt = dao.selectCmntCount(conn, userNo);
 		JDBCTemplate.close(conn);
 		return totCnt;
 	}

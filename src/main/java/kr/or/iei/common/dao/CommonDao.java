@@ -31,8 +31,7 @@ public class CommonDao {
 		}
 		return totCnt;
 	}
-
-	public int selectCmntCount(Connection conn) {
+	public int selectCmntCountAdmin(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
@@ -40,6 +39,28 @@ public class CommonDao {
 		int totCnt = 0;
 		try {
 			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				totCnt = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return totCnt;
+	}
+	public int selectCmntCount(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String query = "select count(*) cnt from tbl_comment where user_no = ?";
+		int totCnt = 0;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
 				totCnt = rset.getInt("cnt");

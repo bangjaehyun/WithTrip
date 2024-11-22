@@ -142,7 +142,6 @@ section.section6 {
 										<option>선택</option>
 										<option value="1">관리자</option>
 										<option value="2">파트너</option>
-										<option value="3">사용자</option>
 								</select></td>
 								<td><button class="btn-primary sm" onclick="updLevel(this)">회원등급변경</button></td>
 
@@ -177,10 +176,10 @@ section.section6 {
 		});
 	}
 	function updLevel(button){
-		let userType = $(button).closest('tr').find('.selectUserType').val();
+		let userNo = $(button).closest('tr').find('.selectUserType').val();
+		let userType = $(button).closest('tr').find('.userNo').html();
 		console.log(userType);
-		let id = $(button).closest('tr').find('.userNo').html();
-		console.log(id);
+		console.log(userNo);
 		let nickname = $(button).closest('tr').find('.userNick').html();
 		console.log(nickname);
 		swal({
@@ -209,15 +208,16 @@ section.section6 {
 					type: "GET",
 					dataType : "json",
 					data: {
-						"id" : id,
+						"userNo" : userNo,
 						"userType": userType
 					},
 					success: function (res) {
-						//location.reload(true);
+						location.reload(true);
 					},
 					error: function () {
 						console.log("ajax 에러 발생");
-						//location.reload(true);
+						
+						location.reload(true);
 					}
 				});
 

@@ -59,7 +59,7 @@ public class UserDetailServlet extends HttpServlet {
 		PostService service = new PostService();
 		UserService uSservice = new UserService();
 		Post post = service.selectModifyPost(postNo, commentChk);
-		Post postLiked = uSservice.selectLikedPost(userNo);
+		
 		System.out.println("post : " + post);
 		if (post != null) {
 			Gson gson = new Gson();
@@ -77,10 +77,13 @@ public class UserDetailServlet extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/views/user/userDetail.jsp").forward(request, response);
 
 			} else if (page == 2) {
+				
 				request.setAttribute("post", post);
 				request.setAttribute("page", page);
 				request.getRequestDispatcher("/WEB-INF/views/user/userDetail.jsp").forward(request, response);
 			} else if (page == 3) {
+				Post postLiked = uSservice.selectLikedPost(userNo);
+				System.out.println(postLiked);
 					request.setAttribute("post", postLiked);
 					request.setAttribute("loginUser", loginUser);
 					request.setAttribute("spotList", spotList);

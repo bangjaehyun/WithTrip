@@ -57,22 +57,6 @@
 		<jsp:param value="" name="selPgSize" />
 	</jsp:include>
 	<main class="content mypage-container">
-
-		<div class="list-left-pannel">
-			<ul class="side-menu">
-				<li><a
-					href="/admin/adminFrm?reqPage=1&postTypeId=1&postTypeName=공지사항&pageSize=5">1.공지사항</a></li>
-				<li><a
-					href="/admin/adminFrm?reqPage=1&postTypeId=2&postTypeName=파트너작성글&pageSize=5">2.사용자
-						여행정보</a></li>
-				<li><a
-					href="/admin/adminFrm?reqPage=1&postTypeId=3&postTypeName=게시글&pageSize=5">3.파트너
-						여행정보</a></li>
-				<li><a
-					href="/admin/adminFrm?reqPage=1&postTypeId=4&postTypeName=QnA&pageSize=5">4.QnA</a></li>
-				<li><a href="/">5.사이트 이용안내.</a></li>
-			</ul>
-		</div>
 		<main class="trip-main">
 			<div class="main-body">
 				<div class="page-title">${pstTypeName}관리페이지</div>

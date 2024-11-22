@@ -496,17 +496,18 @@ public class AdminDao {
 		return result;
 	}
 
-	public int updUserAdmin(Connection conn,String userType, String id) {
+	public int updUserAdmin(Connection conn,String userType, String userNo) {
 		PreparedStatement pstmt = null;
 
 		int result = 0;
-
+		System.out.println(userType + "userType  "+ userType.length());
+		System.out.println(userNo + "userNo  "+ userNo.length());
 		String query = "update tbl_user set user_type= ? where user_no = ?";
 
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, userType);
-			pstmt.setString(2, id);
+			pstmt.setString(2, userNo);
 
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {

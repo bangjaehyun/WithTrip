@@ -29,10 +29,10 @@ public class AdminUserUpdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter("id");
+		String userNo = request.getParameter("userNo");
 		String userType = request.getParameter("userType");
 		AdminService service = new AdminService();
-		int result = service.updUserAdmin(id, userType);
+		int result = service.updUserAdmin(userNo, userType);
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json");
 		response.getWriter().print(result);

@@ -34,9 +34,9 @@ body {
     width: 70%;
     margin: 0 auto;
     height: 90%;
-   	justify-content: center;
-   	z-index: 0;
-   	position: relative;
+      justify-content: center;
+      z-index: 0;
+      position: relative;
 }
 /* container 안의 모든 div 태그 */
 .container > div {
@@ -45,7 +45,7 @@ body {
 }
 /* Sidebar styles */
 .sidebar {
-	z-index : 1;
+   z-index : 1;
     width: 200px;
     padding: 20px;
     border: 1px solid #ddd;
@@ -108,16 +108,17 @@ button {
     font-size: 1em;
     cursor: pointer;
     border: 1px solid #ccc;
-    background-color: #fff;
+    background-color: #0073e6;
+    color: white;
 }
 button:hover {
-    background-color: #f0f0f0;
+    background-color: #005bb5;
 }
 .check-button {
     padding: 6px 12px;
     font-size: 0.9em;
     cursor: pointer;
-    background-color: #ddd;
+    background-color: #0073e6;
     border: 1px solid #ccc;
 }
 

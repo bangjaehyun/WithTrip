@@ -553,7 +553,7 @@ public class UserDao {
 		int startPg = endPg - pageSize + 1; // 시작 페이지
 
 		ArrayList<Post> list = new ArrayList<Post>();
-		String query = "select * from (select rownum as rnum, a.*from (select *from tbl_Post a join tbl_post_like b on(a.user_no = b.user_no) join tbl_user c on(b.user_no = c.user_no) where b.user_no = ? order by Post_date desc) a)where rnum between ? and ?";
+		String query = "select * from (select rownum as rnum, a.*from (select * from tbl_post where post_no in(select post_no from tbl_post_like where user_no= ?) order by Post_date desc) a)where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			// PostTypeId : 게시 코드 : 1.공지사항 2.QnA...
@@ -563,17 +563,12 @@ public class UserDao {
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				Post pst = new Post();
-				User user = new User();
-				user.setUserType(rset.getInt("user_type"));
-				pst.setUser(user);
 				pst.setPostNo(rset.getString("Post_no"));
 				pst.setUserNo(rset.getString("user_no"));
 				pst.setPostTypeId(rset.getString("Post_type_id"));
 				pst.setPostDate(rset.getString("Post_date"));
 				pst.setPostTitle(rset.getString("Post_title"));
 				pst.setPostContent(rset.getString("Post_content"));
-
-				pst.setUserNickName(rset.getString("user_nickname"));
 				Post p = shortenContentTitle(pst);
 				list.add(p);
 			}
@@ -645,8 +640,11 @@ public class UserDao {
 	public Post selectLikedPost(Connection conn, String userNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
+		
 		Post pst = new Post();
-		String query = "select * from tbl_post a join tbl_post_like b on(a.user_no = b.user_no) where user_no=?";
+		
+		
+		String query = "select * from tbl_post where post_no in(select post_no from tbl_post_like where user_no= ?)";
 //		String query  = "select * from tbl_notice";
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -662,6 +660,7 @@ public class UserDao {
 
 				pst.setUserNickName(rset.getString("user_nickname"));
 				pst.setUserType(rset.getString("user_type"));
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

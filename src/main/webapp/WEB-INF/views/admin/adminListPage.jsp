@@ -17,33 +17,41 @@ main {
 	margin: 0 auto 3rem;
 	grid-column-gap: 2rem;
 }
+
 .page-title {
-	grid-column: 1 / 3;
+	grid-column: 1/3;
 	margin-top: 100px;
 }
+
 .list-content {
 	min-width: 500px;
 	max-width: 1420px;
 	margin: 0;
 }
+
 .list-header {
 	display: inline-block;
 	float: left;
 	font-weight: bold;
 	font-size: 1.25rem;
 }
+
 .list-header:nth-child(2n) {
 	float: right;
 }
+
 a {
 	color: var(--main2);
 }
+
 section.section {
 	border-left: 2px solid var(--main2);
 }
+
 a:hover {
 	text-decoration: underline;
 }
+
 section.section6 {
 	padding-top: 0;
 }
@@ -55,6 +63,7 @@ section.section6 {
 .wrap.wrapOver {
 	min-height: 50px;
 }
+
 .side-menu a {
 	background-color: var(--gray8);
 	color: #000;
@@ -82,10 +91,6 @@ section.section6 {
 	margin: 0 1rem;
 }
 
-
-
-
-
 tr th td {
 	text-align: center;
 }
@@ -95,17 +100,27 @@ tr th td {
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<main class="mainOver">
 
-		<div class="page-title">${postTypeName} 관리 페이지</div>
+		<div class="page-title">${postTypeName}관리 페이지</div>
 		<div class="list-body-over">
 			<ul class="side-menu-title">
 				<li>게시물 관리 페이지</li>
 			</ul>
 			<ul class="side-menu">
-				<li><a href="/admin/adminListFrm?pOrC=0&reqPage=1&pageSize=5&postTypeId=6&postTypeName=댓글">댓글 관리 페이지</a></li>
-				<li><a href="/admin/adminListFrm?pOrC=1&reqPage=1&postTypeId=1&postTypeName=공지사항&pageSize=5">공지사항 관리 페이지</a></li>
-				<li><a href="/admin/adminListFrm?pOrC=1&reqPage=1&postTypeId=2&postTypeName=여행정보&pageSize=5">여행정보 관리 페이지</a></li>
-				<li><a href="/admin/adminListFrm?pOrC=1&reqPage=1&postTypeId=3&postTypeName=FAQ&pageSize=5">FAQ 관리 페이지</a></li>
-				<li><a href="/admin/adminListFrm?pOrC=1&reqPage=1&postTypeId=4&postTypeName=QnA&pageSize=5">QnA 관리 페이지</a></li>
+				<li><a
+					href="/admin/adminListFrm?pOrC=0&reqPage=1&pageSize=5&postTypeId=6&postTypeName=댓글">댓글
+						관리 페이지</a></li>
+				<li><a
+					href="/admin/adminListFrm?pOrC=1&reqPage=1&postTypeId=1&postTypeName=공지사항&pageSize=5">공지사항
+						관리 페이지</a></li>
+				<li><a
+					href="/admin/adminListFrm?pOrC=1&reqPage=1&postTypeId=2&postTypeName=여행정보&pageSize=5">여행정보
+						관리 페이지</a></li>
+				<li><a
+					href="/admin/adminListFrm?pOrC=1&reqPage=1&postTypeId=3&postTypeName=FAQ&pageSize=5">FAQ
+						관리 페이지</a></li>
+				<li><a
+					href="/admin/adminListFrm?pOrC=1&reqPage=1&postTypeId=4&postTypeName=QnA&pageSize=5">QnA
+						관리 페이지</a></li>
 			</ul>
 		</div>
 
@@ -125,16 +140,16 @@ tr th td {
 					<table class="tbl">
 						<tr class="th">
 							<th>게시아이디</th>
-							<th >회원번호</th>
-							<th >닉네임</th>
+							<th>회원번호</th>
+							<th>닉네임</th>
 							<c:if test="${pOrC eq 1}">
-								<th >제목</th>
+								<th>제목</th>
 							</c:if>
 							<c:if test="${pOrC eq 0}">
-								<th >내용</th>
+								<th>내용</th>
 							</c:if>
-							<th >게시일</th>
-							<th >
+							<th>게시일</th>
+							<th>
 								<div>
 									전체 선택 <input type="checkbox" class="chk" value="selectall"
 										onclick="selectAll(this)">
@@ -190,20 +205,20 @@ tr th td {
 								<tr>
 									<%-- tr공간 클릭 후 상세확인 메소드 필요 --%>
 									<%--게시 아이디--%>
-									<td  class="number">${pg.commentId}</td>
+									<td class="number">${pg.commentId}</td>
 
 									<%--회원 번호--%>
-									<td >${pg.userNo}</td>
+									<td>${pg.userNo}</td>
 									<%--닉네임--%>
-									<td ></td>
+									<td></td>
 									<%--게시물 제목--%>
 									<td><a
 										href="/admin/adminDetail?pOrC=${pOrC}&userNo=${pg.userNo}&commentId=${pg.commentId}">${pg.commentVal}</a>
 									</td>
 									<%--작성일--%>
-									<td >${pg.commentDate}</td>
+									<td>${pg.commentDate}</td>
 									<%-- 선택 태그 --%>
-									<td >
+									<td>
 										<div class="input-wrap">
 											<label onclick="chkLavel(this)"> <input
 												type="checkbox" class="chk" name="posts">
@@ -224,11 +239,12 @@ tr th td {
 					</table>
 					<div id="pageNav">${pageNavi}</div>
 				</div>
-
 			</section>
 		</div>
+		<div>
+			<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+		</div>
 	</main>
-	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	<script>
 	
 	

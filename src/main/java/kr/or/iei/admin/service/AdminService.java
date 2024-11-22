@@ -62,7 +62,7 @@ public class AdminService {
 	}
 
 	public PageData pageListCmt(Pagination pageInfo) {
-		int totCnt = commnServ.totalCmntCnt();
+		int totCnt = commnServ.totalCmntCntAdmin();
 		pageInfo.setTotCnt(totCnt);
 		PageData pd = commnServ.Pagination(pageInfo);
 		return pd;
@@ -294,7 +294,7 @@ public class AdminService {
 			JDBCTemplate.rollback(conn);
 		}
 		JDBCTemplate.close(conn);
-		
+		System.out.println(result);
 		return result;
 	}
 
